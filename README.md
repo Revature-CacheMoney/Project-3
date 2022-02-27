@@ -1,6 +1,6 @@
 # CacheMoney
 
-CacheMoney is the only banking app you'll ever need! Open a savings account today, set up direct deposit and enjoy 225$ on us! Depositing money is a snap, CacheMoney's secure lines make sure your money is safe and accounted for. Finally your financial present and future is at your finger tips with CacheMoney!
+CacheMoney is the only banking app you'll ever need! Open a savings account today, set up direct deposit and enjoy $225 on us! Depositing money is a snap, CacheMoney's secure lines make sure your money is safe and accounted for. Finally your financial present and future is at your finger tips with CacheMoney!
 
 ## User Stories
 As a User, I can:
