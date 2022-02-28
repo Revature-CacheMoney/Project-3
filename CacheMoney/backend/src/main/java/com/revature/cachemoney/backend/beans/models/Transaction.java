@@ -1,5 +1,6 @@
 package com.revature.cachemoney.backend.beans.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,8 +21,6 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer transaction_id;
 
-    @Column(name = "account_id")
-    private Integer account_id;
 
     @Column(name = "description")
     private String description;
@@ -37,9 +36,8 @@ public class Transaction {
     @Column(name = "ending_balance")
     private Double ending_balance;
 
-    public Transaction(Integer transaction_id, Integer account_id, String description, Date transaction_date, Double transaction_amount, Double ending_balance) {
+    public Transaction(Integer transaction_id, String description, Date transaction_date, Double transaction_amount, Double ending_balance) {
         this.transaction_id = transaction_id;
-        this.account_id = account_id;
         this.description = description;
         this.transaction_date = transaction_date;
         this.transaction_amount = transaction_amount;
@@ -52,7 +50,6 @@ public class Transaction {
         s += "TRANSACTION";
         s += "{";
         s += this.transaction_id + "\n";
-        s += this.account_id + "\n";
         s += this.description + "\n";
         s += this.transaction_date + "\n";
         s += this.transaction_amount + "\n";

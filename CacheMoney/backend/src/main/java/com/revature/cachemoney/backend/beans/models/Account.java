@@ -38,10 +38,22 @@ public class Account {
 	@Column(name = "user_id")
 	private String user_id;
 
+	@Column(name = "transactions")
+	@OneToMany
+	private List<Transaction> transactions = new LinkedList<>();
+
 	//@Column(name = "owner_id")
 	//private int owner_id;
 	//@Column(name = "owner")	
 	//private User owner;
+
+	public void addTransaction(Transaction transaction) {
+		transactions.add(transaction);
+	}
+
+	public void removeAccount(Transaction transaction) {
+		transactions.remove(transaction);
+	}
 	
 	public Account(String type) {
 		this.type = type;
