@@ -4,35 +4,35 @@ CacheMoney is the only banking app you'll ever need! Open a savings account toda
 
 ## User Stories
 As a User, I can:
- - [ ] log into the application
- - [ ] register a new account
- - [ ] session will be maintained until I log out
- - [ ] be able to track any money that gets subtracted from my account.
- - [ ] track any money that gets added to my account
- - [ ] track any money that gets subtracted from my account
- - [ ] create and track multiple financial accounts
- - [ ] transfer money between the accounts I own
+ - [ ] Log into the application.
+ - [ ] Register a new account.
+ - [ ] Session will be maintained until I log out.
+ - [ ] Be able to track any money that gets subtracted from my account.
+ - [ ] Track any money that gets added to my account.
+ - [ ] Track any money that gets subtracted from my account.
+ - [ ] Create and track multiple financial accounts.
+ - [ ] Transfer money between the accounts I own.
 
 ### Bonus Stories
 As a User, I can:
- - [ ] reset my password
- - [ ] create and maintain a profile page
- - [ ] change the color scheme from the normal mode to a dark mode option
- - [ ] enter a live chat with technical support to ask questions
- - [ ] should be able to calculate my monthly budget based upon my expenses and income
- - [ ] receive notifications when a transaction has occurred or a transfer has been completed
- - [ ] export reports (bank statements) for one of my accounts showing all transactions over a month period
- - [ ] manage my investments and buy stocks/shares
- - [ ] manage my overall investment portfolio
- - [ ] graphically visualize the diversity of my investment portfolio
- - [ ] submit an application for a loan
- - [ ] request money from someone else
- - [ ] toggle email alerts for transactions over a specific amount threshold
- - [ ] earn rewards and cash back for specific transactions
+ - [ ] Reset my password.
+ - [ ] Create and maintain a profile page.
+ - [ ] Change the color scheme from the normal mode to a dark mode option.
+ - [ ] Enter a live chat with technical support to ask questions.
+ - [ ] Should be able to calculate my monthly budget based upon my expenses and income.
+ - [ ] Receive notifications when a transaction has occurred or a transfer has been completed.
+ - [ ] Export reports (bank statements) for one of my accounts showing all transactions over a month period.
+ - [ ] Manage my investments and buy stocks/shares.
+ - [ ] Manage my overall investment portfolio.
+ - [ ] Graphically visualize the diversity of my investment portfolio.
+ - [ ] Submit an application for a loan.
+ - [ ] Request money from someone else.
+ - [ ] Toggle email alerts for transactions over a specific amount threshold.
+ - [ ] Earn rewards and cash back for specific transactions.
 
 As an Employee, I can:
- - [ ] accept a live chat request and answer any questions that the user might have
- - [ ] approve or deny a loan request
+ - [ ] Accept a live chat request and answer any questions that the user might have.
+ - [ ] Approve or deny a loan request.
 
 ## Useful Links
  - [Trello](https://trello.com/b/FXRz77y0/kyle-plummer-cachemoney-1260)
