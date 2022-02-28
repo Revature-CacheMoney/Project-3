@@ -31,7 +31,7 @@ public class BackendApplication {
 		AccountRepo acctRepository = context.getBean(AccountRepo.class);
 		User_AccountRepo userAcctRepository = context.getBean(User_AccountRepo.class);
 		
-		User newUser = new User("steve", "steve", "steve@steve.steve", "steve");
+		User newUser = new User("steve", "steve", "steve@steve.steve", "steve", "steveUsername");
 		Account newAccount = new Account("CHECKING");
 		newAccount.setBalance(8080.21f);
 		userRepository.save(newUser);

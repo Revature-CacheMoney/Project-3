@@ -35,15 +35,19 @@ public class User {
 	@Column(name = "password", nullable = false)
 	private String password;
 
+	@Column(name="username", unique = true, nullable = false)
+	private String username;
+
 	@Column(name = "accounts")
 	@OneToMany
 	private List<Account> accounts = new LinkedList<>();
 
-	public User(String firstName, String lastName, String email, String password) {
+	public User(String firstName, String lastName, String email, String password, String username) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.password = password;
+		this.username = username;
 	}
 
 	public void addAccount(Account account) {
@@ -62,6 +66,7 @@ public class User {
 		s += this.firstName + "\n";
 		s += this.lastName + "\n";
 		s += this.email + "\n";
+		s += this.username + "\n";
 		s += "}";
 
 		return s;
