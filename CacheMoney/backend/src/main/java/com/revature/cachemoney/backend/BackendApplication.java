@@ -24,7 +24,7 @@ public class BackendApplication {
 		SpringApplication.run(BackendApplication.class, args);
 		//Log("<<<-------------");
 
-		/*
+
 		ApplicationContext context = ApplicationContextProvider.getApplicationContext();
 		
 		UserRepo userRepository = context.getBean(UserRepo.class);
@@ -74,7 +74,7 @@ public class BackendApplication {
 			
 		}
 
-		 */
+
 		
 	}
 
