@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "../css/Signin.css";
 
 function Signin() {
-	// Test stuff
+	// Test stuff .
 	let [input, setInput] = useState([""]);
 
 	const login = (event) => {
