@@ -1,5 +1,8 @@
 const initialState = {
-    userId: ""
+    userId: "",
+    username: "",
+    firstName: "",
+    lastName: ""
 }
 
 function reducer(state = initialState, action) {
@@ -8,6 +11,24 @@ function reducer(state = initialState, action) {
             return {
                 ...state,
                 userId: action.payload
+            };
+
+        case "UPDATE_USERNAME":
+            return {
+                ...state,
+                username: action.payload
+            };
+
+        case "UPDATE_NAME_FIRST":
+            return {
+                ...state,
+                firstName: action.payload
+            };
+
+        case "UPDATE_NAME_LAST":
+            return {
+                ...state,
+                lastName: action.payload
             };
 
         default:
