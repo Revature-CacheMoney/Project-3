@@ -2,6 +2,27 @@ import React from "react";
 import "../css/Register.css";
 
 function Register() {
+	const handleSubmit = (event) => {
+		event.preventDefault();
+
+		// validate password
+		const p1 = document.getElementById("password");
+		const p2 = document.getElementById("password2");
+
+		if (p1 === p2) {
+			const info = {
+				firstname: document.getElementById("firstname"),
+				lastname: document.getElementById("lastname"),
+				email: document.getElementById("email"),
+				username: document.getElementById("username"),
+				password: document.getElementById("password"),
+			};
+			// submit stuff
+		} else {
+			alert("Sorry, your username and password are incorrect");
+		}
+	};
+
 	return (
 		<div id="register-page">
 			<label for="firstname">First name:</label>
