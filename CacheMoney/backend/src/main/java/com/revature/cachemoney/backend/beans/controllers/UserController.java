@@ -1,5 +1,8 @@
 package com.revature.cachemoney.backend.beans.controllers;
 
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,6 +18,9 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.sql.DataSource;
+
+import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.caseSensitive;
+import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.ignoreCase;
 
 
 @RestController
@@ -42,7 +48,7 @@ public class UserController {
 
     /**
      * POST a User.
-     * 
+     *
      * @param user
      * @return String containing information regarding success or failure.
      */
@@ -69,11 +75,11 @@ public class UserController {
     public void deleteUserById(@PathVariable Integer id){
         userRepository.deleteById(id);
     }
-    
+
     /**
      * GET a User by email.
      * Emails are unique and should not cause conflicting results.
-     * 
+     *
      * @param email
      * @return the User based on email
      */
@@ -82,6 +88,34 @@ public class UserController {
     	System.out.println(email + "<<<<<");
         return userRepository.findByEmail(email);
     }
-    
-    
+
+    /**
+     * GET a User by email.
+     * Emails are unique and should not cause conflicting results.
+     *
+     * @param user
+     * @return the User based on email
+     */
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    public User getUserByUsername(@RequestBody User user) {
+
+        if ( user.getUsername() == null || user.getPassword() == null){
+            return user;
+        }
+
+        ExampleMatcher em = ExampleMatcher.matching().withIgnorePaths("user_id","first_name", "last_name", "email", "accounts")
+                .withMatcher("username", ignoreCase()).withMatcher("password", caseSensitive());
+
+        Example<User> example = Example.of(user, em);
+
+        if (userRepository.exists(example)){
+            Optional<User> optionalUser = userRepository.findOne(example);
+            return optionalUser.get();
+        }
+        return user;
+
+    }
+
+
 }

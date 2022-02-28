@@ -27,7 +27,7 @@ public class User_Account {
     private Integer UserID;
 
     @Column(name = "accounts_account_id")
-    private String AccountID;
+    private Integer AccountID;
 
  // bi-directional many-to-one association to User
     @ManyToOne
