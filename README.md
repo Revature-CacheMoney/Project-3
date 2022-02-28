@@ -1,5 +1,5 @@
 # CacheMoney
-CacheMoney is the only banking app you'll ever need! Get started today by opening a savings account or a checking account! Depositing money is a snap: CacheMoney's secure lines make sure your money is safe and accounted for. Your financial present and future is at your finger tips with CacheMoney! Our React frontend ensures our app is beautiful and responsive on all devices, and our servers make sure your information is safe and secure at all times.
+Your financial present and future is finally at your finger tips with CacheMoney! CacheMoney provides all the tools you will need to save, spend, and keep track of your money. Depositing money is a snap: CacheMoney's secure lines make sure your money is safe and accounted for. Our React frontend ensures our app is beautiful and responsive on all devices, and our servers make sure your information is safe and secure at all times. If you have money, CacheMoney is the app for you!
 
 ## User Stories
 As a User, I can:
