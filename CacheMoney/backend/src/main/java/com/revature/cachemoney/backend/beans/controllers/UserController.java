@@ -99,6 +99,11 @@ public class UserController {
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public User getUserByUsername(@RequestBody User user) {
+
+        if ( user.getUsername() == null || user.getPassword() == null){
+            return user;
+        }
+
         ExampleMatcher em = ExampleMatcher.matching().withIgnorePaths("user_id","first_name", "last_name", "email", "accounts")
                 .withMatcher("username", ignoreCase()).withMatcher("password", caseSensitive());
 
