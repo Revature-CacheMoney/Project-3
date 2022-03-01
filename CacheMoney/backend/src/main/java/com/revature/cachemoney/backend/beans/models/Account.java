@@ -32,17 +32,15 @@ public class Account {
 	@Column(name = "balance")
 	private float balance;
 
-	@Column(name= "account_name")
-	private String account_name;
+	// @Column(name = "owner_id")
+	// private int owner_id;
+	// @Column(name = "owner")
+	// private User owner;
 
-	@Column(name = "user_id")
-	private String user_id;
+	@Column(name = "transactions")
+	@OneToMany
+	private List<Transaction> transactions = new LinkedList<>();
 
-	//@Column(name = "owner_id")
-	//private int owner_id;
-	//@Column(name = "owner")	
-	//private User owner;
-	
 	public Account(String type) {
 		this.type = type;
 		this.balance = 0;
