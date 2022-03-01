@@ -5,8 +5,8 @@ import React from "react";
 // a new account or initiates transfer from an account link), the source dropdown box should be prepopulated
 // with that account as the default option.
 
-function Transfer(props) {
+function TransferView(props) {
 	return <></>;
 }
 
-export default Transfer;
+export default TransferView;

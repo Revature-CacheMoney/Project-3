@@ -3,7 +3,7 @@ import "../css/Register.css";
 
 // The registrration component handles the registration form for new users.
 // The info is persisted in the database and locally (partial).
-function Register() {
+function RegisterView() {
 	const handleSubmit = (event) => {
 		event.preventDefault();
 
@@ -81,4 +81,4 @@ function Register() {
 	);
 }
 
-export default Register;
+export default RegisterView;

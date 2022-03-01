@@ -4,7 +4,7 @@ import "../css/Signin.css";
 // The Signin component is the login form the user sees after pressing the "sign in" button.
 // An API call should be made to test for successful login credentials.
 // The user's info (partial) should be persisted throughout the app.
-function Signin() {
+function SigninView() {
 	// Test stuff .
 	let [input, setInput] = useState([""]);
 
@@ -26,11 +26,11 @@ function Signin() {
 
 	// Not tested or implemented yet.  Endpoint is probably incorrect.
 	async function doLogin(user) {
-		const url = "http://localhost:8080/controller/login";
+		const apiEndpoint = "http://localhost:8080/users/login";
 
 		let stuff;
 		try {
-			let promise = await fetch(url, {
+			let promise = await fetch(apiEndpoint, {
 				method: "POST",
 				body: JSON.stringify(user),
 				headers: {
@@ -48,6 +48,8 @@ function Signin() {
 		if (stuff.result == true) {
 			console.log("signing in was a success!");
 			//doSignin();
+			// endpoint will return a json object w/ user data
+			// Store data received from backend (user data) (redux)s
 		} else {
 			alert("Sorry, wrong user ID and password!");
 		}
@@ -64,10 +66,10 @@ function Signin() {
 			/>
 			<label htmlFor="password">Password:</label>
 			<input type="text" className="password" id="password" />
-			<input type="submit" value="Register" onClick={login} />
+			<input type="submit" value="Log in" onClick={login} />
 			{console.log(login)}
 		</div>
 	);
 }
 
-export default Signin;
+export default SigninView;
