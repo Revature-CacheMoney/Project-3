@@ -3,7 +3,7 @@ import axios from 'axios';
 
 function TransactionList(props) {
     // local transaction state
-    const [transactions, getTransactions] = useState(null);
+    const [transactions, getTransactions] = useState([]);
 
     // url
     const url = "http://localhost:8080/";
