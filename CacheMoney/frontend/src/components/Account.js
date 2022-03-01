@@ -8,7 +8,11 @@ function Account(props) {
 
 	const listTransactions = () => {};
 
-	return <></>;
+	return (
+		<>
+			<h3>Account Header</h3>
+		</>
+	);
 }
 
 export default Account;
