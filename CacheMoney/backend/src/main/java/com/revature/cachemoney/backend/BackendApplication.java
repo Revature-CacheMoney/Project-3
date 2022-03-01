@@ -20,6 +20,8 @@ import com.revature.cachemoney.backend.beans.utils.ApplicationContextProvider;
 public class BackendApplication {
 
 	public static void main(String[] args) {
+		String bacon = "hi my name dacid";
+
 		Log("------------->>>");
 		SpringApplication.run(BackendApplication.class, args);
 		Log("<<<-------------");
@@ -32,10 +34,10 @@ public class BackendApplication {
 		User newUser = new User("steve", "steve", "steve@steve.steve", "steve", "steveUsername");
 		Account newAccount = new Account("CHECKING");
 		newAccount.setBalance(8080.21f);
-		userRepository.save(newUser);
+//		userRepository.save(newUser);
 		acctRepository.save(newAccount);
 		newUser.addAccount(newAccount);
-		userRepository.save(newUser);
+//		userRepository.save(newUser);
 		
 		ArrayList<User> L = (ArrayList<User>) userRepository.findAll();
 
