@@ -26,19 +26,12 @@ function TransactionList(props) {
     const content = transactions.map(
         (transaction) => {
             return (
-                <div key={transaction.transaction_id}>
-                    <h3>{transaction.description}</h3>
-
-                    <p>{transaction.account_id}</p>
-
-                    <p>{transaction.transaction_date}</p>
-
-                    <p className="left_align">
-                        {transaction.ending_balance}
-
-                        <span>{transaction.transaction_amount}</span>
-                    </p>
-                </div>
+                <tr>
+                    <td>{transaction.transaction_date}</td>
+                    <td>{transaction.description}</td>
+                    <td>{transaction.transaction_amount}</td>
+                    <td>{transaction.ending_balance}</td>
+                </tr>
             );
         }
     );
@@ -46,7 +39,17 @@ function TransactionList(props) {
     return (
         <>
             <div className="transaction_container">
-                {content}
+                <table className="transaction_table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Description</th>
+                            <th>Debit/Credit</th>
+                            <th>Balance</th>
+                        </tr>
+                    </thead>
+                    {content}
+                </table>
             </div>
         </>
     );
