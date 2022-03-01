@@ -20,6 +20,35 @@ function Signin() {
 		setInput(event.target.value);
 	};
 
+	// Not tested or implemented yet.  Endpoint is probably incorrect.
+	async function doLogin(user) {
+		const url = "http://localhost:8080/controller/login";
+
+		let stuff;
+		try {
+			let promise = await fetch(url, {
+				method: "POST",
+				body: JSON.stringify(user),
+				headers: {
+					"Content-Type": "application/json",
+				},
+			})
+				.then((response) => response.json())
+				.then((result) => (stuff = result));
+		} catch (error) {
+			console.log("Error: \n" + error);
+			//console.log("Response: \n" + response);
+		}
+		console.log("raw result: ", stuff);
+
+		if (stuff.result == true) {
+			console.log("signing in was a success!");
+			//doSignin();
+		} else {
+			alert("Sorry, wrong user ID and password!");
+		}
+	}
+
 	return (
 		<div id="signin">
 			<label htmlFor="username">Username:</label>

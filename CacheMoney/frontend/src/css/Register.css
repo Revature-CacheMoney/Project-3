@@ -4,3 +4,15 @@
 	justify-content: space-between;
 	width: 50%;
 }
+
+.password-error {
+	border: 1px solid red;
+}
+
+.password-ok {
+	border: 1px solid black;
+}
+
+body {
+	background-image: url("");
+}

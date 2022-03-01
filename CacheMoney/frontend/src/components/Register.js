@@ -19,25 +19,58 @@ function Register() {
 			};
 			// submit stuff
 		} else {
-			alert("Sorry, your username and password are incorrect");
+			alert("Sorry, your passwords do not match.");
+		}
+	};
+
+	const checkPasswordEntry = () => {
+		const passwordNodes = document.getElementsByClassName("password-box");
+		const password1 = passwordNodes[0].value;
+		const password2 = passwordNodes[1].value;
+
+		if (password1 === password2) {
+			for (let i = 0; i < 2; i++) {
+				passwordNodes[i].classList.remove("password-error");
+				passwordNodes[i].classList.add("password-ok");
+				document.getElementById("submit").disabled = false;
+			}
+		} else {
+			for (let i = 0; i < 2; i++) {
+				// the passwords do not match
+				passwordNodes[i].classList.remove("password-ok");
+				passwordNodes[i].classList.add("password-error");
+				document.getElementById("submit").disabled = true;
+			}
 		}
 	};
 
 	return (
 		<div id="register-page">
-			<label for="firstname">First name:</label>
+			<label htmlFor="firstname">First name:</label>
 			<input type="text" name="firstname" id="firstname" />
-			<label for="lastname">Last name:</label>
+			<label htmlFor="lastname">Last name:</label>
 			<input type="text" name="lastname" id="lastname" />
-			<label for="email">Email:</label> *must be unregistered valid email
+			<label htmlFor="email">Email:</label> *must be unregistered valid email
 			<input type="text" name="email" id="email" />
-			<label for="username">Username:</label> *must be unique
+			<label htmlFor="username">Username:</label> *must be unique
 			<input type="text" name="username" id="username" />
-			<label for="password">Password:</label>
-			<input type="text" name="password" id="password" />
-			<label for="password2">Confirm password:</label>
-			<input type="text" name="password2" id="password2" />
-			<input type="submit" value="Register" />
+			<label htmlFor="password">Password:</label>
+			<input
+				type="text"
+				name="password1"
+				id="password1"
+				className="password-box"
+				onBlur={checkPasswordEntry}
+			/>
+			<label htmlFor="password2">Confirm password:</label>
+			<input
+				type="text"
+				name="password2"
+				id="password2"
+				className="password-box"
+				onBlur={checkPasswordEntry}
+			/>
+			<input type="submit" value="Register" id="submit" />
 		</div>
 	);
 }
