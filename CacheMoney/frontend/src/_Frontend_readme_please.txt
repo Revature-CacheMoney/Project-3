@@ -4,7 +4,8 @@ Getting started:
 - Create a branch off of "frontend" -
 		- git checkout frontend
 		- git checkout -b your_new_branchname
-		- Navigate to the root directory of frontend (where the package.json is located)
+		- Navigate to the root directory of frontend (where the package.json is located) 
+				-- ex. Project-3/CacheMoney/frontend/
 		- npm install
 		- npm start (to run the app)
 - Do your thing!  Adopt a component, make one, or fiddle with CSS, or make some improvements.
@@ -22,7 +23,7 @@ See images in ./fronend/planning/
 
 Guidelines:
 - Please place all components in ./components/
-- Please place all css files in ./css/.  You can import them into the component with: import "../css/yourfile.css";
+- Please place all your css in css/App.css.  (This is subject to change... again)
 - Feel free to add new components to fit your needs.  Some have been made just to help flesh out the structure/planning.
 - Currently using multiple css files for component-specific styling BUT this may change in the future
 (combining into less files or maybe using SASS - TBD).  Just be careful with adding in styling that affects everything

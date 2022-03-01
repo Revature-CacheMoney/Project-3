@@ -1,9 +1,8 @@
-import "../css/Splash.css";
 import Title from "./Title.js";
 
 // The splash screen is the first view the user will see when using the app.
 // It prompts the user to login or register.
-function Splash() {
+function SplashView() {
 	return (
 		<div id="splash-outer-container">
 			<div id="splash-container">
@@ -24,4 +23,4 @@ function Splash() {
 	);
 }
 
-export default Splash;
+export default SplashView;

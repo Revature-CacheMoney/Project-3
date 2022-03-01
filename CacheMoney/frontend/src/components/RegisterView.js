@@ -1,5 +1,4 @@
 import React from "react";
-import "../css/Register.css";
 
 // The registrration component handles the registration form for new users.
 // The info is persisted in the database and locally (partial).

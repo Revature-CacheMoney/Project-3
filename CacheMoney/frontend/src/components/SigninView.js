@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "../css/Signin.css";
 
 // The Signin component is the login form the user sees after pressing the "sign in" button.
 // An API call should be made to test for successful login credentials.
@@ -27,6 +26,12 @@ function SigninView() {
 	// Not tested or implemented yet.  Endpoint is probably incorrect.
 	async function doLogin(user) {
 		const apiEndpoint = "http://localhost:8080/users/login";
+
+		const exampleRequestData = {
+			username: "someusername",
+			password: "password",
+		};
+		// if id is null - failed login
 
 		let stuff;
 		try {
