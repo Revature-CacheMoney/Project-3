@@ -18,3 +18,15 @@ html {
 	font-family: "Arial";
 	height: 100%;
 }
+
+#main-page {
+	background-color: #3d703a;
+	width: 50%;
+	height: 100%;
+	margin:auto;
+	text-align: center;
+
+
+}
+
+

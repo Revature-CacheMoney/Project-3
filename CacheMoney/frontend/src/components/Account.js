@@ -4,7 +4,16 @@ import React from "react";
 // Also may contain other related account info (name, account number) and possibly link to do
 // transfers as well (or another parent component?)
 function Account(props) {
-	return <></>;
+	return (
+	<>
+	
+	<h3>
+		Account Header 
+	</h3>
+	
+	</>
+	
+		);
 }
 
 export default Account;
