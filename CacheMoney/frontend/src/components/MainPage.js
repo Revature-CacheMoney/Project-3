@@ -1,5 +1,5 @@
 import React from "react";
-import Account from "./Account";
+import AccountsView from "./Account/AccountsView";
 
 
 
@@ -7,7 +7,7 @@ function MainPage(props){
    let accountPreview = [];
 
    for(let i = 0; i<5; i++){
-accountPreview.push(<Account key={"account" + i}/>) 
+accountPreview.push(<AccountsView key={"account" + i}/>) 
 
 console.log(accountPreview)
 
@@ -30,7 +30,7 @@ console.log(accountPreview)
     <hr />
 
    <h2> CACHE RECREATION</h2>
-   <Account />
+   <AccountsView />
     <hr />
 
     </div>

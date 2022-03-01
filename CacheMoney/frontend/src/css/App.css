@@ -54,7 +54,8 @@ h1 {
 	margin: auto;
 }
 
-#main-page {
+#main-page,
+#account-container {
 	background-color: #3d703a;
 	width: 50%;
 	height: 100%;
