@@ -28,6 +28,7 @@ import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatc
 public class UserController {
 	private final UserRepo userRepository;
 
+
     @Autowired
     public UserController(UserRepo userRepository) {
         this.userRepository = userRepository;
@@ -48,7 +49,7 @@ public class UserController {
 
     /**
      * POST a User.
-     *
+     * 
      * @param user
      * @return String containing information regarding success or failure.
      */
@@ -75,11 +76,11 @@ public class UserController {
     public void deleteUserById(@PathVariable Integer id){
         userRepository.deleteById(id);
     }
-
+    
     /**
      * GET a User by email.
      * Emails are unique and should not cause conflicting results.
-     *
+     * 
      * @param email
      * @return the User based on email
      */
@@ -116,5 +117,6 @@ public class UserController {
         return user;
 
     }
+
 
 }

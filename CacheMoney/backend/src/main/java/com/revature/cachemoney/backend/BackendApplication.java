@@ -10,28 +10,26 @@ import org.springframework.context.ApplicationContext;
 
 import com.revature.cachemoney.backend.beans.models.Account;
 import com.revature.cachemoney.backend.beans.models.User;
-import com.revature.cachemoney.backend.beans.models.User_Account;
 import com.revature.cachemoney.backend.beans.repositories.AccountRepo;
+import com.revature.cachemoney.backend.beans.repositories.TransactionRepo;
 import com.revature.cachemoney.backend.beans.repositories.UserRepo;
-import com.revature.cachemoney.backend.beans.repositories.User_AccountRepo;
 import com.revature.cachemoney.backend.beans.utils.ApplicationContextProvider;
 
 @SpringBootApplication(scanBasePackages = "com.revature.cachemoney.backend.beans")
 public class BackendApplication {
 
 	public static void main(String[] args) {
-		//Log("------------->>>");
+		Log("------------->>>");
 		SpringApplication.run(BackendApplication.class, args);
-		//Log("<<<-------------");
-
-		/*
+		Log("<<<-------------");
 		ApplicationContext context = ApplicationContextProvider.getApplicationContext();
 		
 		UserRepo userRepository = context.getBean(UserRepo.class);
 		AccountRepo acctRepository = context.getBean(AccountRepo.class);
-		User_AccountRepo userAcctRepository = context.getBean(User_AccountRepo.class);
+		TransactionRepo trnsRepository = context.getBean(TransactionRepo.class);
+		//User_AccountRepo userAcctRepository = context.getBean(User_AccountRepo.class);
 		
-		User newUser = new User("steve", "steve", "steve@steve.steve", "steve", "steveUsername");
+		User newUser = new User("steve", "steve", "steve@steve.steve", "steve","chris p bacon");
 		Account newAccount = new Account("CHECKING");
 		newAccount.setBalance(8080.21f);
 //		userRepository.save(newUser);
@@ -60,21 +58,7 @@ public class BackendApplication {
 		}
 
 
-		ArrayList<User_Account> U = (ArrayList<User_Account>) userAcctRepository.findAll();
-		Log(U.size());
-		for (int i = 0; i < U.size(); i++) {
-			User_Account u = U.get(i);
-			System.out.println(u);
-			Log(u.getAccountID() + "   " + u.getUserID());
-			Log(u.getUser());
-			Log(u.getAccount());
-			Log("" + u.getAccount().getAccount_id()+"  "+(a.getAccount_id()));
-			Log(">>> " + u.getAccount().equals(acctRepository.getById(1)));
-			Log(u.getAccount());
-			
-		}
-
-		 */
+		
 		
 	}
 
