@@ -10,10 +10,8 @@ import org.springframework.context.ApplicationContext;
 
 import com.revature.cachemoney.backend.beans.models.Account;
 import com.revature.cachemoney.backend.beans.models.User;
-import com.revature.cachemoney.backend.beans.models.User_Account;
 import com.revature.cachemoney.backend.beans.repositories.AccountRepo;
 import com.revature.cachemoney.backend.beans.repositories.UserRepo;
-import com.revature.cachemoney.backend.beans.repositories.User_AccountRepo;
 import com.revature.cachemoney.backend.beans.utils.ApplicationContextProvider;
 
 @SpringBootApplication(scanBasePackages = "com.revature.cachemoney.backend.beans")
@@ -27,7 +25,8 @@ public class BackendApplication {
 		
 		UserRepo userRepository = context.getBean(UserRepo.class);
 		AccountRepo acctRepository = context.getBean(AccountRepo.class);
-		User_AccountRepo userAcctRepository = context.getBean(User_AccountRepo.class);
+		TransactionRepo trnsRepository = context.getBean(TransactionRepo.class);
+		//User_AccountRepo userAcctRepository = context.getBean(User_AccountRepo.class);
 		
 		User newUser = new User("steve", "steve", "steve@steve.steve", "steve");
 		Account newAccount = new Account("CHECKING");

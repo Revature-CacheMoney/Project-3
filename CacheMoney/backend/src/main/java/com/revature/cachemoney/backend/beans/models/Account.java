@@ -37,6 +37,10 @@ public class Account {
 	//@Column(name = "owner")	
 	//private User owner;
 	
+	@Column(name = "transactions")
+	@OneToMany
+	private List<Transaction> accounts = new LinkedList<>();
+	
 	public Account(String type) {
 		this.type = type;
 		this.balance = 0;

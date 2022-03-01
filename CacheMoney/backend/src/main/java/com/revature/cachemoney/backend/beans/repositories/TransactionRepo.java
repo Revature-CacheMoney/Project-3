@@ -6,6 +6,10 @@ import org.springframework.stereotype.Repository;
 import com.revature.cachemoney.backend.beans.models.Transaction;
 
 @Repository
+<<<<<<< Updated upstream
 public interface TransactionRepo extends JpaRepository<Transaction, Integer> {
+=======
+public interface TransactionRepo extends JpaRepository<Transaction, Integer>{
+>>>>>>> Stashed changes
 
 }
