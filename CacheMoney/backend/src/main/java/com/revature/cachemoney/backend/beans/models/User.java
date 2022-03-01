@@ -23,20 +23,20 @@ public class User {
 	@Column(name = "user_id")
 	private Integer user_id;
 
-	@Column(name = "first_name")
+	@Column(name = "first_name", nullable = false)
 	private String firstName;
 
-	@Column(name = "last_name")
+	@Column(name = "last_name", nullable = false)
 	private String lastName;
 
 	@Column(name = "email", unique = true, nullable = false)
 	private String email;
+	
+	@Column(name = "username", unique = true, nullable = false)
+	private String username;
 
 	@Column(name = "password", nullable = false)
 	private String password;
-
-	@Column(name="username", unique = true, nullable = false)
-	private String username;
 
 	@Column(name = "accounts")
 	@OneToMany
