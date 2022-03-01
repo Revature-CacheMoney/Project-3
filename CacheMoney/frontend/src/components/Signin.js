@@ -1,10 +1,14 @@
 import React, { useState } from "react";
 import "../css/Signin.css";
 
+// The Signin component is the login form the user sees after pressing the "sign in" button.
+// An API call should be made to test for successful login credentials.
+// The user's info (partial) should be persisted throughout the app.
 function Signin() {
 	// Test stuff .
 	let [input, setInput] = useState([""]);
 
+	// This grabs the user's input from the form.
 	const login = (event) => {
 		event.preventDefault();
 		const username = document.getElementById("username");

@@ -1,6 +1,8 @@
 import React from "react";
 import "../css/Register.css";
 
+// The registrration component handles the registration form for new users.
+// The info is persisted in the database and locally (partial).
 function Register() {
 	const handleSubmit = (event) => {
 		event.preventDefault();
@@ -23,6 +25,10 @@ function Register() {
 		}
 	};
 
+	// This compares the two password entry fields.  If they do not match,
+	// the boxes are given a red border and the submit button is disabled.
+	// TODO: Probably want a clearer (text) indicator stating the problem.
+	// optional: Make the password type "password", give option to flip between visibility
 	const checkPasswordEntry = () => {
 		const passwordNodes = document.getElementsByClassName("password-box");
 		const password1 = passwordNodes[0].value;
