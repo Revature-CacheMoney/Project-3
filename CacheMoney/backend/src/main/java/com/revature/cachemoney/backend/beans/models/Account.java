@@ -39,7 +39,7 @@ public class Account {
 	
 	@Column(name = "transactions")
 	@OneToMany
-	private List<Transaction> accounts = new LinkedList<>();
+	private List<Transaction> transactions = new LinkedList<>();
 	
 	public Account(String type) {
 		this.type = type;
