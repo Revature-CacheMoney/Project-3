@@ -1,3 +1,8 @@
+#splash-outer-container {
+	width: 100%;
+	height: 100%;
+}
+
 #splash-container {
 	width: 100%;
 	background-color: #3d703a;
@@ -22,38 +27,10 @@
 	height: 100%;
 }
 
-button {
-	width: 200px;
-	height: 50px;
-	border-radius: 10px;
-	background-color: #ffffff;
-	box-shadow: -5px 5px 0px 1px #d3a940;
-	color: #3e4f3d;
-	font-size: 2em;
-	margin-top: 10px;
-	margin-bottom: 10px;
-}
-
-a {
-	color: #d3a940;
-}
-
 #welcome {
 	font-size: 4em; /* ~48px */
 }
 
 #register {
 	font-size: 3em; /* ~36px */
-}
-
-body {
-	background-image: url("../image/Background_image-01.png");
-	background-position: center;
-	background-size: cover;
-	background-repeat: no-repeat;
-	color: #ffffff;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-around;
-	/* background-color: blue; */
 }

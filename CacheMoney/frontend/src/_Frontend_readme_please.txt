@@ -4,6 +4,9 @@ Getting started:
 - Create a branch off of "frontend" -
 		- git checkout frontend
 		- git checkout -b your_new_branchname
+		- Navigate to the root directory of frontend (where the package.json is located)
+		- npm install
+		- npm start (to run the app)
 - Do your thing!  Adopt a component, make one, or fiddle with CSS, or make some improvements.
 - When done, make a merge request to merge with the "frontend" branch
 - Requests will have to be approved before the merge completes - just an fyi!

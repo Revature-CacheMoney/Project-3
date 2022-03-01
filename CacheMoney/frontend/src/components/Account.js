@@ -4,6 +4,10 @@ import React from "react";
 // Also may contain other related account info (name, account number) and possibly link to do
 // transfers as well (or another parent component?)
 function Account(props) {
+	const transactions = props.transactions;
+
+	const listTransactions = () => {};
+
 	return <></>;
 }
 
