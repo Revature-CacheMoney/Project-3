@@ -30,7 +30,7 @@ public class AccountController {
 	 * @return List of all existing Itineraries
 	 */
 	@GetMapping()
-	public List<Account> getItinerary() {
+	public List<Account> getAccount() {
 		return accountRepository.findAll();
 	}
 
@@ -41,7 +41,7 @@ public class AccountController {
 	 * @return the Itinerary based on id
 	 */
 	@GetMapping(value = "/{id}")
-	public Optional<Account> getItineraryByID(@PathVariable Integer id) {
+	public Optional<Account> getAccountByID(@PathVariable Integer id) {
 		return accountRepository.findById(id);
 	}
 
@@ -51,7 +51,7 @@ public class AccountController {
 	 * @param itinerary
 	 */
 	@PostMapping()
-	public void postItinerary(@RequestBody Account itinerary) {
+	public void postAccount(@RequestBody Account itinerary) {
 		accountRepository.save(itinerary);
 	}
 
@@ -61,7 +61,7 @@ public class AccountController {
 	 * @param id
 	 */
 	@DeleteMapping(value = "/{id}")
-	public void deleteItineraryById(@PathVariable Integer id) {
+	public void deleteAccountById(@PathVariable Integer id) {
 		accountRepository.deleteById(id);
 	}
 }
