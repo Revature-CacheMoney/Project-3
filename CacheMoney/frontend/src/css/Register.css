@@ -3,6 +3,9 @@
 	flex-direction: column;
 	justify-content: space-between;
 	width: 50%;
+	background-color: #3d703a;
+	padding: 30px;
+	border-radius: 20px;
 }
 
 .password-error {
@@ -11,8 +14,4 @@
 
 .password-ok {
 	border: 1px solid black;
-}
-
-body {
-	background-image: url("");
 }
