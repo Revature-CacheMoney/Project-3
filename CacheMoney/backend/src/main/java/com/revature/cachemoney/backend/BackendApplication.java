@@ -20,11 +20,11 @@ import com.revature.cachemoney.backend.beans.utils.ApplicationContextProvider;
 public class BackendApplication {
 
 	public static void main(String[] args) {
-		String bacon = "hi my name dacid";
-
-		Log("------------->>>");
+		//Log("------------->>>");
 		SpringApplication.run(BackendApplication.class, args);
-		Log("<<<-------------");
+		//Log("<<<-------------");
+
+		/*
 		ApplicationContext context = ApplicationContextProvider.getApplicationContext();
 		
 		UserRepo userRepository = context.getBean(UserRepo.class);
@@ -73,6 +73,8 @@ public class BackendApplication {
 			Log(u.getAccount());
 			
 		}
+
+		 */
 		
 	}
 

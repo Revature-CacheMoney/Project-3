@@ -48,7 +48,7 @@ public class UserController {
 
     /**
      * POST a User.
-     * 
+     *
      * @param user
      * @return String containing information regarding success or failure.
      */
@@ -75,11 +75,11 @@ public class UserController {
     public void deleteUserById(@PathVariable Integer id){
         userRepository.deleteById(id);
     }
-    
+
     /**
      * GET a User by email.
      * Emails are unique and should not cause conflicting results.
-     * 
+     *
      * @param email
      * @return the User based on email
      */
@@ -100,9 +100,10 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     public User getUserByUsername(@RequestBody User user) {
 
-        if (user.getPassword() == null){
+        if ( user.getUsername() == null || user.getPassword() == null){
             return user;
         }
+
         ExampleMatcher em = ExampleMatcher.matching().withIgnorePaths("user_id","first_name", "last_name", "email", "accounts")
                 .withMatcher("username", ignoreCase()).withMatcher("password", caseSensitive());
 
@@ -116,5 +117,4 @@ public class UserController {
 
     }
 
-    
 }
