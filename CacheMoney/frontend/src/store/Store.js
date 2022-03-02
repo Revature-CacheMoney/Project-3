@@ -3,8 +3,8 @@
  */
 
 import { combineReducers, createStore } from 'redux';
-import { reducer as userReducer } from './reducers/UserReducer';
-import { reducer as accountReducer } from './reducers/AccountReducer';
+import userReducer from './reducers/UserReducer';
+import accountReducer from './reducers/AccountReducer';
 
 
 // const userStore = createStore(userReducer);

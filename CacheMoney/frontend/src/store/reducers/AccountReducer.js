@@ -6,7 +6,7 @@ const initialState = {
     currentAccountId: ""
 }
 
-function reducer(state = initialState, action) {
+function accountReducer(state = initialState, action) {
     switch (action.type) {
         case "UPDATE_CURRENT_ACCOUNT_ID":
             return {
@@ -19,4 +19,4 @@ function reducer(state = initialState, action) {
     }
 }
 
-export default reducer;
+export default accountReducer;

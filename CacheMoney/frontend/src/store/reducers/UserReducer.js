@@ -9,7 +9,7 @@ const initialState = {
     lastName: ""
 }
 
-function reducer(state = initialState, action) {
+function userReducer(state = initialState, action) {
     switch (action.type) {
         case "UPDATE_ID":
             return {
@@ -40,4 +40,4 @@ function reducer(state = initialState, action) {
     }
 }
 
-export default reducer;
+export default userReducer;
