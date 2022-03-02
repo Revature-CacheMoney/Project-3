@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import store from '../store/Store';
 
-function TransactionList(props) {
+function TransactionTable(props) {
     // local transaction state
     const [transactions, getTransactions] = useState([]);
 
@@ -14,7 +14,7 @@ function TransactionList(props) {
     const url = "http://localhost:8080/";
 
     // default props
-    TransactionList.defaultProps = {
+    TransactionTable.defaultProps = {
         /**
          * Expected values:
          *   NONE
@@ -90,4 +90,4 @@ function TransactionList(props) {
     );
 }
 
-export default TransactionList;
+export default TransactionTable;
