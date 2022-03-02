@@ -136,19 +136,18 @@ h1 {
 	font-size: 4em; /* ~48px */
 }
 
-
 /* FOOTER STUFF */
 
 * {
-  box-sizing: border-box;
-  width: 100%;
+	box-sizing: border-box;
+	width: 100%;
 }
 
 .column {
-  float: left;
-  width: 15%;
-  padding: 20px;
-  height: 300px; 
+	float: left;
+	width: 15%;
+	padding: 20px;
+	height: 300px;
 }
 
 .row {
@@ -157,14 +156,54 @@ h1 {
 	left: 0;
 	bottom: 0;
 	width: 100%;
-	display: flex; 
-	justify-content: center; 
+	display: flex;
+	justify-content: center;
 }
 
 .row:after {
-  content: "";
-  display: table;
-  clear: both;
+	content: "";
+	display: table;
+	clear: both;
 }
 
 /* END FOOTER STUFF */
+
+/* Navbar */
+
+.nav-bar {
+	color: black;
+}
+
+.breadcrumb {
+	list-style-type: none;
+	width: 50%;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+}
+.breadcrumb-item {
+	display: inline;
+}
+.breadcrumb-item > a {
+	text-decoration: none;
+	color: black;
+}
+
+#top {
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 999;
+	width: 100%;
+	height: 23px;
+}
+
+.account-type-container {
+	color: black;
+}
+.transfer-container {
+	color: black;
+}
+
+/* End navbar */

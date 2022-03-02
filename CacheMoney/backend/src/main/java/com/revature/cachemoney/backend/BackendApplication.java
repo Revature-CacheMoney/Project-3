@@ -36,7 +36,7 @@ public class BackendApplication {
 		User newUser = new User("steve", "steve", "steve@steve.steve", "steve", "steve");
 		Account newAccount = new Account("CHECKING");
 		newAccount.setBalance(8080.21f);
-		
+
 
 		Log("_");
 		Account a = acctRepository.getById(1);

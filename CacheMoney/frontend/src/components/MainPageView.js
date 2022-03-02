@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import AccountObject from "./AccountObject.js";
 //import AccountsView from "./Account/AccountsView";
 import Navigation from "./NavBar";
+import Footer from "./Footer.js";
 
 function MainPageView(props) {
 	//let accountPreview = [];
@@ -13,16 +14,22 @@ function MainPageView(props) {
 		"Wu-tang",
 	]);
 
-	// this will render a bunch of account objects
-	// for (let i = 0; i < 5; i++) {
-	// 	accountPreview.push(<AccountObject key={"account" + i} />);
-	// }
+	/*
+	// Just adding this to make the keys happy for sample code
+	for (let i = 0; i < 5; i++) {
+		accountPreview.push(<AccountObject key={"account" + i} />);
 
+	} */
+
+	/*
 	// This displays a list of account names
 	let showAccountPreview = accountPreview.map((account) => {
-		return <li key="main-page-account-info" className="list-accounts">{account}</li>;
-	});
-	
+		return (
+			<li key="main-page-account-info" className="list-accounts">
+				{account}
+			</li>
+		);
+	}); */
 
 	return (
 		<div id="main-page-container">
@@ -33,13 +40,14 @@ function MainPageView(props) {
 
 				<h2> CACHE FINANCE</h2>
 
-				{showAccountPreview}
+				{/* showAccountPreview */}
 				{/* {accountPreview} */}
 
 				<h2> CACHE RECREATION</h2>
 				{/* <AccountObject /> */}
 				<hr />
 			</div>
+			<Footer />
 		</div>
 	);
 }

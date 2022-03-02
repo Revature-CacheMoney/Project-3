@@ -12,8 +12,8 @@ function RegisterView() {
 
 		if (p1 === p2) {
 			const info = {
-				firstname: document.getElementById("first_name"),
-				lastname: document.getElementById("last_name"),
+				firstName: document.getElementById("firstname"),
+				lastName: document.getElementById("lastname"),
 				email: document.getElementById("email"),
 				username: document.getElementById("username"),
 				password: document.getElementById("password"),
