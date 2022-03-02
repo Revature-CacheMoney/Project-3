@@ -1,5 +1,5 @@
 import "./css/App.css";
-//import SplashView from "./components/SplashView.js";
+import SplashView from "./components/SplashView.js";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import SigninView from "./components/SigninView.js";
 import RegisterView from "./components/RegisterView.js";
@@ -8,15 +8,13 @@ import MainPageView from "./components/MainPageView";
 import AccountsView from "./components/Account/AccountsView";
 import AccountType from "./components/Account/CreateAccount";
 import TransferView from "./components/TransferView";
-import Navigation from "./components/TestNav";
 
 function App() {
 	return (
 		<div>
 			<Router>
 				<Routes>
-					{/* <Route path="/" exact element={<SplashView />} /> */}
-					<Route path="/" exact element={<Navigation />} />
+					<Route path="/" exact element={<SplashView />} />
 					<Route path="/signin" exact element={<SigninView />} />
 					<Route path="/register" exact element={<RegisterView />} />
 					<Route path="/main" exact element={<MainPageView />} />
