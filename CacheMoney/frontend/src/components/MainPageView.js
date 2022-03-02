@@ -1,11 +1,11 @@
 import React from "react";
-import AccountsView from "./Account/AccountsView";
+import AccountObject from "./AccountObject.js";
 
 function MainPageView(props) {
 	let accountPreview = [];
 
 	for (let i = 0; i < 5; i++) {
-		accountPreview.push(<AccountsView key={"account" + i} />);
+		accountPreview.push(<AccountObject key={"account" + i} />);
 
 		console.log(accountPreview);
 
@@ -25,7 +25,7 @@ function MainPageView(props) {
 				<hr />
 
 				<h2> CACHE RECREATION</h2>
-				<AccountsView />
+				<AccountObject />
 				<hr />
 			</div>
 		</div>
