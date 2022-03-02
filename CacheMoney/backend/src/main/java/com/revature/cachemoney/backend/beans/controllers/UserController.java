@@ -97,7 +97,7 @@ public class UserController {
      * @param user
      * @return the User based on email
      */
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     public User getUserByUsername(@RequestBody User user) {
 
