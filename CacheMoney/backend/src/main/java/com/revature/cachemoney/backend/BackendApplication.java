@@ -37,17 +37,17 @@ public class BackendApplication {
 		User newUser = new User("steve", "steve", "steve@steve.steve", "steve", "steve");
 		Account newAccount = new Account("CHECKING");
 		newAccount.setBalance(8080.21f);
-		userRepository.save(newUser);
-		acctRepository.save(newAccount);
-		newUser.addAccount(newAccount);
-		userRepository.save(newUser);
+				userRepository.save(newUser);
+				acctRepository.save(newAccount);
+				newUser.addAccount(newAccount);
+				userRepository.save(newUser);
 
-		ArrayList<User> L = (ArrayList<User>) userRepository.findAll();
+				ArrayList<User> L = (ArrayList<User>) userRepository.findAll();
 
 		for (int l = 0; l < L.size(); l++) {
-			User u = L.get(l);
-			System.out.println(u);
-			Log(u.getUser_id());
+		User u = L.get(l);
+		System.out.println(u);
+		Log(u.getUser_id());
 		}
 
 		Log("_");
@@ -56,12 +56,10 @@ public class BackendApplication {
 		ArrayList<Account> I = (ArrayList<Account>) acctRepository.findAll();
 
 		for (int i = 0; i < I.size(); i++) {
-			Account u = I.get(i);
-			System.out.println(u);
-			Log(u.getType());
-			Log(u.getBalance());
+		Account u = I.get(i);
+		System.out.println(u);
+		Log(u.getType());
+		Log(u.getBalance());
 		}
-
 	}
-
 }
