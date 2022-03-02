@@ -4,12 +4,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.*;
+import lombok.*;
 
 import com.revature.cachemoney.backend.beans.repositories.AccountRepo;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+
 
 /**
  * Object for interacting with Users.
@@ -24,7 +23,7 @@ public class Account {
 	@Id
 	@Column(name = "account_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer account_id;
+	private Integer accountId;
 
 	@Column(name = "type")
 	private String type;
@@ -41,6 +40,19 @@ public class Account {
 	@OneToMany
 	private List<Transaction> transactions = new LinkedList<>();
 
+	public void addTransaction(Transaction trns) {
+		transactions.add(trns);
+	}
+
+	public void removeaddTransaction(Transaction trns) {
+		transactions.remove(trns);
+	}
+	
+	public List<Transaction> getTransactions()
+	{
+		return this.transactions;
+	}
+	
 	public Account(String type) {
 		this.type = type;
 		this.balance = 0;
