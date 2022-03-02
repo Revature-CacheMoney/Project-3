@@ -13,7 +13,7 @@ function MainPageView(props) {
 	}
 
 	return (
-		<div id="main-page">
+		<div id="main-page-container">
 			<div className="headerContainer">
 				<h1> Account </h1>
 				<hr />

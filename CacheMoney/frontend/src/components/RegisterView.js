@@ -50,7 +50,7 @@ function RegisterView() {
 	};
 
 	return (
-		<div id="register-page">
+		<div id="register-page-container">
 			<label htmlFor="firstname">First name:</label>
 			<input type="text" name="firstname" id="firstname" />
 			<label htmlFor="lastname">Last name:</label>
