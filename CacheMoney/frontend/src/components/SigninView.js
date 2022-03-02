@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import userStore from "../store/Store.js";
 //import { createBrowserHistory } from "history";
-import { Link, useNaviagate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // The Signin component is the login form the user sees after pressing the "sign in" button.
 // An API call should be made to test for successful login credentials.

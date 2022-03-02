@@ -22,6 +22,7 @@ function MainPageView(props) {
 	let showAccountPreview = accountPreview.map((account) => {
 		return <li key="main-page-account-info" className="list-accounts">{account}</li>;
 	});
+	
 
 	return (
 		<div id="main-page-container">
