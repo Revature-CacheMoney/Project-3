@@ -1,5 +1,6 @@
 package com.revature.cachemoney.backend.beans.controllers;
 
+import com.revature.cachemoney.backend.beans.services.UsersService;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.http.HttpStatus;
@@ -28,25 +29,25 @@ import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatc
 @RestController
 @RequestMapping("/users")
 public class UserController {
-	private final UserRepo userRepository;
+	private final UsersService usersService;
 
 
     @Autowired
-    public UserController(UserRepo userRepository) {
-        this.userRepository = userRepository;
+    public UserController(UsersService usersService) {
+        this.usersService = usersService;
     }
 
     // GET all users
     @RequestMapping(value = "/allusers", method = RequestMethod.GET)
     public List<User> getAllUsers(){
-       return userRepository.findAll();
+       return usersService.getAllUsers();
     }
 
     // GET a user by ID
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public Optional<User> getUserById(@PathVariable Integer id){
 
-        return userRepository.findById(id);
+        return usersService.getUserById(id);
     }
 
     /**
@@ -58,7 +59,7 @@ public class UserController {
     @PostMapping()
     public String postUser(@RequestBody User user) {
         try {
-            userRepository.save(user);
+            usersService.postUser(user);
         } catch (Exception e) {
             System.out.println("User cannot be registered.");
 
@@ -76,7 +77,7 @@ public class UserController {
     // DELETE a user by ID
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public void deleteUserById(@PathVariable Integer id){
-        userRepository.deleteById(id);
+        usersService.deleteUserById(id);
     }
     
     /**
@@ -89,7 +90,7 @@ public class UserController {
     @GetMapping(value = "/email")
     public Optional<User> getUserByEmail(@RequestParam String email) {
     	System.out.println(email + "<<<<<");
-        return userRepository.findByEmail(email);
+        return usersService.getUserByEmail(email);
     }
 
     /**
@@ -99,25 +100,11 @@ public class UserController {
      * @param user
      * @return the User based on email
      */
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     public User getUserByUsername(@RequestBody User user) {
 
-        if ( user.getUsername() == null || user.getPassword() == null){
-            return user;
-        }
-
-        ExampleMatcher em = ExampleMatcher.matching().withIgnorePaths("user_id","first_name", "last_name", "email", "accounts")
-                .withMatcher("username", ignoreCase()).withMatcher("password", caseSensitive());
-
-        Example<User> example = Example.of(user, em);
-
-        if (userRepository.exists(example)){
-            Optional<User> optionalUser = userRepository.findOne(example);
-            return optionalUser.get();
-        }
-        return user;
-
+      return usersService.getUserByUsername(user);
     }
 
 
