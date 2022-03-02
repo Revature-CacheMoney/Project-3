@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import AccountsView from "./Account/AccountsView";
-import Navigation from "./TestNav";
+import Navigation from "./NavBar";
 
 function MainPageView(props) {
   //let accountPreview = [];

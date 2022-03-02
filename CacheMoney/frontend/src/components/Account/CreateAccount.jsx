@@ -1,5 +1,5 @@
 import React from "react";
-import Navigation from "../TestNav";
+import Navigation from "../NavBar";
 
 export default function AccountType() {
   return (

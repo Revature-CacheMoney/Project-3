@@ -1,5 +1,5 @@
 import React from "react";
-import Navigation from "../TestNav";
+import Navigation from "../NavBar";
 
 // The Account component should hold multiple transactions related to this account.
 // Also may contain other related account info (name, account number) and possibly link to do
