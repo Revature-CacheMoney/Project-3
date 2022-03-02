@@ -1,5 +1,5 @@
 import React from "react";
-import Navigation from "./TestNav";
+import Navigation from "./NavBar";
 
 // The transfer component would hold the layout for making a transfer from one account to another.
 // It should have two dropdowns (source and destination).  Under some conditions (ex. when user creates
