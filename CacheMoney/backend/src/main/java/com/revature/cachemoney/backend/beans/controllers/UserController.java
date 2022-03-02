@@ -84,6 +84,11 @@ public class UserController {
         return userRepository.findByEmail(email);
     }
     
-    
+ // users/username?username={username}&password = {password}
+ 	@GetMapping(value = "/login")
+ 	public Optional<User> getUserLogin(@RequestParam String email) {
+ 		System.out.println(email + "<<<<<");
+ 		return userRepository.findByEmail(email);
+ 	}
 
 }
