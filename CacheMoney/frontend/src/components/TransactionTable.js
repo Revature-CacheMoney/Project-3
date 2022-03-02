@@ -44,12 +44,15 @@ function TransactionTable(props) {
     const content = transactions
         .filter(transaction => {
             if (props.filter === "NONE") {
+                console.log("filter: none");
                 return true;
             }
             else if (props.filter === "CREDIT") {
+                console.log("filter: credit");
                 return transaction.transaction_amount > 0;
             }
             else if (props.filter === "DEBIT") {
+                console.log("filter: debit");
                 return transaction.transaction_amount < 0;
             }
             else {
