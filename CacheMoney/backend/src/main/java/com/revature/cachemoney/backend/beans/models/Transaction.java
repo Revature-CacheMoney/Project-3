@@ -16,57 +16,66 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "transaction")
+@Table(name = "transactions")
 public class Transaction {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "transaction_id")
-	private Integer transaction_id;
+	private Integer transactionId;
 
 	@Column(name = "account_id")
-	private Integer account_id;
+	private Integer accountId;
 
 	@Column(name = "description")
 	private String description;
 
 	// look into date datatype, and how to/accept formatting...
 	@Column(name = "transaction_date")
-	private Date transaction_date;
+	private Date transactionDate;
 
 	// look into datatype to take care of floating point arithmetic
 	@Column(name = "transaction_amount")
-	private BigDecimal transaction_amount;
+	private BigDecimal transactionAmount;
 
 	@Column(name = "ending_balance")
-	private BigDecimal ending_balance;
+	private BigDecimal endingBalance;
 
-	public Transaction(Integer transaction_id, Integer account_id, String description, Date transaction_date,
+	public Transaction(Integer account_id, String description, Date transaction_date,
 			BigDecimal transaction_amount, BigDecimal ending_balance) {
-		this.transaction_id = transaction_id;
-		this.account_id = account_id;
+		this.accountId = account_id;
 		this.description = description;
-		this.transaction_date = transaction_date;
-		this.transaction_amount = transaction_amount;
-		this.ending_balance = ending_balance;
+		this.transactionDate = transaction_date;
+		this.transactionAmount = transaction_amount;
+		this.endingBalance = ending_balance;
 	}
 
-	public void addTransaction(Transaction trns) {
+	
+	public Transaction(Integer account_id, String description, BigDecimal transaction_amount, BigDecimal ending_balance) {
+
+		this.accountId = account_id;
+		this.description = description;
+		this.transactionAmount = transaction_amount;
+		this.endingBalance = ending_balance;
 	}
 
-	public void removeTransaction(Transaction trns) {
-	}
+	public Transaction(String description, BigDecimal transaction_amount, BigDecimal ending_balance) {
 
+		this.description = description;
+		this.transactionAmount = transaction_amount;
+		this.endingBalance = ending_balance;
+	}
+	
 	@Override
 	public String toString() {
 		String s = "";
 		s += "TRANSACTION";
 		s += "{";
-		s += this.transaction_id + "\n";
-		s += this.account_id + "\n";
+		s += this.transactionId + "\n";
+		s += this.accountId + "\n";
 		s += this.description + "\n";
-		s += this.transaction_date + "\n";
-		s += this.transaction_amount + "\n";
-		s += this.ending_balance + "\n";
+		s += this.transactionDate + "\n";
+		s += this.transactionAmount + "\n";
+		s += this.endingBalance + "\n";
 		s += "}";
 
 		return s;

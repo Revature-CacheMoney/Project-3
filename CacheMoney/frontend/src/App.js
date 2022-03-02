@@ -1,22 +1,30 @@
 import "./css/App.css";
-import Splash from "./components/Splash.js";
+import SplashView from "./components/SplashView.js";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import Signin from "./components/Signin.js";
-import Register from "./components/Register.js";
-import NotFound from "./components/NotFound.js";
+import SigninView from "./components/SigninView.js";
+import RegisterView from "./components/RegisterView.js";
+import NotFoundView from "./components/NotFoundView.js";
+import MainPageView from "./components/MainPageView";
+import AccountsView from "./components/Account/AccountsView";
+import AccountType from "./components/Account/CreateAccount";
+import TransferView from "./components/TransferView";
 
 function App() {
 	return (
-		<div>
+		<>
 			<Router>
 				<Routes>
-					<Route path="/" exact element={<Splash />} />
-					<Route path="/signin" exact element={<Signin />} />
-					<Route path="/register" exact element={<Register />} />
-					<Route element={<NotFound />} />
+					<Route path="/" exact element={<SplashView />} />
+					<Route path="/signin" exact element={<SigninView />} />
+					<Route path="/register" exact element={<RegisterView />} />
+					<Route path="/main" exact element={<MainPageView />} />
+					<Route path="/accounts" exact element={<AccountsView />} />
+					<Route path="/accounts/create" exact element={<AccountType />} />
+					<Route path="/transfer" exact element={<TransferView />} />
+					<Route element={<NotFoundView />} />
 				</Routes>
 			</Router>
-		</div>
+		</>
 	);
 }
 
