@@ -1,35 +1,55 @@
-import React from "react";
+import React, { useState } from "react";
 import AccountsView from "./Account/AccountsView";
+import Navigation from "./NavBar";
 
 function MainPageView(props) {
-	let accountPreview = [];
+  //let accountPreview = [];
+//   let [accountPreview, setAccountPreview] = useState([]);
+  let [accountPreview, setAccountPreview] = useState(["Checking", "Savings", "California Move Stash", "Wu-tang"]);
 
-	for (let i = 0; i < 5; i++) {
-		accountPreview.push(<AccountsView key={"account" + i} />);
+  let showAccountPreview = accountPreview.map((account) => {
+	  return (<li className="list-accounts">{account}</li>);
+  })
 
-		console.log(accountPreview);
+//   for (let i = 0; i < accountPreview.length; i++){
+// 	  return accountPreview[i];
+//   }
+//   for (let i = 0; i < 5; i++) {
+//     accountPreview.push(<AccountsView key={"account" + i} />);
 
-		//we want the component so we use the self closing tag for Account
-	}
+//     console.log(accountPreview);
 
+<<<<<<< HEAD
 	return (
 		<div id="main-page-container">
 			<div className="headerContainer">
 				<h1> Account </h1>
 				<hr />
+=======
+//     //we want the component so we use the self closing tag for Account
+//   }
+>>>>>>> donald
 
-				<h2> CACHE FINANCE</h2>
+  return (
+    <div id="main-page">
+      <div className="headerContainer">
+		  <Navigation />
+        <h1> Accounts </h1>
+        <hr />
 
-				{accountPreview}
+        <h2> CACHE FINANCE</h2>
 
-				<hr />
+        {showAccountPreview}
+		{/* {accountPreview} */}
 
-				<h2> CACHE RECREATION</h2>
-				<AccountsView />
-				<hr />
-			</div>
-		</div>
-	);
+        <hr />
+
+        <h2> CACHE RECREATION</h2>
+        <AccountsView />
+        <hr />
+      </div>
+    </div>
+  );
 }
 
 export default MainPageView;
