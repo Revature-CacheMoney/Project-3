@@ -1,4 +1,4 @@
-import "../css/Title.css";
+import "../css/App.css";
 
 // The title component only has the logo/title and styling.
 function Title() {
