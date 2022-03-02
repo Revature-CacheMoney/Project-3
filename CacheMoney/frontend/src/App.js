@@ -11,7 +11,7 @@ import TransferView from "./components/TransferView";
 
 function App() {
 	return (
-		<div>
+		<>
 			<Router>
 				<Routes>
 					<Route path="/" exact element={<SplashView />} />
@@ -24,7 +24,7 @@ function App() {
 					<Route element={<NotFoundView />} />
 				</Routes>
 			</Router>
-		</div>
+		</>
 	);
 }
 

@@ -1,8 +1,6 @@
-import React from "react";
-import AccountObject from "./AccountObject.js";
-
 import React, { useState } from "react";
-import AccountsView from "./Account/AccountsView";
+import AccountObject from "./AccountObject.js";
+//import AccountsView from "./Account/AccountsView";
 import Navigation from "./NavBar";
 
 function MainPageView(props) {
@@ -15,13 +13,15 @@ function MainPageView(props) {
 		"Wu-tang",
 	]);
 
+	// this will render a bunch of account objects
 	for (let i = 0; i < 5; i++) {
 		accountPreview.push(<AccountObject key={"account" + i} />);
 	}
 
-	/*let showAccountPreview = accountPreview.map((account) => {
-		return (<li className="list-accounts">{account}</li>);
-	}) */
+	// This displays a list of account names
+	let showAccountPreview = accountPreview.map((account) => {
+		return <li className="list-accounts">{account}</li>;
+	});
 
 	//   for (let i = 0; i < accountPreview.length; i++){
 	// 	  return accountPreview[i];

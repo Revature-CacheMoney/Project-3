@@ -5,6 +5,7 @@ import Title from "./Title.js";
 function SplashView() {
 	return (
 		<div id="splash-outer-container">
+			Outer container test
 			<div id="splash-container">
 				<Title />
 				<div id="splash-right">
@@ -19,6 +20,7 @@ function SplashView() {
 					</span>
 				</div>
 			</div>
+			Another outer test
 		</div>
 	);
 }
