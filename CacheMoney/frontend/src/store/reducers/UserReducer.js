@@ -1,3 +1,7 @@
+/**
+ * @Author Cody Gonsowski, Jeffrey Lor
+ */
+
 const initialState = {
 	userId: "",
 	username: "",
@@ -6,15 +10,17 @@ const initialState = {
 	accounts: [],
 };
 
-function reducer(state = initialState, action) {
-	switch (action.type) {
-		case "UPDATE_ID":
-			return {
-				...state,
-				userId: action.payload,
-			};
 
-		case "UPDATE_USERNAME":
+function userReducer(state = initialState, action) {
+    switch (action.type) {
+      case "UPDATE_ID":
+            return {
+                ...state,
+                userId: action.payload
+            };
+
+        
+    case "UPDATE_USERNAME":
 			return {
 				...state,
 				username: action.payload,
@@ -32,16 +38,9 @@ function reducer(state = initialState, action) {
 				lastName: action.payload,
 			};
 
-		// Test this - Not sure if this is legal
-		case "UPDATE_ACCOUNTS":
-			return {
-				...state,
-				accounts: state.accounts.append(action.payload),
-			};
-
 		default:
 			return state;
 	}
 }
 
-export default reducer;
+export default userReducer;
