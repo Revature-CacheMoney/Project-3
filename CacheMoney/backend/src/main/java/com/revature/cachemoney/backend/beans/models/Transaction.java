@@ -16,66 +16,57 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "transactions")
+@Table(name = "transaction")
 public class Transaction {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "transaction_id")
-	private Integer transactionId;
+	private Integer transaction_id;
 
 	@Column(name = "account_id")
-	private Integer accountId;
+	private Integer account_id;
 
 	@Column(name = "description")
 	private String description;
 
 	// look into date datatype, and how to/accept formatting...
 	@Column(name = "transaction_date")
-	private Date transactionDate;
+	private Date transaction_date;
 
 	// look into datatype to take care of floating point arithmetic
 	@Column(name = "transaction_amount")
-	private BigDecimal transactionAmount;
+	private BigDecimal transaction_amount;
 
 	@Column(name = "ending_balance")
-	private BigDecimal endingBalance;
+	private BigDecimal ending_balance;
 
-	public Transaction(Integer account_id, String description, Date transaction_date,
+	public Transaction(Integer transaction_id, Integer account_id, String description, Date transaction_date,
 			BigDecimal transaction_amount, BigDecimal ending_balance) {
-		this.accountId = account_id;
+		this.transaction_id = transaction_id;
+		this.account_id = account_id;
 		this.description = description;
-		this.transactionDate = transaction_date;
-		this.transactionAmount = transaction_amount;
-		this.endingBalance = ending_balance;
+		this.transaction_date = transaction_date;
+		this.transaction_amount = transaction_amount;
+		this.ending_balance = ending_balance;
 	}
 
-	
-	public Transaction(Integer account_id, String description, BigDecimal transaction_amount, BigDecimal ending_balance) {
-
-		this.accountId = account_id;
-		this.description = description;
-		this.transactionAmount = transaction_amount;
-		this.endingBalance = ending_balance;
+	public void addTransaction(Transaction trns) {
 	}
 
-	public Transaction(String description, BigDecimal transaction_amount, BigDecimal ending_balance) {
-
-		this.description = description;
-		this.transactionAmount = transaction_amount;
-		this.endingBalance = ending_balance;
+	public void removeTransaction(Transaction trns) {
 	}
-	
+
 	@Override
 	public String toString() {
 		String s = "";
 		s += "TRANSACTION";
 		s += "{";
-		s += this.transactionId + "\n";
-		s += this.accountId + "\n";
+		s += this.transaction_id + "\n";
+		s += this.account_id + "\n";
 		s += this.description + "\n";
-		s += this.transactionDate + "\n";
-		s += this.transactionAmount + "\n";
-		s += this.endingBalance + "\n";
+		s += this.transaction_date + "\n";
+		s += this.transaction_amount + "\n";
+		s += this.ending_balance + "\n";
 		s += "}";
 
 		return s;

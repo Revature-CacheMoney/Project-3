@@ -69,7 +69,4 @@ public class TransactionController {
 	public void deleteTransactionById(@PathVariable Integer id) {
 		transactionRepository.deleteById(id);
 	}
-	
-
-	
 }
