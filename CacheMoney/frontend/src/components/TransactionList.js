@@ -13,11 +13,23 @@ function TransactionList(props) {
     // url
     const url = "http://localhost:8080/";
 
+    // default props
+    TransactionList.defaultProps = {
+        /**
+         * Expected values:
+         *   NONE
+         *   CREDIT
+         *   DEBIT
+         */
+        filterBy: "NONE"
+    }
+
     // effect hook
     useEffect(() => {
         getAllTransactions();
     }, [])
 
+    // retrieve all transactions based on user's account's id
     const getAllTransactions = () => {
         //TODO path uri due to change
         axios.get(`${url}accounts/transactions/${store.getState().currentAccountId}`)
@@ -28,29 +40,47 @@ function TransactionList(props) {
             .catch(error => console.error(`Error: ${error}`));
     }
 
-    const content = transactions.map(
-        (transaction) => {
-            return (
-                <tr>
-                    <th id="header_date">Date</th>
-                    <th id="header_description">Description</th>
-                    <th id="header_amount">Debit/Credit</th>
-                    <th id="header_balance">Balance</th>
-                </tr>
-            );
-        }
-    );
+    // map transactions from local state based on store
+    const content = transactions
+        .filter(transaction => {
+            if (props.filterBy === "NONE") {
+                return true;
+            }
+            else if (props.filterBy === "CREDIT") {
+                return transaction.transaction_amount > 0;
+            }
+            else if (props.filterBy === "DEBIT") {
+                return transaction.transaction_amount < 0;
+            }
+            else {
+                console.error("Invalid amount filter!");
+                return false;
+            }
+        })
+        .map(
+            (transaction) => {
+                return (
+                    <tr>
+                        <td>{transaction.transaction_date}</td>
+                        <td>{transaction.description}</td>
+                        <td>{transaction.transaction_amount}</td>
+                        <td>{transaction.ending_balance}</td>
+                    </tr>
+                );
+            }
+        );
 
+    // the html stuff
     return (
         <>
             <div className="transaction_container">
                 <table className="transaction_table">
                     <thead>
                         <tr>
-                            <th>Date</th>
-                            <th>Description</th>
-                            <th>Debit/Credit</th>
-                            <th>Balance</th>
+                            <th id="header_date">Date</th>
+                            <th id="header_description">Description</th>
+                            <th id="header_amount">Debit/Credit</th>
+                            <th id="header_balance">Balance</th>
                         </tr>
                     </thead>
                     {content}
