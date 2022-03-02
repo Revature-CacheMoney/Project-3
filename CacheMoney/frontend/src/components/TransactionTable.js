@@ -63,7 +63,7 @@ function TransactionTable(props) {
         .map(
             (transaction) => {
                 return (
-                    <tr>
+                    <tr key={transaction.transaction_id}>
                         <td>{transaction.transaction_date}</td>
                         <td>{transaction.description}</td>
                         <td>{transaction.transaction_amount}</td>
@@ -82,11 +82,13 @@ function TransactionTable(props) {
                         <tr>
                             <th id="header_date">Date</th>
                             <th id="header_description">Description</th>
-                            <th id="header_amount">Debit/Credit</th>
+                            <th id="header_amount">Credit/Debit</th>
                             <th id="header_balance">Balance</th>
                         </tr>
                     </thead>
-                    {content}
+                    <tbody>
+                        {content}
+                    </tbody>
                 </table>
             </div>
         </>
