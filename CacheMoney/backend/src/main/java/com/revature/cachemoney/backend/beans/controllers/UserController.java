@@ -35,7 +35,7 @@ public class UserController {
     }
 
     // GET all users
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value = "/allusers", method = RequestMethod.GET)
     public List<User> getAllUsers(){
        return userRepository.findAll();
     }
