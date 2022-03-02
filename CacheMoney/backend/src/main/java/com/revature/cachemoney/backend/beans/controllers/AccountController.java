@@ -17,7 +17,7 @@ public class AccountController {
 	/**
 	 * Retrieve access to the ItineraryRepository from Spring.
 	 * 
-	 * @param itineraryRepository
+	 * @param accountRepository
 	 */
 	@Autowired
 	public AccountController(AccountRepo accountRepository) {
