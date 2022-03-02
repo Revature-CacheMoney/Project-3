@@ -19,16 +19,6 @@ function MainPageView(props) {
 
 //     console.log(accountPreview);
 
-<<<<<<< HEAD
-	return (
-		<div id="main-page-container">
-			<div className="headerContainer">
-				<h1> Account </h1>
-				<hr />
-=======
-//     //we want the component so we use the self closing tag for Account
-//   }
->>>>>>> donald
 
   return (
     <div id="main-page">
