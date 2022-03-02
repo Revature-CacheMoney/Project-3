@@ -12,13 +12,14 @@ function RegisterView() {
 
 		if (p1 === p2) {
 			const info = {
-				firstname: document.getElementById("firstname"),
-				lastname: document.getElementById("lastname"),
+				firstname: document.getElementById("first_name"),
+				lastname: document.getElementById("last_name"),
 				email: document.getElementById("email"),
 				username: document.getElementById("username"),
 				password: document.getElementById("password"),
 			};
 			// submit stuff
+			// if successful - a string is returned? (as of 3/2)
 		} else {
 			alert("Sorry, your passwords do not match.");
 		}
