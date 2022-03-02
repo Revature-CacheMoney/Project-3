@@ -38,6 +38,8 @@ public class User {
 	@Column(name = "password", nullable = false)
 	private String password;
 
+
+
 	@Column(name = "accounts")
 	@OneToMany
 	private List<Account> accounts = new LinkedList<>();
