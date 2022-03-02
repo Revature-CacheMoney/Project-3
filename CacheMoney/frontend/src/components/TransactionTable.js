@@ -21,7 +21,7 @@ function TransactionTable(props) {
          *   CREDIT
          *   DEBIT
          */
-        filterBy: "NONE"
+        filter: "NONE"
     }
 
     // effect hook
@@ -43,13 +43,13 @@ function TransactionTable(props) {
     // map transactions from local state based on store
     const content = transactions
         .filter(transaction => {
-            if (props.filterBy === "NONE") {
+            if (props.filter === "NONE") {
                 return true;
             }
-            else if (props.filterBy === "CREDIT") {
+            else if (props.filter === "CREDIT") {
                 return transaction.transaction_amount > 0;
             }
-            else if (props.filterBy === "DEBIT") {
+            else if (props.filter === "DEBIT") {
                 return transaction.transaction_amount < 0;
             }
             else {
