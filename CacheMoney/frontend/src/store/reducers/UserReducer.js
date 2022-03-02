@@ -1,3 +1,7 @@
+/**
+ * @Author Cody Gonsowski, Jeffrey Lor
+ */
+
 const initialState = {
     userId: "",
     username: "",

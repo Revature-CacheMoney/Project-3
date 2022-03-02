@@ -1,5 +1,10 @@
-import { useEffect, useState } from "react";
+/**
+ * @Author Cody Gonsowski, Jeffrey Lor
+ */
+
+import { useEffect, useState } from 'react';
 import axios from 'axios';
+import store from '../store/Store';
 
 function TransactionList(props) {
     // local transaction state
@@ -13,9 +18,9 @@ function TransactionList(props) {
         getAllTransactions();
     }, [])
 
-    //TODO need to consider user id somewhere
     const getAllTransactions = () => {
-        axios.get(`${url}transactions`)
+        //TODO path uri due to change
+        axios.get(`${url}accounts/transactions/${store.getState().currentAccountId}`)
             .then((response) => {
                 const allTransactions = response.data;
                 getTransactions(allTransactions);
@@ -27,10 +32,10 @@ function TransactionList(props) {
         (transaction) => {
             return (
                 <tr>
-                    <td>{transaction.transaction_date}</td>
-                    <td>{transaction.description}</td>
-                    <td>{transaction.transaction_amount}</td>
-                    <td>{transaction.ending_balance}</td>
+                    <th id="header_date">Date</th>
+                    <th id="header_description">Description</th>
+                    <th id="header_amount">Debit/Credit</th>
+                    <th id="header_balance">Balance</th>
                 </tr>
             );
         }
