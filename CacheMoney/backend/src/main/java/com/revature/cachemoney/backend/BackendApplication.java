@@ -28,14 +28,15 @@ public class BackendApplication {
 		AccountRepo acctRepository = context.getBean(AccountRepo.class);
 		TransactionRepo trnsRepository = context.getBean(TransactionRepo.class);
 		//User_AccountRepo userAcctRepository = context.getBean(User_AccountRepo.class);
-		
+
+
 		User newUser = new User("steve", "steve", "steve@steve.steve", "steve", "steve");
 		Account newAccount = new Account("CHECKING");
 		newAccount.setBalance(8080.21f);
-		userRepository.save(newUser);
+//		userRepository.save(newUser);
 		acctRepository.save(newAccount);
 		newUser.addAccount(newAccount);
-		userRepository.save(newUser);
+//		userRepository.save(newUser);
 		
 		ArrayList<User> L = (ArrayList<User>) userRepository.findAll();
 
