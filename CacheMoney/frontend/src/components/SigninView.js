@@ -14,7 +14,7 @@ function SigninView() {
   
 // Not tested or implemented yet.  Endpoint is probably incorrect.
 async function verifyCredentials(credentials) {
-	const apiEndpoint = "http://localhost:8080/users/login";
+	const apiEndpoint = "http://localhost:8080/users/";
 
 	const exampleRequestData = {
 		username: "someusername",
@@ -25,7 +25,7 @@ async function verifyCredentials(credentials) {
 	let stuff;
 	try {
 		let promise = await fetch(apiEndpoint, {
-			method: "POST",
+			method: "GET",
 			body: JSON.stringify(credentials),
 			headers: {
 				"Content-Type": "application/json",
