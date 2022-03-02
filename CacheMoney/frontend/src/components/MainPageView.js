@@ -1,10 +1,19 @@
 import React, { useState } from "react";
 import AccountsView from "./Account/AccountsView";
+import Navigation from "./TestNav";
 
 function MainPageView(props) {
   //let accountPreview = [];
-  let [accountPreview, setAccountPreview] = useState([]);
+//   let [accountPreview, setAccountPreview] = useState([]);
+  let [accountPreview, setAccountPreview] = useState(["Checking", "Savings", "California Move Stash", "Wu-tang"]);
 
+  let showAccountPreview = accountPreview.map((account) => {
+	  return account;
+  })
+
+//   for (let i = 0; i < accountPreview.length; i++){
+// 	  return accountPreview[i];
+//   }
 //   for (let i = 0; i < 5; i++) {
 //     accountPreview.push(<AccountsView key={"account" + i} />);
 
@@ -16,12 +25,14 @@ function MainPageView(props) {
   return (
     <div id="main-page">
       <div className="headerContainer">
-        <h1> Account </h1>
+		  <Navigation />
+        <h1> Accounts </h1>
         <hr />
 
         <h2> CACHE FINANCE</h2>
 
-        {accountPreview}
+        {showAccountPreview}
+		{/* {accountPreview} */}
 
         <hr />
 
