@@ -28,6 +28,8 @@ public interface UserRepo extends JpaRepository<User, Integer> {
      * @return a User object associated with email
      */
     Optional<User> findByEmail(String email);
+
+    Optional<User> findByUsername(String username);
     
 
 	
