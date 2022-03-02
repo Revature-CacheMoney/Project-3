@@ -1,63 +1,67 @@
 import React, { useState } from "react";
 import userStore from "../store/Store.js";
-import { createBrowserHistory } from "history";
-import { Link } from "react-router-dom";
+//import { createBrowserHistory } from "history";
+import { Link, useNaviagate } from "react-router-dom";
 
 // The Signin component is the login form the user sees after pressing the "sign in" button.
 // An API call should be made to test for successful login credentials.
 // The user's info (partial) should be persisted throughout the app.
 function SigninView() {
-
+	const navigate = useNavigate();
   // Test stuff .
   let [input, setInput] = useState([""]);
 
-  
-// Not tested or implemented yet.  Endpoint is probably incorrect.
-async function verifyCredentials(credentials) {
-	const apiEndpoint = "http://localhost:8080/users/";
+  // Not tested or implemented yet.  Endpoint is probably incorrect.
+  async function verifyCredentials(credentials) {
+    const apiEndpoint = "http://localhost:8080/users/";
 
-	const exampleRequestData = {
-		username: "someusername",
-		password: "password",
-	};
-	// if id is null - failed login
+    const exampleRequestData = {
+      username: "someusername",
+      password: "password",
+    };
+    // if id is null - failed login
 
-	let stuff;
-	try {
-		let promise = await fetch(apiEndpoint, {
-			method: "GET",
-			body: JSON.stringify(credentials),
-			headers: {
-				"Content-Type": "application/json",
-			},
-		})
-			.then((response) => response.json())
-			.then((result) => (stuff = result));
-	} catch (error) {
-		console.log("Error: \n" + error);
-		//console.log("Response: \n" + response);
-	}
-	console.log("raw result: ", stuff);
+    let stuff;
+    try {
+      let promise = await fetch(apiEndpoint, {
+        method: "GET",
+        body: JSON.stringify(credentials),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => response.json())
+        .then((result) => (stuff = result));
+    } catch (error) {
+      console.log("Error: \n" + error);
+      //console.log("Response: \n" + response);
+    }
+    console.log("raw result: ", stuff);
 
-	if (stuff.result == true) {
-		console.log("signing in was a success!");
-		doLoginToMain();
-	} else {
-		console.log("Wrong user ID and password!");
-	}
-}
+    if (stuff.result == true) {
+      console.log("signing in was a success!");
+      doLoginToMain();
+    } else {
+      console.log("Wrong user ID and password!");
+    }
+  }
 
-function doLoginToMain() {
-	// pushing new url to react-router's history
-	let history = createBrowserHistory();
-	history.listen((location, action) => {
-		// this is called whenever new locations come in
-		// the action is POP, PUSH, or REPLACE
-		//this.props.history.push('/posts/');
-		history.push("/main");
-	});
-	console.log("history", history);
-}
+  const doLoginToMain = () => {
+    // let history = useHistory ();
+	navigate("/main");
+  };
+
+//   function doLoginToMain() {
+//   	// pushing new url to react-router's history
+//   	let history = createBrowserHistory();
+//   	history.listen((location, action) => {
+//   		// this is called whenever new locations come in
+//   		// the action is POP, PUSH, or REPLACE
+//   		//this.props.history.push('/posts/');
+//   		history.push("/main");
+//   	});
+//   	console.log("history", history);
+//   }
 
   return (
     <div id="signin-container">
@@ -81,8 +85,7 @@ function doLoginToMain() {
 
 export default SigninView;
 
-
-  // This grabs the user's input from the form.
+// This grabs the user's input from the form.
 //   const login = (event) => {
 //     event.preventDefault();
 //     const username = document.getElementById("username");

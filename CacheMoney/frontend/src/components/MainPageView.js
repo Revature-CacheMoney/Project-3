@@ -14,25 +14,17 @@ function MainPageView(props) {
 	]);
 
 	// this will render a bunch of account objects
-	for (let i = 0; i < 5; i++) {
-		accountPreview.push(<AccountObject key={"account" + i} />);
-	}
+	// for (let i = 0; i < 5; i++) {
+	// 	accountPreview.push(<AccountObject key={"account" + i} />);
+	// }
 
 	// This displays a list of account names
 	let showAccountPreview = accountPreview.map((account) => {
-		return <li className="list-accounts">{account}</li>;
+		return <li key="main-page-account-info" className="list-accounts">{account}</li>;
 	});
 
-	//   for (let i = 0; i < accountPreview.length; i++){
-	// 	  return accountPreview[i];
-	//   }
-	//   for (let i = 0; i < 5; i++) {
-	//     accountPreview.push(<AccountsView key={"account" + i} />);
-
-	//     console.log(accountPreview);
-
 	return (
-		<div id="main-page">
+		<div id="main-page-container">
 			<div className="headerContainer">
 				<Navigation />
 				<h1> Accounts </h1>
@@ -44,7 +36,7 @@ function MainPageView(props) {
 				{/* {accountPreview} */}
 
 				<h2> CACHE RECREATION</h2>
-				<AccountObject />
+				{/* <AccountObject /> */}
 				<hr />
 			</div>
 		</div>
