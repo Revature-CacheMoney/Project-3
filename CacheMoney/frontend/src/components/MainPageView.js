@@ -5,13 +5,13 @@ function MainPageView(props) {
   //let accountPreview = [];
   let [accountPreview, setAccountPreview] = useState([]);
 
-  for (let i = 0; i < 5; i++) {
-    accountPreview.push(<AccountsView key={"account" + i} />);
+//   for (let i = 0; i < 5; i++) {
+//     accountPreview.push(<AccountsView key={"account" + i} />);
 
-    console.log(accountPreview);
+//     console.log(accountPreview);
 
-    //we want the component so we use the self closing tag for Account
-  }
+//     //we want the component so we use the self closing tag for Account
+//   }
 
   return (
     <div id="main-page">
