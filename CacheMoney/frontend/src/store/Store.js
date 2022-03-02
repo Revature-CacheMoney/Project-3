@@ -1,8 +1,14 @@
+/**
+ * @Author Cody Gonsowski, Jeffrey Lor
+ */
 
-import { createStore } from 'redux';
-import reducer from './reducers/UserReducer';
+import { combineReducers, createStore } from 'redux';
+import userReducer from './reducers/UserReducer';
+import accountReducer from './reducers/AccountReducer';
 
 
-const userStore = createStore(reducer);
+// const userStore = createStore(userReducer);
+// const accountStore = createStore(accountReducer);
+const store = createStore(combineReducers({ userReducer, accountReducer }));
 
-export default userStore;
+export default store;

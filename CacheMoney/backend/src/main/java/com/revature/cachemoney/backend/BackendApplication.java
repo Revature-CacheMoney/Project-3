@@ -18,6 +18,10 @@ import com.revature.cachemoney.backend.beans.utils.ApplicationContextProvider;
 @SpringBootApplication(scanBasePackages = "com.revature.cachemoney.backend.beans")
 public class BackendApplication {
 
+	public static UserRepo userRepository;
+	public static AccountRepo acctRepository;
+	public static TransactionRepo trnsRepository;
+
 	public static void main(String[] args) {
 		Log("------------->>>");
 		SpringApplication.run(BackendApplication.class, args);
@@ -29,4 +33,3 @@ public class BackendApplication {
 		TransactionRepo trnsRepository = context.getBean(TransactionRepo.class);
   }
 }
-

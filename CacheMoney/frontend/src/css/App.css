@@ -6,11 +6,25 @@ Light Green: 6c896a;
 "Black": 4c4c4b;
 */
 
+/* Note for more specific views: make a container div and style that instead */
+/* Naming conventions - try to make it detailed/consistent to prevent duplicate entries
+(ex. account-container, account-button, account-link)
+
+
+/* Use this for all the general element tags, or things affecting the whole application */
 body {
-	background-color: #3d703a;
 	margin: 0px;
 	width: 100%;
 	height: 100%;
+	background-color: #3d703a;
+
+	background-position: center;
+	background-size: cover;
+	background-repeat: no-repeat;
+	color: #ffffff;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
 }
 
 html {
@@ -18,3 +32,139 @@ html {
 	font-family: "Arial";
 	height: 100%;
 }
+
+button {
+	width: 200px;
+	height: 50px;
+	border-radius: 10px;
+	background-color: #ffffff;
+	box-shadow: -5px 5px 0px 1px #d3a940;
+	color: #3e4f3d;
+	font-size: 2em;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+a {
+	color: #d3a940;
+}
+
+h1 {
+	font-family: "Cinzel", serif;
+	font-size: 8em;
+	text-shadow: -2px 4px 0px #d3a940;
+	margin: auto;
+}
+
+#main-page-container,
+#account-container {
+	background-color: #3d703a;
+	width: 50%;
+	height: 100%;
+	margin: auto;
+	text-align: center;
+}
+
+/* RegisterView */
+#register-page-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	width: 50%;
+	background-color: #3d703a;
+	padding: 30px;
+	border-radius: 20px;
+}
+
+#register {
+	font-size: 3em; /* ~36px */
+}
+
+.password-error {
+	border: 1px solid red;
+}
+
+.password-ok {
+	border: 1px solid black;
+}
+
+/* Signin view */
+#signin-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	width: 50%;
+	background-color: #3d703a;
+	padding: 30px;
+	border-radius: 20px;
+}
+
+/* Splash View */
+
+#splash-outer-container {
+	width: 100%;
+	height: 100%;
+	background-image: url("../image/Background_image-01.png");
+}
+
+#splash-container {
+	width: 100%;
+	max-height: 50%;
+	background-color: #3d703a;
+	min-height: 40vh;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	margin-left: 0;
+	margin-right: 0;
+	margin-top: auto;
+	margin-bottom: auto;
+	padding-left: 30px;
+	padding-right: 30px;
+	box-sizing: border-box;
+}
+
+#splash-right {
+	padding: 30px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	height: 100%;
+}
+
+#welcome {
+	font-size: 4em; /* ~48px */
+}
+
+
+/* FOOTER STUFF */
+
+* {
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.column {
+  float: left;
+  width: 15%;
+  padding: 20px;
+  height: 300px; 
+}
+
+.row {
+	width: 100%;
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	display: flex; 
+	justify-content: center; 
+}
+
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* END FOOTER STUFF */

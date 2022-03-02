@@ -1,9 +1,8 @@
 import React from "react";
-import "../css/Register.css";
 
 // The registrration component handles the registration form for new users.
 // The info is persisted in the database and locally (partial).
-function Register() {
+function RegisterView() {
 	const handleSubmit = (event) => {
 		event.preventDefault();
 
@@ -13,13 +12,14 @@ function Register() {
 
 		if (p1 === p2) {
 			const info = {
-				firstname: document.getElementById("firstname"),
-				lastname: document.getElementById("lastname"),
+				firstname: document.getElementById("first_name"),
+				lastname: document.getElementById("last_name"),
 				email: document.getElementById("email"),
 				username: document.getElementById("username"),
 				password: document.getElementById("password"),
 			};
 			// submit stuff
+			// if successful - a string is returned? (as of 3/2)
 		} else {
 			alert("Sorry, your passwords do not match.");
 		}
@@ -51,7 +51,7 @@ function Register() {
 	};
 
 	return (
-		<div id="register-page">
+		<div id="register-page-container">
 			<label htmlFor="firstname">First name:</label>
 			<input type="text" name="firstname" id="firstname" />
 			<label htmlFor="lastname">Last name:</label>
@@ -81,4 +81,4 @@ function Register() {
 	);
 }
 
-export default Register;
+export default RegisterView;

@@ -23,6 +23,11 @@ import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatc
 import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.ignoreCase;
 
 
+import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.caseSensitive;
+import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.ignoreCase;
+
+
+
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -89,13 +94,6 @@ public class UserController {
     	System.out.println(email + "<<<<<");
         return userRepository.findByEmail(email);
     }
-    
- // users/username?username={username}&password = {password}
- 	@GetMapping(value = "/login")
- 	public Optional<User> getUserLogin(@RequestParam String email) {
- 		System.out.println(email + "<<<<<");
- 		return userRepository.findByEmail(email);
- 	}
 
     /**
      * GET a User by email.
