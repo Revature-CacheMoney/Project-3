@@ -8,7 +8,7 @@ function MainPageView(props) {
   let [accountPreview, setAccountPreview] = useState(["Checking", "Savings", "California Move Stash", "Wu-tang"]);
 
   let showAccountPreview = accountPreview.map((account) => {
-	  return account;
+	  return (<li className="list-accounts">{account}</li>);
   })
 
 //   for (let i = 0; i < accountPreview.length; i++){

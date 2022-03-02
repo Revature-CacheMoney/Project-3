@@ -10,152 +10,165 @@ Light Green: 6c896a;
 /* More specific views: make a container div and style that instead */
 
 body {
-	margin: 0px;
-	width: 100%;
-	height: 100%;
-	background-color: #3d703a;
-	background-image: url("../image/Background_image-01.png");
-	background-position: center;
-	background-size: cover;
-	background-repeat: no-repeat;
-	color: #ffffff;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-around;
-	/* background-color: blue; */
+  margin: 0px;
+  width: 100%;
+  height: 100%;
+  background-color: #3d703a;
+  background-image: url("../image/Background_image-01.png");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  /* background-color: blue; */
 }
 
 html {
-	font-size: 12px;
-	font-family: "Arial";
-	height: 100%;
+  font-size: 12px;
+  font-family: "Arial";
+  height: 100%;
 }
 
 button {
-	width: 200px;
-	height: 50px;
-	border-radius: 10px;
-	background-color: #ffffff;
-	box-shadow: -5px 5px 0px 1px #d3a940;
-	color: #3e4f3d;
-	font-size: 2em;
-	margin-top: 10px;
-	margin-bottom: 10px;
+  width: 200px;
+  height: 50px;
+  border-radius: 10px;
+  background-color: #ffffff;
+  box-shadow: -5px 5px 0px 1px #d3a940;
+  color: #3e4f3d;
+  font-size: 2em;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 a {
-	color: #d3a940;
+  color: #d3a940;
 }
 
 h1 {
-	font-family: "Cinzel", serif;
-	font-size: 8em;
-	text-shadow: -2px 4px 0px #d3a940;
-	margin: auto;
+  font-family: "Cinzel", serif;
+  font-size: 8em;
+  text-shadow: -2px 4px 0px #d3a940;
+  margin: auto;
 }
 
 #main-page,
 #account-container {
-	background-color: #3d703a;
-	width: 50%;
-	height: 100%;
-	margin: auto;
-	text-align: center;
+  background-color: #3d703a;
+  width: 50%;
+  height: 100%;
+  margin: auto;
+  text-align: center;
+}
+
+.list-accounts {
+  list-style-type: none;
 }
 
 /* RegisterView */
 #register-page {
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	width: 50%;
-	background-color: #3d703a;
-	padding: 30px;
-	border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 50%;
+  background-color: #3d703a;
+  padding: 30px;
+  border-radius: 20px;
 }
 
 .password-error {
-	border: 1px solid red;
+  border: 1px solid red;
 }
 
 .password-ok {
-	border: 1px solid black;
+  border: 1px solid black;
 }
 
 /* Signin view */
 #signin {
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	width: 50%;
-	background-color: #3d703a;
-	padding: 30px;
-	border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 50%;
+  background-color: #3d703a;
+  padding: 30px;
+  border-radius: 20px;
 }
 
 /* Splash View */
 
 #splash-outer-container {
-	width: 100%;
-	height: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 #splash-container {
-	width: 100%;
-	background-color: #3d703a;
-	min-height: 40vh;
-	display: flex;
-	flex-direction: row;
-	justify-content: space-around;
-	margin-left: 0;
-	margin-right: 0;
-	margin-top: auto;
-	margin-bottom: auto;
-	padding-left: 30px;
-	padding-right: 30px;
-	box-sizing: border-box;
+  width: 100%;
+  background-color: #3d703a;
+  min-height: 40vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin-left: 0;
+  margin-right: 0;
+  margin-top: auto;
+  margin-bottom: auto;
+  padding-left: 30px;
+  padding-right: 30px;
+  box-sizing: border-box;
 }
 
 #splash-right {
-	padding: 30px;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	height: 100%;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
 }
 
 #welcome {
-	font-size: 4em; /* ~48px */
+  font-size: 4em; /* ~48px */
 }
 
 #register {
-	font-size: 3em; /* ~36px */
+  font-size: 3em; /* ~36px */
 }
 
 
+.nav-bar {
+  color: black;
+}
 
-
-
-
-
-
-
-
-
-.nav-bar{
+.breadcrumb {
+  list-style-type: none;
+  width: 50%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+.breadcrumb-item{
+	display: inline;
+}
+.breadcrumb-item > a{
+	text-decoration: none;
 	color: black;
 }
+
 #top {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 999;
-    width: 100%;
-    height: 23px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  width: 100%;
+  height: 23px;
 }
-.account-type-container{
-	color: black;
+
+.account-type-container {
+  color: black;
 }
-.transfer-container{
-	color: black;
+.transfer-container {
+  color: black;
 }

@@ -5,7 +5,7 @@ function Navigation() {
     <>
      <div id="top">
      <div className="nav-bar">
-        <p>Breadcrumb</p>
+    
         <nav aria-label="breadcrumb">
           <ul className="breadcrumb">
             <li className="breadcrumb-item">
