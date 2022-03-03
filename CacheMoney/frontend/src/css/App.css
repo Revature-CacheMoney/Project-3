@@ -1,7 +1,7 @@
 /*Colors Used: 
 Gold: d3a940;
 MoneyGreen: 3d703a;
-Dark Green: 3e4f3d;  // shadows under navbad
+Dark Green: 3e4f3d;  // shadows under navbar
 Light Green: 6c896a;
 "Black": 4c4c4b;
 */
@@ -16,15 +16,32 @@ body {
 	margin: 0px;
 	width: 100%;
 	height: 100%;
-	background-color: #3d703a;
-
-	background-position: center;
-	background-size: cover;
-	background-repeat: no-repeat;
+	/*background-color: #3d703a; */
 	color: #ffffff;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
+}
+
+/* Generic button for any button - note that colors change on diff views */
+button,
+input[type="submit"] {
+	width: 200px;
+	height: 60px;
+	border: 0px;
+	border-radius: 10px;
+	font-size: 2.5rem;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	font-weight: bold;
+}
+
+.container-view {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
 }
 
 html {
@@ -33,39 +50,42 @@ html {
 	height: 100%;
 }
 
-button {
-	width: 200px;
-	height: 50px;
-	border-radius: 10px;
-	background-color: #ffffff;
-	box-shadow: -5px 5px 0px 1px #d3a940;
-	color: #3e4f3d;
-	font-size: 2em;
-	margin-top: 10px;
-	margin-bottom: 10px;
-}
-
 a {
 	color: #d3a940;
 }
 
-h1 {
+.logo-bigger {
 	font-family: "Cinzel", serif;
 	font-size: 8em;
 	text-shadow: -2px 4px 0px #d3a940;
 	margin: auto;
 }
 
-#main-page-container,
-#account-container {
+.logo-smaller {
+	font-family: "Cinzel", serif;
+	font-size: 4em;
+	/* text-shadow: -2px 4px 0px #d3a940; */
+	margin: 0px;
+}
+
+.subheader-centered {
+	text-align: center;
+	padding: 0;
+}
+
+/* "Main" views - MainPageView, AccountsView, TransferView */
+.main-container-content {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
 	background-color: #3d703a;
-	width: 50%;
+	width: 80%;
 	height: 100%;
 	margin: auto;
-	text-align: center;
 }
 
 /* RegisterView */
+/*
 #register-page-container {
 	display: flex;
 	flex-direction: column;
@@ -74,7 +94,7 @@ h1 {
 	background-color: #3d703a;
 	padding: 30px;
 	border-radius: 20px;
-}
+} */
 
 #register {
 	font-size: 3em; /* ~36px */
@@ -88,40 +108,144 @@ h1 {
 	border: 1px solid black;
 }
 
-/* Signin view */
-#signin-container {
+/* Login views - Signin and Registration */
+.login-outer-container {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	background-image: url("../image/CacheMoney_MoneyBackground_Smaller.png");
+	background-position: center;
+	background-size: cover;
+	background-repeat: no-repeat;
+}
+
+.login-inner-container {
+	display: flex;
+	width: 60%;
+	height: 100%;
+	margin-left: auto;
+	margin-right: auto;
+	flex-direction: column;
+	justify-content: center;
+	column-gap: 0px;
+	background-color: #3d703a;
+}
+
+/* contains the cachemoney header and white-box */
+.login-content-box {
+	margin-left: auto;
+	margin-right: auto;
+	margin: auto;
+	width: 80%;
+}
+
+.login-white-box {
+	min-height: 500px;
+	height: fit-content;
+	margin-left: auto;
+	margin-right: auto;
+	font-size: 3em;
+	color: #3d703a;
+	padding: 30px;
+	background-color: #ffffff;
+	border-radius: 20px;
 	display: flex;
 	flex-direction: column;
-	justify-content: space-between;
-	width: 50%;
-	background-color: #3d703a;
-	padding: 30px;
-	border-radius: 20px;
 }
+
+.login-white-box-column {
+	max-width: 600px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	row-gap: 5px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.login-outer-container button,
+.login-outer-container input[type="submit"] {
+	background-color: #d3a940;
+	color: #ffffff;
+	width: 100%;
+	font-size: 2.5rem;
+	box-shadow: none;
+}
+
+.login-outer-container input[type="text"] {
+	border: 2px solid #3d703a;
+	width: 100%;
+	height: 5vh;
+	box-shadow: -4px 4px 0px #6c896a;
+}
+
+/* Registration needs some special overrides - leave this as is */
+#register-white-box {
+	font-size: 2rem;
+	row-gap: 5px;
+}
+
+#registration-name-boxes {
+	display: grid;
+	grid-template-areas:
+		"labelL labelR"
+		"boxL boxR";
+	grid-template-columns: 50% 50%;
+	row-gap: 10px;
+	column-gap: 10px;
+}
+
+#registration-name-boxes input[type="text"] {
+	width: calc(100% - 10px);
+}
+
+#label-L {
+	grid-area: labelL;
+}
+
+#label-R {
+	grid-area: labelR;
+}
+
+#firstname {
+	grid-area: boxL;
+}
+
+#lastname {
+	grid-area: boxR;
+}
+
+/* this may get used by more than the registration page */
+.detail-text {
+	font-size: 1rem;
+	display: inline;
+}
+
+/* Signin view end */
 
 /* Splash View */
 
 #splash-outer-container {
-	width: 100%;
-	height: 100%;
 	background-image: url("../image/Background_image-01.png");
+	background-position: center;
+	background-size: cover;
+	background-repeat: no-repeat;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 }
 
-#splash-container {
+#splash-inner-container {
 	width: 100%;
-	max-height: 50%;
+	height: 40vh;
 	background-color: #3d703a;
-	min-height: 40vh;
 	display: flex;
 	flex-direction: row;
 	justify-content: space-around;
-	margin-left: 0;
-	margin-right: 0;
-	margin-top: auto;
-	margin-bottom: auto;
 	padding-left: 30px;
 	padding-right: 30px;
 	box-sizing: border-box;
+	text-align: center;
 }
 
 #splash-right {
@@ -132,39 +256,120 @@ h1 {
 	height: 100%;
 }
 
+/* select any button on splash screen*/
+#splash-outer-container button,
+input[type="submit"] {
+	width: 200px;
+	height: 50px;
+	border-radius: 10px;
+	background-color: #ffffff;
+	box-shadow: -5px 5px 0px 1px #d3a940;
+	color: #3e4f3d;
+	font-size: 2em;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
 #welcome {
 	font-size: 4em; /* ~48px */
 }
 
-
 /* FOOTER STUFF */
 
-* {
-  box-sizing: border-box;
-  width: 100%;
+.footer {
+	box-sizing: border-box;
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
 }
 
 .column {
-  float: left;
-  width: 15%;
-  padding: 20px;
-  height: 300px; 
+	float: left;
+	width: 15%;
+	padding: 20px;
 }
 
-.row {
-	width: 100%;
-	position: fixed;
-	left: 0;
-	bottom: 0;
-	width: 100%;
-	display: flex; 
-	justify-content: center; 
+.column > img {
+	max-width: 200px;
+	margin-bottom: 0;
 }
 
 .row:after {
-  content: "";
-  display: table;
-  clear: both;
+	content: "";
+	display: table;
+	clear: both;
 }
 
 /* END FOOTER STUFF */
+
+/* Navbar */
+
+.nav-bar {
+	color: black;
+}
+
+.breadcrumb {
+	list-style-type: none;
+	width: 50%;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+}
+.breadcrumb-item {
+	display: inline;
+}
+.breadcrumb-item > a {
+	text-decoration: none;
+	color: black;
+}
+
+#top {
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 999;
+	width: 100%;
+	height: 23px;
+}
+
+.account-type-container {
+	color: black;
+}
+.transfer-container {
+	color: black;
+}
+
+/* End navbar */
+
+/* Media queries for reactive views */
+@media only screen and (max-width: 600px) {
+	html {
+		font-size: 1vh;
+	}
+
+	#splash-inner-container {
+		box-sizing: border-box;
+		text-align: center;
+		flex-direction: column;
+	}
+
+	#splash-right {
+		padding: 0px;
+	}
+
+	button,
+	input[type="submit"] {
+		font-size: 3vh;
+	}
+
+	#registration-name-boxes {
+		display: flex;
+		flex-direction: column;
+	}
+
+	#registration-name-boxes input[type="text"] {
+		width: 100%;
+	}
+}

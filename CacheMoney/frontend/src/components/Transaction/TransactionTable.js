@@ -4,14 +4,14 @@
 
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import store from '../store/Store';
+import store from '../../store/Store';
 
 function TransactionTable(props) {
     // local transaction state
     const [transactions, getTransactions] = useState([]);
 
     // url
-    const url = "http://localhost:8080/";
+    const url = config.url;
 
     // default props
     TransactionTable.defaultProps = {
