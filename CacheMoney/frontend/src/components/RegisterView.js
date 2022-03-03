@@ -55,7 +55,7 @@ function RegisterView() {
 	function doRegistration() {
 		let responseData;
 		const url = "http://localhost:8080/";
-		axios.get(`${url}users/`)
+		axios.post(`${url}users/`)
 		.then((response) => {
 			responseData = response.data;
 			console.log(response);
