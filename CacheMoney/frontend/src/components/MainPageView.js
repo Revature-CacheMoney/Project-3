@@ -32,10 +32,12 @@ function MainPageView(props) {
 	}); */
 
 	return (
-		<div id="main-page-container">
+		<div className="container-view main-container-content">
 			<div className="headerContainer">
 				<Navigation />
-				<h1> Accounts </h1>
+			</div>
+			<div>
+				<h2> Accounts </h2>
 				<hr />
 
 				<h2> CACHE FINANCE</h2>

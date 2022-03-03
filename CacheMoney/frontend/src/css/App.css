@@ -54,14 +54,14 @@ a {
 	color: #d3a940;
 }
 
-h1 {
+.logo-bigger {
 	font-family: "Cinzel", serif;
 	font-size: 8em;
 	text-shadow: -2px 4px 0px #d3a940;
 	margin: auto;
 }
 
-h2 {
+.logo-smaller {
 	font-family: "Cinzel", serif;
 	font-size: 4em;
 	/* text-shadow: -2px 4px 0px #d3a940; */
@@ -73,13 +73,15 @@ h2 {
 	padding: 0;
 }
 
-#main-page-container,
-#account-container {
+/* "Main" views - MainPageView, AccountsView, TransferView */
+.main-container-content {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
 	background-color: #3d703a;
-	width: 50%;
+	width: 80%;
 	height: 100%;
 	margin: auto;
-	text-align: center;
 }
 
 /* RegisterView */
@@ -274,26 +276,23 @@ input[type="submit"] {
 
 /* FOOTER STUFF */
 
-* {
+.footer {
 	box-sizing: border-box;
 	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
 }
 
 .column {
 	float: left;
 	width: 15%;
 	padding: 20px;
-	height: 300px;
 }
 
-.row {
-	width: 100%;
-	position: fixed;
-	left: 0;
-	bottom: 0;
-	width: 100%;
-	display: flex;
-	justify-content: center;
+.column > img {
+	max-width: 200px;
+	margin-bottom: 0;
 }
 
 .row:after {

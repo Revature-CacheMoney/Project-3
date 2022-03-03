@@ -3,7 +3,7 @@ import footerLogo from "../image/logofooter.png";
 
 function Footer(props) {
 	return (
-		<div className="row">
+		<div className="footer row">
 			<div className="column">
 				<h2>Disclosures</h2>
 				<p>

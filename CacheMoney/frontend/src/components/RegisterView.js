@@ -54,7 +54,7 @@ function RegisterView() {
 		<div className="container-view login-outer-container">
 			<div className="login-inner-container">
 				<div className="login-content-box">
-					<h2 className="cachemoney-subheader">CacheMoney</h2>
+					<h2 className="logo-smaller">CacheMoney</h2>
 					<div id="register-white-box" className="login-white-box">
 						<div className="login-white-box-column">
 							<div id="registration-name-boxes">

@@ -70,7 +70,7 @@ function SigninView() {
 		<div className="container-view login-outer-container">
 			<div className="login-inner-container">
 				<div className="login-content-box">
-					<h2 className="cachemoney-subheader">CacheMoney</h2>
+					<h2 className="logo-smaller">CacheMoney</h2>
 					<div className="login-white-box">
 						<div className="login-white-box-column">
 							<p className="subheader-centered">
