@@ -1,3 +1,4 @@
+import axios from "axios";
 import React from "react";
 
 // The registrration component handles the registration form for new users.
@@ -7,8 +8,8 @@ function RegisterView() {
 		event.preventDefault();
 
 		// validate password
-		const p1 = document.getElementById("password");
-		const p2 = document.getElementById("password2");
+		const p1 = document.getElementById("password1").value;
+		const p2 = document.getElementById("password2").value;
 
 		if (p1 === p2) {
 			const info = {
@@ -19,6 +20,7 @@ function RegisterView() {
 				password: document.getElementById("password"),
 			};
 			// submit stuff
+			doRegistration();
 			// if successful - a string is returned? (as of 3/2)
 		} else {
 			alert("Sorry, your passwords do not match.");
@@ -49,6 +51,18 @@ function RegisterView() {
 			}
 		}
 	};
+
+	function doRegistration() {
+		let responseData;
+		const url = "http://localhost:8080/";
+		axios.post(`${url}users/`)
+		.then((response) => {
+			responseData = response.data;
+			console.log(response);
+		})
+		.catch(error => console.error(`Error: ${error}`));
+		console.log(responseData);
+	}
 
 	return (
 		<div className="container-view login-outer-container">
@@ -85,7 +99,6 @@ function RegisterView() {
 								name="password1"
 								id="password1"
 								className="password-box"
-								onBlur={checkPasswordEntry}
 							/>
 							<label htmlFor="password2">Confirm password:</label>
 							<input
@@ -93,9 +106,8 @@ function RegisterView() {
 								name="password2"
 								id="password2"
 								className="password-box"
-								onBlur={checkPasswordEntry}
 							/>
-							<input type="submit" value="Register" />
+							<input type="submit" value="Register" onClick={handleSubmit}/>
 						</div>
 					</div>
 				</div>
