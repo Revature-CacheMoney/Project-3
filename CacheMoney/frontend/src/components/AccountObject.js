@@ -1,5 +1,5 @@
 import React from "react";
-import Transaction from "./Transaction.js";
+import Transaction from "./Transaction/Transaction.js";
 import userStore from "../store/Store";
 
 function AccountObject(props) {
