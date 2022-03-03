@@ -6,6 +6,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import config from "../../config.js";
 import store from "../../store/Store.js";
+import "../../css/Account.css"
 
 function AccountsList(props) {
     // local transaction state
@@ -30,10 +31,21 @@ function AccountsList(props) {
 
     const content = accounts
         .map(
-            // TODO finish this
             (account) => {
                 return (
-                    <></>
+                    <>
+                        <div className="account_item">
+                            <div className="account_name">
+                                {accounts.name} {accounts.account_id}
+                            </div>
+                            <div className="account_type">
+                                {accounts.type}
+                            </div>
+                            <div className="account_balance">
+                                {accounts.balance}
+                            </div>
+                        </div>
+                    </>
                 )
             }
         )
