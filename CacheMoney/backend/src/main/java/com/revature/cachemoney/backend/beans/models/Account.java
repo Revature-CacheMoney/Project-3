@@ -31,10 +31,10 @@ public class Account {
 	@Column(name = "balance")
 	private float balance;
 
-	// @Column(name = "owner_id")
-	// private int owner_id;
-	// @Column(name = "owner")
-	// private User owner;
+	@Column(name = "name")
+	private String name;
+
+
 
 	@Column(name = "transactions")
 	@OneToMany

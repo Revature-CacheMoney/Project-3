@@ -4,16 +4,12 @@ import com.revature.cachemoney.backend.beans.models.User;
 import com.revature.cachemoney.backend.beans.repositories.UserRepo;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.RequestBuilder;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-
+import java.util.LinkedList;
+import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
@@ -22,21 +18,49 @@ import static org.mockito.Mockito.when;
 class UsersServiceTest {
 
     @Autowired
+    private UsersService usersService;
+    @MockBean
     private UserRepo userRepo;
 
     @Test
-    void getAllUsers() throws Exception {
-        UsersService usersService = new UsersService(userRepo);
-        assertEquals(1,usersService.getAllUsers().size());
+    void getAllUsers()  {
+        List<User> userList = new LinkedList<>();
+        for (int i = 0; i < 3; i++){
+            userList.add(new User("David"+i, "David"+i,
+                    "David"+i , "David"+i,  "David"+i));
+        }
+        // Check to see if we able to retrieve all users from database.
+        // We mock User reposistory to return the list that is created above.
+        // To test multiple scenarios, change size of list inside for loop
+        // and make sure it matches the expected value inside the assertEquals method call.
+        when(userRepo.findAll()).thenReturn(userList);
 
+        assertEquals(3,usersService.getAllUsers().size());
     }
 
     @Test
     void getUserById() {
+        // Check to see if we are able to successfully retrieve 1 user from database using user_id.
+        assertTrue(usersService.getUserById(1).isPresent());
+        // Check to see that a user is not retrieved with an incorrect user_id value.
+        assertFalse(usersService.getUserById(-1).isPresent());
     }
 
     @Test
     void postUser() {
+        // This test checks if user is succesffuly persisted into database because it has the right credentials
+        // the correct format.
+        User user = new User("John","smith", "newEmail@gmail.com", "abcd1234","jsmith123");
+        assertEquals("{ \"result\": true }", usersService.postUser(user));
+
+        // This checks if a field of value null can be persisted to database.
+        User userWithoutName = new User(null,"alvarado", "fake1@gmail.com", "abcd1234","nullName");
+        assertEquals("{ \"result\": false }", usersService.postUser(userWithoutName));
+
+        // This checks if a field of value empty string can be persisted to database.
+        User emptyStringName = new User("bella","alvarado", "", "abcd1234","noname78");
+        assertEquals("{ \"result\": false }", usersService.postUser(emptyStringName));
+
     }
 
     @Test
@@ -49,5 +73,22 @@ class UsersServiceTest {
 
     @Test
     void getUserByUsername() {
+        // Tests if fields other than username or password are required for successful login. (They are not required)
+        User inputUser1 = new User(null,null, null, "abcd1234","dalvarado12");
+        // This checks for successful login
+        User outputUser1 = new User("David","alvarado", "fake1234@gmail.com", "abcd1234","dalvarado12");
+        outputUser1.setUser_id(1);
+        assertEquals(outputUser1.toString(), usersService.getUserByUsername(inputUser1).toString());
+
+        // this checks for unsuccessful login,incorrect password.
+        User inputUser2 = new User(null, null, null, "abcd12345","dalvarado12");
+        User outputUser2 = new User(null, null, null, "abcd12345","dalvarado12");
+        assertEquals(outputUser2.toString(),usersService.getUserByUsername(inputUser2).toString());
+
+        // this checks for unsuccessful login, incorrect username.
+        User inputUser3 = new User(null, null, null, "abcd1234","dalvarado11");
+        User outputUser3 = new User(null, null, null, "abcd1234","dalvarado11");
+        assertEquals(outputUser3.toString(),usersService.getUserByUsername(inputUser3).toString());
+
     }
 }
