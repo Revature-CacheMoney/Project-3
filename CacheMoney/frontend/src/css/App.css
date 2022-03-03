@@ -183,6 +183,36 @@ h2 {
 	row-gap: 5px;
 }
 
+#registration-name-boxes {
+	display: grid;
+	grid-template-areas:
+		"labelL labelR"
+		"boxL boxR";
+	grid-template-columns: 50% 50%;
+	row-gap: 10px;
+	column-gap: 10px;
+}
+
+#registration-name-boxes input[type="text"] {
+	width: calc(100% - 10px);
+}
+
+#label-L {
+	grid-area: labelL;
+}
+
+#label-R {
+	grid-area: labelR;
+}
+
+#firstname {
+	grid-area: boxL;
+}
+
+#lastname {
+	grid-area: boxR;
+}
+
 /* this may get used by more than the registration page */
 .detail-text {
 	font-size: 1rem;
@@ -333,5 +363,14 @@ input[type="submit"] {
 	button,
 	input[type="submit"] {
 		font-size: 3vh;
+	}
+
+	#registration-name-boxes {
+		display: flex;
+		flex-direction: column;
+	}
+
+	#registration-name-boxes input[type="text"] {
+		width: 100%;
 	}
 }

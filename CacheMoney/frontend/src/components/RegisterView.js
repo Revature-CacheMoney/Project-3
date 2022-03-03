@@ -57,10 +57,16 @@ function RegisterView() {
 					<h2 className="cachemoney-subheader">CacheMoney</h2>
 					<div id="register-white-box" className="login-white-box">
 						<div className="login-white-box-column">
-							<label htmlFor="firstname">First name:</label>
-							<input type="text" name="firstname" id="firstname" />
-							<label htmlFor="lastname">Last name:</label>
-							<input type="text" name="lastname" id="lastname" />
+							<div id="registration-name-boxes">
+								<label htmlFor="firstname" id="label-L">
+									First name:
+								</label>
+								<input type="text" name="firstname" id="firstname" />
+								<label htmlFor="lastname" id="label-R">
+									Last name:
+								</label>
+								<input type="text" name="lastname" id="lastname" />
+							</div>
 							<label htmlFor="email">
 								Email:
 								<span className="detail-text">
