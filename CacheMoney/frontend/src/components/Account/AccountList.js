@@ -8,7 +8,7 @@ import config from "../../config.js";
 import store from "../../store/Store.js";
 import "../../css/Account.css"
 
-function AccountsList(props) {
+function AccountList(props) {
     // local transaction state
     const [accounts, getAccounts] = useState([]);
 
@@ -60,4 +60,4 @@ function AccountsList(props) {
     );
 }
 
-export default AccountsList;
+export default AccountList;

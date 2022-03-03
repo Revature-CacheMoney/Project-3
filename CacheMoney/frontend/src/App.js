@@ -7,7 +7,7 @@ import NotFoundView from "./components/NotFoundView.js";
 import MainPageView from "./components/MainPageView";
 import AccountType from "./components/Account/CreateAccount";
 import TransferView from "./components/TransferView";
-import AccountsList from "./components/Account/AccountsList";
+import AccountList from "./components/Account/AccountList";
 
 function App() {
 	return (
@@ -18,7 +18,7 @@ function App() {
 					<Route path="/signin" exact element={<SigninView />} />
 					<Route path="/register" exact element={<RegisterView />} />
 					<Route path="/main" exact element={<MainPageView />} />
-					<Route path="/accounts" exact element={<AccountsList />} />
+					<Route path="/accounts" exact element={<AccountList />} />
 					<Route path="/accounts/create" exact element={<AccountType />} />
 					<Route path="/transfer" exact element={<TransferView />} />
 					<Route element={<NotFoundView />} />
