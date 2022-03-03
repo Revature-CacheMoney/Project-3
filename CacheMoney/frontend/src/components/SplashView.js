@@ -4,9 +4,8 @@ import Title from "./Title.js";
 // It prompts the user to login or register.
 function SplashView() {
 	return (
-		<div id="splash-outer-container">
-			Outer container test
-			<div id="splash-container">
+		<div id="splash-outer-container" className="container-view">
+			<div id="splash-inner-container">
 				<Title />
 				<div id="splash-right">
 					<span id="welcome">WELCOME</span>
@@ -20,7 +19,6 @@ function SplashView() {
 					</span>
 				</div>
 			</div>
-			Another outer test
 		</div>
 	);
 }
