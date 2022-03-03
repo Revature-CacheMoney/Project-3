@@ -27,7 +27,9 @@ import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatc
 import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.caseSensitive;
 import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.ignoreCase;
 
-
+/**
+ * Handles HTTP requests for users
+ */
 
 @RestController
 @RequestMapping("/users")
