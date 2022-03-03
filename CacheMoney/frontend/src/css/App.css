@@ -106,19 +106,20 @@ h2 {
 	border: 1px solid black;
 }
 
-/* Signin view */
-#signin-outer-container,
-#register-outer-container {
+/* Login views - Signin and Registration */
+.login-outer-container {
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
-	background-color: rgb(190, 185, 151);
+	background-image: url("../image/CacheMoney_MoneyBackground_Smaller.png");
+	background-position: center;
+	background-size: cover;
+	background-repeat: no-repeat;
 }
 
-#signin-inner-container,
-#register-inner-container {
+.login-inner-container {
 	display: flex;
-	width: 80%;
+	width: 60%;
 	height: 100%;
 	margin-left: auto;
 	margin-right: auto;
@@ -129,16 +130,16 @@ h2 {
 }
 
 /* contains the cachemoney header and white-box */
-#signin-content-box,
-#register-content-box {
+.login-content-box {
 	margin-left: auto;
 	margin-right: auto;
 	margin: auto;
 	width: 80%;
 }
 
-#signin-white-box {
-	height: 500px;
+.login-white-box {
+	min-height: 500px;
+	height: fit-content;
 	margin-left: auto;
 	margin-right: auto;
 	font-size: 3em;
@@ -150,32 +151,42 @@ h2 {
 	flex-direction: column;
 }
 
-#signin-white-box-column {
+.login-white-box-column {
 	max-width: 600px;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
-	row-gap: 15px;
+	row-gap: 5px;
 	margin-left: auto;
 	margin-right: auto;
 }
 
-#signin-outer-container button,
-input[type="submit"] {
+.login-outer-container button,
+.login-outer-container input[type="submit"] {
 	background-color: #d3a940;
 	color: #ffffff;
 	width: 100%;
+	font-size: 2.5rem;
+	box-shadow: none;
 }
 
-#signin-outer-container input[type="text"] {
+.login-outer-container input[type="text"] {
 	border: 2px solid #3d703a;
 	width: 100%;
 	height: 5vh;
 	box-shadow: -4px 4px 0px #6c896a;
 }
 
-#signin-enter-credentials {
-	margin-bottom: 0px;
+/* Registration needs some special overrides - leave this as is */
+#register-white-box {
+	font-size: 2rem;
+	row-gap: 5px;
+}
+
+/* this may get used by more than the registration page */
+.detail-text {
+	font-size: 1rem;
+	display: inline;
 }
 
 /* Signin view end */
