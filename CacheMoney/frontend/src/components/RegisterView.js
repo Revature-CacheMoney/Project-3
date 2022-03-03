@@ -12,8 +12,8 @@ function RegisterView() {
 
 		if (p1 === p2) {
 			const info = {
-				firstname: document.getElementById("first_name"),
-				lastname: document.getElementById("last_name"),
+				firstName: document.getElementById("firstname"),
+				lastName: document.getElementById("lastname"),
 				email: document.getElementById("email"),
 				username: document.getElementById("username"),
 				password: document.getElementById("password"),
@@ -51,32 +51,55 @@ function RegisterView() {
 	};
 
 	return (
-		<div id="register-page-container">
-			<label htmlFor="firstname">First name:</label>
-			<input type="text" name="firstname" id="firstname" />
-			<label htmlFor="lastname">Last name:</label>
-			<input type="text" name="lastname" id="lastname" />
-			<label htmlFor="email">Email:</label> *must be unregistered valid email
-			<input type="text" name="email" id="email" />
-			<label htmlFor="username">Username:</label> *must be unique
-			<input type="text" name="username" id="username" />
-			<label htmlFor="password">Password:</label>
-			<input
-				type="text"
-				name="password1"
-				id="password1"
-				className="password-box"
-				onBlur={checkPasswordEntry}
-			/>
-			<label htmlFor="password2">Confirm password:</label>
-			<input
-				type="text"
-				name="password2"
-				id="password2"
-				className="password-box"
-				onBlur={checkPasswordEntry}
-			/>
-			<input type="submit" value="Register" id="submit" />
+		<div className="container-view login-outer-container">
+			<div className="login-inner-container">
+				<div className="login-content-box">
+					<h2 className="logo-smaller">CacheMoney</h2>
+					<div id="register-white-box" className="login-white-box">
+						<div className="login-white-box-column">
+							<div id="registration-name-boxes">
+								<label htmlFor="firstname" id="label-L">
+									First name:
+								</label>
+								<input type="text" name="firstname" id="firstname" />
+								<label htmlFor="lastname" id="label-R">
+									Last name:
+								</label>
+								<input type="text" name="lastname" id="lastname" />
+							</div>
+							<label htmlFor="email">
+								Email:
+								<span className="detail-text">
+									*must be unregistered valid email
+								</span>
+							</label>
+
+							<input type="text" name="email" id="email" />
+							<label htmlFor="username">
+								Username: <span className="detail-text">*must be unique</span>
+							</label>
+							<input type="text" name="username" id="username" />
+							<label htmlFor="password">Password:</label>
+							<input
+								type="text"
+								name="password1"
+								id="password1"
+								className="password-box"
+								onBlur={checkPasswordEntry}
+							/>
+							<label htmlFor="password2">Confirm password:</label>
+							<input
+								type="text"
+								name="password2"
+								id="password2"
+								className="password-box"
+								onBlur={checkPasswordEntry}
+							/>
+							<input type="submit" value="Register" />
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	);
 }
