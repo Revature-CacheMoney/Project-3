@@ -5,6 +5,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import store from '../../store/Store';
+import config from "../../config.js";
 
 function TransactionTable(props) {
     // local transaction state
@@ -27,11 +28,10 @@ function TransactionTable(props) {
     // effect hook
     useEffect(() => {
         getAllTransactions();
-    }, [])
+    })
 
     // retrieve all transactions based on user's account's id
     const getAllTransactions = () => {
-        //TODO path uri due to change
         axios.get(`${url}accounts/transactions/${store.getState().currentAccountId}`)
             .then((response) => {
                 const allTransactions = response.data;
