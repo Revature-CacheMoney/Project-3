@@ -36,7 +36,7 @@ function AccountList(props) {
                 return (
                     <div className="account_item" key={account.accountId}>
                         <div className="account_name">
-                            <p>SendHelp ({account.accountId})</p>
+                            <p>SendHelp (***{account.accountId.toString().slice(-4)})</p>
                         </div>
                         <div className="account_item_info">
                             <div className="account_type">
