@@ -31,24 +31,12 @@ public class BackendApplication {
 		UserRepo userRepository = context.getBean(UserRepo.class);
 		AccountRepo acctRepository = context.getBean(AccountRepo.class);
 		TransactionRepo trnsRepository = context.getBean(TransactionRepo.class);
-		// User_AccountRepo userAcctRepository =
-		// context.getBean(User_AccountRepo.class);
+
 
 		User newUser = new User("steve", "steve", "steve@steve.steve", "steve", "steve");
 		Account newAccount = new Account("CHECKING");
 		newAccount.setBalance(8080.21f);
-				userRepository.save(newUser);
-				acctRepository.save(newAccount);
-				newUser.addAccount(newAccount);
-				userRepository.save(newUser);
 
-				ArrayList<User> L = (ArrayList<User>) userRepository.findAll();
-
-		for (int l = 0; l < L.size(); l++) {
-		User u = L.get(l);
-		System.out.println(u);
-		Log(u.getUser_id());
-		}
 
 		Log("_");
 		Account a = acctRepository.getById(1);
