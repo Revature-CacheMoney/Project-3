@@ -1,5 +1,4 @@
 package com.revature.cachemoney.backend.beans.repositories;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -9,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.revature.cachemoney.backend.beans.models.Account;
+import com.revature.cachemoney.backend.beans.models.Transaction;
 import com.revature.cachemoney.backend.beans.models.User;
 
 
@@ -18,4 +18,6 @@ import com.revature.cachemoney.backend.beans.models.User;
 @Repository
 public interface AccountRepo extends JpaRepository<Account, Integer>{
 
+	//public List<Transaction> getTransactions();
+	
 }

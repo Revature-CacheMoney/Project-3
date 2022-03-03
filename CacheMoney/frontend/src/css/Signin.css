@@ -1,9 +1,0 @@
-#signin {
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	width: 50%;
-	background-color: #3d703a;
-	padding: 30px;
-	border-radius: 20px;
-}

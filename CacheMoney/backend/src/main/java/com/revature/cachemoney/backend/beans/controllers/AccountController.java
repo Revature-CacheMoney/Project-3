@@ -1,11 +1,18 @@
 package com.revature.cachemoney.backend.beans.controllers;
 
+import static com.revature.cachemoney.backend.bones.AppUtils.*;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import com.revature.cachemoney.backend.BackendApplication;
 import com.revature.cachemoney.backend.beans.models.Account;
+import com.revature.cachemoney.backend.beans.models.Transaction;
 import com.revature.cachemoney.backend.beans.repositories.AccountRepo;
+import com.revature.cachemoney.backend.beans.repositories.TransactionRepo;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,7 +24,7 @@ public class AccountController {
 	/**
 	 * Retrieve access to the ItineraryRepository from Spring.
 	 * 
-	 * @param itineraryRepository
+	 * @param accountRepository
 	 */
 	@Autowired
 	public AccountController(AccountRepo accountRepository) {
@@ -64,4 +71,16 @@ public class AccountController {
 	public void deleteAccountById(@PathVariable Integer id) {
 		accountRepository.deleteById(id);
 	}
+	
+    @GetMapping(value = "/{id}/transactions")
+    public List<Transaction> getTransactionsById(@PathVariable Integer id)
+    {
+    	
+    	TransactionRepo trns = BackendApplication.trnsRepository;
+    	ArrayList<Transaction> res = (ArrayList<Transaction>) trns.findByAccountId(id);
+    	Log(">");
+    	return res;
+    }
+	
+	
 }

@@ -53,7 +53,7 @@ public class TransactionController {
 	/**
 	 * POST an Transaction.
 	 * 
-	 * @param transaction
+	 * @param trns
 	 */
 	@PostMapping()
 	public void postTransaction(@RequestBody Transaction trns) {
@@ -69,4 +69,7 @@ public class TransactionController {
 	public void deleteTransactionById(@PathVariable Integer id) {
 		transactionRepository.deleteById(id);
 	}
+	
+
+	
 }
