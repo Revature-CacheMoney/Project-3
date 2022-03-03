@@ -21,7 +21,8 @@ function AccountsList(props) {
     })
 
     const getAllAccounts = () => {
-        axios.get(`${url}users/accounts/${store.getState().userId}`)
+        // `${url}users/accounts/${store.getState().userId}`
+        axios.get(`${url}accounts`)
             .then((response) => {
                 const allAccounts = response.data;
                 getAccounts(allAccounts);
@@ -33,26 +34,28 @@ function AccountsList(props) {
         .map(
             (account) => {
                 return (
-                    <>
-                        <div className="account_item">
-                            <div className="account_name">
-                                {accounts.name} {accounts.account_id}
-                            </div>
+                    <div className="account_item" key={account.accountId}>
+                        <div className="account_name">
+                            <p>SendHelp ({account.accountId})</p>
+                        </div>
+                        <div className="account_item_info">
                             <div className="account_type">
-                                {accounts.type}
+                                <p>{account.type}</p>
                             </div>
                             <div className="account_balance">
-                                {accounts.balance}
+                                <p>{account.balance}</p>
                             </div>
                         </div>
-                    </>
+                    </div>
                 )
             }
         )
 
     return (
         <>
-
+            <div className="account_list">
+                {content}
+            </div>
         </>
     );
 }
