@@ -33,9 +33,8 @@ public class BackendApplication {
 		TransactionRepo trnsRepository = context.getBean(TransactionRepo.class);
 
 
-		User newUser = new User("steve", "steve", "steve@steve.steve", "steve", "steve");
-		Account newAccount = new Account("CHECKING");
-		newAccount.setBalance(8080.21f);
-
 	}
-}
+
+  }
+
+
