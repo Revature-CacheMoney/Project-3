@@ -51,34 +51,57 @@ function RegisterView() {
 	};
 
 	return (
-		<div id="register-page-container">
-			<label htmlFor="firstname">First name:</label>
-			<input type="text" name="firstname" id="firstname" />
-			<label htmlFor="lastname">Last name:</label>
-			<input type="text" name="lastname" id="lastname" />
-			<label htmlFor="email">Email:</label> *must be unregistered valid email
-			<input type="text" name="email" id="email" />
-			<label htmlFor="username">Username:</label> *must be unique
-			<input type="text" name="username" id="username" />
-			<label htmlFor="password">Password:</label>
-			<input
-				type="text"
-				name="password1"
-				id="password1"
-				className="password-box"
-				onBlur={checkPasswordEntry}
-			/>
-			<label htmlFor="password2">Confirm password:</label>
-			<input
-				type="text"
-				name="password2"
-				id="password2"
-				className="password-box"
-				onBlur={checkPasswordEntry}
-			/>
-			<input type="submit" value="Register" id="submit" />
+		<div className="container-view login-outer-container">
+			<div id="register-inner-container">
+				<div id="register-content-box">
+					<h2 class="cachemoney-subheader">CacheMoney</h2>
+					<div id="signin-white-box">
+						<div id="signin-white-box-column">
+							<p className="subheader-centered">
+								Please Enter Your Credentials
+							</p>
+							<label htmlFor="username">Username:</label>
+							<input type="text" className="username" id="username" />
+							<label htmlFor="password">Password:</label>
+							<input type="text" className="password" id="password" />
+							<Link to="/main">
+								<button className="login" type="submit">
+									SIGN IN
+								</button>
+							</Link>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	);
 }
+<div id="register-page-container">
+	<label htmlFor="firstname">First name:</label>
+	<input type="text" name="firstname" id="firstname" />
+	<label htmlFor="lastname">Last name:</label>
+	<input type="text" name="lastname" id="lastname" />
+	<label htmlFor="email">Email:</label> *must be unregistered valid email
+	<input type="text" name="email" id="email" />
+	<label htmlFor="username">Username:</label> *must be unique
+	<input type="text" name="username" id="username" />
+	<label htmlFor="password">Password:</label>
+	<input
+		type="text"
+		name="password1"
+		id="password1"
+		className="password-box"
+		onBlur={checkPasswordEntry}
+	/>
+	<label htmlFor="password2">Confirm password:</label>
+	<input
+		type="text"
+		name="password2"
+		id="password2"
+		className="password-box"
+		onBlur={checkPasswordEntry}
+	/>
+	<input type="submit" value="Register" id="submit" />
+</div>;
 
 export default RegisterView;

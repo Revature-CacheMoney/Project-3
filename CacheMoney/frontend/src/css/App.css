@@ -1,7 +1,7 @@
 /*Colors Used: 
 Gold: d3a940;
 MoneyGreen: 3d703a;
-Dark Green: 3e4f3d;  // shadows under navbad
+Dark Green: 3e4f3d;  // shadows under navbar
 Light Green: 6c896a;
 "Black": 4c4c4b;
 */
@@ -23,6 +23,19 @@ body {
 	justify-content: space-around;
 }
 
+/* Generic button for any button - note that colors change on diff views */
+button,
+input[type="submit"] {
+	width: 200px;
+	height: 60px;
+	border: 0px;
+	border-radius: 10px;
+	font-size: 2.5rem;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	font-weight: bold;
+}
+
 .container-view {
 	position: absolute;
 	top: 0px;
@@ -37,19 +50,6 @@ html {
 	height: 100%;
 }
 
-button,
-input[type="submit"] {
-	width: 200px;
-	height: 50px;
-	border-radius: 10px;
-	background-color: #ffffff;
-	box-shadow: -5px 5px 0px 1px #d3a940;
-	color: #3e4f3d;
-	font-size: 2em;
-	margin-top: 10px;
-	margin-bottom: 10px;
-}
-
 a {
 	color: #d3a940;
 }
@@ -59,6 +59,18 @@ h1 {
 	font-size: 8em;
 	text-shadow: -2px 4px 0px #d3a940;
 	margin: auto;
+}
+
+h2 {
+	font-family: "Cinzel", serif;
+	font-size: 4em;
+	/* text-shadow: -2px 4px 0px #d3a940; */
+	margin: 0px;
+}
+
+.subheader-centered {
+	text-align: center;
+	padding: 0;
 }
 
 #main-page-container,
@@ -71,6 +83,7 @@ h1 {
 }
 
 /* RegisterView */
+/*
 #register-page-container {
 	display: flex;
 	flex-direction: column;
@@ -79,7 +92,7 @@ h1 {
 	background-color: #3d703a;
 	padding: 30px;
 	border-radius: 20px;
-}
+} */
 
 #register {
 	font-size: 3em; /* ~36px */
@@ -94,15 +107,78 @@ h1 {
 }
 
 /* Signin view */
-#signin-container {
+#signin-outer-container,
+#register-outer-container {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	background-color: rgb(190, 185, 151);
+}
+
+#signin-inner-container,
+#register-inner-container {
+	display: flex;
+	width: 80%;
+	height: 100%;
+	margin-left: auto;
+	margin-right: auto;
+	flex-direction: column;
+	justify-content: center;
+	column-gap: 0px;
+	background-color: #3d703a;
+}
+
+/* contains the cachemoney header and white-box */
+#signin-content-box,
+#register-content-box {
+	margin-left: auto;
+	margin-right: auto;
+	margin: auto;
+	width: 80%;
+}
+
+#signin-white-box {
+	height: 500px;
+	margin-left: auto;
+	margin-right: auto;
+	font-size: 3em;
+	color: #3d703a;
+	padding: 30px;
+	background-color: #ffffff;
+	border-radius: 20px;
 	display: flex;
 	flex-direction: column;
-	justify-content: space-between;
-	width: 50%;
-	background-color: #3d703a;
-	padding: 30px;
-	border-radius: 20px;
 }
+
+#signin-white-box-column {
+	max-width: 600px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	row-gap: 15px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#signin-outer-container button,
+input[type="submit"] {
+	background-color: #d3a940;
+	color: #ffffff;
+	width: 100%;
+}
+
+#signin-outer-container input[type="text"] {
+	border: 2px solid #3d703a;
+	width: 100%;
+	height: 5vh;
+	box-shadow: -4px 4px 0px #6c896a;
+}
+
+#signin-enter-credentials {
+	margin-bottom: 0px;
+}
+
+/* Signin view end */
 
 /* Splash View */
 
@@ -135,6 +211,20 @@ h1 {
 	flex-direction: column;
 	justify-content: center;
 	height: 100%;
+}
+
+/* select any button on splash screen*/
+#splash-outer-container button,
+input[type="submit"] {
+	width: 200px;
+	height: 50px;
+	border-radius: 10px;
+	background-color: #ffffff;
+	box-shadow: -5px 5px 0px 1px #d3a940;
+	color: #3e4f3d;
+	font-size: 2em;
+	margin-top: 10px;
+	margin-bottom: 10px;
 }
 
 #welcome {

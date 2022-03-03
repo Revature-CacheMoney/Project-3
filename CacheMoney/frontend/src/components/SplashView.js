@@ -11,7 +11,7 @@ function SplashView() {
 					<span id="welcome">WELCOME</span>
 					<br />
 					<a href="./signin">
-						<button>Sign In</button>
+						<button id="splash-button">Sign In</button>
 					</a>
 					<br />
 					<span id="register">

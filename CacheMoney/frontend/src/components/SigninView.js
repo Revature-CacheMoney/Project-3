@@ -67,16 +67,28 @@ function SigninView() {
 	// <button className="login" type="submit" onClick={verifyCredentials}>
 
 	return (
-		<div id="signin-container">
-			<label htmlFor="username">Username:</label>
-			<input type="text" className="username" id="username" />
-			<label htmlFor="password">Password:</label>
-			<input type="text" className="password" id="password" />
-			<Link to="/main">
-				<button className="login" type="submit">
-					Log In
-				</button>
-			</Link>
+		<div id="signin-outer-container" className="container-view">
+			<div id="signin-inner-container">
+				<div id="signin-content-box">
+					<h2 class="cachemoney-subheader">CacheMoney</h2>
+					<div id="signin-white-box">
+						<div id="signin-white-box-column">
+							<p className="subheader-centered">
+								Please Enter Your Credentials
+							</p>
+							<label htmlFor="username">Username:</label>
+							<input type="text" className="username" id="username" />
+							<label htmlFor="password">Password:</label>
+							<input type="text" className="password" id="password" />
+							<Link to="/main">
+								<button className="login" type="submit">
+									SIGN IN
+								</button>
+							</Link>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	);
 }
