@@ -8,6 +8,7 @@ import MainPageView from "./components/MainPageView";
 import AccountType from "./components/Account/CreateAccount";
 import TransferView from "./components/TransferView";
 import AccountList from "./components/Account/AccountList";
+import TransactionFilter from "./components/Transaction/TransactionFilter"
 
 function App() {
 	return (
@@ -21,6 +22,7 @@ function App() {
 					<Route path="/accounts" exact element={<AccountList />} />
 					<Route path="/accounts/create" exact element={<AccountType />} />
 					<Route path="/transfer" exact element={<TransferView />} />
+					<Route path="/transactions" exact element={<TransactionFilter />}></Route>
 					<Route element={<NotFoundView />} />
 				</Routes>
 			</Router>
