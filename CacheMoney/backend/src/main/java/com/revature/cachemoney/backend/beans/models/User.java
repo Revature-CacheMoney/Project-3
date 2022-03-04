@@ -40,9 +40,9 @@ public class User {
 
 
 
-	@Column(name = "accounts")
-	@OneToMany
-	private List<Account> accounts = new LinkedList<>();
+//	@Column(name = "accounts")
+//	@OneToMany
+//	private List<Account> accounts = new LinkedList<>();
 
 	public User(String firstName, String lastName, String email, String password, String username) {
 		this.firstName = firstName;
@@ -52,13 +52,13 @@ public class User {
 		this.username = username;
 	}
 
-	public void addAccount(Account account) {
-		accounts.add(account);
-	}
-
-	public void removeAccount(Account account) {
-		accounts.remove(account);
-	}
+//	public void addAccount(Account account) {
+//		accounts.add(account);
+//	}
+//
+//	public void removeAccount(Account account) {
+//		accounts.remove(account);
+//	}
 
 	@Override
 	public String toString() {

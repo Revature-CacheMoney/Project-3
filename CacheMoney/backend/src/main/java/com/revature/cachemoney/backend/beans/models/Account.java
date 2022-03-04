@@ -1,5 +1,6 @@
 package com.revature.cachemoney.backend.beans.models;
 
+import java.sql.Array;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -25,7 +26,7 @@ public class Account {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer accountId;
 
-	@Column(name = "type")
+	@Column(name = "type", nullable = false)
 	private String type;
 
 	@Column(name = "balance")
@@ -34,27 +35,38 @@ public class Account {
 	@Column(name = "name")
 	private String name;
 
+	@JoinColumn(name = "user_id", nullable = false)
+	@ManyToOne
+	private User userId;
 
+	//private String[] accTypeName = new String[]{"checking", "savings"};
 
-	@Column(name = "transactions")
-	@OneToMany
-	private List<Transaction> transactions = new LinkedList<>();
+//	@Column(name = "transactions")
+//	@OneToMany
+//	private List<Transaction> transactions = new LinkedList<>();
 
-	public void addTransaction(Transaction trns) {
-		transactions.add(trns);
-	}
-
-	public void removeaddTransaction(Transaction trns) {
-		transactions.remove(trns);
-	}
-	
-	public List<Transaction> getTransactions()
-	{
-		return this.transactions;
-	}
-	
+//	public void addTransaction(Transaction trns) {
+//		transactions.add(trns);
+//	}
+//
+//	public void removeaddTransaction(Transaction trns) {
+//		transactions.remove(trns);
+//	}
+//
+//	public List<Transaction> getTransactions()
+//	{
+//		return this.transactions;
+//	}
+//
 	public Account(String type) {
 		this.type = type;
+		this.name = this.type + hashCode();
+		this.balance = 0;
+	}
+
+	public Account(String type, String name) {
+		this.type = type;
+		this.name = name;
 		this.balance = 0;
 	}
 }
