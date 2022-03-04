@@ -48,7 +48,7 @@ public class AccountController {
 	// POST an account
 	@PostMapping()
 	public void postAccount(@RequestBody Account account) {
-
+		System.out.println("im here");
 		accountsService.postAccount(account);
 	}
 

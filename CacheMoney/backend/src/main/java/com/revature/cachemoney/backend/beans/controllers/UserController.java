@@ -63,20 +63,7 @@ public class UserController {
      */
     @PostMapping()
     public String postUser(@RequestBody User user) {
-        try {
-            usersService.postUser(user);
-        } catch (Exception e) {
-            System.out.println("User cannot be registered.");
-
-            // inform failed result
-            return "User cannot be registered. The email you entered ("
-                    + user.getEmail() + ") may already be in use.";
-        }
-
-        // inform successful result
-        return "User " + user.getFirstName() + user.getLastName() +
-                " (ID = " + user.getUser_id() +
-                ") registered successfully!";
+            return usersService.postUser(user);
     }
 
     // DELETE a user by ID
