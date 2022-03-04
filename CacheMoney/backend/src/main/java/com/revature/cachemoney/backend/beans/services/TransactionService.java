@@ -23,31 +23,19 @@ public class TransactionService {
     }
 
     // DEPOSIT transaction by account_id
-    public Double depositToAccount(Account targetAccount, Double amount) {
-        double tAccountBalance = targetAccount.getBalance();
-        if (amount < 0) {
-            System.out.println("enter a positive number");
-        }
-        return tAccountBalance + amount;
+    public void depositToAccount(Account targetAccount, Double amount) {
+
     }
 
     // WITHDRAW from account by account_id
     // do we want a minimum amount that can be withdrawn, or a minimum bill that can be returned
-    public Double withdrawFromAccount(Account targetAccount, Double amount) {
-        double tAccountBalance = targetAccount.getBalance();
-        if (amount < 0) {
-            // invalid amount
-        } else if (amount > tAccountBalance) {
-            // insufficient funds
-        }
-        return tAccountBalance - amount;
+    public void withdrawFromAccount(Account targetAccount, Double amount) {
+
     }
 
     // TRANSFER between ONE user's accounts by account_id
     // I don't think we need a User in the method signature, but I've added it for now
     public void transferBetweenUserAccounts(User user, Account source, Account target, Double amount) {
-        double sourceBalance = source.getBalance() - amount;
-        double targetBalance = target.getBalance() + amount;
     }
 
     // GET all transactions
