@@ -30,7 +30,7 @@ public class Account {
 	private String type;
 
 	@Column(name = "balance")
-	private float balance;
+	private Double balance;
 
 	@Column(name = "name")
 	private String name;
@@ -61,12 +61,13 @@ public class Account {
 	public Account(String type) {
 		this.type = type;
 		this.name = this.type + hashCode();
-		this.balance = 0;
+		this.balance = 0.00;
 	}
 
 	public Account(String type, String name) {
 		this.type = type;
 		this.name = name;
-		this.balance = 0;
+		this.balance = 0.00;
+
 	}
 }
