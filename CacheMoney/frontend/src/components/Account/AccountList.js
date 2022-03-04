@@ -21,8 +21,7 @@ function AccountList(props) {
     })
 
     const getAllAccounts = () => {
-        // `${url}users/accounts/${store.getState().userId}`
-        axios.get(`${url}accounts`)
+        axios.get(`${url}users/accounts/${store.getState().userId}`)
             .then((response) => {
                 const allAccounts = response.data;
                 getAccounts(allAccounts);
@@ -43,7 +42,7 @@ function AccountList(props) {
                                 <p>{account.type}</p>
                             </div>
                             <div className="account_balance">
-                                <p>{account.balance}</p>
+                                <p>${account.balance}</p>
                             </div>
                         </div>
                     </div>
