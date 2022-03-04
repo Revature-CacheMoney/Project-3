@@ -35,13 +35,13 @@ public class Transaction {
 
 	// look into datatype to take care of floating point arithmetic
 	@Column(name = "transaction_amount")
-	private BigDecimal transactionAmount;
+	private Double transactionAmount;
 
 	@Column(name = "ending_balance")
-	private BigDecimal endingBalance;
+	private Double endingBalance;
 
 	public Transaction(Integer account_id, String description, Date transaction_date,
-			BigDecimal transaction_amount, BigDecimal ending_balance) {
+			Double transaction_amount, Double ending_balance) {
 		this.accountId = account_id;
 		this.description = description;
 		this.transactionDate = transaction_date;
@@ -50,7 +50,7 @@ public class Transaction {
 	}
 
 	
-	public Transaction(Integer account_id, String description, BigDecimal transaction_amount, BigDecimal ending_balance) {
+	public Transaction(Integer account_id, String description, Double transaction_amount, Double ending_balance) {
 
 		this.accountId = account_id;
 		this.description = description;
@@ -58,7 +58,7 @@ public class Transaction {
 		this.endingBalance = ending_balance;
 	}
 
-	public Transaction(String description, BigDecimal transaction_amount, BigDecimal ending_balance) {
+	public Transaction(String description, Double transaction_amount, Double ending_balance) {
 
 		this.description = description;
 		this.transactionAmount = transaction_amount;

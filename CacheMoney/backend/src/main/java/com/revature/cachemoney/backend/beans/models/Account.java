@@ -29,7 +29,7 @@ public class Account {
 	private String type;
 
 	@Column(name = "balance")
-	private float balance;
+	private Double balance;
 
 	// @Column(name = "owner_id")
 	// private int owner_id;
@@ -55,6 +55,6 @@ public class Account {
 	
 	public Account(String type) {
 		this.type = type;
-		this.balance = 0;
+		this.balance = 0.00;
 	}
 }
