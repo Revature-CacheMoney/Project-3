@@ -1,33 +1,27 @@
 package com.revature.cachemoney.backend.beans.controllers;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import com.revature.cachemoney.backend.beans.models.Transaction;
-import com.revature.cachemoney.backend.beans.repositories.TransactionRepo;
-
-
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+
+import com.revature.cachemoney.backend.beans.models.Transaction;
+import com.revature.cachemoney.backend.beans.services.TransactionService;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/transactions")
 public class TransactionController {
-	private final TransactionRepo transactionRepository;
+	private final TransactionService transactionService;
 
 	/**
 	 * Retrieve access to the TransactionRepo from Spring.
 	 * 
-	 * @param transactionRepository
+	 * @param transactionService
 	 */
 	@Autowired
-	public TransactionController(TransactionRepo transactionRepository) {
-		this.transactionRepository = transactionRepository;
+	public TransactionController(TransactionService transactionService) {
+		this.transactionService = transactionService;
 	}
 
 	/**
@@ -36,8 +30,8 @@ public class TransactionController {
 	 * @return List of all existing Transactions
 	 */
 	@GetMapping()
-	public List<Transaction> getTransaction() {
-		return transactionRepository.findAll();
+	public List<Transaction> getAllTransactions() {
+		return transactionService.getAllTransactions();
 	}
 
 	/**
@@ -48,17 +42,17 @@ public class TransactionController {
 	 */
 	@GetMapping(value = "/{id}")
 	public Optional<Transaction> getTransactionByID(@PathVariable Integer id) {
-		return transactionRepository.findById(id);
+		return transactionService.getTransactionById(id);
 	}
 
 	/**
 	 * POST an Transaction.
 	 * 
-	 * @param trns
+	 * @param transaction
 	 */
 	@PostMapping()
-	public void postTransaction(@RequestBody Transaction trns) {
-		transactionRepository.save(trns);
+	public void postTransaction(@RequestBody Transaction transaction) {
+		transactionService.postTransaction(transaction);
 	}
 
 	/**
@@ -68,9 +62,7 @@ public class TransactionController {
 	 */
 	@DeleteMapping(value = "/{id}")
 	public void deleteTransactionById(@PathVariable Integer id) {
-		transactionRepository.deleteById(id);
+		transactionService.deleteTransactionById(id);
 	}
-	
 
-	
 }

@@ -1,38 +1,36 @@
 package com.revature.cachemoney.backend.beans.services;
 
-import com.revature.cachemoney.backend.BackendApplication;
-import com.revature.cachemoney.backend.beans.models.Account;
-import com.revature.cachemoney.backend.beans.models.Transaction;
-import com.revature.cachemoney.backend.beans.repositories.AccountRepo;
-import com.revature.cachemoney.backend.beans.repositories.TransactionRepo;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static com.revature.cachemoney.backend.bones.AppUtils.Log;
+import com.revature.cachemoney.backend.beans.models.Account;
+import com.revature.cachemoney.backend.beans.models.Transaction;
+import com.revature.cachemoney.backend.beans.repositories.AccountRepo;
+import com.revature.cachemoney.backend.beans.repositories.TransactionRepo;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class AccountsService {
 
     private final AccountRepo accountRepo;
+    private final TransactionRepo transactionRepo;
 
     @Autowired
-    public AccountsService(AccountRepo accountRepo) {
+    public AccountsService(AccountRepo accountRepo, TransactionRepo transactionRepo) {
         this.accountRepo = accountRepo;
+        this.transactionRepo = transactionRepo;
     }
 
     // GET all accounts
     public List<Account> getAllAccounts() {
-
         return accountRepo.findAll();
     }
 
     // GET account by ID
     public Optional<Account> getAccountByID(Integer id) {
-
         return accountRepo.findById(id);
     }
 
@@ -48,10 +46,7 @@ public class AccountsService {
 
     // GET transaction by ID
     public List<Transaction> getTransactionsById(Integer id) {
-
-        TransactionRepo trns = BackendApplication.trnsRepository;
-        ArrayList<Transaction> res = (ArrayList<Transaction>) trns.findByAccountId(id);
-        Log(">");
+        ArrayList<Transaction> res = (ArrayList<Transaction>) transactionRepo.findByAccountId(id);
         return res;
     }
 }

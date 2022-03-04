@@ -1,41 +1,22 @@
 package com.revature.cachemoney.backend.beans.controllers;
 
-import com.revature.cachemoney.backend.beans.services.UsersService;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import com.revature.cachemoney.backend.beans.models.User;
-import com.revature.cachemoney.backend.beans.repositories.UserRepo;
-
-import java.sql.DatabaseMetaData;
-import java.sql.ResultSet;
 import java.util.List;
 import java.util.Optional;
 
-import javax.sql.DataSource;
+import com.revature.cachemoney.backend.beans.models.User;
+import com.revature.cachemoney.backend.beans.services.UsersService;
 
-import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.caseSensitive;
-import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.ignoreCase;
-
-
-import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.caseSensitive;
-import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.ignoreCase;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Handles HTTP requests for users
  */
-
 @RestController
 @RequestMapping("/users")
 public class UserController {
-	private final UsersService usersService;
-
+    private final UsersService usersService;
 
     @Autowired
     public UserController(UsersService usersService) {
@@ -44,14 +25,13 @@ public class UserController {
 
     // GET all users
     @RequestMapping(value = "/allusers", method = RequestMethod.GET)
-    public List<User> getAllUsers(){
-       return usersService.getAllUsers();
+    public List<User> getAllUsers() {
+        return usersService.getAllUsers();
     }
 
     // GET a user by ID
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public Optional<User> getUserById(@PathVariable Integer id){
-
+    public Optional<User> getUserById(@PathVariable Integer id) {
         return usersService.getUserById(id);
     }
 
@@ -63,15 +43,15 @@ public class UserController {
      */
     @PostMapping()
     public String postUser(@RequestBody User user) {
-            return usersService.postUser(user);
+        return usersService.postUser(user);
     }
 
     // DELETE a user by ID
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public void deleteUserById(@PathVariable Integer id){
+    public void deleteUserById(@PathVariable Integer id) {
         usersService.deleteUserById(id);
     }
-    
+
     /**
      * GET a User by email.
      * Emails are unique and should not cause conflicting results.
@@ -81,7 +61,6 @@ public class UserController {
      */
     @GetMapping(value = "/email")
     public Optional<User> getUserByEmail(@RequestParam String email) {
-    	System.out.println(email + "<<<<<");
         return usersService.getUserByEmail(email);
     }
 
@@ -95,9 +74,6 @@ public class UserController {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     public User getUserByUsername(@RequestBody User user) {
-
-      return usersService.getUserByUsername(user);
+        return usersService.getUserByUsername(user);
     }
-
-
 }
