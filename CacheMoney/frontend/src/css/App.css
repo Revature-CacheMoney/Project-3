@@ -177,6 +177,13 @@ a {
 	margin-right: 0;
 }
 
+.login-outer-container button:hover,
+.login-outer-container input[type="submit"]:hover {
+	text-shadow: 0px 0px 5px #000;
+	background-image: url("../image/CacheMoney_MoneyBackground_Smaller.png");
+	background-size: 75%;
+}
+
 .login-outer-container input[type="text"] {
 	border: 2px solid #3d703a;
 	width: 100%;
@@ -195,17 +202,48 @@ a {
 }
 
 #registration-name-boxes {
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+	justify-content: space-between;
+	margin-bottom: 10px;
+}
+
+.reg-field-box {
+	margin-bottom: 10px;
+}
+
+::selection {
+	background: #d3a940;
+	color: white;
+  }
+
+/*
+#registration-name-boxes {
 	display: grid;
 	grid-template-areas:
-		"labelL labelR"
 		"boxL boxR";
 	grid-template-columns: 50% 50%;
 	row-gap: 10px;
 	column-gap: 10px;
 }
+*/
 
+input[type="text"]:focus {
+	background-color: #6c896a;
+	color: white;
+}
+
+input[type="text"] {
+	color: #4c4c4b;
+	padding-left: 15px;
+	font-size: 20px;
+}
+
+/*
 #registration-name-boxes input[type="text"] {
-	width: calc(100% - 10px);
+	width: calc(100% - 30px);
+	padding-left: 15px;
 }
 
 #label-L {
@@ -218,11 +256,18 @@ a {
 
 #firstname {
 	grid-area: boxL;
+	
 }
 
 #lastname {
 	grid-area: boxR;
+	margin-left: 15px;
+}*/
+
+.reg-name-box {
+	width: 45%;
 }
+
 
 /* this may get used by more than the registration page */
 .detail-text {
@@ -358,6 +403,7 @@ a {
 	color: black;
 }
 
+
 /* End navbar */
 
 /* main-view-2 */
@@ -461,6 +507,49 @@ a {
 /* End main-view-2 */
 
 /* Media queries for reactive views */
+@media only screen and (max-width: 720px) {
+	html {
+		font-size: 1.2vh;
+	}
+
+	#splash-inner-container {
+		box-sizing: border-box;
+		text-align: center;
+		flex-direction: column;
+	}
+
+	#splash-right {
+		padding: 0px;
+	}
+
+	button,
+	input[type="submit"] {
+		font-size: 3vh;
+	}
+
+	#registration-name-boxes {
+		display: flex;
+		flex-direction: column;
+	}
+
+	#box-L {
+		margin-bottom: 10px;
+	}
+
+	.reg-name-box  {
+		width: 100%;
+	}
+
+	.logo-smaller {
+		font-size: 5vh;
+	}
+
+	input[type="text"] {
+		font-size: 1.5vh;
+		font-weight: 700;
+	}
+}
+
 @media only screen and (max-width: 600px) {
 	html {
 		font-size: 1vh;
@@ -486,7 +575,23 @@ a {
 		flex-direction: column;
 	}
 
-	#registration-name-boxes input[type="text"] {
+	#box-L {
+		margin-bottom: 10px;
+	}
+
+	.reg-name-box  {
 		width: 100%;
 	}
+
+	.logo-smaller {
+		font-size: 4vh;
+	}
+
+	input[type="text"] {
+		font-size: 1.5vh;
+		font-weight: 700;
+	}
+
+
 }
+
