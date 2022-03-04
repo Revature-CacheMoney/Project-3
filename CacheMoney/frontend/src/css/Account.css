@@ -16,6 +16,10 @@
     flex-flow: column;
 }
 
+.account_item:hover {
+    cursor: pointer;
+}
+
 .account_item_info {
     display: flex;
     height: 100%;

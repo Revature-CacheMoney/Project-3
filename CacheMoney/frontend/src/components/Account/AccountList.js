@@ -21,7 +21,8 @@ function AccountList(props) {
     })
 
     const getAllAccounts = () => {
-        axios.get(`${url}users/accounts/${store.getState().userId}`)
+        //${url}users/accounts/${store.getState().userId}
+        axios.get(`${url}accounts`)
             .then((response) => {
                 const allAccounts = response.data;
                 getAccounts(allAccounts);
@@ -29,11 +30,19 @@ function AccountList(props) {
             .catch(error => console.error(`Error: ${error}`));
     }
 
+    const handleAccountClick = (event, props, data, triggerEvent) => {
+        // TODO route to `Transaction` page
+        store.dispatch({type: 'UPDATE_CURRENT_ACCOUNT_ID', payload: event.currentTarget.id});
+
+        // how to access the associated account id
+        //console.log("store: ", store.getState().accountReducer.currentAccountId);
+    }
+
     const content = accounts
         .map(
             (account) => {
                 return (
-                    <div className="account_item" key={account.accountId}>
+                    <div className="account_item" key={account.accountId} id={account.accountId} onClick={handleAccountClick}>
                         <div className="account_name">
                             <p>SendHelp (***{account.accountId.toString().slice(-4)})</p>
                         </div>
