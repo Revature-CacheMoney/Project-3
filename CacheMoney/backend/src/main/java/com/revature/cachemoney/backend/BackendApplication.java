@@ -31,5 +31,12 @@ public class BackendApplication {
 		UserRepo userRepository = context.getBean(UserRepo.class);
 		AccountRepo acctRepository = context.getBean(AccountRepo.class);
 		TransactionRepo trnsRepository = context.getBean(TransactionRepo.class);
+
+
+	}
+
   }
-}
+
+
+
+
