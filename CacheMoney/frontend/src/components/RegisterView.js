@@ -1,24 +1,29 @@
+import axios from "axios";
 import React from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 // The registrration component handles the registration form for new users.
 // The info is persisted in the database and locally (partial).
 function RegisterView() {
+	const navigate = useNavigate();
 	const handleSubmit = (event) => {
 		event.preventDefault();
 
 		// validate password
-		const p1 = document.getElementById("password");
-		const p2 = document.getElementById("password2");
+		const p1 = document.getElementById("password1").value;
+		const p2 = document.getElementById("password2").value;
 
 		if (p1 === p2) {
 			const info = {
-				firstName: document.getElementById("firstname"),
-				lastName: document.getElementById("lastname"),
-				email: document.getElementById("email"),
-				username: document.getElementById("username"),
-				password: document.getElementById("password"),
+				firstName: document.getElementById("firstname").value,
+				lastName: document.getElementById("lastname").value,
+				email: document.getElementById("email").value,
+				username: document.getElementById("username").value,
+				password: document.getElementById("password1").value,
 			};
 			// submit stuff
+			console.log("Information being sent:  ", info);
+			doRegistration(info);
 			// if successful - a string is returned? (as of 3/2)
 		} else {
 			alert("Sorry, your passwords do not match.");
@@ -48,6 +53,36 @@ function RegisterView() {
 				document.getElementById("submit").disabled = true;
 			}
 		}
+	};
+
+	function doRegistration(info) {
+		let responseData;
+		const url = "http://localhost:8080/";
+		axios
+			.post(`${url}users/`, info)
+			.then((response) => {
+				console.log(response.data);
+				responseData = response.data;
+				/* Commented out b/c registration response may change, but code is valid/from login */
+				/*
+				if (responseData.user_id === null) {
+					console.log("Login failed - bad usernmae/password");
+					document.getElementById("login-error-box").textContent =
+						"Error: incorrect username or password.";
+					//alert("Invalid login attempt.");
+				} else {
+					doLoginToMain();
+				} */ // end working, commented-out code
+				doLoginToMain();
+			})
+			.catch((error) => console.error(`Error: ${error}`));
+		//console.log(responseData);
+	}
+
+	// TODO: this should route back to index page with note to login
+	const doLoginToMain = () => {
+		// let history = useHistory ();
+		navigate("/main");
 	};
 
 	return (
@@ -85,7 +120,6 @@ function RegisterView() {
 								name="password1"
 								id="password1"
 								className="password-box"
-								onBlur={checkPasswordEntry}
 							/>
 							<label htmlFor="password2">Confirm password:</label>
 							<input
@@ -93,9 +127,8 @@ function RegisterView() {
 								name="password2"
 								id="password2"
 								className="password-box"
-								onBlur={checkPasswordEntry}
 							/>
-							<input type="submit" value="Register" />
+							<input type="submit" value="Register" onClick={handleSubmit} />
 						</div>
 					</div>
 				</div>
