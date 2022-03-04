@@ -5,6 +5,7 @@ import SigninView from "./components/SigninView.js";
 import RegisterView from "./components/RegisterView.js";
 import NotFoundView from "./components/NotFoundView.js";
 import MainPageView from "./components/MainPageView";
+import MainPageView2 from "./components/MainPageView2";
 import AccountsView from "./components/Account/AccountsView";
 import AccountType from "./components/Account/CreateAccount";
 import TransferView from "./components/TransferView";
@@ -17,7 +18,7 @@ function App() {
 					<Route path="/" exact element={<SplashView />} />
 					<Route path="/signin" exact element={<SigninView />} />
 					<Route path="/register" exact element={<RegisterView />} />
-					<Route path="/main" exact element={<MainPageView />} />
+					<Route path="/main" exact element={<MainPageView2 />} />
 					<Route path="/accounts" exact element={<AccountsView />} />
 					<Route path="/accounts/create" exact element={<AccountType />} />
 					<Route path="/transfer" exact element={<TransferView />} />
