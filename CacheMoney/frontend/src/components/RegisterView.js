@@ -3,6 +3,7 @@ import React from "react";
 
 // The registrration component handles the registration form for new users.
 // The info is persisted in the database and locally (partial).
+//let info;
 function RegisterView() {
 	const handleSubmit = (event) => {
 		event.preventDefault();
@@ -55,7 +56,7 @@ function RegisterView() {
 	function doRegistration() {
 		let responseData;
 		const url = "http://localhost:8080/";
-		axios.post(`${url}users/`)
+		axios.post(`${url}users/`) //, `${info}`
 		.then((response) => {
 			responseData = response.data;
 			console.log(response);
@@ -68,31 +69,45 @@ function RegisterView() {
 		<div className="container-view login-outer-container">
 			<div className="login-inner-container">
 				<div className="login-content-box">
-					<h2 className="logo-smaller">CacheMoney</h2>
+					
+					<h2 className="logo-smaller" id="register-logo">CacheMoney</h2>
 					<div id="register-white-box" className="login-white-box">
 						<div className="login-white-box-column">
+
 							<div id="registration-name-boxes">
+								<div id="box-L" className="reg-name-box">
 								<label htmlFor="firstname" id="label-L">
 									First name:
 								</label>
 								<input type="text" name="firstname" id="firstname" />
+								</div>
+
+								<div id="box-R" className="reg-name-box">
 								<label htmlFor="lastname" id="label-R">
 									Last name:
 								</label>
 								<input type="text" name="lastname" id="lastname" />
+								</div>
 							</div>
+
+							<div className="reg-field-box">
 							<label htmlFor="email">
 								Email:
 								<span className="detail-text">
 									*must be unregistered valid email
 								</span>
 							</label>
-
 							<input type="text" name="email" id="email" />
+							</div>
+
+							<div className="reg-field-box">
 							<label htmlFor="username">
 								Username: <span className="detail-text">*must be unique</span>
 							</label>
 							<input type="text" name="username" id="username" />
+							</div>
+
+							<div className="reg-field-box">
 							<label htmlFor="password">Password:</label>
 							<input
 								type="text"
@@ -100,6 +115,9 @@ function RegisterView() {
 								id="password1"
 								className="password-box"
 							/>
+							</div>
+							
+							<div className="reg-field-box">
 							<label htmlFor="password2">Confirm password:</label>
 							<input
 								type="text"
@@ -107,6 +125,8 @@ function RegisterView() {
 								id="password2"
 								className="password-box"
 							/>
+							</div>
+
 							<input type="submit" value="Register" onClick={handleSubmit}/>
 						</div>
 					</div>
