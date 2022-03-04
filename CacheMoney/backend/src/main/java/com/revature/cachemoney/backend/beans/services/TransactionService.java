@@ -10,8 +10,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-import static com.revature.cachemoney.backend.bones.AppUtils.Log;
-
 @Service
 public class TransactionService {
 
@@ -24,18 +22,27 @@ public class TransactionService {
 
     // DEPOSIT transaction by account_id
     public void depositToAccount(Account targetAccount, Double amount) {
-
+        targetAccount.setBalance(targetAccount.getBalance() + amount);
     }
 
     // WITHDRAW from account by account_id
     // do we want a minimum amount that can be withdrawn, or a minimum bill that can be returned
     public void withdrawFromAccount(Account targetAccount, Double amount) {
-
+        targetAccount.setBalance(targetAccount.getBalance() - amount);
     }
 
     // TRANSFER between ONE user's accounts by account_id
-    // I don't think we need a User in the method signature, but I've added it for now
-    public void transferBetweenUserAccounts(User user, Account source, Account target, Double amount) {
+    public void transferBetweenAccountsOfOneUser(Account source, Account target, Double amount) {
+        source.setBalance(source.getBalance() - amount);
+        target.setBalance(target.getBalance() + amount);
+     }
+
+    // SEND money from user's own account to another account owned by ANOTHER user.
+    // user initiating transfer CANNOT take money from other user, only send to other user
+    // NOT MVP, just setting up stretch goal if there's time
+    public void sendToAccountOfDifferentUser(User sender, User receiver, Account sendFromAccount, Account receiveToAccount, Double amount ){
+        sendFromAccount.setBalance(sendFromAccount.getBalance() - amount);
+        receiveToAccount.setBalance(receiveToAccount.getBalance() + amount);
     }
 
     // GET all transactions
