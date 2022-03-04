@@ -58,8 +58,6 @@ public class TransactionController {
 	 */
 	@PostMapping()
 	public void postTransaction(@RequestBody Transaction trns) {
-		System.out.println("i am here this time");
-//		trns.setTransactionDate(new Date());
 		transactionRepository.save(trns);
 	}
 
