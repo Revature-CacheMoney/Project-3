@@ -19,23 +19,12 @@ class UsersServiceTest {
 
     @Autowired
     private UsersService usersService;
-    @MockBean
-    private UserRepo userRepo;
 
     @Test
     void getAllUsers()  {
-        List<User> userList = new LinkedList<>();
-        for (int i = 0; i < 3; i++){
-            userList.add(new User("David"+i, "David"+i,
-                    "David"+i , "David"+i,  "David"+i));
-        }
-        // Check to see if we able to retrieve all users from database.
-        // We mock User reposistory to return the list that is created above.
-        // To test multiple scenarios, change size of list inside for loop
-        // and make sure it matches the expected value inside the assertEquals method call.
-        when(userRepo.findAll()).thenReturn(userList);
 
-        assertEquals(3,usersService.getAllUsers().size());
+    // To run this test, you must know how many users are in your db and pass that as an expected value argument.
+        assertEquals(2,usersService.getAllUsers().size());
     }
 
     @Test
@@ -48,8 +37,12 @@ class UsersServiceTest {
 
     @Test
     void postUser() {
-        // This test checks if user is succesffuly persisted into database because it has the right credentials
+        // This test checks if user is successfully persisted into database because it has the right credentials
         // the correct format.
+        // Make sure that the values here are not already used in the database.
+        // The values that must be unique are:
+        //      email
+        //      username
         User user = new User("John","smith", "newEmail@gmail.com", "abcd1234","jsmith123");
         assertEquals("{ \"result\": true }", usersService.postUser(user));
 
