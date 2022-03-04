@@ -5,9 +5,11 @@ import SigninView from "./components/SigninView.js";
 import RegisterView from "./components/RegisterView.js";
 import NotFoundView from "./components/NotFoundView.js";
 import MainPageView from "./components/MainPageView";
-import AccountsView from "./components/Account/AccountsView";
+import MainPageView2 from "./components/MainPageView2";
 import AccountType from "./components/Account/CreateAccount";
 import TransferView from "./components/TransferView";
+import AccountList from "./components/Account/AccountList";
+import TransactionFilter from "./components/Transaction/TransactionFilter"
 
 function App() {
 	return (
@@ -17,10 +19,11 @@ function App() {
 					<Route path="/" exact element={<SplashView />} />
 					<Route path="/signin" exact element={<SigninView />} />
 					<Route path="/register" exact element={<RegisterView />} />
-					<Route path="/main" exact element={<MainPageView />} />
-					<Route path="/accounts" exact element={<AccountsView />} />
+					<Route path="/main" exact element={<MainPageView2 />} />
+					<Route path="/accounts" exact element={<AccountList />} />
 					<Route path="/accounts/create" exact element={<AccountType />} />
 					<Route path="/transfer" exact element={<TransferView />} />
+					<Route path="/transactions" exact element={<TransactionFilter />}></Route>
 					<Route element={<NotFoundView />} />
 				</Routes>
 			</Router>
