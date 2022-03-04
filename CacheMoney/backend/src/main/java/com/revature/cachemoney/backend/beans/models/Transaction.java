@@ -23,8 +23,9 @@ public class Transaction {
 	@Column(name = "transaction_id")
 	private Integer transactionId;
 
-	@Column(name = "account_id")
-	private Integer accountId;
+	@JoinColumn(name = "account_id")
+	@ManyToOne
+	private Account accountId;
 
 	@Column(name = "description")
 	private String description;
@@ -40,7 +41,8 @@ public class Transaction {
 	@Column(name = "ending_balance")
 	private Double endingBalance;
 
-	public Transaction(Integer account_id, String description, Date transaction_date,
+
+	public Transaction(Account account_id, String description, Date transaction_date,
 			Double transaction_amount, Double ending_balance) {
 		this.accountId = account_id;
 		this.description = description;
@@ -50,9 +52,9 @@ public class Transaction {
 	}
 
 	
-	public Transaction(Integer account_id, String description, Double transaction_amount, Double ending_balance) {
 
-		this.accountId = account_id;
+	public Transaction(Account account, String description, double transaction_amount, double ending_balance) {
+		this.accountId = account;
 		this.description = description;
 		this.transactionAmount = transaction_amount;
 		this.endingBalance = ending_balance;

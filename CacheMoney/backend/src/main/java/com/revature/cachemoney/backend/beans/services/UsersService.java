@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.caseSensitive;
 import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.ignoreCase;
@@ -19,6 +21,13 @@ import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatc
 @Service
 public class UsersService {
     private final UserRepo userRepository;
+    private final String emailRegEx = "^[a-zA-Z0-9._-]+@{1}[a-zA-Z0-9-_]+[.]{1}[a-zA-Z0-9]+[a-zA-Z_.-]*$";
+    private final String nameRegEx = "^[a-zA-Z -]+$";
+    private final String usernameRegEx = "^[a-zA-Z0-9@~._-]{8,}$";
+    private final String passwordRegEx = "^[a-zA-Z0-9@^%$#/\\,;|~._-]{8,50}$";
+
+
+
 
     @Autowired
     public UsersService(UserRepo userRepository) {
@@ -39,20 +48,20 @@ public class UsersService {
 
     // POST a new user
     public String postUser(User user) {
-        try {
-            userRepository.save(user);
-        } catch (Exception e) {
-            System.out.println("User cannot be registered.");
+        if(areCredentialsValid(user)) {
+            try {
+                userRepository.save(user);
+            } catch (Exception e) {
+                System.out.println("User cannot be registered.");
 
-            // inform failed result
-            return "User cannot be registered. The email you entered ("
-                    + user.getEmail() + ") may already be in use.";
+                // inform failed result
+                return "{ \"result\": false }";
+            }
+            // inform successful result
+            return "{ \"result\": true }";
+        }else {
+            return "{ \"result\": false }";
         }
-
-        // inform successful result
-        return "User " + user.getFirstName() + user.getLastName() +
-                " (ID = " + user.getUser_id() +
-                ") registered successfully!";
     }
 
     // DELETE a user by ID
@@ -86,6 +95,31 @@ public class UsersService {
 
     }
 
+    public boolean areCredentialsValid(User user){
+
+        if (user.getFirstName() == null || user.getLastName() == null ||
+                user.getEmail() == null || user.getUsername() == null ||
+                user.getPassword() == null){
+            return false;
+        }
+        Pattern emailPattern = Pattern.compile(emailRegEx);
+        Matcher emailMatcher = emailPattern.matcher(user.getEmail());
+        boolean emailValidity = emailMatcher.matches();
+
+        Pattern namePattern = Pattern.compile(nameRegEx);
+        Matcher nameMatcher = namePattern.matcher(user.getFirstName() + " " +user.getLastName());
+        boolean nameValidity = nameMatcher.matches();
+
+        Pattern usernamePattern = Pattern.compile(usernameRegEx);
+        Matcher usernameMatcher = usernamePattern.matcher(user.getUsername());
+        boolean usernameValidity = usernameMatcher.matches();
+
+        Pattern passwordPattern = Pattern.compile(passwordRegEx);
+        Matcher passwordMatcher = passwordPattern.matcher(user.getPassword());
+        boolean passwordValidity = passwordMatcher.matches();
+
+        return emailValidity && nameValidity && usernameValidity && passwordValidity;
+    }
 
 
 
