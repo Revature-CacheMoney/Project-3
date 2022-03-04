@@ -1,19 +1,17 @@
 package com.revature.cachemoney.backend.beans.models;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.Date;
 
 import javax.persistence.*;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.math.BigDecimal;
-import java.util.Date;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 @NoArgsConstructor
 @Entity
 @Table(name = "transactions")
@@ -41,7 +39,6 @@ public class Transaction {
 	@Column(name = "ending_balance")
 	private Double endingBalance;
 
-
 	public Transaction(Account account_id, String description, Date transaction_date,
 			Double transaction_amount, Double ending_balance) {
 		this.accountId = account_id;
@@ -51,8 +48,6 @@ public class Transaction {
 		this.endingBalance = ending_balance;
 	}
 
-	
-
 	public Transaction(Account account, String description, double transaction_amount, double ending_balance) {
 		this.accountId = account;
 		this.description = description;
@@ -61,29 +56,8 @@ public class Transaction {
 	}
 
 	public Transaction(String description, Double transaction_amount, Double ending_balance) {
-
 		this.description = description;
 		this.transactionAmount = transaction_amount;
 		this.endingBalance = ending_balance;
 	}
-	
-	@Override
-	public String toString() {
-		String s = "";
-		s += "TRANSACTION";
-		s += "{";
-		s += this.transactionId + "\n";
-		s += this.accountId + "\n";
-		s += this.description + "\n";
-		s += this.transactionDate + "\n";
-		s += this.transactionAmount + "\n";
-		s += this.endingBalance + "\n";
-		s += "}";
-
-		return s;
-	}
-
 }
-    
-
-

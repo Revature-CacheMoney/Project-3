@@ -1,22 +1,20 @@
 package com.revature.cachemoney.backend.beans.services;
 
-
-
-import com.revature.cachemoney.backend.beans.models.User;
-import com.revature.cachemoney.backend.beans.repositories.UserRepo;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
-import org.springframework.stereotype.Service;
-
+import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.caseSensitive;
+import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.ignoreCase;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.caseSensitive;
-import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.ignoreCase;
+import com.revature.cachemoney.backend.beans.models.User;
+import com.revature.cachemoney.backend.beans.repositories.UserRepo;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.stereotype.Service;
 
 @Service
 public class UsersService {
@@ -26,29 +24,24 @@ public class UsersService {
     private final String usernameRegEx = "^[a-zA-Z0-9@~._-]{8,}$";
     private final String passwordRegEx = "^[a-zA-Z0-9@^%$#/\\,;|~._-]{8,50}$";
 
-
-
-
     @Autowired
     public UsersService(UserRepo userRepository) {
         this.userRepository = userRepository;
     }
 
     // GET all users
-    public List<User> getAllUsers(){
-
+    public List<User> getAllUsers() {
         return userRepository.findAll();
     }
 
     // GET a user by ID
-    public Optional<User> getUserById(Integer id){
-
+    public Optional<User> getUserById(Integer id) {
         return userRepository.findById(id);
     }
 
     // POST a new user
     public String postUser(User user) {
-        if(areCredentialsValid(user)) {
+        if (areCredentialsValid(user)) {
             try {
                 userRepository.save(user);
             } catch (Exception e) {
@@ -59,14 +52,13 @@ public class UsersService {
             }
             // inform successful result
             return "{ \"result\": true }";
-        }else {
+        } else {
             return "{ \"result\": false }";
         }
     }
 
     // DELETE a user by ID
-    public void deleteUserById(Integer id){
-
+    public void deleteUserById(Integer id) {
         userRepository.deleteById(id);
     }
 
@@ -77,29 +69,28 @@ public class UsersService {
     }
 
     public User getUserByUsername(User user) {
-
-        if ( user.getUsername() == null || user.getPassword() == null){
+        if (user.getUsername() == null || user.getPassword() == null) {
             return user;
         }
 
-        ExampleMatcher em = ExampleMatcher.matching().withIgnorePaths("user_id","first_name", "last_name", "email", "accounts")
+        ExampleMatcher em = ExampleMatcher.matching()
+                .withIgnorePaths("user_id", "first_name", "last_name", "email", "accounts")
                 .withMatcher("username", ignoreCase()).withMatcher("password", caseSensitive());
 
         Example<User> example = Example.of(user, em);
 
-        if (userRepository.exists(example)){
+        if (userRepository.exists(example)) {
             Optional<User> optionalUser = userRepository.findOne(example);
             return optionalUser.get();
         }
-        return user;
 
+        return user;
     }
 
-    public boolean areCredentialsValid(User user){
-
+    public boolean areCredentialsValid(User user) {
         if (user.getFirstName() == null || user.getLastName() == null ||
                 user.getEmail() == null || user.getUsername() == null ||
-                user.getPassword() == null){
+                user.getPassword() == null) {
             return false;
         }
         Pattern emailPattern = Pattern.compile(emailRegEx);
@@ -107,7 +98,7 @@ public class UsersService {
         boolean emailValidity = emailMatcher.matches();
 
         Pattern namePattern = Pattern.compile(nameRegEx);
-        Matcher nameMatcher = namePattern.matcher(user.getFirstName() + " " +user.getLastName());
+        Matcher nameMatcher = namePattern.matcher(user.getFirstName() + " " + user.getLastName());
         boolean nameValidity = nameMatcher.matches();
 
         Pattern usernamePattern = Pattern.compile(usernameRegEx);
@@ -120,7 +111,5 @@ public class UsersService {
 
         return emailValidity && nameValidity && usernameValidity && passwordValidity;
     }
-
-
 
 }

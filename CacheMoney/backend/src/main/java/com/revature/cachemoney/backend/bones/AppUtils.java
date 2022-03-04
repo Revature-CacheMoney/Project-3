@@ -1,7 +1,5 @@
 package com.revature.cachemoney.backend.bones;
 
-import java.io.IOException;
-
 public class AppUtils {
 
 	public static void Log() {
@@ -30,7 +28,6 @@ public class AppUtils {
 		Page();
 	}
 
-	//////
 	// prints stack trace with message
 	public static void ThrowFancyException(String messOut) {
 		ThrowFancyException(messOut, false);
@@ -44,9 +41,6 @@ public class AppUtils {
 
 		if (breakIt) {
 			System.exit(0);
-			int f = 1 / 0; // just in case lol
 		}
 	}
-	//
-	//////
 }
