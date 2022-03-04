@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import store from '../../store/Store';
 import config from "../../config.js";
+import CurrencyFormat from 'react-currency-format';
 
 function TransactionTable(props) {
     // local transaction state
@@ -44,16 +45,13 @@ function TransactionTable(props) {
     const content = transactions
         .filter(transaction => {
             if (props.filter === "NONE") {
-                console.log("filter: none");
                 return true;
             }
             else if (props.filter === "CREDIT") {
-                console.log("filter: credit");
-                return transaction.transaction_amount > 0;
+                return transaction.transactionAmount > 0;
             }
             else if (props.filter === "DEBIT") {
-                console.log("filter: debit");
-                return transaction.transaction_amount < 0;
+                return transaction.transactionAmount < 0;
             }
             else {
                 console.error("Invalid amount filter!");
@@ -63,11 +61,16 @@ function TransactionTable(props) {
         .map(
             (transaction) => {
                 return (
-                    <tr key={transaction.transaction_id}>
-                        <td>{transaction.transaction_date}</td>
+                    <tr key={transaction.transactionId}>
+                        <td>{transaction.transactionDate}</td>
                         <td>{transaction.description}</td>
-                        <td>{transaction.transaction_amount}</td>
-                        <td>{transaction.ending_balance}</td>
+                        <td>
+                            <CurrencyFormat className={transaction.transactionAmount > 0 ? 'positive_balance' : 'negative_balance'}
+                                value={transaction.transactionAmount} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                        </td>
+                        <td>
+                            <CurrencyFormat value={transaction.endingBalance} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                        </td>
                     </tr>
                 );
             }
