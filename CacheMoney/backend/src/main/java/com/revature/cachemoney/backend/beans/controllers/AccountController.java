@@ -48,7 +48,7 @@ public class AccountController {
 	}
 
 	// GET transaction by ID
-	@GetMapping(value = "/{id}/transactions")
+	@GetMapping(value = "/transactions/{id}")
 	public List<Transaction> getTransactionsById(@PathVariable Integer id) {
 		return accountsService.getTransactionsById(id);
 	}
