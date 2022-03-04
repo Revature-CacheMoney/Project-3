@@ -24,6 +24,16 @@ tr:nth-child(even) {
     background-color: #f2f2f2;
 }
 
+.positive_balance {
+    color: green;
+    border-color: black;
+}
+
+.negative_balance {
+    color: red;
+    border-color: black;
+}
+
 #header_date {
     width: 20%;
 }

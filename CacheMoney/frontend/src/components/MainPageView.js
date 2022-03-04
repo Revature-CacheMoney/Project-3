@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import AccountObject from "./AccountObject.js";
-//import AccountsView from "./Account/AccountsView";
 import Navigation from "./NavBar";
 import Footer from "./Footer.js";
 
