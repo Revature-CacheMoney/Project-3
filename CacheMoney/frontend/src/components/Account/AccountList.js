@@ -6,6 +6,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import config from "../../config.js";
 import store from "../../store/Store.js";
+import CurrencyFormat from 'react-currency-format';
 import "../../css/Account.css"
 
 function AccountList(props) {
@@ -51,7 +52,7 @@ function AccountList(props) {
                                 <p>{account.type}</p>
                             </div>
                             <div className="account_balance">
-                                <p>${account.balance}</p>
+                                <CurrencyFormat value={account.balance} displayType={'text'} thousandSeparator={true} prefix={'$'} />
                             </div>
                         </div>
                     </div>

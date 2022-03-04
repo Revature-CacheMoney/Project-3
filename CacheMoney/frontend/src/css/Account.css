@@ -61,7 +61,7 @@
     position: relative;
 }
 
-.account_balance > p {
+.account_balance > * {
     font-size: 48px;
     margin: auto;
     position: absolute;
