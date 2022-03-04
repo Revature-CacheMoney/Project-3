@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import userStore from "../store/Store.js";
+import axios from "axios";
 //import { createBrowserHistory } from "history";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -11,7 +12,40 @@ function SigninView() {
 	// Test stuff .
 	let [input, setInput] = useState([""]);
 
+	const handleLogin = () => {
+		// maybe add check to make sure neither username/password are blank
+		const info = {
+			username: document.getElementById("username").value,
+			password: document.getElementById("password").value,
+		};
+		console.log("Sending to login: ", info);
+		doLogin(info);
+	};
+
+	function doLogin(info) {
+		let responseData;
+		const url = "http://localhost:8080/";
+		axios
+			.post(`${url}users/login`, info)
+			.then((response) => {
+				//console.log(response.data);
+				responseData = response.data;
+				if (responseData.user_id === null) {
+					console.log("Login failed - bad usernmae/password");
+					document.getElementById("login-error-box").textContent =
+						"Error: incorrect username or password.";
+					//alert("Invalid login attempt.");
+				} else {
+					doLoginToMain();
+				}
+			})
+			.catch((error) => {
+				console.error(`Error: ${error}`);
+			});
+	}
+
 	// Not tested or implemented yet.  Endpoint is probably incorrect.
+	/*
 	async function verifyCredentials(credentials) {
 		const apiEndpoint = "http://localhost:8080/users/";
 
@@ -44,7 +78,7 @@ function SigninView() {
 		} else {
 			console.log("Wrong user ID and password!");
 		}
-	}
+	} */
 
 	const doLoginToMain = () => {
 		// let history = useHistory ();
@@ -76,15 +110,14 @@ function SigninView() {
 							<p className="subheader-centered">
 								Please Enter Your Credentials
 							</p>
+							<span id="login-error-box"></span>
 							<label htmlFor="username">Username:</label>
 							<input type="text" name="username" id="username" />
 							<label htmlFor="password">Password:</label>
 							<input type="text" name="password" id="password" />
-							<Link to="/main">
-								<button className="login" type="submit">
-									SIGN IN
-								</button>
-							</Link>
+							<button className="login" type="submit" onClick={handleLogin}>
+								SIGN IN
+							</button>
 						</div>
 					</div>
 				</div>
@@ -92,6 +125,14 @@ function SigninView() {
 		</div>
 	);
 }
+
+/*
+							<Link to="/main">
+								<button className="login" type="submit" onClick={handleLogin}>
+									SIGN IN
+								</button>
+							</Link>
+							*/
 
 export default SigninView;
 

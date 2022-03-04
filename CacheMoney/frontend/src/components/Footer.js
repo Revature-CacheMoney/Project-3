@@ -15,44 +15,22 @@ function Footer(props) {
 			</div>
 			<div className="column">
 				<h2>Customer Service</h2>
-				<li>
-					<p>Front Desk</p>
-				</li>
-				<li>
-					<p>Development Team</p>
-				</li>
-				<li>
-					<p>Request a New Card</p>
-				</li>
-				<li>
-					<p>Report Fradulent Activity</p>
-				</li>
-				<li>
-					<p>Order a Hotdog Pizza</p>
-				</li>
+				<li>Front Desk</li>
+				<li>Development Team</li>
+				<li>Request a New Card</li>
+				<li>Report Fradulent Activity</li>
+				<li>Order a Hotdog Pizza</li>
 			</div>
 			<div className="column">
 				<h2>Partners</h2>
-				<li>
-					<p>High Risk Moderate Reward Investing</p>
-				</li>
-				<li>
-					<p>Blue Sky Inc.</p>
-				</li>
-				<li>
-					<p>Illuminati Initiative</p>
-				</li>
-				<li>
-					<p>Global Domination Timeline</p>
-				</li>
-				<li>
-					<p>HotdogPizza Sandwich Association</p>
-				</li>
+				<li>High Risk Moderate Reward Investing</li>
+				<li>Blue Sky Inc.</li>
+				<li>Illuminati Initiative</li>
+				<li>Global Domination Timeline</li>
+				<li>HotdogPizza Sandwich Associationd</li>
 			</div>
-			<div className="column">
-				<h2></h2>
-				<img src={footerLogo} />
-			</div>
+
+			<img src={footerLogo} />
 		</div>
 	);
 }
