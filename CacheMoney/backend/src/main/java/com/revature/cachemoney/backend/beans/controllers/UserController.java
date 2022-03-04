@@ -39,10 +39,10 @@ public class UserController {
      * POST a User.
      * 
      * @param user
-     * @return String containing information regarding success or failure.
+     * @return true/false based on registration status
      */
     @PostMapping()
-    public String postUser(@RequestBody User user) {
+    public Boolean postUser(@RequestBody User user) {
         return usersService.postUser(user);
     }
 

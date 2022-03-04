@@ -48,7 +48,7 @@ public class Transaction {
 		this.endingBalance = ending_balance;
 	}
 
-	public Transaction(Account account, String description, double transaction_amount, double ending_balance) {
+	public Transaction(Account account, String description, Double transaction_amount, Double ending_balance) {
 		this.accountId = account;
 		this.description = description;
 		this.transactionAmount = transaction_amount;

@@ -40,20 +40,18 @@ public class UsersService {
     }
 
     // POST a new user
-    public String postUser(User user) {
+    public Boolean postUser(User user) {
         if (areCredentialsValid(user)) {
             try {
                 userRepository.save(user);
             } catch (Exception e) {
-                System.out.println("User cannot be registered.");
-
                 // inform failed result
-                return "{ \"result\": false }";
+                return false;
             }
             // inform successful result
-            return "{ \"result\": true }";
+            return true;
         } else {
-            return "{ \"result\": false }";
+            return false;
         }
     }
 
@@ -64,7 +62,6 @@ public class UsersService {
 
     // GET user by email address
     public Optional<User> getUserByEmail(String email) {
-        System.out.println(email + "<<<<<");
         return userRepository.findByEmail(email);
     }
 
