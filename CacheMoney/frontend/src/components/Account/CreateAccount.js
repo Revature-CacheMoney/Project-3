@@ -1,9 +1,14 @@
+/**
+ * @author Ibrahima Diallo, Brian Gardner, Cody Gonsowski, & Jeffrey Lor
+ */
+
 import axios from "axios";
 import { useState } from "react";
 import config from "../../config";
 import store from "../../store/Store.js";
 
 function CreateAccount(props) {
+    // local formData state
     const [formData, setFormData] = useState({
         name: "",
         balance: 0,
