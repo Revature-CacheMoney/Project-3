@@ -24,13 +24,13 @@ public class UserController {
     }
 
     // GET all users
-    @RequestMapping(value = "/allusers", method = RequestMethod.GET)
+    @GetMapping
     public List<User> getAllUsers() {
         return usersService.getAllUsers();
     }
 
     // GET a user by ID
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @GetMapping(value = "/{id}")
     public Optional<User> getUserById(@PathVariable Integer id) {
         return usersService.getUserById(id);
     }
@@ -47,7 +47,7 @@ public class UserController {
     }
 
     // DELETE a user by ID
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/{id}")
     public void deleteUserById(@PathVariable Integer id) {
         usersService.deleteUserById(id);
     }
@@ -71,7 +71,7 @@ public class UserController {
      * @param user
      * @return the User based on email
      */
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @PostMapping(value = "/login")
     @ResponseStatus(HttpStatus.OK)
     public User getUserByUsername(@RequestBody User user) {
         return usersService.getUserByUsername(user);
