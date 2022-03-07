@@ -7,7 +7,7 @@ import React, { useEffect, useState } from "react";
 import config from "../../config.js";
 import store from "../../store/Store.js";
 import CurrencyFormat from 'react-currency-format';
-import "../../css/Account.css"
+import "../../css/Account.css";
 
 function AccountList(props) {
     // local transaction state
