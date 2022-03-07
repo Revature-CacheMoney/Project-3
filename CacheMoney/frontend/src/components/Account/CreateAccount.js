@@ -6,6 +6,7 @@ import axios from "axios";
 import { useState } from "react";
 import config from "../../config";
 import store from "../../store/Store.js";
+import "../../css/Account.css";
 
 function CreateAccount(props) {
     // local formData state
@@ -14,8 +15,7 @@ function CreateAccount(props) {
         balance: 0,
         type: "",
         userId: {
-            // store.getState().userId
-            user_id: 1
+            user_id: store.getState().userId
         }
     })
 
@@ -40,19 +40,33 @@ function CreateAccount(props) {
 
     return (
         <>
-            <div>
+            <div className="account_create_form">
+                <p className="account_create_form_header">Create Account</p>
+
                 <form>
-                    <label htmlFor="account_name">Account name: </label>
-                    <input type="text" id="account_name" name="name" onChange={handleChange} />
+                    <div className="account_create_name">
+                        <label htmlFor="account_name">Account Name</label>
+                        <input type="text" id="account_name" name="name" onChange={handleChange} />
+                    </div>
 
-                    <input type="radio" id="checking" name="type" value="checking" onChange={handleChange} />
-                    <label htmlFor="checking">Checking</label>
+                    <div className="account_create_radio_button_group">
+                        <p className="account_create_type_header">Account Type</p>
 
-                    <input type="radio" id="savings" name="type" value="savings" onChange={handleChange} />
-                    <label htmlFor="savings">Savings</label>
+                        <div>
+                            <div className="account_create_radio_button">
+                                <input type="radio" id="checking" name="type" value="checking" onChange={handleChange} />
+                                <label htmlFor="checking">Checking</label>
+                            </div>
 
-                    <button type="button" name="submit" onClick={handleSubmit}>Submit</button>
+                            <div className="account_create_radio_button">
+                                <input type="radio" id="savings" name="type" value="savings" onChange={handleChange} />
+                                <label htmlFor="savings">Savings</label>
+                            </div>
+                        </div>
+                    </div>
                 </form>
+
+                <button className="account_create_submit_button" type="button" name="submit" onClick={handleSubmit}>Submit</button>
             </div>
         </>
     );

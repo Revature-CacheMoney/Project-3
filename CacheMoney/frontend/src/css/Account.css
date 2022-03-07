@@ -2,6 +2,7 @@
     color: black;
 }
 
+/* ACCOUNT_LIST */
 .account_list {
     height: 640px;
     width: 720px;
@@ -67,4 +68,57 @@
     position: absolute;
     right: 8px;
     bottom: 0;
+}
+
+/* CREATE_ACCOUNT */
+.account_create_form {
+    border: 1px solid black;
+    width: 480px;
+    height: 360px;
+    display: flex;
+    flex-flow: column;
+    justify-content: left;
+    align-items: left;
+}
+
+.account_create_form_header {
+    font-size: 32px;
+    font-weight: bolder;
+    margin: 2px;
+    align-self: center;
+}
+
+.account_create_name {
+    margin: 20px;
+    display: flex;
+    flex-flow: column;
+    align-items: left;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.account_create_radio_button_group {
+    display: flex;
+    flex-flow: column;
+    align-items: left;
+    margin: 20px;
+}
+
+.account_create_type_header {
+    margin: 2px;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.account_create_radio_button {
+    font-size: 18px;
+    margin: 8px;
+}
+
+.account_create_submit_button {
+    align-self: center;
+}
+
+.account_create_submit_button:hover {
+    cursor: pointer;
 }
