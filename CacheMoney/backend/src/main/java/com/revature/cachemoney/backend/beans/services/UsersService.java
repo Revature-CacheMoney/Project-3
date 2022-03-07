@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 
 import com.revature.cachemoney.backend.beans.models.User;
 import com.revature.cachemoney.backend.beans.repositories.UserRepo;
-import com.revature.cachemoney.backend.beans.utils.Encoder;
+import com.revature.cachemoney.backend.beans.utils.SecurityConfig;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 public class UsersService {
     private final UserRepo userRepository;
 
-    private final Encoder passwordEncoder;
+    private final SecurityConfig passwordEncoder;
 
     private final String emailRegEx = "^[a-zA-Z0-9._-]+@{1}[a-zA-Z0-9-_]+[.]{1}[a-zA-Z0-9]+[a-zA-Z_.-]*$";
     private final String nameRegEx = "^[a-zA-Z -]+$";
@@ -28,7 +28,7 @@ public class UsersService {
     private final String passwordRegEx = "^[a-zA-Z0-9@^%$#/\\,;|~._-]{8,50}$";
 
     @Autowired
-    public UsersService(UserRepo userRepository, Encoder passwordEncoder) {
+    public UsersService(UserRepo userRepository, SecurityConfig passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
