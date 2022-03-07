@@ -20,7 +20,6 @@ function App() {
 					<Route path="/signin" exact element={<SigninView />} />
 					<Route path="/register" exact element={<RegisterView />} />
 					<Route path="/main" exact element={<MainPageView2 />} />
-					<Route path="/main" exact element={<MainPageView2 />} />
 					<Route path="/accounts/create" exact element={<AccountType />} />
 					<Route path="/transfer" exact element={<TransferView />} />
 					<Route
