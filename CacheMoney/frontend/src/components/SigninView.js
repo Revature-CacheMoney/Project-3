@@ -37,7 +37,7 @@ function SigninView() {
 						"Error: incorrect username or password.";
 					//alert("Invalid login attempt.");
 				} else {
-					console.log(responseData);
+					console.log("Response from login API: ", responseData);
 					//store.dispatch({type: 'UPDATE_CURRENT_ACCOUNT_ID', payload: event.currentTarget.id});
 					userStore.dispatch({
 						type: "UPDATE_ID",
