@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 
 import com.revature.cachemoney.backend.beans.models.User;
 import com.revature.cachemoney.backend.beans.repositories.UserRepo;
-import com.revature.cachemoney.backend.beans.utils.SecurityConfig;
+import com.revature.cachemoney.backend.beans.security.SecurityConfig;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;

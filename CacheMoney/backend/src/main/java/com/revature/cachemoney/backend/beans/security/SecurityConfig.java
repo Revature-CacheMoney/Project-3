@@ -1,4 +1,4 @@
-package com.revature.cachemoney.backend.beans.utils;
+package com.revature.cachemoney.backend.beans.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
