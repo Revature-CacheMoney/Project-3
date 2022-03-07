@@ -15,6 +15,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 /**
  * Spring Security configuration file to set up request authentication.
+ * 
  * @author Ibrahima Diallo, Brian Gardner, Cody Gonsowski, & Jeffrey Lor
  */
 @EnableWebSecurity
@@ -63,7 +64,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+
         source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
+
         return source;
     }
 }
