@@ -1,6 +1,7 @@
 import React from "react";
 import Navigation from "./NavBar.jsx";
 import Footer from "./Footer.js";
+import AccountList from "./Account/AccountList.js";
 
 function MainPageView2() {
 	const username = "REVMAN3076";
@@ -36,6 +37,7 @@ function MainPageView2() {
 
 			<div className="main-page-content">
 				{/******* Insert body content here ********/}
+				<AccountList />
 			</div>
 
 			<Footer />

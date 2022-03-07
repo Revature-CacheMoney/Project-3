@@ -59,7 +59,7 @@ function RegisterView() {
 	function doRegistration(info) {
 		let responseData;
 		const url = "http://localhost:8080/";
-    
+
 		axios
 			.post(`${url}users/`, info)
 			.then((response) => {
@@ -76,10 +76,10 @@ function RegisterView() {
 					doLoginToMain();
 				} */ // end working, commented-out code
 				doLoginToMain();
+				// Should probably redirect to login screen, not straight to main pages
 			})
 			.catch((error) => console.error(`Error: ${error}`));
 		//console.log(responseData);
-
 	}
 
 	// TODO: this should route back to index page with note to login
@@ -92,67 +92,65 @@ function RegisterView() {
 		<div className="container-view login-outer-container">
 			<div className="login-inner-container">
 				<div className="login-content-box">
-					
-					<h2 className="logo-smaller" id="register-logo">CacheMoney</h2>
+					<h2 className="logo-smaller" id="register-logo">
+						CacheMoney
+					</h2>
 					<div id="register-white-box" className="login-white-box">
 						<div className="login-white-box-column">
-
 							<div id="registration-name-boxes">
 								<div id="box-L" className="reg-name-box">
-								<label htmlFor="firstname" id="label-L">
-									First name:
-								</label>
-								<input type="text" name="firstname" id="firstname" />
+									<label htmlFor="firstname" id="label-L">
+										First name:
+									</label>
+									<input type="text" name="firstname" id="firstname" />
 								</div>
 
 								<div id="box-R" className="reg-name-box">
-								<label htmlFor="lastname" id="label-R">
-									Last name:
-								</label>
-								<input type="text" name="lastname" id="lastname" />
+									<label htmlFor="lastname" id="label-R">
+										Last name:
+									</label>
+									<input type="text" name="lastname" id="lastname" />
 								</div>
 							</div>
 
 							<div className="reg-field-box">
-							<label htmlFor="email">
-								Email:
-								<span className="detail-text">
-									*must be unregistered valid email
-								</span>
-							</label>
-							<input type="text" name="email" id="email" />
+								<label htmlFor="email">
+									Email:
+									<span className="detail-text">
+										*must be unregistered valid email
+									</span>
+								</label>
+								<input type="text" name="email" id="email" />
 							</div>
 
 							<div className="reg-field-box">
-							<label htmlFor="username">
-								Username: <span className="detail-text">*must be unique</span>
-							</label>
-							<input type="text" name="username" id="username" />
+								<label htmlFor="username">
+									Username: <span className="detail-text">*must be unique</span>
+								</label>
+								<input type="text" name="username" id="username" />
 							</div>
 
 							<div className="reg-field-box">
-							<label htmlFor="password">Password:</label>
-							<input
-								type="text"
-								name="password1"
-								id="password1"
-								className="password-box"
-							/>
+								<label htmlFor="password">Password:</label>
+								<input
+									type="text"
+									name="password1"
+									id="password1"
+									className="password-box"
+								/>
 							</div>
-							
-							<div className="reg-field-box">
-							<label htmlFor="password2">Confirm password:</label>
-							<input
-								type="text"
-								name="password2"
-								id="password2"
-								className="password-box"
-							/>
 
+							<div className="reg-field-box">
+								<label htmlFor="password2">Confirm password:</label>
+								<input
+									type="text"
+									name="password2"
+									id="password2"
+									className="password-box"
+								/>
 							</div>
 
 							<input type="submit" value="Register" onClick={handleSubmit} />
-
 						</div>
 					</div>
 				</div>
