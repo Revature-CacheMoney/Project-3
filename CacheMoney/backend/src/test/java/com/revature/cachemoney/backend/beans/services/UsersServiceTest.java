@@ -1,19 +1,24 @@
+/**
+ * Unit testing of the UserService class.
+ * Authors: David Alvarado, Brandon Perrien,
+ *          Jeremiah Smith, Alvin Frierson,
+ *          Trevor Hughes, Maja Wirkijowska,
+ *          Ahmad Rawashdeh, Ibrahima Diallo.
+ *
+ */
+
+
 package com.revature.cachemoney.backend.beans.services;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import com.revature.cachemoney.backend.beans.models.User;
-
-import org.junit.After;
-import org.junit.Before;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
 import java.util.LinkedList;
 import java.util.List;
 

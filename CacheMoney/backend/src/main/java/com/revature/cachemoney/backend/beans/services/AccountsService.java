@@ -26,17 +26,27 @@ public class AccountsService {
 
     // GET all accounts
     public List<Account> getAllAccounts() {
+
         return accountRepo.findAll();
     }
 
     // GET account by ID
     public Optional<Account> getAccountByID(Integer id) {
+
         return accountRepo.findById(id);
     }
 
     // POST an account
-    public void postAccount(Account account) {
-        accountRepo.save(account);
+    // needs to return boolean so correct http code can be sent back.
+    public Boolean postAccount(Account account) {
+        String checking = "checking";
+        String saving = "savings";
+        if (account.getType().equals(checking) || account.getType().equals(saving)) {
+            accountRepo.save(account);
+            return true;
+        }else{
+            return false;
+        }
     }
 
     // DELETE an account
