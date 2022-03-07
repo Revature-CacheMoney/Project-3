@@ -7,7 +7,6 @@ import NotFoundView from "./components/NotFoundView.js";
 import MainPageView from "./components/MainPageView";
 import MainPageView2 from "./components/MainPageView2";
 import TransferView from "./components/TransferView";
-import AccountList from "./components/Account/AccountList";
 import TransactionFilter from "./components/Transaction/TransactionFilter"
 import CreateAccount from "./components/Account/CreateAccount";
 
@@ -20,10 +19,14 @@ function App() {
 					<Route path="/signin" exact element={<SigninView />} />
 					<Route path="/register" exact element={<RegisterView />} />
 					<Route path="/main" exact element={<MainPageView2 />} />
-					<Route path="/accounts" exact element={<AccountList />} />
+					<Route path="/main" exact element={<MainPageView2 />} />
 					<Route path="/accounts/create" exact element={<CreateAccount />} />
 					<Route path="/transfer" exact element={<TransferView />} />
-					<Route path="/transactions" exact element={<TransactionFilter />}></Route>
+					<Route
+						path="/transactions"
+						exact
+						element={<TransactionFilter />}
+					></Route>
 					<Route element={<NotFoundView />} />
 				</Routes>
 			</Router>
