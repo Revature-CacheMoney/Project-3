@@ -107,6 +107,7 @@ function RegisterView() {
 					doLoginToMain();
 				} */ // end working, commented-out code
 				doLoginToMain();
+				// Should probably redirect to login screen, not straight to main pages
 			})
 			.catch((error) => console.error(`Error: ${error}`));
 		//console.log(responseData);

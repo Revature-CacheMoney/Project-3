@@ -1,8 +1,11 @@
 import React from "react";
 import Navigation from "./NavBar.jsx";
 import Footer from "./Footer.js";
+import AccountList from "./Account/AccountList.js";
+import userStore from "../store/Store.js";
 
 function MainPageView2() {
+	console.log("Data store: ", userStore.getState());
 	const username = "REVMAN3076";
 	return (
 		<div className="main-page-container container-view">
@@ -36,6 +39,7 @@ function MainPageView2() {
 
 			<div className="main-page-content">
 				{/******* Insert body content here ********/}
+				<AccountList />
 			</div>
 
 			<Footer />
