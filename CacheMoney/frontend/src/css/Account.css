@@ -1,7 +1,3 @@
-* {
-	/* color: black; */
-}
-
 /* ACCOUNT_LIST */
 .account_list {
 	height: 640px;
@@ -77,6 +73,7 @@
 
 /* CREATE_ACCOUNT */
 .account_create_form {
+    color: black;
     border: 1px solid black;
     width: 480px;
     height: 360px;
