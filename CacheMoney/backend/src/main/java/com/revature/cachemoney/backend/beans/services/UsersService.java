@@ -90,6 +90,9 @@ public class UsersService {
                 user.getPassword() == null) {
             return false;
         }
+        if (user.getFirstName() == "" || user.getLastName() == "") {
+            return false;
+        }
         Pattern emailPattern = Pattern.compile(emailRegEx);
         Matcher emailMatcher = emailPattern.matcher(user.getEmail());
         boolean emailValidity = emailMatcher.matches();
