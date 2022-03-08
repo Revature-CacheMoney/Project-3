@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import userStore from "../store/Store.js";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -28,7 +28,7 @@ function SigninView() {
 			.then((response) => {
 				responseData = response.data;
 				responseStatus = response.status;
-				if (responseStatus != 200 || responseData.user_id === null) {
+				if (responseStatus !== 200 || responseData.user_id === null) {
 					console.log("Login failed - bad username/password");
 					console.log("(or some response that wasn't status code 200");
 					document.getElementById("login-error-box").textContent =
