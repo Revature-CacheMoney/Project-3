@@ -23,7 +23,7 @@ public class UsersService {
     private final SecurityConfig passwordEncoder;
 
     private final String emailRegEx = "^[a-zA-Z0-9._-]+@{1}[a-zA-Z0-9-_]+[.]{1}[a-zA-Z0-9]+[a-zA-Z_.-]*$";
-    private final String nameRegEx = "^[a-zA-Z -]+$";
+    private final String nameRegEx = "^[a-zA-Z][a-zA-Z -]+[a-zA-Z]$";
     private final String usernameRegEx = "^[a-zA-Z0-9@~._-]{8,}$";
     private final String passwordRegEx = "^[a-zA-Z0-9@^%$#/\\,;|~._-]{8,50}$";
 
