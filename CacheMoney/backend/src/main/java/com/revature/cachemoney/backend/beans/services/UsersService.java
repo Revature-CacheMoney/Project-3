@@ -68,11 +68,6 @@ public class UsersService {
         userRepository.deleteById(id);
     }
 
-    // GET user by email address
-    public Optional<User> getUserByEmail(String email) {
-        return userRepository.findByEmail(email);
-    }
-
     // login verification
     public User getUserByUsername(User user) {
         if (user.getUsername() == null || user.getPassword() == null) {

@@ -1,21 +1,21 @@
 package com.revature.cachemoney.backend.beans.controllers;
 
-import java.util.Optional;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.revature.cachemoney.backend.beans.annotations.RequireJwt;
 import com.revature.cachemoney.backend.beans.models.User;
 import com.revature.cachemoney.backend.beans.security.JwtUtil;
 import com.revature.cachemoney.backend.beans.services.UsersService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * Handles HTTP requests for users
+ * Controller to handle requests related to Users.
+ * 
+ * @author Ibrahima Diallo, Brian Gardner, Cody Gonsowski, & Jeffrey Lor
  */
 @RestController
 @RequestMapping("/users")
@@ -33,18 +33,22 @@ public class UserController {
 
     // GET all users
     @GetMapping
-    public ResponseEntity<String> getAllUsers(@RequestHeader(name = "token") String token) throws JsonProcessingException {
-        if (jwtUtil.validateToken(token)) {
-            return ResponseEntity.ok().body(mapper.writeValueAsString(usersService.getAllUsers()));
-        }
-
-        return ResponseEntity.badRequest().build();
+    @RequireJwt
+    public ResponseEntity<String> getAllUsers(
+            @RequestHeader(name = "token") String token,
+            @RequestHeader(name = "userId") Integer userId)
+            throws JsonProcessingException {
+        return ResponseEntity.ok().body(mapper.writeValueAsString(usersService.getAllUsers()));
     }
 
     // GET a user by ID
-    @GetMapping(value = "/{id}")
-    public Optional<User> getUserById(@PathVariable Integer id) {
-        return usersService.getUserById(id);
+    @GetMapping(value = "/id")
+    @RequireJwt
+    public ResponseEntity<String> getUserById(
+            @RequestHeader(name = "token") String token,
+            @RequestHeader(name = "userId") Integer userId)
+            throws JsonProcessingException {
+        return ResponseEntity.ok().body(mapper.writeValueAsString(usersService.getUserById(userId)));
     }
 
     /**
@@ -59,34 +63,17 @@ public class UserController {
     }
 
     // DELETE a user by ID
-    @DeleteMapping(value = "/{id}")
-    public void deleteUserById(@PathVariable Integer id) {
-        usersService.deleteUserById(id);
+    @DeleteMapping(value = "/id")
+    @RequireJwt
+    public void deleteUserById(
+            @RequestHeader(name = "token") String token,
+            @RequestHeader(name = "userId") Integer userId) {
+        usersService.deleteUserById(userId);
     }
 
-    /**
-     * GET a User by email.
-     * Emails are unique and should not cause conflicting results.
-     * 
-     * @param email
-     * @return the User based on email
-     */
-    @GetMapping(value = "/email")
-    public Optional<User> getUserByEmail(@RequestParam String email) {
-        return usersService.getUserByEmail(email);
-    }
-
-    /**
-     * GET a User by email.
-     * Emails are unique and should not cause conflicting results.
-     *
-     * @param user
-     * @return the User based on email
-     * @throws JsonProcessingException
-     */
+    // login
     @PostMapping(value = "/login")
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<String> getUserByUsername(@RequestBody User user) throws JsonProcessingException {
+    public ResponseEntity<String> login(@RequestBody User user) throws JsonProcessingException {
         // has internal checking to see if user is valid
         User tempUser = usersService.getUserByUsername(user);
 
@@ -96,7 +83,7 @@ public class UserController {
             HttpHeaders headers = new HttpHeaders();
 
             // add the JWT to the headers
-            headers.set("JWT", jwtUtil.generateToken(tempUser.getUsername()));
+            headers.set("JWT", jwtUtil.generateToken(tempUser.getUser_id()));
 
             // write the headers & object into the response
             return ResponseEntity.ok().headers(headers).body(mapper.writeValueAsString(tempUser));
