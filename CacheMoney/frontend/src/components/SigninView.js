@@ -1,19 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import userStore from "../store/Store.js";
 import axios from "axios";
-//import { createBrowserHistory } from "history";
-import { Link, useNavigate } from "react-router-dom";
 import "../css/tempLogin.css"
+import { useNavigate } from "react-router-dom";
+import config from "../config.js";
+
 
 // The Signin component is the login form the user sees after pressing the "sign in" button.
 // An API call should be made to test for successful login credentials.
 // The user's info (partial) should be persisted throughout the app.
 function SigninView() {
 	const navigate = useNavigate();
-
-	// Test stuff .
-	//let [input, setInput] = useState([""]);
-
 	const handleLogin = () => {
 		// maybe add check to make sure neither username/password are blank
 		const info = {
@@ -25,16 +22,18 @@ function SigninView() {
 	};
 
 	function doLogin(info) {
+		let responseStatus;
 		let responseData;
-		const url = "http://localhost:8080/";
+		const url = config.url;
 		axios
 			.post(`${url}users/login`, info)
 			.then((response) => {
-				//console.log(response.data);
 				responseData = response.data;
-				if (responseData.user_id === null) {
+				responseStatus = response.status;
+				if (responseStatus !== 200 || responseData.user_id === null) {
 					console.log("Login failed - bad username/password");
 					document.getElementById("login-error-box").innerHTML =
+
 						"Error: incorrect username or password.";
 					let loginInputArr = document.getElementsByClassName("login-input");
 					for (let i = 0; i < loginInputArr.length; i++){
@@ -44,7 +43,6 @@ function SigninView() {
 					//alert("Invalid login attempt.");
 				} else {
 					console.log("Response from login API: ", responseData);
-					//store.dispatch({type: 'UPDATE_CURRENT_ACCOUNT_ID', payload: event.currentTarget.id});
 					userStore.dispatch({
 						type: "UPDATE_ID",
 						payload: responseData.user_id,
@@ -106,21 +104,8 @@ function SigninView() {
 	} */
 
 	const doLoginToMain = () => {
-		// let history = useHistory ();
 		navigate("/main");
 	};
-
-	//   function doLoginToMain() {
-	//   	// pushing new url to react-router's history
-	//   	let history = createBrowserHistory();
-	//   	history.listen((location, action) => {
-	//   		// this is called whenever new locations come in
-	//   		// the action is POP, PUSH, or REPLACE
-	//   		//this.props.history.push('/posts/');
-	//   		history.push("/main");
-	//   	});
-	//   	console.log("history", history);
-	//   }
 
 	// Temp disabled verify until we troubleshoot ***********************************************
 	// <button className="login" type="submit" onClick={verifyCredentials}>

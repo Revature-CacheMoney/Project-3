@@ -1,8 +1,9 @@
 import axios from "axios";
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import config from "../config.js";
 
-// The registrration component handles the registration form for new users.
+// The registration component handles the registration form for new users.
 // The info is persisted in the database and locally (partial).
 
 function RegisterView() {
@@ -11,10 +12,6 @@ function RegisterView() {
 	// handleSubmit: What happens when user presses the "submit" button on reg. form
 	const handleSubmit = (event) => {
 		event.preventDefault();
-
-		// Check if username is at least 8 charas long
-		// This is just a quick and dirty fix until real validation is implemented
-		const username = document.getElementById("username").value;
 
 		// validate password (do they match?)
 		const p1 = document.getElementById("password1").value;
@@ -33,10 +30,9 @@ function RegisterView() {
 				// submit stuff
 				console.log("Information being sent:  ", info);
 				doRegistration(info);
-				// if successful - a string is returned? (as of 3/2)
 			}
 		} else {
-			alert("Sorry, your passwords do not match.");
+			alert("Sorry, your passwords do dnot match.");
 		}
 	};
 
@@ -57,7 +53,7 @@ function RegisterView() {
 
 		const { firstName, lastName, email, username, password } = info;
 		// Test the firstname, lastname for validity - ex. no empty strings
-		const namePattern = /^[a-zA-Z -]+$/;
+		const namePattern = /^[a-zA-Z][a-zA-Z -]+[a-zA-Z]$/;
 		if (!namePattern.test(firstName)) {
 			regValidity = false;
 			registrationError("firstname", "firstname-span", "Invalid first name.  Please check the spelling and try again.");
@@ -99,41 +95,44 @@ function RegisterView() {
 
 	// doRegistration: does the actual registration call
 	function doRegistration(info) {
+		let responseStatus;
+		// Lets cover any sort of backend response
 		let responseData;
-		const url = "http://localhost:8080/";
+		const url = config.url;
 
 		axios
 			.post(`${url}users/`, info)
 			.then((response) => {
 				console.log(response);
+				responseStatus = response.status;
 				responseData = response.data;
-				if (responseData.result) {
-					console.log("Registration successful");
-					doLoginToMain();
+				if (responseStatus === 200) {
+					if (responseData === true || responseData.result === true) {
+						console.log("Registration successful");
+						doLoginToMain();
+					} else {
+						registrationFailure();
+					}
 				} else {
-					console.log("Some error occurred during registration.");
+					registrationFailure();
 				}
-				/* Commented out b/c registration response may change, but code is valid/from login */
-				/*
-				if (responseData.user_id === null) {
-					console.log("Login failed - bad usernmae/password");
-					document.getElementById("login-error-box").textContent =
-						"Error: incorrect username or password.";
-					//alert("Invalid login attempt.");
-				} else {
-					doLoginToMain();
-				} */ // end working, commented-out code
-				doLoginToMain();
-				// Should probably redirect to login screen, not straight to main pages
 			})
 			.catch((error) => console.error(`Error: ${error}`));
-		//console.log(responseData);
+	}
+
+	// Probably want to expand on this to include exactly what was wrong,
+	// use non-alert messaging to highlight errors, etc
+	function registrationFailure() {
+		console.log("Some error occurred during registration.");
+		console.log("Check if the email or username is already in use?");
+		alert(
+			"Some error occurred during registration.  Email or username already in use?"
+		);
 	}
 
 	// TODO: this should route back to index page with note to login
 	const doLoginToMain = () => {
-		// let history = useHistory ();
-		navigate("/main");
+		navigate("/signin");
 	};
 
 	return (
