@@ -45,19 +45,5 @@ public class User {
 		this.username = username;
 	}
 
-	@Override
-	public String toString() {
-		String s = "";
-		s += "USER";
-		s += "{";
-		s += this.user_id + "\n";
-		s += this.firstName + "\n";
-		s += this.lastName + "\n";
-		s += this.email + "\n";
-		s += this.username + "\n";
-		s += this.password +"\n";
-		s += "}";
 
-		return s;
-	}
 }
