@@ -17,7 +17,7 @@ function CreateAccount(props) {
         userId: {
             user_id: store.getState().userId
         }
-    })
+    });
 
     // retrieve the url from the config
     const url = config.url;
@@ -30,6 +30,7 @@ function CreateAccount(props) {
 
     // updates form data when form changes
     const handleChange = (event) => {
+        event.preventDefault();
         setFormData({ ...formData, [event.target.name]: event.target.value });
     }
 
