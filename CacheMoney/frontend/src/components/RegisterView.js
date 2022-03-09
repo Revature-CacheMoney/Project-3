@@ -23,119 +23,92 @@ function RegisterView() {
   const handleChange = (event) => {
     event.preventDefault();
     setFormData({ ...formData, [event.target.name]: event.target.value });
-    // console.log("formData", formData);
   };
 
-  //console.log("handleChange", formData);
-
-  //   // handleSubmit: What happens when user presses the "submit" button on reg. form
-  //   const handleSubmit = (event) => {
-  //     event.preventDefault();
-
-  //     // validate password (do they match?)
-  //     const p1 = document.getElementById("password1").value;
-  //     const p2 = document.getElementById("password2").value;
-
-  //     if (p1 === p2) {
-  //       const info = {
-  //         firstName: document.getElementById("firstname").value,
-  //         lastName: document.getElementById("lastname").value,
-  //         email: document.getElementById("email").value,
-  //         username: document.getElementById("username").value,
-  //         password: document.getElementById("password1").value,
-  //       };
-  //       // Validate information
-  //       if (validateInput(info)) {
-  //         // submit stuff
-  //         console.log("Information being sent:  ", info);
-  //         doRegistration(info);
-  //       }
-  //     } else {
-  //       alert("Sorry, your passwords do dnot match.");
-  //     }
-  //   };
+  // handleSubmit: What happens when user presses the "submit" button on reg. form
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    // validate password (do they match?)
+    // Validate information
+    validateInput(formData);
+    console.log("Information being sent:  ", formData);
+    doRegistration(formData);
+  };
 
   //   // Checks input against validation (should be same patterns as used in backend)
-  //   function validateInput(info) {
-  //     const { firstName, lastName, email, username, password } = info;
+  function validateInput(info) {
+    const { firstName, lastName, email, username, password1, password2 } = info;
+    if (password1 !== password2) {
+      alert("Passwords do not match!");
+      return false;
+    }
+    // Test the firstname, lastname for validity - ex. no empty strings
+    const namePattern = /^[a-zA-Z -]+$/;
+    if (!namePattern.test(firstName)) {
+      alert("Invalid first name.  Please check the spelling and try again.");
+      return false;
+    } else if (!namePattern.test(lastName)) {
+      alert("Invalid last name.  Please check the spelling and try again.");
+      return false;
+    }
+    const emailPattern =
+      /^[a-zA-Z0-9._-]+@{1}[a-zA-Z0-9-_]+[.]{1}[a-zA-Z0-9]+[a-zA-Z_.-]*$/;
+    if (!emailPattern.test(email)) {
+      alert("Invalid email address.  Please check your input and try again.");
+      return false;
+    }
 
-  //     // Test the firstname, lastname for validity - ex. no empty strings
-  //     const namePattern = /^[a-zA-Z -]+$/;
-  //     if (!namePattern.test(firstName)) {
-  //       alert("Invalid first name.  Please check the spelling and try again.");
-  //       return false;
-  //     } else if (!namePattern.test(lastName)) {
-  //       alert("Invalid last name.  Please check the spelling and try again.");
-  //       return false;
-  //     }
+    const usernamePattern = /^[a-zA-Z0-9@~._-]{8,}$/;
+    if (!usernamePattern.test(username)) {
+      alert(
+        "Invalid username.  Usernames should be between 8-255 characters in length and use alphanumeric / select symbols.."
+      );
+      return false;
+    }
 
-  //     const emailPattern =
-  //       /^[a-zA-Z0-9._-]+@{1}[a-zA-Z0-9-_]+[.]{1}[a-zA-Z0-9]+[a-zA-Z_.-]*$/;
-  //     if (!emailPattern.test(email)) {
-  //       alert("Invalid email address.  Please check your input and try again.");
-  //       return false;
-  //     }
+    const passwordPattern = /^[a-zA-Z0-9@^%$#/\\,;|~._-]{8,50}$/;
+    if (!passwordPattern.test(password1)) {
+      alert(
+        "Invalid password.  Passwords should be between 8-50 characters in length and use alphanumeric / select symbols.."
+      );
+      return false;
+    }
+    return true;
+  }
 
-  //     const usernamePattern = /^[a-zA-Z0-9@~._-]{8,}$/;
-  //     if (!usernamePattern.test(username)) {
-  //       alert(
-  //         "Invalid username.  Usernames should be between 8-255 characters in length and use alphanumeric / select symbols.."
-  //       );
-  //       return false;
-  //     }
+  // doRegistration: does the actual registration call
+  function doRegistration() {
+    let responseStatus;
+    // Lets cover any sort of backend response
+    let responseData;
+    const url = config.url;
 
-  //     const passwordPattern = /^[a-zA-Z0-9@^%$#/\\,;|~._-]{8,50}$/;
-  //     if (!passwordPattern.test(password)) {
-  //       alert(
-  //         "Invalid password.  Passwords should be between 8-50 characters in length and use alphanumeric / select symbols.."
-  //       );
-  //       return false;
-  //     }
-
-  //     return true;
-  //   }
-
-  //   // doRegistration: does the actual registration call
-  //   function doRegistration(info) {
-  //     let responseStatus;
-  //     // Lets cover any sort of backend response
-  //     let responseData;
-  //     const url = config.url;
-
-  //     axios
-  //       .post(`${url}users/`, info)
-  //       .then((response) => {
-  //         console.log(response);
-  //         responseStatus = response.status;
-  //         responseData = response.data;
-  //         if (responseStatus === 200) {
-  //           if (responseData === true || responseData.result === true) {
-  //             console.log("Registration successful");
-  //             doLoginToMain();
-  //           } else {
-  //             registrationFailure();
-  //           }
-  //         } else {
-  //           registrationFailure();
-  //         }
-  //       })
-  //       .catch((error) => console.error(`Error: ${error}`));
-  //   }
-
-  //   // Probably want to expand on this to include exactly what was wrong,
-  //   // use non-alert messaging to highlight errors, etc
-  //   function registrationFailure() {
-  //     console.log("Some error occurred during registration.");
-  //     console.log("Check if the email or username is already in use?");
-  //     alert(
-  //       "Some error occurred during registration.  Email or username already in use?"
-  //     );
-  //   }
-
-  //   // TODO: this should route back to index page with note to login
-  //   const doLoginToMain = () => {
-  //     navigate("/signin");
-  //   };
+    const newUser = {
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      email: formData.email,
+      username: formData.username,
+      password: formData.password1,
+    };
+    axios
+      .post(`${url}users/`, newUser)
+      .then((response) => {
+        console.log(response);
+        responseStatus = response.status;
+        responseData = response.data;
+        if (responseStatus === 200) {
+          if (responseData === true || responseData.result === true) {
+            //console.log("Registration successful");
+            navigate("/signin");
+          } else {
+            alert(
+              "Some error occurred during registration. \n Check if the email or username is already in use?"
+            );
+          }
+        }
+      })
+      .catch((error) => console.error(`Error: ${error}`));
+  }
 
   return (
     <div className="container-view login-outer-container">
@@ -159,7 +132,6 @@ function RegisterView() {
                     placeholder="Enter your first name"
                     className="form-control"
                     onChange={handleChange} // the function we just made! the onChange attribute will automatically pass the `event` argument based off of which input was clicked
-                    // value={formData.firstName} // we can use our useState hook to store the values of each input now
                     required
                   />
                 </div>
@@ -176,7 +148,6 @@ function RegisterView() {
                     placeholder="Enter your last name"
                     className="form-control"
                     onChange={handleChange}
-                    // value={formData.lastName}
                     required
                   />
                 </div>
@@ -197,7 +168,6 @@ function RegisterView() {
                   placeholder="Enter your last email"
                   className="form-control"
                   onChange={handleChange}
-                //   value={formData.email}
                   required
                 />
               </div>
@@ -213,8 +183,7 @@ function RegisterView() {
                   title="Create username: "
                   placeholder="Create username: "
                   className="form-control"
-                  onChange={handleChange} // the function we just made! the onChange attribute will automatically pass the `event` argument based off of which input was clicked
-                //   value="username" // we can use our useState hook to store the values of each input now
+                  onChange={handleChange}
                   required
                 />
               </div>
@@ -228,9 +197,7 @@ function RegisterView() {
                   className="password-box"
                   title="Create password"
                   placeholder="Create password"
-                  //   className="form-control"
-                  onChange={handleChange} // the function we just made! the onChange attribute will automatically pass the `event` argument based off of which input was clicked
-                //   value={formData.password1} // we can use our useState hook to store the values of each input now
+                  onChange={handleChange}
                   required
                 />
               </div>
@@ -244,9 +211,7 @@ function RegisterView() {
                   className="password-box"
                   title="Confirm password"
                   placeholder="Confirm password"
-                  //   className="form-control"
-                  onChange={handleChange} // the function we just made! the onChange attribute will automatically pass the `event` argument based off of which input was clicked
-                //   value={formData.password2} // we can use our useState hook to store the values of each input now
+                  onChange={handleChange}
                   required
                 />
               </div>
