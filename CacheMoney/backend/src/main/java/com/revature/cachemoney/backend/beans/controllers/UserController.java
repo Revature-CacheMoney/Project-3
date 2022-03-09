@@ -3,11 +3,16 @@ package com.revature.cachemoney.backend.beans.controllers;
 import java.util.List;
 import java.util.Optional;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.cachemoney.backend.beans.models.User;
+import com.revature.cachemoney.backend.beans.security.JwtUtil;
 import com.revature.cachemoney.backend.beans.services.UsersService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -70,10 +75,33 @@ public class UserController {
      *
      * @param user
      * @return the User based on email
+     * @throws JsonProcessingException
      */
     @PostMapping(value = "/login")
     @ResponseStatus(HttpStatus.OK)
-    public User getUserByUsername(@RequestBody User user) {
-        return usersService.getUserByUsername(user);
+    public ResponseEntity<String> getUserByUsername(@RequestBody User user) throws JsonProcessingException {
+        // has internal checking to see if user is valid
+        User tempUser = usersService.getUserByUsername(user);
+
+        // make sure the user is valid
+        if (tempUser != null) {
+            // create the response headers
+            HttpHeaders headers = new HttpHeaders();
+
+            // instance of JWT
+            JwtUtil jwtUtil = new JwtUtil();
+
+            // add the JWT to the headers
+            headers.set("JWT", jwtUtil.generateToken(tempUser.getUsername()));
+
+            // mapper to write object to json
+            ObjectMapper mapper = new ObjectMapper();
+
+            // write the headers & object into the response
+            return ResponseEntity.ok().headers(headers).body(mapper.writeValueAsString(tempUser));
+        }
+
+        // indicate bad request
+        return ResponseEntity.badRequest().build();
     }
 }

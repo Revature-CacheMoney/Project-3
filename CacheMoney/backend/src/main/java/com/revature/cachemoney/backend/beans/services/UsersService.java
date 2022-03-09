@@ -76,7 +76,7 @@ public class UsersService {
     // login verification
     public User getUserByUsername(User user) {
         if (user.getUsername() == null || user.getPassword() == null) {
-            return user;
+            return null;
         }
 
         ExampleMatcher em = ExampleMatcher.matching()

@@ -35,7 +35,8 @@ public class JwtUtil {
         return JWT.create()
                 .withClaim("username", username)
                 .withIssuedAt(new Date())
-                .sign(Algorithm.HMAC256(secret));
+                //TODO fix with secret application.properties
+                .sign(Algorithm.HMAC256("hniumae4vtihnuomyv5tabeuhniae5thnuiae4vyuihna4vhuia34h965o8q3y67"));
     }
 
     /**
@@ -47,7 +48,8 @@ public class JwtUtil {
      */
     public String validateTokenAndRetrieveSubject(String token) throws JWTVerificationException {
         // create a verifier using the same algorithm as generated token
-        JWTVerifier verifier = JWT.require(Algorithm.HMAC256(secret)).build();
+        //TODO fix with secret application.properties
+        JWTVerifier verifier = JWT.require(Algorithm.HMAC256("hniumae4vtihnuomyv5tabeuhniae5thnuiae4vyuihna4vhuia34h965o8q3y67")).build();
 
         // decrypt the random garbage based on secret key
         DecodedJWT jwt = verifier.verify(token);
