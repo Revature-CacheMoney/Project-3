@@ -1,0 +1,76 @@
+.not-found-outer-container {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background-image: url("../image/Background_image-01.png");
+    background-position: center;
+	background-size: cover;
+	background-repeat: no-repeat;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.not-found-inner-container {
+    background-color: #3d703a;
+    height: 80%;
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.not-found-box {
+    width: 80%;
+    text-align: center;
+}
+
+.not-found-header {
+    font-size: 60px;
+    margin-bottom: 60px;
+}
+
+.not-found-description {
+    font-size: 36px;
+    margin-bottom: 60px;
+    line-height: 60px;
+}
+
+.not-found-link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+}
+
+.not-found-home-button {
+    display: flex;
+    background-color: #fff;
+    color: #d3a940;
+    height: 84px;
+    width: 40%;
+    border-radius: 60px;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+}
+
+.not-found-home-button:hover {
+    box-shadow: -5px 5px #3e4f3d;
+    color: #6c896a;
+}
+
+.not-found-home-text {
+    text-shadow: -2px 2px #3e4f3d;
+    font-size: 60px;
+}
+
+.not-found-home-description {
+    font-size: 16px;
+}
+
+/* Create Account Styling */
