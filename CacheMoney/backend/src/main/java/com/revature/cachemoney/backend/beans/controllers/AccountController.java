@@ -10,6 +10,8 @@ import com.revature.cachemoney.backend.beans.services.AccountsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * Handles HTTP requests for user accounts
  */
@@ -37,8 +39,12 @@ public class AccountController {
 
 	// POST an account
 	@PostMapping()
-	public void postAccount(@RequestBody Account account) {
-		accountsService.postAccount(account);
+	public void postAccount(@RequestBody Account account, HttpServletResponse response) {
+		if (accountsService.postAccount(account)){
+			response.setStatus(HttpServletResponse.SC_ACCEPTED);
+		}else{
+			response.setStatus(HttpServletResponse.SC_NOT_ACCEPTABLE);
+		}
 	}
 
 	// DELETE an account by ID
