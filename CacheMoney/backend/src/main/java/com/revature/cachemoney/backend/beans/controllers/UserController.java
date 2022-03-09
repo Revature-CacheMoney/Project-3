@@ -1,6 +1,5 @@
 package com.revature.cachemoney.backend.beans.controllers;
 
-import java.util.List;
 import java.util.Optional;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -22,16 +21,24 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/users")
 public class UserController {
     private final UsersService usersService;
+    private final JwtUtil jwtUtil;
+    private final ObjectMapper mapper;
 
     @Autowired
-    public UserController(UsersService usersService) {
+    public UserController(UsersService usersService, JwtUtil jwtUtil, ObjectMapper mapper) {
         this.usersService = usersService;
+        this.jwtUtil = jwtUtil;
+        this.mapper = mapper;
     }
 
     // GET all users
     @GetMapping
-    public List<User> getAllUsers() {
-        return usersService.getAllUsers();
+    public ResponseEntity<String> getAllUsers(@RequestHeader(name = "token") String token) throws JsonProcessingException {
+        if (jwtUtil.validateToken(token)) {
+            return ResponseEntity.ok().body(mapper.writeValueAsString(usersService.getAllUsers()));
+        }
+
+        return ResponseEntity.badRequest().build();
     }
 
     // GET a user by ID
@@ -88,14 +95,8 @@ public class UserController {
             // create the response headers
             HttpHeaders headers = new HttpHeaders();
 
-            // instance of JWT
-            JwtUtil jwtUtil = new JwtUtil();
-
             // add the JWT to the headers
             headers.set("JWT", jwtUtil.generateToken(tempUser.getUsername()));
-
-            // mapper to write object to json
-            ObjectMapper mapper = new ObjectMapper();
 
             // write the headers & object into the response
             return ResponseEntity.ok().headers(headers).body(mapper.writeValueAsString(tempUser));
