@@ -54,18 +54,28 @@ public class UsersService {
                 userRepository.save(user);
             } catch (Exception e) {
                 // inform failed result
+                System.out.println("failed due to exception");
                 return false;
             }
             // inform successful result
             return true;
         } else {
+            System.out.println("invalid credentials");
             return false;
         }
     }
 
     // DELETE a user by ID
-    public void deleteUserById(Integer id) {
-        userRepository.deleteById(id);
+    public Boolean deleteUserById(Integer id) {
+        try {
+            userRepository.deleteById(id);
+            return true;
+        }
+        catch (Exception e){
+            System.out.println( "exception when deleting");
+            return false;
+        }
+
     }
 
     // GET user by email address
@@ -126,4 +136,12 @@ public class UsersService {
         return emailValidity && nameValidity && usernameValidity && passwordValidity;
     }
 
+    /**
+     *
+     * ******************STRICTLY FOR TESTING PURPOSES*********************
+     *
+     * */
+    public void deleteAllUsers(){
+        userRepository.deleteAll();
+    }
 }

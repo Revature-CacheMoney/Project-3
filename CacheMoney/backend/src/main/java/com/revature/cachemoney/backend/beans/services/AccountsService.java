@@ -50,13 +50,29 @@ public class AccountsService {
     }
 
     // DELETE an account
-    public void deleteAccountById(Integer id) {
-        accountRepo.deleteById(id);
+    public Boolean deleteAccountById(Integer id) {
+        try {
+            accountRepo.deleteById(id);
+            return true;
+        } catch (Exception e){
+            System.out.println("exception thrown when attempting to delete an account.");
+            return false;
+        }
     }
 
     // GET transaction by ID
     public List<Transaction> getTransactionsById(Integer id) {
         ArrayList<Transaction> res = (ArrayList<Transaction>) transactionRepo.findByAccountId(id);
         return res;
+    }
+
+
+    /**
+     *
+     * ******************STRICTLY FOR TESTING PURPOSES*********************
+     *
+     * */
+    public void deleteAllAccounts(){
+       accountRepo.deleteAll();
     }
 }
