@@ -3,6 +3,7 @@ import userStore from "../store/Store.js";
 import axios from "axios";
 //import { createBrowserHistory } from "history";
 import { Link, useNavigate } from "react-router-dom";
+import "../css/tempLogin.css"
 
 // The Signin component is the login form the user sees after pressing the "sign in" button.
 // An API call should be made to test for successful login credentials.
@@ -33,8 +34,13 @@ function SigninView() {
 				responseData = response.data;
 				if (responseData.user_id === null) {
 					console.log("Login failed - bad username/password");
-					document.getElementById("login-error-box").textContent =
+					document.getElementById("login-error-box").innerHTML =
 						"Error: incorrect username or password.";
+					let loginInputArr = document.getElementsByClassName("login-input");
+					for (let i = 0; i < loginInputArr.length; i++){
+						loginInputArr[i].style.border = "2px solid red";
+						loginInputArr[i].style.boxShadow = "-4px 4px 0px #b04050";
+					}
 					//alert("Invalid login attempt.");
 				} else {
 					console.log("Response from login API: ", responseData);
@@ -131,9 +137,9 @@ function SigninView() {
 							</p>
 							<span id="login-error-box"></span>
 							<label htmlFor="username">Username:</label>
-							<input type="text" name="username" id="username" />
+							<input type="text" className="login-input" name="username" id="username" />
 							<label htmlFor="password">Password:</label>
-							<input type="text" name="password" id="password" />
+							<input type="text" className="login-input" name="password" id="password" />
 							<button className="login" type="submit" onClick={handleLogin}>
 								SIGN IN
 							</button>
