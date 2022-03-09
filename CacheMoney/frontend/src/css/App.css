@@ -216,7 +216,7 @@ a {
 ::selection {
 	background: #d3a940;
 	color: white;
-  }
+}
 
 /*
 #registration-name-boxes {
@@ -267,7 +267,6 @@ input[type="text"] {
 .reg-name-box {
 	width: 45%;
 }
-
 
 /* this may get used by more than the registration page */
 .detail-text {
@@ -403,7 +402,6 @@ input[type="text"] {
 	color: black;
 }
 
-
 /* End navbar */
 
 /* main-view-2 */
@@ -504,6 +502,13 @@ input[type="text"] {
 	margin-right: auto;
 }
 
+.main-page-content {
+	grid-area: main;
+	width: 100%;
+	margin: auto;
+	padding-top: 20px;
+}
+
 /* End main-view-2 */
 
 /* Media queries for reactive views */
@@ -536,7 +541,7 @@ input[type="text"] {
 		margin-bottom: 10px;
 	}
 
-	.reg-name-box  {
+	.reg-name-box {
 		width: 100%;
 	}
 
@@ -579,7 +584,7 @@ input[type="text"] {
 		margin-bottom: 10px;
 	}
 
-	.reg-name-box  {
+	.reg-name-box {
 		width: 100%;
 	}
 
@@ -591,7 +596,4 @@ input[type="text"] {
 		font-size: 1.5vh;
 		font-weight: 700;
 	}
-
-
 }
-

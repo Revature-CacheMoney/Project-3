@@ -9,8 +9,9 @@ import { Link, useNavigate } from "react-router-dom";
 // The user's info (partial) should be persisted throughout the app.
 function SigninView() {
 	const navigate = useNavigate();
+
 	// Test stuff .
-	let [input, setInput] = useState([""]);
+	//let [input, setInput] = useState([""]);
 
 	const handleLogin = () => {
 		// maybe add check to make sure neither username/password are blank
@@ -31,11 +32,29 @@ function SigninView() {
 				//console.log(response.data);
 				responseData = response.data;
 				if (responseData.user_id === null) {
-					console.log("Login failed - bad usernmae/password");
+					console.log("Login failed - bad username/password");
 					document.getElementById("login-error-box").textContent =
 						"Error: incorrect username or password.";
 					//alert("Invalid login attempt.");
 				} else {
+					console.log("Response from login API: ", responseData);
+					//store.dispatch({type: 'UPDATE_CURRENT_ACCOUNT_ID', payload: event.currentTarget.id});
+					userStore.dispatch({
+						type: "UPDATE_ID",
+						payload: responseData.user_id,
+					});
+					userStore.dispatch({
+						type: "UPDATE_USERNAME",
+						payload: responseData.username,
+					});
+					userStore.dispatch({
+						type: "UPDATE_NAME_FIRST",
+						payload: responseData.firstName,
+					});
+					userStore.dispatch({
+						type: "UPDATE_NAME_LAST",
+						payload: responseData.lastName,
+					});
 					doLoginToMain();
 				}
 			})
