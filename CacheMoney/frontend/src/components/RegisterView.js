@@ -36,40 +36,57 @@ function RegisterView() {
 		}
 	};
 
+	function registrationError(id, spanId, errorText) {
+		let ele = document.getElementById(id);
+		ele.style.border = "2px solid red";
+		ele.style.boxShadow = "-4px 4px 0px #b04050";
+		let errorSpan = document.getElementById(spanId);
+		errorSpan.innerHTML = errorText;
+		errorSpan.style.color = "red";
+		errorSpan.style.margin = "0px 0px 0px 12px";
+	}
+
 	// Checks input against validation (should be same patterns as used in backend)
 	function validateInput(info) {
-		const { firstName, lastName, email, username, password } = info;
 
+		let regValidity = true;
+
+		const { firstName, lastName, email, username, password } = info;
 		// Test the firstname, lastname for validity - ex. no empty strings
 		const namePattern = /^[a-zA-Z][a-zA-Z -]+[a-zA-Z]$/;
 		if (!namePattern.test(firstName)) {
-			alert("Invalid first name.  Please check the spelling and try again.");
-			return false;
-		} else if (!namePattern.test(lastName)) {
-			alert("Invalid last name.  Please check the spelling and try again.");
-			return false;
+			regValidity = false;
+			registrationError("firstname", "firstname-span", "Invalid first name.  Please check the spelling and try again.");
+
+		}
+		if (!namePattern.test(lastName)) {
+			regValidity = false;
+			registrationError("lastname", "lastname-span", "Invalid last name.  Please check the spelling and try again.");
 		}
 
 		const emailPattern =
 			/^[a-zA-Z0-9._-]+@{1}[a-zA-Z0-9-_]+[.]{1}[a-zA-Z0-9]+[a-zA-Z_.-]*$/;
 		if (!emailPattern.test(email)) {
-			alert("Invalid email address.  Please check your input and try again.");
-			return false;
+			regValidity = false
+			registrationError("email", "email-span", "Invalid email address.  Please check your input and try again.");
 		}
 
 		const usernamePattern = /^[a-zA-Z0-9@~._-]{8,}$/;
 		if (!usernamePattern.test(username)) {
-			alert(
-				"Invalid username.  Usernames should be between 8-255 characters in length and use alphanumeric / select symbols.."
-			);
-			return false;
+			regValidity = false;
+			registrationError("username", "username-span", "Invalid username.  Usernames should be between 8-255 characters in length and use alphanumeric / select symbols..");
 		}
 
 		const passwordPattern = /^[a-zA-Z0-9@^%$#/\\,;|~._-]{8,50}$/;
 		if (!passwordPattern.test(password)) {
-			alert(
-				"Invalid password.  Passwords should be between 8-50 characters in length and use alphanumeric / select symbols.."
-			);
+			regValidity = false;
+			registrationError("password1", "password1-span", "Invalid password.   Passwords should be between 8-50 characters in length and use alphanumeric / select symbols..");
+			registrationError("password2", "password2-span", "Invalid password.   Passwords should be between 8-50 characters in length and use alphanumeric / select symbols..");
+		}
+
+		if (!regValidity) {
+			document.getElementById("registration-error").innerHTML =
+			"Error: Please correct invalid input.";
 			return false;
 		}
 
@@ -127,56 +144,68 @@ function RegisterView() {
 					</h2>
 					<div id="register-white-box" className="login-white-box">
 						<div className="login-white-box-column">
+							<div className="error-container">
+								<span id="registration-error"></span>
+							</div>
 							<div id="registration-name-boxes">
 								<div id="box-L" className="reg-name-box">
 									<label htmlFor="firstname" id="label-L">
 										First name:
+										<span className="detail-text" id="firstname-span"></span>
 									</label>
-									<input type="text" name="firstname" id="firstname" />
+									<input type="text" name="firstname" className="reg-input-box" id="firstname" />
 								</div>
 
 								<div id="box-R" className="reg-name-box">
 									<label htmlFor="lastname" id="label-R">
 										Last name:
+										<span className="detail-text" id="lastname-span"></span>
 									</label>
-									<input type="text" name="lastname" id="lastname" />
+									<input type="text" name="lastname" className="reg-input-box" id="lastname" />
 								</div>
 							</div>
 
 							<div className="reg-field-box">
 								<label htmlFor="email">
 									Email:
-									<span className="detail-text">
+									<span className="detail-text" id="email-span">
 										*must be unregistered valid email
 									</span>
 								</label>
-								<input type="text" name="email" id="email" />
+								<input type="text" name="email" className="reg-input-box" id="email" />
 							</div>
 
 							<div className="reg-field-box">
 								<label htmlFor="username">
-									Username: <span className="detail-text">*must be unique</span>
+									Username: 
+									<span className="detail-text" id="username-span">*must be unique</span>
 								</label>
-								<input type="text" name="username" id="username" />
+								<input type="text" name="username" className="reg-input-box" id="username" />
 							</div>
 
 							<div className="reg-field-box">
-								<label htmlFor="password">Password:</label>
+								<label htmlFor="password">
+									Password:
+									<span className="detail-text" id="password1-span"></span>
+								</label>
 								<input
 									type="text"
 									name="password1"
 									id="password1"
-									className="password-box"
+									className="password-box reg-input-box"
 								/>
 							</div>
 
 							<div className="reg-field-box">
-								<label htmlFor="password2">Confirm password:</label>
+								<label htmlFor="password2">
+									Confirm password:
+									<span className="detail-text" id="password2-span"></span>
+								</label>
 								<input
 									type="text"
 									name="password2"
 									id="password2"
-									className="password-box"
+									className="password-box reg-input-box"
 								/>
 							</div>
 
