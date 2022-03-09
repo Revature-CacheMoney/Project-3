@@ -3,7 +3,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import config from "../config.js";
 
-// The registrration component handles the registration form for new users.
+// The registration component handles the registration form for new users.
 // The info is persisted in the database and locally (partial).
 
 function RegisterView() {
@@ -41,7 +41,7 @@ function RegisterView() {
 		const { firstName, lastName, email, username, password } = info;
 
 		// Test the firstname, lastname for validity - ex. no empty strings
-		const namePattern = /^[a-zA-Z -]+$/;
+		const namePattern = /^[a-zA-Z][a-zA-Z -]+[a-zA-Z]$/;
 		if (!namePattern.test(firstName)) {
 			alert("Invalid first name.  Please check the spelling and try again.");
 			return false;
