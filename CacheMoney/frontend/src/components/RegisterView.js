@@ -13,18 +13,20 @@ function RegisterView() {
     firstName: "",
     lastName: "",
     email: "",
-    username: { username: store.getState().userName },
+    username: "",
     password1: "",
     password2: "",
   });
 
+  console.log("username ===>", formData.username);
+
   const handleChange = (event) => {
     event.preventDefault();
     setFormData({ ...formData, [event.target.name]: event.target.value });
-    console.log("formData", formData);
+    // console.log("formData", formData);
   };
 
-  console.log("handleChange", formData);
+  //console.log("handleChange", formData);
 
   //   // handleSubmit: What happens when user presses the "submit" button on reg. form
   //   const handleSubmit = (event) => {
@@ -157,7 +159,7 @@ function RegisterView() {
                     placeholder="Enter your first name"
                     className="form-control"
                     onChange={handleChange} // the function we just made! the onChange attribute will automatically pass the `event` argument based off of which input was clicked
-                    value={formData.firstName} // we can use our useState hook to store the values of each input now
+                    // value={formData.firstName} // we can use our useState hook to store the values of each input now
                     required
                   />
                 </div>
@@ -174,7 +176,7 @@ function RegisterView() {
                     placeholder="Enter your last name"
                     className="form-control"
                     onChange={handleChange}
-                    value={formData.lastName}
+                    // value={formData.lastName}
                     required
                   />
                 </div>
@@ -195,7 +197,7 @@ function RegisterView() {
                   placeholder="Enter your last email"
                   className="form-control"
                   onChange={handleChange}
-                  value={formData.email}
+                //   value={formData.email}
                   required
                 />
               </div>
@@ -212,7 +214,7 @@ function RegisterView() {
                   placeholder="Create username: "
                   className="form-control"
                   onChange={handleChange} // the function we just made! the onChange attribute will automatically pass the `event` argument based off of which input was clicked
-                  value={formData.username} // we can use our useState hook to store the values of each input now
+                //   value="username" // we can use our useState hook to store the values of each input now
                   required
                 />
               </div>
@@ -228,7 +230,7 @@ function RegisterView() {
                   placeholder="Create password"
                   //   className="form-control"
                   onChange={handleChange} // the function we just made! the onChange attribute will automatically pass the `event` argument based off of which input was clicked
-                  value={formData.password1} // we can use our useState hook to store the values of each input now
+                //   value={formData.password1} // we can use our useState hook to store the values of each input now
                   required
                 />
               </div>
@@ -244,7 +246,7 @@ function RegisterView() {
                   placeholder="Confirm password"
                   //   className="form-control"
                   onChange={handleChange} // the function we just made! the onChange attribute will automatically pass the `event` argument based off of which input was clicked
-                  value={formData.password2} // we can use our useState hook to store the values of each input now
+                //   value={formData.password2} // we can use our useState hook to store the values of each input now
                   required
                 />
               </div>
