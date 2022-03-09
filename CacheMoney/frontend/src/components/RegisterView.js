@@ -216,7 +216,7 @@ function RegisterView() {
                 />
               </div>
 
-              <input type="submit" value="Register" onClick={handleChange} />
+              <input type="submit" value="Register" onClick={handleSubmit} />
             </div>
           </div>
         </div>
