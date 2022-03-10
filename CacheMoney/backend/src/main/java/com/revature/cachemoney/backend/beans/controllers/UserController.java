@@ -1,5 +1,7 @@
 package com.revature.cachemoney.backend.beans.controllers;
 
+import java.util.List;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.cachemoney.backend.beans.annotations.RequireJwt;
@@ -15,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 /**
  * Controller to handle requests related to Users.
  * 
- * @author Ibrahima Diallo, Brian Gardner, Cody Gonsowski, & Jeffrey Lor
+ * @author Brian Gardner, Cody Gonsowski, & Jeffrey Lor
  */
 @RestController
 @RequestMapping("/users")
@@ -32,22 +34,19 @@ public class UserController {
     }
 
     // GET all users
-    @GetMapping
-    @RequireJwt
-    public ResponseEntity<String> getAllUsers(
-            @RequestHeader(name = "token") String token,
-            @RequestHeader(name = "userId") Integer userId)
-            throws JsonProcessingException {
-        return ResponseEntity.ok().body(mapper.writeValueAsString(usersService.getAllUsers()));
+    @GetMapping(value = "/all")
+    public List<User> getAllUsers() {
+        return usersService.getAllUsers();
     }
 
     // GET a user by ID
-    @GetMapping(value = "/id")
+    @GetMapping
     @RequireJwt
     public ResponseEntity<String> getUserById(
             @RequestHeader(name = "token") String token,
             @RequestHeader(name = "userId") Integer userId)
             throws JsonProcessingException {
+
         return ResponseEntity.ok().body(mapper.writeValueAsString(usersService.getUserById(userId)));
     }
 
@@ -57,18 +56,21 @@ public class UserController {
      * @param user
      * @return true/false based on registration status
      */
-    @PostMapping()
+    @PostMapping
     public Boolean postUser(@RequestBody User user) {
         return usersService.postUser(user);
     }
 
     // DELETE a user by ID
-    @DeleteMapping(value = "/id")
+    @DeleteMapping
     @RequireJwt
-    public void deleteUserById(
+    public ResponseEntity<String> deleteUserById(
             @RequestHeader(name = "token") String token,
-            @RequestHeader(name = "userId") Integer userId) {
+            @RequestHeader(name = "userId") Integer userId)
+            throws JsonProcessingException {
+
         usersService.deleteUserById(userId);
+        return ResponseEntity.ok().build();
     }
 
     // login
@@ -91,5 +93,23 @@ public class UserController {
 
         // indicate bad request
         return ResponseEntity.badRequest().build();
+    }
+
+    /**
+     * Get all accounts associated with a particular user ID.
+     * 
+     * @param token  for current session
+     * @param userId for current user
+     * @return List of Accounts associated with a particular user
+     * @throws JsonProcessingException
+     */
+    @GetMapping(value = "/accounts")
+    @RequireJwt
+    public ResponseEntity<String> getAccountsByUserId(
+            @RequestHeader(name = "token") String token,
+            @RequestHeader(name = "userId") Integer userId)
+            throws JsonProcessingException {
+
+        return ResponseEntity.ok().body(mapper.writeValueAsString(usersService.getAccountsByUserId(userId)));
     }
 }

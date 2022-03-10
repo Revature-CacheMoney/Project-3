@@ -1,39 +1,35 @@
 package com.revature.cachemoney.backend.beans.controllers;
 
-import java.util.List;
-import java.util.Optional;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.cachemoney.backend.beans.annotations.RequireJwt;
 import com.revature.cachemoney.backend.beans.models.Transaction;
-import com.revature.cachemoney.backend.beans.security.JwtUtil;
 import com.revature.cachemoney.backend.beans.services.TransactionService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.xml.ws.Response;
-
+/**
+ * Controller to handle requests related to Transactions.
+ * 
+ * @author Brian Gardner, Cody Gonsowski, & Jeffrey Lor
+ */
 @RestController
 @RequestMapping("/transactions")
 public class TransactionController {
 	private final TransactionService transactionService;
-	private final JwtUtil jwtUtil;
 	private final ObjectMapper mapper;
 
 	/**
 	 * Retrieve access to the TransactionRepo from Spring.
 	 *
 	 * @param transactionService
-	 * @param jwtUtil
 	 * @param mapper
 	 */
 	@Autowired
-	public TransactionController(TransactionService transactionService, JwtUtil jwtUtil, ObjectMapper mapper) {
+	public TransactionController(TransactionService transactionService, ObjectMapper mapper) {
 		this.transactionService = transactionService;
-		this.jwtUtil = jwtUtil;
 		this.mapper = mapper;
 	}
 

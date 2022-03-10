@@ -30,8 +30,12 @@ public class AccountsService {
     }
 
     // GET account by ID
-    public Optional<Account> getAccountByID(Integer id) {
-        return accountRepo.findById(id);
+    public Optional<Account> getAccountByID(Integer accountId, Integer userId) {
+        if (accountRepo.getById(accountId).getUserId().getUser_id() == userId) {
+            return accountRepo.findById(accountId);
+        }
+
+        return Optional.empty();
     }
 
     // POST an account
