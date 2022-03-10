@@ -1,40 +1,114 @@
 import axios from "axios";
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import config from "../config.js";
 
-// The registration component handles the registration form for new users.
+// The registrration component handles the registration form for new users.
 // The info is persisted in the database and locally (partial).
 
 function RegisterView() {
 	const navigate = useNavigate();
+	const [formData, setFormData] = useState({
+		firstName: "",
+		lastName: "",
+		email: "",
+		username: "",
+		password1: "",
+		password2: "",
+	});
+
+	const handleChange = (event) => {
+		event.preventDefault();
+		setFormData({ ...formData, [event.target.name]: event.target.value });
+	};
 
 	// handleSubmit: What happens when user presses the "submit" button on reg. form
 	const handleSubmit = (event) => {
 		event.preventDefault();
-
-		// validate password (do they match?)
-		const p1 = document.getElementById("password1").value;
-		const p2 = document.getElementById("password2").value;
-
-		if (p1 === p2) {
-			const info = {
-				firstName: document.getElementById("firstname").value,
-				lastName: document.getElementById("lastname").value,
-				email: document.getElementById("email").value,
-				username: document.getElementById("username").value,
-				password: document.getElementById("password1").value,
-			};
-			// Validate information
-			if (validateInput(info)) {
-				// submit stuff
-				console.log("Information being sent:  ", info);
-				doRegistration(info);
-			}
-		} else {
-			alert("Sorry, your passwords do dnot match.");
-		}
+		validateInput();
+		console.log("Information being sent:  ", formData);
+		doRegistration();
 	};
+
+	//   // Checks input against validation (should be same patterns as used in backend)
+	function validateInput() {
+		const { firstName, lastName, email, username, password1, password2 } =
+			formData;
+		let regValidity = true;
+		if (password1 !== password2) {
+			regValidity = false;
+			registrationError(
+				"password1",
+				"password1-span",
+				"Passwords do not match."
+			);
+			registrationError(
+				"password2",
+				"password2-span",
+				"Passwords do not match."
+			);
+		}
+		// Test the firstname, lastname for validity - ex. no empty strings
+		const namePattern = /^[a-zA-Z][a-zA-Z -]+[a-zA-Z]$/;
+		if (!namePattern.test(firstName)) {
+			regValidity = false;
+			registrationError(
+				"firstname",
+				"firstname-span",
+				"Invalid first name.  Please check the spelling and try again."
+			);
+		} else if (!namePattern.test(lastName)) {
+			regValidity = false;
+			registrationError(
+				"lastname",
+				"lastname-span",
+				"Invalid last name.  Please check the spelling and try again."
+			);
+		}
+		const emailPattern =
+			/^[a-zA-Z0-9._-]+@{1}[a-zA-Z0-9-_]+[.]{1}[a-zA-Z0-9]+[a-zA-Z_.-]*$/;
+		if (!emailPattern.test(email)) {
+			regValidity = false;
+			registrationError(
+				"email",
+				"email-span",
+				"Invalid email address.  Please check your input and try again."
+			);
+		}
+
+		const usernamePattern = /^[a-zA-Z0-9@~._-]{8,}$/;
+		if (!usernamePattern.test(username)) {
+			regValidity = false;
+			registrationError(
+				"username",
+				"username-span",
+				"Invalid username.  Usernames should be between 8-255 characters in length and use alphanumeric / select symbols.."
+			);
+		}
+
+		const passwordPattern = /^[a-zA-Z0-9@^%$#/\\,;|~._-]{8,50}$/;
+		if (!passwordPattern.test(password1)) {
+			regValidity = false;
+			registrationError(
+				"password1",
+				"password1-span",
+				"Invalid password.   Passwords should be between 8-50 characters in length and use alphanumeric / select symbols.."
+			);
+			registrationError(
+				"password2",
+				"password2-span",
+				"Invalid password.   Passwords should be between 8-50 characters in length and use alphanumeric / select symbols.."
+			);
+		}
+
+		if (!regValidity) {
+			document.getElementById("registration-error").innerHTML =
+				"Error: Please correct invalid input.";
+			return false;
+		}
+
+		return true;
+	}
 
 	function registrationError(id, spanId, errorText) {
 		let ele = document.getElementById(id);
@@ -46,94 +120,39 @@ function RegisterView() {
 		errorSpan.style.margin = "0px 0px 0px 12px";
 	}
 
-	// Checks input against validation (should be same patterns as used in backend)
-	function validateInput(info) {
-
-		let regValidity = true;
-
-		const { firstName, lastName, email, username, password } = info;
-		// Test the firstname, lastname for validity - ex. no empty strings
-		const namePattern = /^[a-zA-Z][a-zA-Z -]+[a-zA-Z]$/;
-		if (!namePattern.test(firstName)) {
-			regValidity = false;
-			registrationError("firstname", "firstname-span", "Invalid first name.  Please check the spelling and try again.");
-
-		}
-		if (!namePattern.test(lastName)) {
-			regValidity = false;
-			registrationError("lastname", "lastname-span", "Invalid last name.  Please check the spelling and try again.");
-		}
-
-		const emailPattern =
-			/^[a-zA-Z0-9._-]+@{1}[a-zA-Z0-9-_]+[.]{1}[a-zA-Z0-9]+[a-zA-Z_.-]*$/;
-		if (!emailPattern.test(email)) {
-			regValidity = false
-			registrationError("email", "email-span", "Invalid email address.  Please check your input and try again.");
-		}
-
-		const usernamePattern = /^[a-zA-Z0-9@~._-]{8,}$/;
-		if (!usernamePattern.test(username)) {
-			regValidity = false;
-			registrationError("username", "username-span", "Invalid username.  Usernames should be between 8-255 characters in length and use alphanumeric / select symbols..");
-		}
-
-		const passwordPattern = /^[a-zA-Z0-9@^%$#/\\,;|~._-]{8,50}$/;
-		if (!passwordPattern.test(password)) {
-			regValidity = false;
-			registrationError("password1", "password1-span", "Invalid password.   Passwords should be between 8-50 characters in length and use alphanumeric / select symbols..");
-			registrationError("password2", "password2-span", "Invalid password.   Passwords should be between 8-50 characters in length and use alphanumeric / select symbols..");
-		}
-
-		if (!regValidity) {
-			document.getElementById("registration-error").innerHTML =
-			"Error: Please correct invalid input.";
-			return false;
-		}
-
-		return true;
-	}
-
 	// doRegistration: does the actual registration call
-	function doRegistration(info) {
+	function doRegistration() {
 		let responseStatus;
 		// Lets cover any sort of backend response
 		let responseData;
 		const url = config.url;
 
+		const newUser = {
+			firstName: formData.firstName,
+			lastName: formData.lastName,
+			email: formData.email,
+			username: formData.username,
+			password: formData.password1,
+		};
 		axios
-			.post(`${url}users/`, info)
+			.post(`${url}users/`, newUser)
 			.then((response) => {
 				console.log(response);
 				responseStatus = response.status;
 				responseData = response.data;
 				if (responseStatus === 200) {
 					if (responseData === true || responseData.result === true) {
-						console.log("Registration successful");
-						doLoginToMain();
+						//console.log("Registration successful");
+						navigate("/signin");
 					} else {
-						registrationFailure();
+						alert(
+							"Some error occurred during registration. \n Check if the email or username is already in use?"
+						);
 					}
-				} else {
-					registrationFailure();
 				}
 			})
 			.catch((error) => console.error(`Error: ${error}`));
 	}
-
-	// Probably want to expand on this to include exactly what was wrong,
-	// use non-alert messaging to highlight errors, etc
-	function registrationFailure() {
-		console.log("Some error occurred during registration.");
-		console.log("Check if the email or username is already in use?");
-		alert(
-			"Some error occurred during registration.  Email or username already in use?"
-		);
-	}
-
-	// TODO: this should route back to index page with note to login
-	const doLoginToMain = () => {
-		navigate("/signin");
-	};
 
 	return (
 		<div className="container-view login-outer-container">
@@ -153,7 +172,14 @@ function RegisterView() {
 										First name:
 										<span className="detail-text" id="firstname-span"></span>
 									</label>
-									<input type="text" name="firstname" className="reg-input-box" id="firstname" />
+									<input
+										type="text"
+										name="firstname"
+										className="reg-input-box"
+										id="firstname"
+										onChange={handleChange}
+										required
+									/>
 								</div>
 
 								<div id="box-R" className="reg-name-box">
@@ -161,7 +187,14 @@ function RegisterView() {
 										Last name:
 										<span className="detail-text" id="lastname-span"></span>
 									</label>
-									<input type="text" name="lastname" className="reg-input-box" id="lastname" />
+									<input
+										type="text"
+										name="lastname"
+										className="reg-input-box"
+										id="lastname"
+										onChange={handleChange}
+										required
+									/>
 								</div>
 							</div>
 
@@ -172,15 +205,31 @@ function RegisterView() {
 										*must be unregistered valid email
 									</span>
 								</label>
-								<input type="text" name="email" className="reg-input-box" id="email" />
+								<input
+									type="text"
+									name="email"
+									className="reg-input-box"
+									id="email"
+									onChange={handleChange}
+									required
+								/>
 							</div>
 
 							<div className="reg-field-box">
 								<label htmlFor="username">
-									Username: 
-									<span className="detail-text" id="username-span">*must be unique</span>
+									Username:
+									<span className="detail-text" id="username-span">
+										*must be unique
+									</span>
 								</label>
-								<input type="text" name="username" className="reg-input-box" id="username" />
+								<input
+									type="text"
+									name="username"
+									className="reg-input-box"
+									id="username"
+									onChange={handleChange}
+									required
+								/>
 							</div>
 
 							<div className="reg-field-box">
@@ -193,6 +242,8 @@ function RegisterView() {
 									name="password1"
 									id="password1"
 									className="password-box reg-input-box"
+									onChange={handleChange}
+									required
 								/>
 							</div>
 
@@ -206,6 +257,8 @@ function RegisterView() {
 									name="password2"
 									id="password2"
 									className="password-box reg-input-box"
+									onChange={handleChange}
+									required
 								/>
 							</div>
 
@@ -219,30 +272,3 @@ function RegisterView() {
 }
 
 export default RegisterView;
-
-/* Currently disabled (some bug w/ highlighting - needs troubleshooting) */
-// This compares the two password entry fields.  If they do not match,
-// the boxes are given a red border and the submit button is disabled.
-// TODO: Probably want a clearer (text) indicator stating the problem.
-// optional: Make the password type "password", give option to flip between visibility
-/*
-	const checkPasswordEntry = () => {
-		const passwordNodes = document.getElementsByClassName("password-box");
-		const password1 = passwordNodes[0].value;
-		const password2 = passwordNodes[1].value;
-
-		if (password1 === password2) {
-			for (let i = 0; i < 2; i++) {
-				passwordNodes[i].classList.remove("password-error");
-				passwordNodes[i].classList.add("password-ok");
-				document.getElementById("submit").disabled = false;
-			}
-		} else {
-			for (let i = 0; i < 2; i++) {
-				// the passwords do not match
-				passwordNodes[i].classList.remove("password-ok");
-				passwordNodes[i].classList.add("password-error");
-				document.getElementById("submit").disabled = true;
-			}
-		}
-	}; */
