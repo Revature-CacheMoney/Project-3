@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import userStore from "../store/Store.js";
 import axios from "axios";
 import "../css/tempLogin.css"
@@ -11,22 +11,38 @@ import config from "../config.js";
 // The user's info (partial) should be persisted throughout the app.
 function SigninView() {
 	const navigate = useNavigate();
+
+
+	const [formData,setFormData] = useState({
+		username:"",
+		password:""
+	})
 	const handleLogin = () => {
 		// maybe add check to make sure neither username/password are blank
-		const info = {
-			username: document.getElementById("username").value,
-			password: document.getElementById("password").value,
-		};
-		console.log("Sending to login: ", info);
-		doLogin(info);
+		// const info = {
+		// 	username: document.getElementById("username").value,
+		// 	password: document.getElementById("password").value,
+		// };
+		doLogin();
 	};
 
-	function doLogin(info) {
+
+	const handleChange = (event) => {
+		event.preventDefault();
+		setFormData({...formData,[event.target.name]:event.target.value})
+		//
+	}
+
+	function doLogin() {
 		let responseStatus;
 		let responseData;
+		let user = {
+			username: formData.username,
+			password: formData.password
+		}
 		const url = config.url;
 		axios
-			.post(`${url}users/login`, info)
+			.post(`${url}users/login`, user)
 			.then((response) => {
 				responseData = response.data;
 				responseStatus = response.status;
@@ -122,9 +138,9 @@ function SigninView() {
 							</p>
 							<span id="login-error-box"></span>
 							<label htmlFor="username">Username:</label>
-							<input type="text" className="login-input" name="username" id="username" />
+							<input type="text" className="login-input" name="username" id="username" onChange={handleChange} required />
 							<label htmlFor="password">Password:</label>
-							<input type="text" className="login-input" name="password" id="password" />
+							<input type="text" className="login-input" name="password" id="password" onChange={handleChange} required />
 							<button className="login" type="submit" onClick={handleLogin}>
 								SIGN IN
 							</button>
