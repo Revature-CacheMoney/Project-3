@@ -26,7 +26,7 @@ function App() {
 						exact
 						element={<TransactionFilter />}
 					></Route>
-					<Route element={<NotFoundView />} />
+					<Route path="*" exact element={<NotFoundView />} />
 				</Routes>
 			</Router>
 		</>
