@@ -12,6 +12,11 @@ const initialState = {
 
 function userReducer(state = initialState, action) {
 	switch (action.type) {
+		case "LOGOUT_USER":
+			return {
+				...initialState
+			};
+
 		case "UPDATE_ID":
 			return {
 				...state,

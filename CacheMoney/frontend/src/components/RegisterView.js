@@ -168,13 +168,13 @@ function RegisterView() {
 							</div>
 							<div id="registration-name-boxes">
 								<div id="box-L" className="reg-name-box">
-									<label htmlFor="firstname" id="label-L">
+									<label htmlFor="firstName" id="label-L">
 										First name:
 										<span className="detail-text" id="firstname-span"></span>
 									</label>
 									<input
 										type="text"
-										name="firstname"
+										name="firstName"
 										className="reg-input-box"
 										id="firstname"
 										onChange={handleChange}
@@ -183,13 +183,13 @@ function RegisterView() {
 								</div>
 
 								<div id="box-R" className="reg-name-box">
-									<label htmlFor="lastname" id="label-R">
+									<label htmlFor="lastName" id="label-R">
 										Last name:
 										<span className="detail-text" id="lastname-span"></span>
 									</label>
 									<input
 										type="text"
-										name="lastname"
+										name="lastName"
 										className="reg-input-box"
 										id="lastname"
 										onChange={handleChange}
