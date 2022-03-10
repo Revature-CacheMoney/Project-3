@@ -31,7 +31,7 @@ public class AccountController {
 	}
 
 	/**
-	 * GET *EVERY* Account.
+	 * GET *ALL* Accounts.
 	 * 
 	 * @return List of all Accounts
 	 */
@@ -74,9 +74,9 @@ public class AccountController {
 	 * POST an Account with provided ID.
 	 * Returns a bad request if the POST is unsuccessful.
 	 * 
-	 * @param token     for current session
-	 * @param userId    for current User
-	 * @param accountId for User's Account
+	 * @param token   for current session
+	 * @param userId  for current User
+	 * @param account for User's Account
 	 * @return OK | Bad Request based on POST success
 	 */
 	@PostMapping
@@ -86,8 +86,11 @@ public class AccountController {
 			@RequestHeader(name = "userId") Integer userId,
 			@RequestBody Account account) {
 
-		accountsService.postAccount(account);
-		return ResponseEntity.ok().build();
+		if (accountsService.postAccount(account, userId)) {
+			return ResponseEntity.ok().build();
+		}
+
+		return ResponseEntity.badRequest().build();
 	}
 
 	/**
@@ -106,20 +109,24 @@ public class AccountController {
 			@RequestHeader(name = "userId") Integer userId,
 			@RequestBody Integer accountId) {
 
-		accountsService.deleteAccountById(accountId);
-		return ResponseEntity.ok().build();
+		if (accountsService.deleteAccountById(accountId, userId)) {
+			return ResponseEntity.ok().build();
+		}
+
+		return ResponseEntity.badRequest().build();
 	}
 
 	/**
 	 * GET all transactions associated with an Account.
 	 * 
-	 * @param token for current session
-	 * @param userId for current User
+	 * @param token     for current session
+	 * @param userId    for current User
 	 * @param accountId for User's Account
 	 * @return List of Transactions associated with a particular User's Account
 	 * @throws JsonProcessingException
 	 */
 	@GetMapping(value = "/transactions")
+	@RequireJwt
 	public ResponseEntity<String> getTransactionsById(
 			@RequestHeader(name = "token") String token,
 			@RequestHeader(name = "userId") Integer userId,

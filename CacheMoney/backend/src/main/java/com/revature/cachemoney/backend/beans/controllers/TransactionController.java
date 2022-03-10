@@ -1,5 +1,7 @@
 package com.revature.cachemoney.backend.beans.controllers;
 
+import java.util.List;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.cachemoney.backend.beans.annotations.RequireJwt;
@@ -21,12 +23,6 @@ public class TransactionController {
 	private final TransactionService transactionService;
 	private final ObjectMapper mapper;
 
-	/**
-	 * Retrieve access to the TransactionRepo from Spring.
-	 *
-	 * @param transactionService
-	 * @param mapper
-	 */
 	@Autowired
 	public TransactionController(TransactionService transactionService, ObjectMapper mapper) {
 		this.transactionService = transactionService;
@@ -34,61 +30,82 @@ public class TransactionController {
 	}
 
 	/**
-	 * GET all Transactions.
+	 * GET *ALL* Transactions.
 	 * 
-	 * @return List of all existing Transactions
+	 * @return List of all Transactions
 	 */
-	@GetMapping()
+	@GetMapping(value = "/all")
 	@RequireJwt
-	public ResponseEntity<String> getAllTransactions(
-			@RequestHeader(name = "token") String token,
-			@RequestHeader(name = "userId") Integer userId)
-			throws JsonProcessingException {
-		return ResponseEntity.ok().body(mapper.writeValueAsString(transactionService.getAllTransactions()));
+	public List<Transaction> getAllTransactions() {
+		return transactionService.getAllTransactions();
 	}
 
 	/**
-	 * GET an Transaction by id.
+	 * GET the Transaction with provided ID of the associated User.
+	 * Returns a bad request if the Transaction is not associated with the User.
 	 * 
-	 * @param id
-	 * @return the Transaction based on id
+	 * @param token         for current session
+	 * @param userId        for current User
+	 * @param transactionId for User's Transaction
+	 * @return Transaction associated with the User
+	 * @throws JsonProcessingException
 	 */
-	@GetMapping(value = "/{id}")
+	@GetMapping
 	@RequireJwt
 	public ResponseEntity<String> getTransactionByID(
 			@RequestHeader(name = "token") String token,
 			@RequestHeader(name = "userId") Integer userId,
-			@PathVariable Integer id)
+			@RequestBody Integer transactionId)
 			throws JsonProcessingException {
-		return ResponseEntity.ok().body(mapper.writeValueAsString(transactionService.getTransactionById(id)));
+
+		return ResponseEntity.ok()
+				.body(mapper.writeValueAsString(transactionService.getTransactionById(transactionId, userId)));
 	}
 
 	/**
-	 * POST an Transaction.
+	 * POST a Transaction with provided ID.
+	 * Returns a bad request if the POST is unsuccessful.
 	 * 
-	 * @param transaction
+	 * @param token       for current session
+	 * @param userId      for current User
+	 * @param transaction for User's Transaction
+	 * @return OK | Bad Request based on POST success
 	 */
-	@PostMapping()
+	@PostMapping
 	@RequireJwt
-	public void postTransaction(
+	public ResponseEntity<String> postTransaction(
 			@RequestHeader(name = "token") String token,
 			@RequestHeader(name = "userId") Integer userId,
 			@RequestBody Transaction transaction) {
-		transactionService.postTransaction(transaction);
+
+		if (transactionService.postTransaction(transaction, userId)) {
+			return ResponseEntity.ok().build();
+		}
+
+		return ResponseEntity.badRequest().build();
 	}
 
 	/**
-	 * DELETE an Transaction by id.
+	 * DELETE a Transaction with provided ID.
+	 * Returns a bad request if the DELETE is unsuccessful.
 	 * 
-	 * @param id
+	 * @param token         for current session
+	 * @param userId        for current User
+	 * @param transactionId for User's Transaction
+	 * @return OK | Bad Request based on DELETE success
 	 */
-	@DeleteMapping(value = "/{id}")
+	@DeleteMapping
 	@RequireJwt
-	public void deleteTransactionById(
+	public ResponseEntity<String> deleteTransactionById(
 			@RequestHeader(name = "token") String token,
 			@RequestHeader(name = "userId") Integer userId,
-			@PathVariable Integer id) {
-		transactionService.deleteTransactionById(id);
+			@PathVariable Integer transactionId) {
+
+		if (transactionService.deleteTransactionById(transactionId, userId)) {
+			return ResponseEntity.ok().build();
+		}
+
+		return ResponseEntity.badRequest().build();
 	}
 
 }

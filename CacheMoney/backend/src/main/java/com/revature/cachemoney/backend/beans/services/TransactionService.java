@@ -55,20 +55,33 @@ public class TransactionService {
     }
 
     // GET transaction by transaction id
-    public Optional<Transaction> getTransactionById(Integer id) {
-        return transactionRepo.findById(id);
+    public Optional<Transaction> getTransactionById(Integer transactionId, Integer userId) {
+        if (transactionRepo.getById(transactionId).getAccountId().getUserId().getUser_id() == userId) {
+            return transactionRepo.findById(transactionId);
+        }
+
+        return Optional.empty();
     }
 
     // POST a transaction
-    public void postTransaction(Transaction transaction) {
-        transactionRepo.save(transaction);
+    public Boolean postTransaction(Transaction transaction, Integer userId) {
+        if (transaction.getAccountId().getUserId().getUser_id() == userId) {
+            transactionRepo.save(transaction);
+
+            return true;
+        }
+
+        return false;
     }
 
-    // DELETE a transaction
-    // do we need this, even when bank accounts are closed, there's always a
-    // transaction history
-    public void deleteTransactionById(Integer id) {
-        transactionRepo.deleteById(id);
-    }
+    // DELETE a transaction by ID
+    public Boolean deleteTransactionById(Integer transactionId, Integer userId) {
+        if (transactionRepo.getById(transactionId).getAccountId().getUserId().getUser_id() == userId) {
+            transactionRepo.deleteById(transactionId);
 
+            return true;
+        }
+
+        return false;
+    }
 }

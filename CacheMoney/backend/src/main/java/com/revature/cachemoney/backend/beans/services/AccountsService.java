@@ -39,13 +39,25 @@ public class AccountsService {
     }
 
     // POST an account
-    public void postAccount(Account account) {
-        accountRepo.save(account);
+    public Boolean postAccount(Account account, Integer userId) {
+        if (account.getUserId().getUser_id() == userId) {
+            accountRepo.save(account);
+
+            return true;
+        }
+
+        return false;
     }
 
     // DELETE an account
-    public void deleteAccountById(Integer id) {
-        accountRepo.deleteById(id);
+    public Boolean deleteAccountById(Integer accountId, Integer userId) {
+        if (accountRepo.getById(accountId).getUserId().getUser_id() == userId) {
+            accountRepo.deleteById(accountId);
+
+            return true;
+        }
+
+        return false;
     }
 
     // GET transaction by ID

@@ -34,7 +34,7 @@ public class UserController {
     }
 
 	/**
-	 * GET *EVERY* User.
+	 * GET *ALL* Users.
 	 * 
 	 * @return List of all Users
 	 */
