@@ -3,25 +3,38 @@ package com.revature.cachemoney.backend.beans.controllers;
 import java.util.List;
 import java.util.Optional;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.revature.cachemoney.backend.beans.annotations.RequireJwt;
 import com.revature.cachemoney.backend.beans.models.Transaction;
+import com.revature.cachemoney.backend.beans.security.JwtUtil;
 import com.revature.cachemoney.backend.beans.services.TransactionService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.xml.ws.Response;
 
 @RestController
 @RequestMapping("/transactions")
 public class TransactionController {
 	private final TransactionService transactionService;
+	private final JwtUtil jwtUtil;
+	private final ObjectMapper mapper;
 
 	/**
 	 * Retrieve access to the TransactionRepo from Spring.
-	 * 
+	 *
 	 * @param transactionService
+	 * @param jwtUtil
+	 * @param mapper
 	 */
 	@Autowired
-	public TransactionController(TransactionService transactionService) {
+	public TransactionController(TransactionService transactionService, JwtUtil jwtUtil, ObjectMapper mapper) {
 		this.transactionService = transactionService;
+		this.jwtUtil = jwtUtil;
+		this.mapper = mapper;
 	}
 
 	/**
@@ -30,8 +43,12 @@ public class TransactionController {
 	 * @return List of all existing Transactions
 	 */
 	@GetMapping()
-	public List<Transaction> getAllTransactions() {
-		return transactionService.getAllTransactions();
+	@RequireJwt
+	public ResponseEntity<String> getAllTransactions(
+			@RequestHeader(name = "token") String token,
+			@RequestHeader(name = "userId") Integer userId)
+			throws JsonProcessingException {
+		return ResponseEntity.ok().body(mapper.writeValueAsString(transactionService.getAllTransactions()));
 	}
 
 	/**
@@ -41,8 +58,13 @@ public class TransactionController {
 	 * @return the Transaction based on id
 	 */
 	@GetMapping(value = "/{id}")
-	public Optional<Transaction> getTransactionByID(@PathVariable Integer id) {
-		return transactionService.getTransactionById(id);
+	@RequireJwt
+	public ResponseEntity<String> getTransactionByID(
+			@RequestHeader(name = "token") String token,
+			@RequestHeader(name = "userId") Integer userId,
+			@PathVariable Integer id)
+			throws JsonProcessingException {
+		return ResponseEntity.ok().body(mapper.writeValueAsString(transactionService.getTransactionById(id)));
 	}
 
 	/**
@@ -51,7 +73,11 @@ public class TransactionController {
 	 * @param transaction
 	 */
 	@PostMapping()
-	public void postTransaction(@RequestBody Transaction transaction) {
+	@RequireJwt
+	public void postTransaction(
+			@RequestHeader(name = "token") String token,
+			@RequestHeader(name = "userId") Integer userId,
+			@RequestBody Transaction transaction) {
 		transactionService.postTransaction(transaction);
 	}
 
@@ -61,7 +87,11 @@ public class TransactionController {
 	 * @param id
 	 */
 	@DeleteMapping(value = "/{id}")
-	public void deleteTransactionById(@PathVariable Integer id) {
+	@RequireJwt
+	public void deleteTransactionById(
+			@RequestHeader(name = "token") String token,
+			@RequestHeader(name = "userId") Integer userId,
+			@PathVariable Integer id) {
 		transactionService.deleteTransactionById(id);
 	}
 
