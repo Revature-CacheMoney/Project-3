@@ -20,7 +20,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class JwtUtil {
     // pull our secret from properties
-    @Value(value = "${jwt_secret}")
+    @Value(value = "${jwt.token.secret}")
     private String secret;
 
     /**
@@ -36,8 +36,7 @@ public class JwtUtil {
                 .withClaim("userId", userId)
                 .withIssuedAt(new Date())
                 .withExpiresAt(new Date(System.currentTimeMillis() + 1000 * 60 * 30))
-                // TODO fix with secret application.properties
-                .sign(Algorithm.HMAC256("hniumae4vtihnuomyv5tabeuhniae5thnuiae4vyuihna4vhuia34h965o8q3y67"));
+                .sign(Algorithm.HMAC256(secret));
     }
 
     /**
@@ -50,9 +49,8 @@ public class JwtUtil {
     public Boolean validateToken(String token, Integer userId) {
         try {
             // create a verifier using the same algorithm as generated token
-            // TODO fix with secret application.properties
             JWTVerifier verifier = JWT
-                    .require(Algorithm.HMAC256("hniumae4vtihnuomyv5tabeuhniae5thnuiae4vyuihna4vhuia34h965o8q3y67"))
+                    .require(Algorithm.HMAC256(secret))
                     .build();
 
             // decrypt the random garbage based on secret key
