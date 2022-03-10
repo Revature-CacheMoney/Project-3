@@ -1,0 +1,13 @@
+#login-error-box {
+    font-size: 30px;
+    margin-bottom: 18px;
+}
+
+#registration-error {
+    font-size: 24px;
+    color: red;
+}
+
+.error-container {
+    margin-bottom: 24px;
+}
