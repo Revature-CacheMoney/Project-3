@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.cachemoney.backend.beans.annotations.RequireJwt;
 import com.revature.cachemoney.backend.beans.models.User;
 import com.revature.cachemoney.backend.beans.security.JwtUtil;
-import com.revature.cachemoney.backend.beans.services.UsersService;
+import com.revature.cachemoney.backend.beans.services.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -22,13 +22,13 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/users")
 public class UserController {
-    private final UsersService usersService;
+    private final UserService userService;
     private final JwtUtil jwtUtil;
     private final ObjectMapper mapper;
 
     @Autowired
-    public UserController(UsersService usersService, JwtUtil jwtUtil, ObjectMapper mapper) {
-        this.usersService = usersService;
+    public UserController(UserService userService, JwtUtil jwtUtil, ObjectMapper mapper) {
+        this.userService = userService;
         this.jwtUtil = jwtUtil;
         this.mapper = mapper;
     }
@@ -40,7 +40,7 @@ public class UserController {
 	 */
     @GetMapping(value = "/all")
     public List<User> getAllUsers() {
-        return usersService.getAllUsers();
+        return userService.getAllUsers();
     }
 
     /**
@@ -58,7 +58,7 @@ public class UserController {
             @RequestHeader(name = "userId") Integer userId)
             throws JsonProcessingException {
 
-        return ResponseEntity.ok().body(mapper.writeValueAsString(usersService.getUserById(userId)));
+        return ResponseEntity.ok().body(mapper.writeValueAsString(userService.getUserById(userId)));
     }
 
     /**
@@ -69,7 +69,7 @@ public class UserController {
      */
     @PostMapping
     public Boolean postUser(@RequestBody User user) {
-        return usersService.postUser(user);
+        return userService.postUser(user);
     }
 
     /**
@@ -88,7 +88,7 @@ public class UserController {
             @RequestHeader(name = "userId") Integer userId)
             throws JsonProcessingException {
 
-        usersService.deleteUserById(userId);
+        userService.deleteUserById(userId);
         return ResponseEntity.ok().build();
     }
 
@@ -102,7 +102,7 @@ public class UserController {
     @PostMapping(value = "/login")
     public ResponseEntity<String> login(@RequestBody User user) throws JsonProcessingException {
         // has internal checking to see if user is valid
-        User tempUser = usersService.getUserByUsername(user);
+        User tempUser = userService.getUserByUsername(user);
 
         // make sure the user is valid
         if (tempUser != null) {
@@ -135,6 +135,6 @@ public class UserController {
             @RequestHeader(name = "userId") Integer userId)
             throws JsonProcessingException {
 
-        return ResponseEntity.ok().body(mapper.writeValueAsString(usersService.getAccountsByUserId(userId)));
+        return ResponseEntity.ok().body(mapper.writeValueAsString(userService.getAccountsByUserId(userId)));
     }
 }

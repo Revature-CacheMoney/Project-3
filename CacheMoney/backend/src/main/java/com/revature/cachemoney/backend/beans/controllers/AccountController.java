@@ -7,7 +7,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.cachemoney.backend.beans.annotations.RequireJwt;
 import com.revature.cachemoney.backend.beans.models.Account;
-import com.revature.cachemoney.backend.beans.services.AccountsService;
+import com.revature.cachemoney.backend.beans.services.AccountService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,12 +21,12 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/accounts")
 public class AccountController {
-	private final AccountsService accountsService;
+	private final AccountService accountService;
 	private final ObjectMapper mapper;
 
 	@Autowired
-	public AccountController(AccountsService accountsService, ObjectMapper mapper) {
-		this.accountsService = accountsService;
+	public AccountController(AccountService accountService, ObjectMapper mapper) {
+		this.accountService = accountService;
 		this.mapper = mapper;
 	}
 
@@ -37,7 +37,7 @@ public class AccountController {
 	 */
 	@GetMapping(value = "/all")
 	public List<Account> getAllAccounts() {
-		return accountsService.getAllAccounts();
+		return accountService.getAllAccounts();
 	}
 
 	/**
@@ -59,7 +59,7 @@ public class AccountController {
 			throws JsonProcessingException {
 
 		// retrieve account
-		Optional<Account> account = accountsService.getAccountByID(accountId, userId);
+		Optional<Account> account = accountService.getAccountByID(accountId, userId);
 
 		// see if an account was actually retrieved
 		if (account.isPresent()) {
@@ -86,7 +86,7 @@ public class AccountController {
 			@RequestHeader(name = "userId") Integer userId,
 			@RequestBody Account account) {
 
-		if (accountsService.postAccount(account, userId)) {
+		if (accountService.postAccount(account, userId)) {
 			return ResponseEntity.ok().build();
 		}
 
@@ -109,7 +109,7 @@ public class AccountController {
 			@RequestHeader(name = "userId") Integer userId,
 			@RequestBody Integer accountId) {
 
-		if (accountsService.deleteAccountById(accountId, userId)) {
+		if (accountService.deleteAccountById(accountId, userId)) {
 			return ResponseEntity.ok().build();
 		}
 
@@ -134,6 +134,6 @@ public class AccountController {
 			throws JsonProcessingException {
 
 		return ResponseEntity.ok()
-				.body(mapper.writeValueAsString(accountsService.getTransactionsById(accountId, userId)));
+				.body(mapper.writeValueAsString(accountService.getTransactionsById(accountId, userId)));
 	}
 }

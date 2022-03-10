@@ -3,9 +3,9 @@ package com.revature.cachemoney.backend.beans.services;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-class AccountsServiceTest {
+class AccountServiceTest {
     @Autowired
-    AccountsService accountsService;
+    AccountService accountService;
 
     @Test
     void getAllAccounts() {
@@ -18,7 +18,7 @@ class AccountsServiceTest {
     @Test
     void postAccount() {
         // Account account = new Account("checking");
-        // accountsService.postAccount();
+        // accountService.postAccount();
     }
 
     @Test

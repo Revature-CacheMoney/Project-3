@@ -13,13 +13,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AccountsService {
+public class AccountService {
 
     private final AccountRepo accountRepo;
     private final TransactionRepo transactionRepo;
 
     @Autowired
-    public AccountsService(AccountRepo accountRepo, TransactionRepo transactionRepo) {
+    public AccountService(AccountRepo accountRepo, TransactionRepo transactionRepo) {
         this.accountRepo = accountRepo;
         this.transactionRepo = transactionRepo;
     }
