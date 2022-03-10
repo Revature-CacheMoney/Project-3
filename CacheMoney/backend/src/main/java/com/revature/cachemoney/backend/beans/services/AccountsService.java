@@ -49,8 +49,11 @@ public class AccountsService {
     }
 
     // GET transaction by ID
-    public List<Transaction> getTransactionsById(Integer id) {
-        ArrayList<Transaction> res = (ArrayList<Transaction>) transactionRepo.findByAccountId(id);
-        return res;
+    public List<Transaction> getTransactionsById(Integer accountId, Integer userId) {
+        if (accountRepo.getById(accountId).getUserId().getUser_id() == userId) {
+            return (ArrayList<Transaction>) transactionRepo.findByAccountId(accountId);
+        }
+
+        return null;
     }
 }

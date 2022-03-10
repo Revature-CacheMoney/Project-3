@@ -33,13 +33,24 @@ public class UserController {
         this.mapper = mapper;
     }
 
-    // GET all users
+	/**
+	 * GET *EVERY* User.
+	 * 
+	 * @return List of all Users
+	 */
     @GetMapping(value = "/all")
     public List<User> getAllUsers() {
         return usersService.getAllUsers();
     }
 
-    // GET a user by ID
+    /**
+     * GET the User with provided ID.
+     * 
+     * @param token  for current session
+     * @param userId for current User
+     * @return User object
+     * @throws JsonProcessingException
+     */
     @GetMapping
     @RequireJwt
     public ResponseEntity<String> getUserById(
@@ -53,15 +64,23 @@ public class UserController {
     /**
      * POST a User.
      * 
-     * @param user
-     * @return true/false based on registration status
+     * @param user containing the firstName, lastName, email, username, & password
+     * @return true | false based on registration status
      */
     @PostMapping
     public Boolean postUser(@RequestBody User user) {
         return usersService.postUser(user);
     }
 
-    // DELETE a user by ID
+    /**
+     * DELETE a User with provided ID.
+     * Returns a bad request if the DELETE is unsuccessful.
+     * 
+     * @param token  for current session
+     * @param userId for current User
+     * @return OK | Bad Request based on DELETE success
+     * @throws JsonProcessingException
+     */
     @DeleteMapping
     @RequireJwt
     public ResponseEntity<String> deleteUserById(
@@ -73,7 +92,13 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-    // login
+    /**
+     * Log in to a User account.
+     * 
+     * @param user containing (at least) username & password
+     * @return User object & its associated JWT
+     * @throws JsonProcessingException
+     */
     @PostMapping(value = "/login")
     public ResponseEntity<String> login(@RequestBody User user) throws JsonProcessingException {
         // has internal checking to see if user is valid
@@ -96,10 +121,10 @@ public class UserController {
     }
 
     /**
-     * Get all accounts associated with a particular user ID.
+     * GET all Accounts associated with a particular User ID.
      * 
      * @param token  for current session
-     * @param userId for current user
+     * @param userId for current User
      * @return List of Accounts associated with a particular user
      * @throws JsonProcessingException
      */

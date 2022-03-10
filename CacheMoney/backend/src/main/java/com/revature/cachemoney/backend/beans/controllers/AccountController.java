@@ -7,7 +7,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.cachemoney.backend.beans.annotations.RequireJwt;
 import com.revature.cachemoney.backend.beans.models.Account;
-import com.revature.cachemoney.backend.beans.models.Transaction;
 import com.revature.cachemoney.backend.beans.services.AccountsService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +30,11 @@ public class AccountController {
 		this.mapper = mapper;
 	}
 
-	// GET all accounts
+	/**
+	 * GET *EVERY* Account.
+	 * 
+	 * @return List of all Accounts
+	 */
 	@GetMapping(value = "/all")
 	public List<Account> getAllAccounts() {
 		return accountsService.getAllAccounts();
@@ -42,8 +45,8 @@ public class AccountController {
 	 * Returns a bad request if the Account is not associated with the User.
 	 * 
 	 * @param token     for current session
-	 * @param userId    for current user
-	 * @param accountId for user's account
+	 * @param userId    for current User
+	 * @param accountId for User's Account
 	 * @return Account associated with the User
 	 * @throws JsonProcessingException
 	 */
@@ -72,24 +75,30 @@ public class AccountController {
 	 * Returns a bad request if the POST is unsuccessful.
 	 * 
 	 * @param token     for current session
-	 * @param userId    for current user
-	 * @param accountId for user's account
+	 * @param userId    for current User
+	 * @param accountId for User's Account
 	 * @return OK | Bad Request based on POST success
-	 * @throws JsonProcessingException
 	 */
 	@PostMapping
 	@RequireJwt
 	public ResponseEntity<String> postAccount(
 			@RequestHeader(name = "token") String token,
 			@RequestHeader(name = "userId") Integer userId,
-			@RequestBody Account account)
-			throws JsonProcessingException {
+			@RequestBody Account account) {
 
 		accountsService.postAccount(account);
 		return ResponseEntity.ok().build();
 	}
 
-	// DELETE an account by ID
+	/**
+	 * DELETE an Account with provided ID.
+	 * Returns a bad request if the DELETE is unsuccessful.
+	 * 
+	 * @param token     for current session
+	 * @param userId    for current User
+	 * @param accountId for User's Account
+	 * @return OK | Bad Request based on DELETE success
+	 */
 	@DeleteMapping
 	@RequireJwt
 	public ResponseEntity<String> deleteAccountById(
@@ -101,9 +110,23 @@ public class AccountController {
 		return ResponseEntity.ok().build();
 	}
 
-	// GET transaction by ID
-	@GetMapping(value = "/transactions/{id}")
-	public List<Transaction> getTransactionsById(@PathVariable Integer id) {
-		return accountsService.getTransactionsById(id);
+	/**
+	 * GET all transactions associated with an Account.
+	 * 
+	 * @param token for current session
+	 * @param userId for current User
+	 * @param accountId for User's Account
+	 * @return List of Transactions associated with a particular User's Account
+	 * @throws JsonProcessingException
+	 */
+	@GetMapping(value = "/transactions")
+	public ResponseEntity<String> getTransactionsById(
+			@RequestHeader(name = "token") String token,
+			@RequestHeader(name = "userId") Integer userId,
+			@RequestBody Integer accountId)
+			throws JsonProcessingException {
+
+		return ResponseEntity.ok()
+				.body(mapper.writeValueAsString(accountsService.getTransactionsById(accountId, userId)));
 	}
 }
