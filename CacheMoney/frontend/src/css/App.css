@@ -8,16 +8,44 @@ Light Green: 6c896a;
 
 /* Note for more specific views: make a container div and style that instead */
 /* Naming conventions - try to make it detailed/consistent to prevent duplicate entries
-(ex. account-container, account-button, account-link)
+(ex. account-container, account-button, account-link) */
 
+
+/*
+---------
+CTRL + F:
+---------
+lvfull (Login Views - Signin and Register)
+svfull (Splash View)
+regfull (Registration)
+navfull (Navbar)
+nmfull (Navigation Mockup)
+nfvfull (Not Found View / 404 page)
+mqfull (Media Queries)
+mvfull (Main Views)
+----------------------------------------------------------
+Change "full" to desired media query max-width (sans "px")
+----------------------------------------------------------
+*/
 
 /* Use this for all the general element tags, or things affecting the whole application */
+:root {
+	--light-element: #fff;
+	--grey-charcoal: #4c4c4b;
+	--gold-bullion: #d3a940;
+	--gold-flake: #f6ba65;
+	--green-dinero: #3d703a;
+	--green-light-tender: #6c896a;
+	--green-dark-wallstreet: #3e4f3d;
+	--red-error: #cc3040;
+}
+
 body {
 	margin: 0px;
 	width: 100%;
 	height: 100%;
 	/*background-color: #3d703a; */
-	color: #ffffff;
+	color: var(--light-element);
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
@@ -53,13 +81,14 @@ html {
 }
 
 a {
-	color: #d3a940;
+	color: var(--gold-bullion);
+	text-decoration: none;
 }
 
 .logo-bigger {
 	font-family: "Cinzel", serif;
 	font-size: 8em;
-	text-shadow: -2px 4px 0px #d3a940;
+	text-shadow: -2px 4px 0px var(--gold-bullion);
 	margin: auto;
 }
 
@@ -80,7 +109,7 @@ a {
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
-	background-color: #3d703a;
+	background-color: var(--green-dinero);
 	width: 80%;
 	height: 100%;
 	margin: auto;
@@ -103,14 +132,14 @@ a {
 }
 
 .password-error {
-	border: 1px solid red;
+	border: 1px solid var(--red-error);
 }
 
 .password-ok {
-	border: 1px solid black;
+	border: 1px solid var(--grey-charcoal);
 }
 
-/* Login views - Signin and Registration */
+/* Login views - Signin and Registration lvfull */
 .login-outer-container {
 	display: flex;
 	flex-direction: row;
@@ -130,7 +159,7 @@ a {
 	flex-direction: column;
 	justify-content: center;
 	column-gap: 0px;
-	background-color: #3d703a;
+	background-color: var(--green-dinero);
 }
 
 /* contains the cachemoney header and white-box */
@@ -147,9 +176,9 @@ a {
 	margin-left: auto;
 	margin-right: auto;
 	font-size: 3em;
-	color: #3d703a;
+	color: var(--green-dinero);
 	padding: 30px;
-	background-color: #ffffff;
+	background-color: var(--light-element);
 	border-radius: 20px;
 	display: flex;
 	flex-direction: column;
@@ -167,8 +196,8 @@ a {
 
 .login-outer-container button,
 .login-outer-container input[type="submit"] {
-	background-color: #d3a940;
-	color: #ffffff;
+	background-color: var(--gold-bullion);
+	color: var(--light-element);
 	width: 100%;
 	font-size: 2.5rem;
 	box-shadow: none;
@@ -179,23 +208,41 @@ a {
 
 .login-outer-container button:hover,
 .login-outer-container input[type="submit"]:hover {
-	text-shadow: 0px 0px 5px #000;
+	text-shadow: 0px 0px 5px var(--grey-charcoal);
 	background-image: url("../image/CacheMoney_MoneyBackground_Smaller.png");
 	background-size: 75%;
 }
 
 .login-outer-container input[type="text"] {
-	border: 2px solid #3d703a;
+	border: 2px solid var(--green-dinero);
 	width: 100%;
 	height: 5vh;
-	box-shadow: -4px 4px 0px #6c896a;
+	box-shadow: -4px 4px 0px var(--green-light-tender);
+	margin-bottom: 20px;
 }
+
+/* login error content */
 
 #login-error-box {
-	color: red;
+	color: var(--red-error);
+    font-size: 30px;
+    margin-bottom: 18px;
 }
 
-/* Registration needs some special overrides - leave this as is */
+#registration-error {
+    font-size: 24px;
+    color: var(--red-error);
+}
+
+.error-container {
+    margin-bottom: 24px;
+}
+
+
+/* 
+Registration needs some special overrides - leave this as is 
+regfull 
+*/
 #register-white-box {
 	font-size: 2rem;
 	row-gap: 5px;
@@ -214,8 +261,8 @@ a {
 }
 
 ::selection {
-	background: #d3a940;
-	color: white;
+	background: var(--gold-bullion);
+	color: var(--light-element);
 }
 
 /*
@@ -230,12 +277,12 @@ a {
 */
 
 input[type="text"]:focus {
-	background-color: #6c896a;
-	color: white;
+	background-color: var(--green-light-tender);
+	color: var(--light-element);
 }
 
 input[type="text"] {
-	color: #4c4c4b;
+	color: var(--grey-charcoal);
 	padding-left: 15px;
 	font-size: 20px;
 }
@@ -274,9 +321,16 @@ input[type="text"] {
 	display: inline;
 }
 
+.err-desc {
+	font-size: 1rem;
+	display: block;
+	margin: 2px 0;
+	color: var(--red-error);
+}
+
 /* Signin view end */
 
-/* Splash View */
+/* Splash View svfull */
 
 #splash-outer-container {
 	background-image: url("../image/Background_image-01.png");
@@ -291,7 +345,7 @@ input[type="text"] {
 #splash-inner-container {
 	width: 100%;
 	height: 40vh;
-	background-color: #3d703a;
+	background-color: var(--green-dinero);
 	display: flex;
 	flex-direction: row;
 	justify-content: space-around;
@@ -309,15 +363,24 @@ input[type="text"] {
 	height: 100%;
 }
 
+#register-here {
+	color: var(--gold-bullion);
+}
+
+#register-here:hover {
+	color: var(--gold-flake);
+	text-decoration: underline;
+}
+
 /* select any button on splash screen*/
 #splash-outer-container button,
 #splash-outer-container input[type="submit"] {
 	width: 200px;
 	height: 50px;
 	border-radius: 10px;
-	background-color: #ffffff;
-	box-shadow: -5px 5px 0px 1px #d3a940;
-	color: #3e4f3d;
+	background-color: var(--light-element);
+	box-shadow: -5px 5px 0px 1px var(--gold-bullion);
+	color: var(--green-dark-wallstreet);
 	font-size: 2em;
 	margin-top: 10px;
 	margin-bottom: 10px;
@@ -327,7 +390,12 @@ input[type="text"] {
 	font-size: 4em; /* ~48px */
 }
 
-/* FOOTER STUFF */
+#splash-button:hover {
+	background-color: #d3a940;
+	color: var(--light-element);
+}
+
+/* FOOTER STUFF fsfull */
 
 .footer {
 	grid-area: footer;
@@ -336,7 +404,7 @@ input[type="text"] {
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
-	background-color: #3d703a;
+	background-color: var(--green-dinero);
 	padding-left: 30px;
 	padding-right: 30px;
 	padding-bottom: 30px;
@@ -364,10 +432,10 @@ input[type="text"] {
 
 /* END FOOTER STUFF */
 
-/* Navbar */
+/* Navbar navfull */
 
 .nav-bar {
-	color: black;
+	color: var(--grey-charcoal);
 }
 
 .breadcrumb {
@@ -383,7 +451,7 @@ input[type="text"] {
 }
 .breadcrumb-item > a {
 	text-decoration: none;
-	color: black;
+	color: var(--grey-charcoal);
 }
 
 #top {
@@ -396,16 +464,16 @@ input[type="text"] {
 }
 
 .account-type-container {
-	color: black;
+	color: var(--grey-charcoal);
 }
 .transfer-container {
-	color: black;
+	color: var(--grey-charcoal);
 }
 
 /* End navbar */
 
 /* main-view-2 */
-/* "Main" views - MainPageView, AccountsView, TransferView */
+/* "Main" views - MainPageView, AccountsView, TransferView mvfull */
 .main-page-container {
 	display: grid;
 	grid-template-areas:
@@ -418,7 +486,7 @@ input[type="text"] {
 	/* row-gap: 10px; */
 	/*column-gap: 10px;*/
 	height: 100%;
-	background-color: #6c896a;
+	background-color: var(--green-light-tender);
 	font-size: 1em;
 	margin: 0px;
 	padding: 0px;
@@ -433,13 +501,13 @@ input[type="text"] {
 	padding-left: 30px;
 	padding-right: 30px;
 	padding-top: 30px;
-	background-color: #3d703a;
+	background-color: var(--green-dinero);
 	box-sizing: border-box;
 }
 
 /* This contains the username, logout buttons */
 .main-content-inner {
-	background-color: #6c896a;
+	background-color: var(--green-light-tender);
 	margin-right: 0px;
 }
 
@@ -450,18 +518,18 @@ input[type="text"] {
 .header-username {
 	/* font-family: "Cinzel", serif; */
 	font-size: 1.5em;
-	text-shadow: -1px 2px 0px #d3a940;
+	text-shadow: -1px 2px 0px var(--gold-bullion);
 }
 
-/* Navigation mockup used on main-view-2 */
+/* Navigation mockup used on main-view-2 nmfull */
 .navigation-bar {
 	grid-area: navigation;
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
 	column-gap: 50px;
-	background-color: #3d703a;
-	border-bottom: 10px solid #3e4f3d;
+	background-color: var(--green-dinero);
+	border-bottom: 10px solid var(--green-dark-wallstreet);
 	box-sizing: border-box;
 	padding-left: 30px;
 	padding-right: 30px;
@@ -479,24 +547,24 @@ input[type="text"] {
 
 .navigation-bar a {
 	text-decoration: none;
-	color: #ffffff;
+	color: var(--light-element);
 }
 
 #logout-button {
-	color: #ffffff;
-	background-color: #6c896a;
+	color: var(--light-element);
+	background-color: var(--green-light-tender);
 	font-size: 2.5rem;
-	box-shadow: -4px 4px 0px #3e4f3d;
+	box-shadow: -4px 4px 0px var(--green-dark-wallstreet);
 	width: 200px;
 }
 
 .main-page-container button,
 .main-page-container input[type="submit"] {
-	background-color: #4c4c4b;
-	color: #ffffff;
+	background-color: var(--grey-charcoal);
+	color: var(--light-element);
 	width: 100%;
 	font-size: 2.5rem;
-	box-shadow: -5px 5px 0px 1px #d3a940;
+	box-shadow: -5px 5px 0px 1px var(--gold-bullion);
 	padding: 0;
 	margin-left: auto;
 	margin-right: auto;
@@ -511,11 +579,148 @@ input[type="text"] {
 
 /* End main-view-2 */
 
-/* Media queries for reactive views */
+/* not-found-view stying nfvfull */
+
+.not-found-outer-container {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background-image: url("../image/Background_image-01.png");
+    background-position: center;
+	background-size: cover;
+	background-repeat: no-repeat;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.not-found-inner-container {
+    background-color: #3d703a;
+    height: 80%;
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.not-found-box {
+    width: 80%;
+    text-align: center;
+}
+
+.not-found-header {
+    font-size: 60px;
+    margin-bottom: 60px;
+}
+
+.not-found-description {
+    font-size: 36px;
+    margin-bottom: 60px;
+    line-height: 60px;
+}
+
+.not-found-link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+}
+
+.not-found-home-button {
+    display: flex;
+    background-color: #fff;
+    color: #d3a940;
+    height: 84px;
+    width: 40%;
+    border-radius: 60px;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+}
+
+.not-found-home-button:hover {
+    box-shadow: -5px 5px #3e4f3d;
+    color: #6c896a;
+}
+
+.not-found-home-text {
+    text-shadow: -2px 2px #3e4f3d;
+    font-size: 60px;
+}
+
+.not-found-home-description {
+    font-size: 16px;
+}
+
+/* end not-found-view */
+
+/* 
+--------------------------------
+Media queries for reactive views mqfull 
+--------------------------------
+*/
+@media only screen and (max-width: 1080px) {
+
+	/* splash page 1080px sv1080 */
+
+
+	#splash-inner-container {
+		margin: auto;
+		flex-direction: column;
+		justify-content: center;
+		height: 100%;
+		width: 80vw;
+	}
+
+	#splash-right {
+		height: auto;
+		margin: 60px 0 0 0;
+	}
+
+	.logo-bigger {
+		font-size: 6em;
+		margin: 0;
+	}
+
+	#welcome {
+		font-size: 48px;
+		font-weight: 700;
+	}
+
+	#splash-outer-container button,
+	#splash-outer-container input[type="submit"] {
+		width: 60%;
+		height: 60px;
+		border-radius: 20px;
+		background-color: var(--light-element);
+		box-shadow: -5px 5px 0px 1px var(--gold-bullion);
+		color: var(--green-dark-wallstreet);
+		font-size: 3em;
+	}
+	
+	#register-here {
+		display: block;
+		margin-top: 12px;
+	}
+
+	/* login view 1080px lv1080 */
+	.login-inner-container {
+		width: 80%;
+	}
+
+}
+
+
 @media only screen and (max-width: 720px) {
 	html {
 		font-size: 1.2vh;
 	}
+
+	/* splash view 720px sv720 */
 
 	#splash-inner-container {
 		box-sizing: border-box;
@@ -523,14 +728,32 @@ input[type="text"] {
 		flex-direction: column;
 	}
 
-	#splash-right {
-		padding: 0px;
+	.logo-bigger {
+		font-size: 5em;
+	}
+	
+	#welcome {
+		font-size: 3em;
 	}
 
-	button,
-	input[type="submit"] {
-		font-size: 3vh;
+	#splash-outer-container button,
+	#splash-outer-container input[type="submit"] {
+		width: 60%;
+		height: 48px;
+		border-radius: 12px;
+		font-size: 2em;
 	}
+
+	#register {
+		font-size: 2em;
+	}
+
+	/* login view 720px lv720 */
+	.login-inner-container {
+		width: 100%;
+	}
+
+	/* registration 720px reg720 */
 
 	#registration-name-boxes {
 		display: flex;
@@ -541,12 +764,12 @@ input[type="text"] {
 		margin-bottom: 10px;
 	}
 
-	.reg-name-box {
-		width: 100%;
+	.logo-smaller {
+		font-size: 4em;
 	}
 
-	.logo-smaller {
-		font-size: 5vh;
+	.reg-name-box {
+		width: 100%;
 	}
 
 	input[type="text"] {
@@ -560,20 +783,23 @@ input[type="text"] {
 		font-size: 1vh;
 	}
 
+	/* splash view 600px sv600 */
+
 	#splash-inner-container {
 		box-sizing: border-box;
 		text-align: center;
 		flex-direction: column;
 	}
 
+	.logo-bigger {
+		font-size: 4.5em;
+	}
+
 	#splash-right {
 		padding: 0px;
 	}
 
-	button,
-	input[type="submit"] {
-		font-size: 3vh;
-	}
+	/* registration 600px reg600 */
 
 	#registration-name-boxes {
 		display: flex;

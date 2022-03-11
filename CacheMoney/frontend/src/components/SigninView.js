@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import userStore from "../store/Store.js";
 import axios from "axios";
-import "../css/tempLogin.css"
 import { useNavigate } from "react-router-dom";
 import config from "../config.js";
 
@@ -46,9 +45,7 @@ function SigninView() {
 				responseHeaders = response.headers;
 				if (responseStatus !== 200 || responseData.user_id === null) {
 					console.log("Login failed - bad username/password");
-					document.getElementById("login-error-box").innerHTML =
-
-						"Error: incorrect username or password.";
+					document.getElementById("login-error-box").innerHTML = "Error: incorrect username or password.";
 					let loginInputArr = document.getElementsByClassName("login-input");
 					for (let i = 0; i < loginInputArr.length; i++){
 						loginInputArr[i].style.border = "2px solid red";
