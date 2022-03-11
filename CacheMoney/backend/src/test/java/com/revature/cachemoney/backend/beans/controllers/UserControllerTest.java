@@ -79,6 +79,7 @@ class UserControllerTest {
 
         assertEquals(HttpStatus.OK, testResponses.get(0).getStatusCode());
         assertEquals(testUsersJson.get(0), testResponses.get(0).getBody());
+
         assertEquals(HttpStatus.BAD_REQUEST, testResponses.get(1).getStatusCode()); // Http status should not be OK - AspectJwt not being reached
         assertNotEquals(testUsersJson.get(0), testResponses.get(1).getBody());
         assertNotEquals(testUsersJson.get(1), testResponses.get(1).getBody());
