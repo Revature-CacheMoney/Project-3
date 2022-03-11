@@ -7,8 +7,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.cachemoney.backend.beans.annotations.RequireJwt;
 import com.revature.cachemoney.backend.beans.models.Account;
-import com.revature.cachemoney.backend.beans.models.Transaction;
-import com.revature.cachemoney.backend.beans.services.AccountsService;
+import com.revature.cachemoney.backend.beans.services.AccountService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,19 +21,23 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/accounts")
 public class AccountController {
-	private final AccountsService accountsService;
+	private final AccountService accountService;
 	private final ObjectMapper mapper;
 
 	@Autowired
-	public AccountController(AccountsService accountsService, ObjectMapper mapper) {
-		this.accountsService = accountsService;
+	public AccountController(AccountService accountService, ObjectMapper mapper) {
+		this.accountService = accountService;
 		this.mapper = mapper;
 	}
 
-	// GET all accounts
+	/**
+	 * GET *ALL* Accounts.
+	 * 
+	 * @return List of all Accounts
+	 */
 	@GetMapping(value = "/all")
 	public List<Account> getAllAccounts() {
-		return accountsService.getAllAccounts();
+		return accountService.getAllAccounts();
 	}
 
 	/**
@@ -42,8 +45,8 @@ public class AccountController {
 	 * Returns a bad request if the Account is not associated with the User.
 	 * 
 	 * @param token     for current session
-	 * @param userId    for current user
-	 * @param accountId for user's account
+	 * @param userId    for current User
+	 * @param accountId for User's Account
 	 * @return Account associated with the User
 	 * @throws JsonProcessingException
 	 */
@@ -56,7 +59,7 @@ public class AccountController {
 			throws JsonProcessingException {
 
 		// retrieve account
-		Optional<Account> account = accountsService.getAccountByID(accountId, userId);
+		Optional<Account> account = accountService.getAccountByID(accountId, userId);
 
 		// see if an account was actually retrieved
 		if (account.isPresent()) {
@@ -71,25 +74,34 @@ public class AccountController {
 	 * POST an Account with provided ID.
 	 * Returns a bad request if the POST is unsuccessful.
 	 * 
-	 * @param token     for current session
-	 * @param userId    for current user
-	 * @param accountId for user's account
+	 * @param token   for current session
+	 * @param userId  for current User
+	 * @param account for User's Account
 	 * @return OK | Bad Request based on POST success
-	 * @throws JsonProcessingException
 	 */
 	@PostMapping
 	@RequireJwt
 	public ResponseEntity<String> postAccount(
 			@RequestHeader(name = "token") String token,
 			@RequestHeader(name = "userId") Integer userId,
-			@RequestBody Account account)
-			throws JsonProcessingException {
+			@RequestBody Account account) {
 
-		accountsService.postAccount(account);
-		return ResponseEntity.ok().build();
+		if (accountService.postAccount(account, userId)) {
+			return ResponseEntity.ok().build();
+		}
+
+		return ResponseEntity.badRequest().build();
 	}
 
-	// DELETE an account by ID
+	/**
+	 * DELETE an Account with provided ID.
+	 * Returns a bad request if the DELETE is unsuccessful.
+	 * 
+	 * @param token     for current session
+	 * @param userId    for current User
+	 * @param accountId for User's Account
+	 * @return OK | Bad Request based on DELETE success
+	 */
 	@DeleteMapping
 	@RequireJwt
 	public ResponseEntity<String> deleteAccountById(
@@ -97,13 +109,31 @@ public class AccountController {
 			@RequestHeader(name = "userId") Integer userId,
 			@RequestBody Integer accountId) {
 
-		accountsService.deleteAccountById(accountId);
-		return ResponseEntity.ok().build();
+		if (accountService.deleteAccountById(accountId, userId)) {
+			return ResponseEntity.ok().build();
+		}
+
+		return ResponseEntity.badRequest().build();
 	}
 
-	// GET transaction by ID
-	@GetMapping(value = "/transactions/{id}")
-	public List<Transaction> getTransactionsById(@PathVariable Integer id) {
-		return accountsService.getTransactionsById(id);
+	/**
+	 * POST (GET) all transactions associated with an Account.
+	 * 
+	 * @param token     for current session
+	 * @param userId    for current User
+	 * @param accountId for User's Account
+	 * @return List of Transactions associated with a particular User's Account
+	 * @throws JsonProcessingException
+	 */
+	@PostMapping(value = "/transactions")
+	@RequireJwt
+	public ResponseEntity<String> getTransactionsById(
+			@RequestHeader(name = "token") String token,
+			@RequestHeader(name = "userId") Integer userId,
+			@RequestBody Integer accountId)
+			throws JsonProcessingException {
+
+		return ResponseEntity.ok()
+				.body(mapper.writeValueAsString(accountService.getTransactionsById(accountId, userId)));
 	}
 }

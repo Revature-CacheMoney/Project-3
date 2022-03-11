@@ -7,35 +7,45 @@ const initialState = {
 	username: "",
 	firstName: "",
 	lastName: "",
-	accounts: [],
+	token: ""
 };
 
 
 function userReducer(state = initialState, action) {
-    switch (action.type) {
-      case "UPDATE_ID":
-            return {
-                ...state,
-                userId: action.payload
-            };
+	switch (action.type) {
+		case "LOGOUT_USER":
+			return {
+				...initialState
+			};
 
-        
-    case "UPDATE_USERNAME":
+		case "UPDATE_ID":
 			return {
 				...state,
-				username: action.payload,
+				userId: action.payload
+			};
+
+		case "UPDATE_USERNAME":
+			return {
+				...state,
+				username: action.payload
 			};
 
 		case "UPDATE_NAME_FIRST":
 			return {
 				...state,
-				firstName: action.payload,
+				firstName: action.payload
 			};
 
 		case "UPDATE_NAME_LAST":
 			return {
 				...state,
-				lastName: action.payload,
+				lastName: action.payload
+			};
+
+		case "UPDATE_TOKEN":
+			return {
+				...state,
+				token: action.payload
 			};
 
 		default:

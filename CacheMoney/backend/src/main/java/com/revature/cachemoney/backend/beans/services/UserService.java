@@ -19,7 +19,7 @@ import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UsersService {
+public class UserService {
     private final UserRepo userRepo;
     private final AccountRepo accountRepo;
 
@@ -31,7 +31,7 @@ public class UsersService {
     private final String passwordRegEx = "^[a-zA-Z0-9@^%$#/\\,;|~._-]{8,50}$";
 
     @Autowired
-    public UsersService(UserRepo userRepo, AccountRepo accountRepo, SecurityConfig passwordEncoder) {
+    public UserService(UserRepo userRepo, AccountRepo accountRepo, SecurityConfig passwordEncoder) {
         this.userRepo = userRepo;
         this.accountRepo = accountRepo;
         this.passwordEncoder = passwordEncoder;
@@ -103,7 +103,7 @@ public class UsersService {
      * @return list of accounts associated with a particular user's ID
      */
     public List<Account> getAccountsByUserId(Integer userId) {
-        return accountRepo.findByUserId(userRepo.getById(userId));
+        return accountRepo.findByUser(userRepo.getById(userId));
     }
 
     // credential validator for user registration

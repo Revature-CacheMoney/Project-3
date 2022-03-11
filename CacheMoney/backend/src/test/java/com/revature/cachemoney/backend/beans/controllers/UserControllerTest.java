@@ -1,14 +1,21 @@
 package com.revature.cachemoney.backend.beans.controllers;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Optional;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.cachemoney.backend.beans.models.Account;
 import com.revature.cachemoney.backend.beans.models.User;
 import com.revature.cachemoney.backend.beans.security.JwtUtil;
-import com.revature.cachemoney.backend.beans.services.UsersService;
+import com.revature.cachemoney.backend.beans.services.UserService;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -19,29 +26,17 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
-
-
-import static org.mockito.Mockito.when;
-
 
 @WebMvcTest(UserController.class)
 class UserControllerTest {
 
     @MockBean
-    private UsersService usersService;
+    private UserService userService;
     @MockBean
     private JwtUtil jwtUtil;
     private final ObjectMapper mapper = new ObjectMapper();
     @Autowired
-    private final UserController userController = new UserController(usersService, jwtUtil, mapper);
+    private final UserController userController = new UserController(userService, jwtUtil, mapper);
 
     @Autowired
     private MockMvc mockMvc;
@@ -93,8 +88,8 @@ class UserControllerTest {
     @Test
     void getUserById() throws Exception {
 
-//        when(usersService.getUserById(testUserIds[0])).thenReturn(Optional.of(testUsers[0]));
-//        when(usersService.getUserById(testUserIds[1])).thenReturn(Optional.of(testUsers[1]));
+//        when(userService.getUserById(testUserIds[0])).thenReturn(Optional.of(testUsers[0]));
+//        when(userService.getUserById(testUserIds[1])).thenReturn(Optional.of(testUsers[1]));
 //        when(jwtUtil.generateToken(testUserIds[0])).thenReturn(testTokens[0]);
 //        when(jwtUtil.generateToken(testUserIds[1])).thenReturn(testTokens[1]);
 //
@@ -114,13 +109,13 @@ class UserControllerTest {
 //        assertNotEquals(testUsersJson.get(0), testResponses.get(1).getBody());
 //        assertNotEquals(testUsersJson.get(1), testResponses.get(1).getBody());
 
-        testUsers[0].setUser_id(1);
-        when(usersService.getUserById(testUsers[0].getUser_id())).thenReturn(Optional.of(testUsers[0]));
+        testUsers[0].setUserId(1);
+        when(userService.getUserById(testUsers[0].getUserId())).thenReturn(Optional.of(testUsers[0]));
         this.mockMvc.perform(MockMvcRequestBuilders
                 .get("/users")
                 .header("token", testTokens[0])
                 .header("userId", 2))
-                .andExpect(MockMvcResultMatchers.status().isOk()).);
+                .andExpect(MockMvcResultMatchers.status().isOk());
 //                .andExpect(MockMvcResultMatchers.jsonPath(".firstName").value("Hank"));
 
 
@@ -134,9 +129,9 @@ class UserControllerTest {
     @Test
     void login() throws JsonProcessingException {
 
-        testUsers[0].setUser_id(1);
-        when(usersService.getUserByUsername(loginUsers[0])).thenReturn(testUsers[0]);
-        when(jwtUtil.generateToken(testUsers[0].getUser_id())).thenReturn(testTokens[0]);
+        testUsers[0].setUserId(1);
+        when(userService.getUserByUsername(loginUsers[0])).thenReturn(testUsers[0]);
+        when(jwtUtil.generateToken(testUsers[0].getUserId())).thenReturn(testTokens[0]);
         ResponseEntity<String> response = userController.login(loginUsers[0]);
 
         assertEquals(mapper.writeValueAsString(testUsers[0]), response.getBody());
@@ -145,12 +140,12 @@ class UserControllerTest {
         assertEquals(testTokens[0], response.getHeaders().getFirst("JWT"));
 
         // incorrect username
-        when(usersService.getUserByUsername(loginUsers[1])).thenReturn(null);
+        when(userService.getUserByUsername(loginUsers[1])).thenReturn(null);
         ResponseEntity<String> response1 = userController.login(loginUsers[1]);
         assertEquals(HttpStatus.BAD_REQUEST, response1.getStatusCode());
 
         // incorrect password
-        when(usersService.getUserByUsername(loginUsers[2])).thenReturn(null);
+        when(userService.getUserByUsername(loginUsers[2])).thenReturn(null);
         ResponseEntity<String> response2 = userController.login(loginUsers[2]);
         assertEquals(HttpStatus.BAD_REQUEST, response2.getStatusCode());
 
@@ -161,8 +156,8 @@ class UserControllerTest {
     @Test
     void getAccountsByUserId() throws JsonProcessingException {
         //set user id to 1
-        testUsers[0].setUser_id(1);
-        when(usersService.getAccountsByUserId(testUsers[0].getUser_id())).thenReturn(accountList);
+        testUsers[0].setUserId(1);
+        when(userService.getAccountsByUserId(testUsers[0].getUserId())).thenReturn(accountList);
         ResponseEntity<String> response = userController.getAccountsByUserId(testTokens[0], 1);
         assertEquals(mapper.writeValueAsString(accountList), response.getBody());
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -171,12 +166,12 @@ class UserControllerTest {
 
     @Test
     void postUser() throws Exception {
-//        when(usersService.postUser(testUsers[0])).thenReturn(true);
+//        when(userService.postUser(testUsers[0])).thenReturn(true);
 //        assertTrue(userController.postUser(testUsers[0]));
-//        when(usersService.postUser(loginUsers[0])).thenReturn(false);
+//        when(userService.postUser(loginUsers[0])).thenReturn(false);
 //        assertFalse(userController.postUser(loginUsers[0]));
 
-//        when(usersService.postUser(testUsers[0])).thenReturn(true);
+//        when(userService.postUser(testUsers[0])).thenReturn(true);
 //        this.mockMvc.perform(MockMvcRequestBuilders.post("/users")).andExpect();
 
 

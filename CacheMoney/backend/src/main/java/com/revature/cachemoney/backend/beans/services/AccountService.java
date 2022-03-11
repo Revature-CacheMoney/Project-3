@@ -13,13 +13,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AccountsService {
+public class AccountService {
 
     private final AccountRepo accountRepo;
     private final TransactionRepo transactionRepo;
 
     @Autowired
-    public AccountsService(AccountRepo accountRepo, TransactionRepo transactionRepo) {
+    public AccountService(AccountRepo accountRepo, TransactionRepo transactionRepo) {
         this.accountRepo = accountRepo;
         this.transactionRepo = transactionRepo;
     }
@@ -31,7 +31,7 @@ public class AccountsService {
 
     // GET account by ID
     public Optional<Account> getAccountByID(Integer accountId, Integer userId) {
-        if (accountRepo.getById(accountId).getUserId().getUser_id() == userId) {
+        if (accountRepo.getById(accountId).getUser().getUserId() == userId) {
             return accountRepo.findById(accountId);
         }
 
@@ -39,18 +39,33 @@ public class AccountsService {
     }
 
     // POST an account
-    public void postAccount(Account account) {
-        accountRepo.save(account);
+    public Boolean postAccount(Account account, Integer userId) {
+        if (account.getUser().getUserId() == userId) {
+            accountRepo.save(account);
+
+            return true;
+        }
+
+        return false;
     }
 
     // DELETE an account
-    public void deleteAccountById(Integer id) {
-        accountRepo.deleteById(id);
+    public Boolean deleteAccountById(Integer accountId, Integer userId) {
+        if (accountRepo.getById(accountId).getUser().getUserId() == userId) {
+            accountRepo.deleteById(accountId);
+
+            return true;
+        }
+
+        return false;
     }
 
     // GET transaction by ID
-    public List<Transaction> getTransactionsById(Integer id) {
-        ArrayList<Transaction> res = (ArrayList<Transaction>) transactionRepo.findByAccountId(id);
-        return res;
+    public List<Transaction> getTransactionsById(Integer accountId, Integer userId) {
+        if (accountRepo.getById(accountId).getUser().getUserId() == userId) {
+            return (ArrayList<Transaction>) transactionRepo.findByAccount(accountRepo.getById(accountId));
+        }
+
+        return null;
     }
 }

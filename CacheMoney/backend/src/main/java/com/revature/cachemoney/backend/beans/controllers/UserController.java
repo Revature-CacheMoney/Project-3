@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.cachemoney.backend.beans.annotations.RequireJwt;
 import com.revature.cachemoney.backend.beans.models.User;
 import com.revature.cachemoney.backend.beans.security.JwtUtil;
-import com.revature.cachemoney.backend.beans.services.UsersService;
+import com.revature.cachemoney.backend.beans.services.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -22,24 +22,35 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/users")
 public class UserController {
-    private final UsersService usersService;
+    private final UserService userService;
     private final JwtUtil jwtUtil;
     private final ObjectMapper mapper;
 
     @Autowired
-    public UserController(UsersService usersService, JwtUtil jwtUtil, ObjectMapper mapper) {
-        this.usersService = usersService;
+    public UserController(UserService userService, JwtUtil jwtUtil, ObjectMapper mapper) {
+        this.userService = userService;
         this.jwtUtil = jwtUtil;
         this.mapper = mapper;
     }
 
-    // GET all users
+	/**
+	 * GET *ALL* Users.
+	 * 
+	 * @return List of all Users
+	 */
     @GetMapping(value = "/all")
     public List<User> getAllUsers() {
-        return usersService.getAllUsers();
+        return userService.getAllUsers();
     }
 
-    // GET a user by ID
+    /**
+     * GET the User with provided ID.
+     * 
+     * @param token  for current session
+     * @param userId for current User
+     * @return User object
+     * @throws JsonProcessingException
+     */
     @GetMapping
     @RequireJwt
     public ResponseEntity<String> getUserById(
@@ -47,21 +58,29 @@ public class UserController {
             @RequestHeader(name = "userId") Integer userId)
             throws JsonProcessingException {
 
-        return ResponseEntity.ok().body(mapper.writeValueAsString(usersService.getUserById(userId)));
+        return ResponseEntity.ok().body(mapper.writeValueAsString(userService.getUserById(userId)));
     }
 
     /**
      * POST a User.
      * 
-     * @param user
-     * @return true/false based on registration status
+     * @param user containing the firstName, lastName, email, username, & password
+     * @return true | false based on registration status
      */
     @PostMapping
     public Boolean postUser(@RequestBody User user) {
-        return usersService.postUser(user);
+        return userService.postUser(user);
     }
 
-    // DELETE a user by ID
+    /**
+     * DELETE a User with provided ID.
+     * Returns a bad request if the DELETE is unsuccessful.
+     * 
+     * @param token  for current session
+     * @param userId for current User
+     * @return OK | Bad Request based on DELETE success
+     * @throws JsonProcessingException
+     */
     @DeleteMapping
     @RequireJwt
     public ResponseEntity<String> deleteUserById(
@@ -69,15 +88,21 @@ public class UserController {
             @RequestHeader(name = "userId") Integer userId)
             throws JsonProcessingException {
 
-        usersService.deleteUserById(userId);
+        userService.deleteUserById(userId);
         return ResponseEntity.ok().build();
     }
 
-    // login
+    /**
+     * Log in to a User account.
+     * 
+     * @param user containing (at least) username & password
+     * @return User object & its associated JWT
+     * @throws JsonProcessingException
+     */
     @PostMapping(value = "/login")
     public ResponseEntity<String> login(@RequestBody User user) throws JsonProcessingException {
         // has internal checking to see if user is valid
-        User tempUser = usersService.getUserByUsername(user);
+        User tempUser = userService.getUserByUsername(user);
 
         // make sure the user is valid
         if (tempUser != null) {
@@ -85,7 +110,8 @@ public class UserController {
             HttpHeaders headers = new HttpHeaders();
 
             // add the JWT to the headers
-            headers.set("JWT", jwtUtil.generateToken(tempUser.getUser_id()));
+            headers.set("JWT", jwtUtil.generateToken(tempUser.getUserId()));
+            headers.set("Access-Control-Expose-Headers", "JWT");
 
             // write the headers & object into the response
             return ResponseEntity.ok().headers(headers).body(mapper.writeValueAsString(tempUser));
@@ -96,10 +122,10 @@ public class UserController {
     }
 
     /**
-     * Get all accounts associated with a particular user ID.
+     * GET all Accounts associated with a particular User ID.
      * 
      * @param token  for current session
-     * @param userId for current user
+     * @param userId for current User
      * @return List of Accounts associated with a particular user
      * @throws JsonProcessingException
      */
@@ -110,6 +136,6 @@ public class UserController {
             @RequestHeader(name = "userId") Integer userId)
             throws JsonProcessingException {
 
-        return ResponseEntity.ok().body(mapper.writeValueAsString(usersService.getAccountsByUserId(userId)));
+        return ResponseEntity.ok().body(mapper.writeValueAsString(userService.getAccountsByUserId(userId)));
     }
 }

@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import userStore from "../store/Store.js";
 import axios from "axios";
-//import { createBrowserHistory } from "history";
-import { Link, useNavigate } from "react-router-dom";
+import "../css/tempLogin.css"
+import { useNavigate } from "react-router-dom";
+import config from "../config.js";
+
 
 // The Signin component is the login form the user sees after pressing the "sign in" button.
 // An API call should be made to test for successful login credentials.
@@ -10,38 +12,54 @@ import { Link, useNavigate } from "react-router-dom";
 function SigninView() {
 	const navigate = useNavigate();
 
-	// Test stuff .
-	//let [input, setInput] = useState([""]);
 
+	const [formData,setFormData] = useState({
+		username:"",
+		password:""
+	})
 	const handleLogin = () => {
-		// maybe add check to make sure neither username/password are blank
-		const info = {
-			username: document.getElementById("username").value,
-			password: document.getElementById("password").value,
-		};
-		console.log("Sending to login: ", info);
-		doLogin(info);
+	
+		doLogin();
 	};
 
-	function doLogin(info) {
+
+	const handleChange = (event) => {
+		event.preventDefault();
+		setFormData({...formData,[event.target.name]:event.target.value})
+		//
+	}
+
+	function doLogin() {
+		let responseStatus;
 		let responseData;
-		const url = "http://localhost:8080/";
+		let responseHeaders;
+		let user = {
+			username: formData.username,
+			password: formData.password
+		}
+		const url = config.url;
 		axios
-			.post(`${url}users/login`, info)
+			.post(`${url}users/login`, user)
 			.then((response) => {
-				//console.log(response.data);
 				responseData = response.data;
-				if (responseData.user_id === null) {
+				responseStatus = response.status;
+				responseHeaders = response.headers;
+				if (responseStatus !== 200 || responseData.user_id === null) {
 					console.log("Login failed - bad username/password");
-					document.getElementById("login-error-box").textContent =
+					document.getElementById("login-error-box").innerHTML =
+
 						"Error: incorrect username or password.";
+					let loginInputArr = document.getElementsByClassName("login-input");
+					for (let i = 0; i < loginInputArr.length; i++){
+						loginInputArr[i].style.border = "2px solid red";
+						loginInputArr[i].style.boxShadow = "-4px 4px 0px #b04050";
+					}
 					//alert("Invalid login attempt.");
 				} else {
-					console.log("Response from login API: ", responseData);
-					//store.dispatch({type: 'UPDATE_CURRENT_ACCOUNT_ID', payload: event.currentTarget.id});
+					console.log("Response body from login API: ", responseData);
 					userStore.dispatch({
 						type: "UPDATE_ID",
-						payload: responseData.user_id,
+						payload: responseData.userId,
 					});
 					userStore.dispatch({
 						type: "UPDATE_USERNAME",
@@ -55,7 +73,12 @@ function SigninView() {
 						type: "UPDATE_NAME_LAST",
 						payload: responseData.lastName,
 					});
-					doLoginToMain();
+					userStore.dispatch({
+						type: "UPDATE_TOKEN",
+						payload: responseHeaders.jwt
+					});
+					
+					navigate("/main");
 				}
 			})
 			.catch((error) => {
@@ -63,61 +86,7 @@ function SigninView() {
 			});
 	}
 
-	// Not tested or implemented yet.  Endpoint is probably incorrect.
-	/*
-	async function verifyCredentials(credentials) {
-		const apiEndpoint = "http://localhost:8080/users/";
-
-		const exampleRequestData = {
-			username: "someusername",
-			password: "password",
-		};
-		// if id is null - failed login
-
-		let stuff;
-		try {
-			let promise = await fetch(apiEndpoint, {
-				method: "POST",
-				body: JSON.stringify(credentials),
-				headers: {
-					"Content-Type": "application/json",
-				},
-			})
-				.then((response) => response.json())
-				.then((result) => (stuff = result));
-		} catch (error) {
-			console.log("Error: \n" + error);
-			//console.log("Response: \n" + response);
-		}
-		//console.log("raw result: ", stuff);
-
-		if (stuff.result == true) {
-			console.log("signing in was a success!");
-			doLoginToMain();
-		} else {
-			console.log("Wrong user ID and password!");
-		}
-	} */
-
-	const doLoginToMain = () => {
-		// let history = useHistory ();
-		navigate("/main");
-	};
-
-	//   function doLoginToMain() {
-	//   	// pushing new url to react-router's history
-	//   	let history = createBrowserHistory();
-	//   	history.listen((location, action) => {
-	//   		// this is called whenever new locations come in
-	//   		// the action is POP, PUSH, or REPLACE
-	//   		//this.props.history.push('/posts/');
-	//   		history.push("/main");
-	//   	});
-	//   	console.log("history", history);
-	//   }
-
-	// Temp disabled verify until we troubleshoot ***********************************************
-	// <button className="login" type="submit" onClick={verifyCredentials}>
+	
 
 	return (
 		<div className="container-view login-outer-container">
@@ -131,9 +100,9 @@ function SigninView() {
 							</p>
 							<span id="login-error-box"></span>
 							<label htmlFor="username">Username:</label>
-							<input type="text" name="username" id="username" />
+							<input type="text" className="login-input" name="username" id="username" onChange={handleChange} required />
 							<label htmlFor="password">Password:</label>
-							<input type="text" name="password" id="password" />
+							<input type="text" className="login-input" name="password" id="password" onChange={handleChange} required />
 							<button className="login" type="submit" onClick={handleLogin}>
 								SIGN IN
 							</button>
@@ -145,65 +114,6 @@ function SigninView() {
 	);
 }
 
-/*
-							<Link to="/main">
-								<button className="login" type="submit" onClick={handleLogin}>
-									SIGN IN
-								</button>
-							</Link>
-							*/
 
 export default SigninView;
 
-// This grabs the user's input from the form.
-//   const login = (event) => {
-//     event.preventDefault();
-//     const username = document.getElementById("username");
-//     const password = document.getElementById("password");
-//     const result = {
-//       username,
-//       password,
-//     };
-//     setInput(result);
-//   };
-
-//   const inputStuff = (event) => {
-//     setInput(event.target.value);
-//   };
-
-//   //   Not tested or implemented yet.  Endpoint is probably incorrect.
-//   async function doLogin(user) {
-//     const apiEndpoint = "http://localhost:8080/users/login";
-
-//     const exampleRequestData = {
-//       username: "someusername",
-//       password: "password",
-//     };
-//     // if id is null - failed login
-
-//     let stuff;
-//     try {
-//       let promise = await fetch(apiEndpoint, {
-//         method: "POST",
-//         body: JSON.stringify(user),
-//         headers: {
-//           "Content-Type": "application/json",
-//         },
-//       })
-//         .then((response) => response.json())
-//         .then((result) => (stuff = result));
-//     } catch (error) {
-//       console.log("Error: \n" + error);
-//       //console.log("Response: \n" + response);
-//     }
-//     console.log("raw result: ", stuff);
-
-//     if (stuff.result == true) {
-//       console.log("signing in was a success!");
-//       //doSignin();
-//       // endpoint will return a json object w/ user data
-//       // Store data received from backend (user data) (redux)s
-//     } else {
-//       alert("Sorry, wrong user ID and password!");
-//     }
-//   }
