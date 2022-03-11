@@ -27,6 +27,7 @@ public class UserController {
     @GetMapping
     public List<User> getAllUsers() {
         return usersService.getAllUsers();
+
     }
 
     // GET a user by ID
