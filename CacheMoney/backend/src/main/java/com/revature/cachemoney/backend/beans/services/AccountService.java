@@ -31,7 +31,7 @@ public class AccountService {
 
     // GET account by ID
     public Optional<Account> getAccountByID(Integer accountId, Integer userId) {
-        if (accountRepo.getById(accountId).getUserId().getUser_id() == userId) {
+        if (accountRepo.getById(accountId).getUser().getUserId() == userId) {
             return accountRepo.findById(accountId);
         }
 
@@ -40,7 +40,7 @@ public class AccountService {
 
     // POST an account
     public Boolean postAccount(Account account, Integer userId) {
-        if (account.getUserId().getUser_id() == userId) {
+        if (account.getUser().getUserId() == userId) {
             accountRepo.save(account);
 
             return true;
@@ -51,7 +51,7 @@ public class AccountService {
 
     // DELETE an account
     public Boolean deleteAccountById(Integer accountId, Integer userId) {
-        if (accountRepo.getById(accountId).getUserId().getUser_id() == userId) {
+        if (accountRepo.getById(accountId).getUser().getUserId() == userId) {
             accountRepo.deleteById(accountId);
 
             return true;
@@ -62,8 +62,8 @@ public class AccountService {
 
     // GET transaction by ID
     public List<Transaction> getTransactionsById(Integer accountId, Integer userId) {
-        if (accountRepo.getById(accountId).getUserId().getUser_id() == userId) {
-            return (ArrayList<Transaction>) transactionRepo.findByAccountId(accountId);
+        if (accountRepo.getById(accountId).getUser().getUserId() == userId) {
+            return (ArrayList<Transaction>) transactionRepo.findByAccount(accountRepo.getById(accountId));
         }
 
         return null;

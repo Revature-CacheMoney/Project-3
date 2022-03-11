@@ -103,7 +103,7 @@ public class UserService {
      * @return list of accounts associated with a particular user's ID
      */
     public List<Account> getAccountsByUserId(Integer userId) {
-        return accountRepo.findByUserId(userRepo.getById(userId));
+        return accountRepo.findByUser(userRepo.getById(userId));
     }
 
     // credential validator for user registration

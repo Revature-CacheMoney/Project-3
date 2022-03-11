@@ -33,7 +33,14 @@ function TransactionTable(props) {
 
     // retrieve all transactions based on user's account's id
     const getAllTransactions = () => {
-        axios.get(`${url}accounts/transactions/${store.getState().currentAccountId}`)
+        axios.post(`${url}accounts/transactions`, store.getState().accountReducer.currentAccountId,
+        {
+            headers: {
+                token: store.getState().userReducer.token,
+                userId: store.getState().userReducer.userId,
+                'Content-Type': "application/json; charset=utf-8"
+            }
+        })
             .then((response) => {
                 const allTransactions = response.data;
                 getTransactions(allTransactions);

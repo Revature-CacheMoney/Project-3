@@ -73,7 +73,7 @@ class UserServiceTest {
         User inputUser1 = new User(null, null, null, "abcd1234", "dalvarado12");
         // This checks for successful login
         User outputUser1 = new User("David", "alvarado", "fake1234@gmail.com", "abcd1234", "dalvarado12");
-        outputUser1.setUser_id(1);
+        outputUser1.setUserId(1);
         assertEquals(outputUser1.toString(), userService.getUserByUsername(inputUser1).toString());
 
         // this checks for unsuccessful login,incorrect password.

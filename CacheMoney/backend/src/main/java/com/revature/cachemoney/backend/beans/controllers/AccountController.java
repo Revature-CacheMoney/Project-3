@@ -117,7 +117,7 @@ public class AccountController {
 	}
 
 	/**
-	 * GET all transactions associated with an Account.
+	 * POST (GET) all transactions associated with an Account.
 	 * 
 	 * @param token     for current session
 	 * @param userId    for current User
@@ -125,7 +125,7 @@ public class AccountController {
 	 * @return List of Transactions associated with a particular User's Account
 	 * @throws JsonProcessingException
 	 */
-	@GetMapping(value = "/transactions")
+	@PostMapping(value = "/transactions")
 	@RequireJwt
 	public ResponseEntity<String> getTransactionsById(
 			@RequestHeader(name = "token") String token,

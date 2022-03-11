@@ -5,6 +5,8 @@ import AccountList from "./Account/AccountList.js";
 import userStore from "../store/Store.js";
 import NavBar from "./NavBar.js";
 import { useNavigate } from "react-router-dom";
+import CreateAccount from "./Account/CreateAccount.js";
+import TransactionFilter from "./Transaction/TransactionFilter.js";
 
 function MainPageView2() {
 	const navigate = useNavigate();
@@ -45,6 +47,8 @@ function MainPageView2() {
 			<div className="main-page-content">
 				{/******* Insert body content here ********/}
 				<AccountList />
+				<CreateAccount />
+				<TransactionFilter />
 			</div>
 
 			<Footer />

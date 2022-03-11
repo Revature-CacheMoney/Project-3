@@ -110,7 +110,8 @@ public class UserController {
             HttpHeaders headers = new HttpHeaders();
 
             // add the JWT to the headers
-            headers.set("JWT", jwtUtil.generateToken(tempUser.getUser_id()));
+            headers.set("JWT", jwtUtil.generateToken(tempUser.getUserId()));
+            headers.set("Access-Control-Expose-Headers", "JWT");
 
             // write the headers & object into the response
             return ResponseEntity.ok().headers(headers).body(mapper.writeValueAsString(tempUser));
