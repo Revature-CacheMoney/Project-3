@@ -106,7 +106,6 @@ class UserServiceTest {
     }
 
     @Test
-
     void getAllUsers() {
 
         System.out.println("user service test getallusers");
@@ -119,7 +118,6 @@ class UserServiceTest {
     }
 
     @Test
-
     void getUserById() {
         System.out.println("user service test getuserbyid");
         // Check to see if we are able to successfully retrieve 1 user from database

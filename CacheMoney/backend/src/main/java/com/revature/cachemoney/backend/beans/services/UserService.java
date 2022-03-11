@@ -70,8 +70,14 @@ public class UserService {
     }
 
     // DELETE a user by ID
-    public void deleteUserById(Integer id) {
-        userRepo.deleteById(id);
+    public Boolean deleteUserById(Integer id) {
+        try{
+            userRepo.deleteById(id);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+
     }
 
     // login verification

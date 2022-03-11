@@ -68,4 +68,13 @@ public class AccountService {
 
         return null;
     }
+
+    /**
+     *
+     * ******************STRICTLY FOR TESTING PURPOSES*********************
+     *
+     * */
+    public void deleteAllAccounts(){
+        accountRepo.deleteAll();
+    }
 }
