@@ -55,14 +55,19 @@ function RegisterView() {
 			registrationError(
 				"firstname",
 				"firstname-span",
-				"Invalid first name.  Please check the spelling and try again."
+				"firstname-description",
+				"Invalid first name",
+				"Please check the spelling and try again."
 			);
-		} else if (!namePattern.test(lastName)) {
+		} 
+		if (!namePattern.test(lastName)) {
 			regValidity = false;
 			registrationError(
 				"lastname",
 				"lastname-span",
-				"Invalid last name.  Please check the spelling and try again."
+				"lastname-description",
+				"Invalid last name", 
+				"Please check the spelling and try again."
 			);
 		}
 		const emailPattern =
@@ -72,7 +77,9 @@ function RegisterView() {
 			registrationError(
 				"email",
 				"email-span",
-				"Invalid email address.  Please check your input and try again."
+				"email-description",
+				"Invalid email address",
+				"Please check your input and try again."
 			);
 		}
 
@@ -82,7 +89,9 @@ function RegisterView() {
 			registrationError(
 				"username",
 				"username-span",
-				"Invalid username.  Usernames should be between 8-255 characters in length and use alphanumeric / select symbols.."
+				"username-description",
+				"Invalid username",
+				"Usernames should be between 8-255 characters in length and use alphanumeric / select symbols.."
 			);
 		}
 
@@ -92,12 +101,16 @@ function RegisterView() {
 			registrationError(
 				"password1",
 				"password1-span",
-				"Invalid password.   Passwords should be between 8-50 characters in length and use alphanumeric / select symbols.."
+				"password1-description",
+				"Invalid password",
+				"Passwords should be between 8-50 characters in length and use alphanumeric / select symbols.."
 			);
 			registrationError(
 				"password2",
 				"password2-span",
-				"Invalid password.   Passwords should be between 8-50 characters in length and use alphanumeric / select symbols.."
+				"password2-description",
+				"Invalid password",
+				"Passwords should be between 8-50 characters in length and use alphanumeric / select symbols.."
 			);
 		}
 
@@ -110,13 +123,17 @@ function RegisterView() {
 		return true;
 	}
 
-	function registrationError(id, spanId, errorText) {
+	function registrationError(id, spanId, descriptionId, errorTitle, errorDescription) {
 		let ele = document.getElementById(id);
 		ele.style.border = "2px solid red";
 		ele.style.boxShadow = "-4px 4px 0px #b04050";
 		let errorSpan = document.getElementById(spanId);
-		errorSpan.innerHTML = errorText;
-		errorSpan.style.color = "red";
+		errorSpan.innerHTML = errorTitle;
+		errorSpan.style.color = "#cc3040";
+		errorSpan.style.margin = "0px 0px 0px 12px";
+		let errorDescriptionSpan = document.getElementById(descriptionId);
+		errorDescriptionSpan.innerHTML = errorDescription;
+		errorSpan.style.color = "#cc3040";
 		errorSpan.style.margin = "0px 0px 0px 12px";
 	}
 
@@ -171,6 +188,7 @@ function RegisterView() {
 									<label htmlFor="firstName" id="label-L">
 										First name:
 										<span className="detail-text" id="firstname-span"></span>
+										<span className="err-desc" id="firstname-description"></span>
 									</label>
 									<input
 										type="text"
@@ -186,6 +204,7 @@ function RegisterView() {
 									<label htmlFor="lastName" id="label-R">
 										Last name:
 										<span className="detail-text" id="lastname-span"></span>
+										<span className="err-desc" id="lastname-description"></span>
 									</label>
 									<input
 										type="text"
@@ -204,6 +223,7 @@ function RegisterView() {
 									<span className="detail-text" id="email-span">
 										*must be unregistered valid email
 									</span>
+									<span className="err-desc" id="email-description"></span>
 								</label>
 								<input
 									type="text"
@@ -221,6 +241,7 @@ function RegisterView() {
 									<span className="detail-text" id="username-span">
 										*must be unique
 									</span>
+									<span className="err-desc" id="username-description"></span>
 								</label>
 								<input
 									type="text"
@@ -236,6 +257,7 @@ function RegisterView() {
 								<label htmlFor="password">
 									Password:
 									<span className="detail-text" id="password1-span"></span>
+									<span className="err-desc" id="password1-description"></span>
 								</label>
 								<input
 									type="text"
@@ -251,6 +273,7 @@ function RegisterView() {
 								<label htmlFor="password2">
 									Confirm password:
 									<span className="detail-text" id="password2-span"></span>
+									<span className="err-desc" id="password2-description"></span>
 								</label>
 								<input
 									type="text"

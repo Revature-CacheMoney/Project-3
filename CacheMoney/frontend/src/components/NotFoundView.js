@@ -1,5 +1,4 @@
 // The NotFound component should be displayed if an invalid URL is entered
-import "../css/temp404.css"
 import { Link } from "react-router-dom";
 
 // ie. no defined route
