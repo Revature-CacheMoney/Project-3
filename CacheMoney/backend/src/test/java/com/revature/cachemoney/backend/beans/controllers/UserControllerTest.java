@@ -114,9 +114,9 @@ class UserControllerTest {
         this.mockMvc.perform(MockMvcRequestBuilders
                 .get("/users")
                 .header("token", testTokens[0])
-                .header("userId", 2))
-                .andExpect(MockMvcResultMatchers.status().isOk());
-//                .andExpect(MockMvcResultMatchers.jsonPath(".firstName").value("Hank"));
+                .header("userId", 1))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath(".firstName").value("Hank"));
 
 
     }

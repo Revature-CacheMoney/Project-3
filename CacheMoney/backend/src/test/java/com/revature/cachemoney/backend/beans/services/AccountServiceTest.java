@@ -29,8 +29,16 @@ class AccountServiceTest {
 
     @BeforeEach
     void populateDBWithUserandAccounts(){
+        if (userService.getAllUsers().size() != 0){
+            if (accountService.getAllAccounts().size() != 0){
+                accountService.deleteAllAccounts();
+            }
+            userService.deleteAllUsers();
+        }
         tempUser = new User("Hank", "Hill", "hankaccounthill@gmail.com", "abcd1234", "accounttest");
+        System.out.println(tempUser.toString());
         userService.postUser(tempUser);
+        System.out.println(tempUser.toString());
 
         // Create accounts (They dont currently have a valid user model under attribute "userId")
         Account checkingAcc = new Account("checking");
@@ -38,7 +46,7 @@ class AccountServiceTest {
         Account checkingAccWithNickname = new Account("checking", "secret account");
 
         //populate userId with a user that exists in database
-        tempUser.setUserId(1);
+
         checkingAcc.setUser(tempUser);
         savingsAcc.setUser(tempUser);
         checkingAccWithNickname.setUser(tempUser);
@@ -84,88 +92,86 @@ class AccountServiceTest {
         List<Account> accountListFromDB = accountService.getAllAccounts();
 
         for (Account currAcc : accountListFromDB){
-            assertEquals(
-                    accountService.getAccountByID(currAcc.getAccountId(),
-                            currAcc.getUser().getUserId()).get().toString(),
-            currAcc.toString());
+            assertTrue(accountService.getAccountByID(currAcc.getAccountId(),
+                            currAcc.getUser().getUserId()).isPresent());
         }
 
         assertFalse(accountService.getAccountByID(0, 1).isPresent());
 
     }
-//
-//
-//
-//
-//    @Test
-//    void deleteAccountById() {
-//        List<Account> accountListFromDB = accountService.getAllAccounts();
-//
-//        for (Account currAcc : accountListFromDB){
-//            assertTrue(accountService.deleteAccountById(currAcc.getAccountId(), currAcc.getUser().getUserId()));
-//        }
-//
-//        assertFalse(accountService.deleteAccountById(0, 1));
-//
-//    }
-//
-//
-//
-//
-//    @Test
-//    void getTransactionsById() {
-//    }
-//
-//
-//    @Nested
-//    class TestPostAccount{
-//        @BeforeEach
-//        void populateDB(){
-//            if (userService.getAllUsers().size() != 0) {
-//                if (accountService.getAllAccounts().size() != 0){
-//                    accountService.deleteAllAccounts();
-//                }
-//                userService.deleteAllUsers();
-//                tempUser = new User("Hank", "Hill", "hankaccounthill@gmail.com", "abcd1234", "accounttest");
-//                userService.postUser(tempUser);
-//            }else{
-//                tempUser = new User("Hank", "Hill", "hankaccounthill@gmail.com", "abcd1234", "accounttest");
-//                userService.postUser(tempUser);
-//            }
-//            if (accountService.getAllAccounts().size() != 0){
-//                accountService.deleteAllAccounts();
-//            }
-//
-//
-//        }
-//
-//        @AfterEach
-//        void deleteDBData(){
-//            accountService.deleteAllAccounts();
-//            userService.deleteAllUsers();
-//
-//            tempUser = null;
-//
-//        }
-//
-//        @Test
-//        void postAccount() {
-//            System.out.println("account service test postaccount");
-//
-//            Account testChecking = new Account("checking");
-//            Account testIncorrectType = new Account("blahblah");
-//            testChecking.setUser(tempUser);
-//            testIncorrectType.setUser(tempUser);
-//
-//
-//            assertEquals(false, accountService.postAccount(testIncorrectType, tempUser.getUserId()));
-//            assertEquals(true, accountService.postAccount(testChecking, tempUser.getUserId()));
-//            // need to check for valid account but incorrect user id
-//
-//
-//        }
-//
-//
-//    }
+
+
+
+
+    @Test
+    void deleteAccountById() {
+        List<Account> accountListFromDB = accountService.getAllAccounts();
+
+        for (Account currAcc : accountListFromDB){
+            assertTrue(accountService.deleteAccountById(currAcc.getAccountId(), currAcc.getUser().getUserId()));
+        }
+
+        assertFalse(accountService.deleteAccountById(0, 1));
+
+    }
+
+
+
+
+    @Test
+    void getTransactionsById() {
+    }
+
+
+    @Nested
+    class TestPostAccount{
+        @BeforeEach
+        void populateDB(){
+            if (userService.getAllUsers().size() != 0) {
+                if (accountService.getAllAccounts().size() != 0){
+                    accountService.deleteAllAccounts();
+                }
+                userService.deleteAllUsers();
+                tempUser = new User("Hank", "Hill", "hankaccounthill@gmail.com", "abcd1234", "accounttest");
+                userService.postUser(tempUser);
+            }else{
+                tempUser = new User("Hank", "Hill", "hankaccounthill@gmail.com", "abcd1234", "accounttest");
+                userService.postUser(tempUser);
+            }
+            if (accountService.getAllAccounts().size() != 0){
+                accountService.deleteAllAccounts();
+            }
+
+
+        }
+
+        @AfterEach
+        void deleteDBData(){
+            accountService.deleteAllAccounts();
+            userService.deleteAllUsers();
+
+            tempUser = null;
+
+        }
+
+        @Test
+        void postAccount() {
+            System.out.println("account service test postaccount");
+
+            Account testChecking = new Account("checking");
+            Account testIncorrectType = new Account("blahblah");
+            testChecking.setUser(tempUser);
+            testIncorrectType.setUser(tempUser);
+
+
+            assertEquals(false, accountService.postAccount(testIncorrectType, tempUser.getUserId()));
+            assertEquals(true, accountService.postAccount(testChecking, tempUser.getUserId()));
+            // need to check for valid account but incorrect user id
+
+
+        }
+
+
+    }
 
 }

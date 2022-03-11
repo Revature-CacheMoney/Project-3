@@ -93,23 +93,23 @@ class AccountTest {
     @Test
     void testToString() {
         Account account = new Account();
-        String expectedString = "Account(accountId=null, type=null, balance=null, name=null, userId=null)";
+        String expectedString = "Account(accountId=null, type=null, balance=null, name=null, user=null)";
         assertEquals(expectedString, account.toString());
         account.setAccountId(1);
-        expectedString = "Account(accountId=1, type=null, balance=null, name=null, userId=null)";
+        expectedString = "Account(accountId=1, type=null, balance=null, name=null, user=null)";
         assertEquals(expectedString, account.toString());
         account.setType("checking");
-        expectedString = "Account(accountId=1, type=checking, balance=null, name=null, userId=null)";
+        expectedString = "Account(accountId=1, type=checking, balance=null, name=null, user=null)";
         assertEquals(expectedString, account.toString());
         account.setBalance(250.99);
-        expectedString = "Account(accountId=1, type=checking, balance=250.99, name=null, userId=null)";
+        expectedString = "Account(accountId=1, type=checking, balance=250.99, name=null, user=null)";
         assertEquals(expectedString, account.toString());
         account.setName("secret account");
-        expectedString = "Account(accountId=1, type=checking, balance=250.99, name=secret account, userId=null)";
+        expectedString = "Account(accountId=1, type=checking, balance=250.99, name=secret account, user=null)";
         assertEquals(expectedString, account.toString());
         account.setUser(new User());
         expectedString = "Account(accountId=1, type=checking, balance=250.99, name=secret account, " +
-                "userId=User(user_id=null, firstName=null, lastName=null, email=null, username=null, password=null))";
+                "user=User(userId=null, firstName=null, lastName=null, email=null, username=null, password=null))";
         assertEquals(expectedString, account.toString());
 
 

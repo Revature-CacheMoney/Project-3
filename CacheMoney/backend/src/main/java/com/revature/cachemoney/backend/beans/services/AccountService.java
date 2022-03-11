@@ -1,8 +1,6 @@
 package com.revature.cachemoney.backend.beans.services;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import com.revature.cachemoney.backend.beans.models.Account;
 import com.revature.cachemoney.backend.beans.models.Transaction;
@@ -17,6 +15,7 @@ public class AccountService {
 
     private final AccountRepo accountRepo;
     private final TransactionRepo transactionRepo;
+    private final String[] accountTypes = {"checking", "savings"};
 
     @Autowired
     public AccountService(AccountRepo accountRepo, TransactionRepo transactionRepo) {
@@ -31,30 +30,41 @@ public class AccountService {
 
     // GET account by ID
     public Optional<Account> getAccountByID(Integer accountId, Integer userId) {
-        if (accountRepo.getById(accountId).getUser().getUserId() == userId) {
-            return accountRepo.findById(accountId);
+        Optional<Account> returnAccount = accountRepo.findById(accountId);
+
+        if (returnAccount.isPresent()) {
+            if (Objects.equals(returnAccount.get().getUser().getUserId(), userId)){
+                return accountRepo.findById(accountId);
+            }
         }
 
         return Optional.empty();
+
+
+
     }
 
     // POST an account
     public Boolean postAccount(Account account, Integer userId) {
-        if (account.getUser().getUserId() == userId) {
-            accountRepo.save(account);
 
-            return true;
+        if (account.getType().equals(accountTypes[0]) || account.getType().equals(accountTypes[1])) {
+            if (account.getUser().getUserId() == userId) {
+                accountRepo.save(account);
+                return true;
+            }
         }
-
         return false;
     }
 
     // DELETE an account
     public Boolean deleteAccountById(Integer accountId, Integer userId) {
-        if (accountRepo.getById(accountId).getUser().getUserId() == userId) {
-            accountRepo.deleteById(accountId);
 
-            return true;
+        Optional<Account> returnAccount = accountRepo.findById(accountId);
+        if (returnAccount.isPresent()){
+            if (Objects.equals(returnAccount.get().getUser().getUserId(), userId)) {
+                accountRepo.deleteById(accountId);
+                return true;
+            }
         }
 
         return false;
