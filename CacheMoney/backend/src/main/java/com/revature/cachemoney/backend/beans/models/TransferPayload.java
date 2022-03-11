@@ -1,7 +1,5 @@
 package com.revature.cachemoney.backend.beans.models;
 
-import javax.persistence.Entity;
-
 import com.revature.cachemoney.backend.beans.services.AccountService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +11,6 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-@Entity
 public class TransferPayload {
 	private final AccountService accountService;
 
