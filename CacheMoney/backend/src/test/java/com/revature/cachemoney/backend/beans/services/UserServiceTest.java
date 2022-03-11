@@ -25,7 +25,7 @@ import java.util.List;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 
-class UsersServiceTest {
+class UserServiceTest {
 
     @Autowired
     private UsersService usersService;

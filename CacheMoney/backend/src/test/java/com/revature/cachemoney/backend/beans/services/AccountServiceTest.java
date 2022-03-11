@@ -16,7 +16,7 @@ import java.util.List;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class AccountsServiceTest {
+class AccountServiceTest {
     @Autowired
     AccountsService accountsService;
 
