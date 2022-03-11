@@ -13,7 +13,7 @@ function SplashView() {
 					</a>
 					<br />
 					<span id="register">
-						Not currently a user? <a href="./register">Register here</a>
+						Not currently a user? <a href="./register" id="register-here">Register here</a>
 					</span>
 				</div>
 			</div>
