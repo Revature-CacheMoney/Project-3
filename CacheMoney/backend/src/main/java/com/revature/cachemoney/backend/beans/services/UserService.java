@@ -26,7 +26,7 @@ public class UserService {
     private final SecurityConfig passwordEncoder;
 
     private final String emailRegEx = "^[a-zA-Z0-9._-]+@{1}[a-zA-Z0-9-_]+[.]{1}[a-zA-Z0-9]+[a-zA-Z_.-]*$";
-    private final String nameRegEx = "^[a-zA-Z -]+$";
+    private final String nameRegEx = "^[a-zA-Z][a-zA-Z -]+[a-zA-Z]$";
     private final String usernameRegEx = "^[a-zA-Z0-9@~._-]{8,}$";
     private final String passwordRegEx = "^[a-zA-Z0-9@^%$#/\\,;|~._-]{8,50}$";
 
@@ -58,11 +58,13 @@ public class UserService {
                 userRepo.save(user);
             } catch (Exception e) {
                 // inform failed result
+                System.out.println("failed due to exception");
                 return false;
             }
             // inform successful result
             return true;
         } else {
+            System.out.println("invalid credentials");
             return false;
         }
     }
@@ -113,6 +115,9 @@ public class UserService {
                 user.getPassword() == null) {
             return false;
         }
+        if (user.getFirstName() == "" || user.getLastName() == "") {
+            return false;
+        }
         Pattern emailPattern = Pattern.compile(emailRegEx);
         Matcher emailMatcher = emailPattern.matcher(user.getEmail());
         boolean emailValidity = emailMatcher.matches();
@@ -132,4 +137,12 @@ public class UserService {
         return emailValidity && nameValidity && usernameValidity && passwordValidity;
     }
 
+    /**
+     *
+     * ******************STRICTLY FOR TESTING PURPOSES*********************
+     *
+     * */
+    public void deleteAllUsers(){
+        userRepo.deleteAll();
+    }
 }

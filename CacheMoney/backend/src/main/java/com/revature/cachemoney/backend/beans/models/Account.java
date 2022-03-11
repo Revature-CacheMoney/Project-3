@@ -37,7 +37,7 @@ public class Account {
 
 	public Account(String type) {
 		this.type = type;
-		this.name = this.type + hashCode();
+		this.name = "";
 		this.balance = 0.00;
 	}
 
