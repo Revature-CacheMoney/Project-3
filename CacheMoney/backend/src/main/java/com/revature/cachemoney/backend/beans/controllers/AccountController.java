@@ -3,54 +3,137 @@ package com.revature.cachemoney.backend.beans.controllers;
 import java.util.List;
 import java.util.Optional;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.revature.cachemoney.backend.beans.annotations.RequireJwt;
 import com.revature.cachemoney.backend.beans.models.Account;
-import com.revature.cachemoney.backend.beans.models.Transaction;
-import com.revature.cachemoney.backend.beans.services.AccountsService;
+import com.revature.cachemoney.backend.beans.services.AccountService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * Handles HTTP requests for user accounts
+ * Controller to handle requests related to Accounts.
+ * 
+ * @author Brian Gardner, Cody Gonsowski, & Jeffrey Lor
  */
 @RestController
 @RequestMapping("/accounts")
 public class AccountController {
-	private final AccountsService accountsService;
+	private final AccountService accountService;
+	private final ObjectMapper mapper;
 
 	@Autowired
-	public AccountController(AccountsService accountsService) {
-		this.accountsService = accountsService;
+	public AccountController(AccountService accountService, ObjectMapper mapper) {
+		this.accountService = accountService;
+		this.mapper = mapper;
 	}
 
-	// GET all accounts
-	@GetMapping()
+	/**
+	 * GET *ALL* Accounts.
+	 * 
+	 * @return List of all Accounts
+	 */
+	@GetMapping(value = "/all")
 	public List<Account> getAllAccounts() {
-		return accountsService.getAllAccounts();
+		return accountService.getAllAccounts();
 	}
 
-	// GET account by ID
-	@GetMapping(value = "/{id}")
-	public Optional<Account> getAccountByID(@PathVariable Integer id) {
-		return accountsService.getAccountByID(id);
+	/**
+	 * GET the Account with provided ID of the associated User.
+	 * Returns a bad request if the Account is not associated with the User.
+	 * 
+	 * @param token     for current session
+	 * @param userId    for current User
+	 * @param accountId for User's Account
+	 * @return Account associated with the User
+	 * @throws JsonProcessingException
+	 */
+	@GetMapping
+	@RequireJwt
+	public ResponseEntity<String> getAccountByID(
+			@RequestHeader(name = "token") String token,
+			@RequestHeader(name = "userId") Integer userId,
+			@RequestBody Integer accountId)
+			throws JsonProcessingException {
+
+		// retrieve account
+		Optional<Account> account = accountService.getAccountByID(accountId, userId);
+
+		// see if an account was actually retrieved
+		if (account.isPresent()) {
+			return ResponseEntity.ok().body(mapper.writeValueAsString(account.get()));
+		}
+
+		// return bad request when account is not retrieved successfully
+		return ResponseEntity.badRequest().build();
 	}
 
-	// POST an account
-	@PostMapping()
-	public void postAccount(@RequestBody Account account) {
-		accountsService.postAccount(account);
+	/**
+	 * POST an Account with provided ID.
+	 * Returns a bad request if the POST is unsuccessful.
+	 * 
+	 * @param token   for current session
+	 * @param userId  for current User
+	 * @param account for User's Account
+	 * @return OK | Bad Request based on POST success
+	 */
+	@PostMapping
+	@RequireJwt
+	public ResponseEntity<String> postAccount(
+			@RequestHeader(name = "token") String token,
+			@RequestHeader(name = "userId") Integer userId,
+			@RequestBody Account account) {
+
+		if (accountService.postAccount(account, userId)) {
+			return ResponseEntity.ok().build();
+		}
+
+		return ResponseEntity.badRequest().build();
 	}
 
-	// DELETE an account by ID
-	@DeleteMapping(value = "/{id}")
-	public void deleteAccountById(@PathVariable Integer id) {
-		accountsService.deleteAccountById(id);
+	/**
+	 * DELETE an Account with provided ID.
+	 * Returns a bad request if the DELETE is unsuccessful.
+	 * 
+	 * @param token     for current session
+	 * @param userId    for current User
+	 * @param accountId for User's Account
+	 * @return OK | Bad Request based on DELETE success
+	 */
+	@DeleteMapping
+	@RequireJwt
+	public ResponseEntity<String> deleteAccountById(
+			@RequestHeader(name = "token") String token,
+			@RequestHeader(name = "userId") Integer userId,
+			@RequestBody Integer accountId) {
+
+		if (accountService.deleteAccountById(accountId, userId)) {
+			return ResponseEntity.ok().build();
+		}
+
+		return ResponseEntity.badRequest().build();
 	}
 
-	// GET transaction by ID
-	@GetMapping(value = "/transactions/{id}")
-	public List<Transaction> getTransactionsById(@PathVariable Integer id) {
-		return accountsService.getTransactionsById(id);
-	}
+	/**
+	 * GET all transactions associated with an Account.
+	 * 
+	 * @param token     for current session
+	 * @param userId    for current User
+	 * @param accountId for User's Account
+	 * @return List of Transactions associated with a particular User's Account
+	 * @throws JsonProcessingException
+	 */
+	@GetMapping(value = "/transactions")
+	@RequireJwt
+	public ResponseEntity<String> getTransactionsById(
+			@RequestHeader(name = "token") String token,
+			@RequestHeader(name = "userId") Integer userId,
+			@RequestBody Integer accountId)
+			throws JsonProcessingException {
 
+		return ResponseEntity.ok()
+				.body(mapper.writeValueAsString(accountService.getTransactionsById(accountId, userId)));
+	}
 }

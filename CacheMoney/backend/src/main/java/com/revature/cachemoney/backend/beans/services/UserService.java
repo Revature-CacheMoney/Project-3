@@ -7,9 +7,11 @@ import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.revature.cachemoney.backend.beans.models.Account;
 import com.revature.cachemoney.backend.beans.models.User;
+import com.revature.cachemoney.backend.beans.repositories.AccountRepo;
 import com.revature.cachemoney.backend.beans.repositories.UserRepo;
-import com.revature.cachemoney.backend.beans.utils.SecurityConfig;
+import com.revature.cachemoney.backend.beans.security.SecurityConfig;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
@@ -17,8 +19,9 @@ import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UsersService {
-    private final UserRepo userRepository;
+public class UserService {
+    private final UserRepo userRepo;
+    private final AccountRepo accountRepo;
 
     private final SecurityConfig passwordEncoder;
 
@@ -28,19 +31,20 @@ public class UsersService {
     private final String passwordRegEx = "^[a-zA-Z0-9@^%$#/\\,;|~._-]{8,50}$";
 
     @Autowired
-    public UsersService(UserRepo userRepository, SecurityConfig passwordEncoder) {
-        this.userRepository = userRepository;
+    public UserService(UserRepo userRepo, AccountRepo accountRepo, SecurityConfig passwordEncoder) {
+        this.userRepo = userRepo;
+        this.accountRepo = accountRepo;
         this.passwordEncoder = passwordEncoder;
     }
 
     // GET all users
     public List<User> getAllUsers() {
-        return userRepository.findAll();
+        return userRepo.findAll();
     }
 
     // GET a user by ID
     public Optional<User> getUserById(Integer id) {
-        return userRepository.findById(id);
+        return userRepo.findById(id);
     }
 
     // POST a new user
@@ -51,7 +55,7 @@ public class UsersService {
                 user.setPassword(passwordEncoder.passwordEncoder().encode(user.getPassword()));
 
                 // save the user in the database
-                userRepository.save(user);
+                userRepo.save(user);
             } catch (Exception e) {
                 // inform failed result
                 return false;
@@ -65,18 +69,13 @@ public class UsersService {
 
     // DELETE a user by ID
     public void deleteUserById(Integer id) {
-        userRepository.deleteById(id);
-    }
-
-    // GET user by email address
-    public Optional<User> getUserByEmail(String email) {
-        return userRepository.findByEmail(email);
+        userRepo.deleteById(id);
     }
 
     // login verification
     public User getUserByUsername(User user) {
         if (user.getUsername() == null || user.getPassword() == null) {
-            return user;
+            return null;
         }
 
         ExampleMatcher em = ExampleMatcher.matching()
@@ -85,8 +84,8 @@ public class UsersService {
 
         Example<User> example = Example.of(user, em);
 
-        if (userRepository.exists(example)) {
-            Optional<User> optionalUser = userRepository.findOne(example);
+        if (userRepo.exists(example)) {
+            Optional<User> optionalUser = userRepo.findOne(example);
 
             // password checking
             if (passwordEncoder.passwordEncoder().matches(user.getPassword(), optionalUser.get().getPassword())) {
@@ -95,6 +94,16 @@ public class UsersService {
         }
 
         return user;
+    }
+
+    /**
+     * Finds all accounts associated with a user ID.
+     * 
+     * @param userId ID associated with a user
+     * @return list of accounts associated with a particular user's ID
+     */
+    public List<Account> getAccountsByUserId(Integer userId) {
+        return accountRepo.findByUserId(userRepo.getById(userId));
     }
 
     // credential validator for user registration

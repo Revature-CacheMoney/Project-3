@@ -1,79 +1,140 @@
 package com.revature.cachemoney.backend.beans.controllers;
 
 import java.util.List;
-import java.util.Optional;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.revature.cachemoney.backend.beans.annotations.RequireJwt;
 import com.revature.cachemoney.backend.beans.models.User;
-import com.revature.cachemoney.backend.beans.services.UsersService;
+import com.revature.cachemoney.backend.beans.security.JwtUtil;
+import com.revature.cachemoney.backend.beans.services.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * Handles HTTP requests for users
+ * Controller to handle requests related to Users.
+ * 
+ * @author Brian Gardner, Cody Gonsowski, & Jeffrey Lor
  */
 @RestController
 @RequestMapping("/users")
 public class UserController {
-    private final UsersService usersService;
+    private final UserService userService;
+    private final JwtUtil jwtUtil;
+    private final ObjectMapper mapper;
 
     @Autowired
-    public UserController(UsersService usersService) {
-        this.usersService = usersService;
+    public UserController(UserService userService, JwtUtil jwtUtil, ObjectMapper mapper) {
+        this.userService = userService;
+        this.jwtUtil = jwtUtil;
+        this.mapper = mapper;
     }
 
-    // GET all users
-    @GetMapping
+	/**
+	 * GET *ALL* Users.
+	 * 
+	 * @return List of all Users
+	 */
+    @GetMapping(value = "/all")
     public List<User> getAllUsers() {
-        return usersService.getAllUsers();
+        return userService.getAllUsers();
     }
 
-    // GET a user by ID
-    @GetMapping(value = "/{id}")
-    public Optional<User> getUserById(@PathVariable Integer id) {
-        return usersService.getUserById(id);
+    /**
+     * GET the User with provided ID.
+     * 
+     * @param token  for current session
+     * @param userId for current User
+     * @return User object
+     * @throws JsonProcessingException
+     */
+    @GetMapping
+    @RequireJwt
+    public ResponseEntity<String> getUserById(
+            @RequestHeader(name = "token") String token,
+            @RequestHeader(name = "userId") Integer userId)
+            throws JsonProcessingException {
+
+        return ResponseEntity.ok().body(mapper.writeValueAsString(userService.getUserById(userId)));
     }
 
     /**
      * POST a User.
      * 
-     * @param user
-     * @return true/false based on registration status
+     * @param user containing the firstName, lastName, email, username, & password
+     * @return true | false based on registration status
      */
-    @PostMapping()
+    @PostMapping
     public Boolean postUser(@RequestBody User user) {
-        return usersService.postUser(user);
-    }
-
-    // DELETE a user by ID
-    @DeleteMapping(value = "/{id}")
-    public void deleteUserById(@PathVariable Integer id) {
-        usersService.deleteUserById(id);
+        return userService.postUser(user);
     }
 
     /**
-     * GET a User by email.
-     * Emails are unique and should not cause conflicting results.
+     * DELETE a User with provided ID.
+     * Returns a bad request if the DELETE is unsuccessful.
      * 
-     * @param email
-     * @return the User based on email
+     * @param token  for current session
+     * @param userId for current User
+     * @return OK | Bad Request based on DELETE success
+     * @throws JsonProcessingException
      */
-    @GetMapping(value = "/email")
-    public Optional<User> getUserByEmail(@RequestParam String email) {
-        return usersService.getUserByEmail(email);
+    @DeleteMapping
+    @RequireJwt
+    public ResponseEntity<String> deleteUserById(
+            @RequestHeader(name = "token") String token,
+            @RequestHeader(name = "userId") Integer userId)
+            throws JsonProcessingException {
+
+        userService.deleteUserById(userId);
+        return ResponseEntity.ok().build();
     }
 
     /**
-     * GET a User by email.
-     * Emails are unique and should not cause conflicting results.
-     *
-     * @param user
-     * @return the User based on email
+     * Log in to a User account.
+     * 
+     * @param user containing (at least) username & password
+     * @return User object & its associated JWT
+     * @throws JsonProcessingException
      */
     @PostMapping(value = "/login")
-    @ResponseStatus(HttpStatus.OK)
-    public User getUserByUsername(@RequestBody User user) {
-        return usersService.getUserByUsername(user);
+    public ResponseEntity<String> login(@RequestBody User user) throws JsonProcessingException {
+        // has internal checking to see if user is valid
+        User tempUser = userService.getUserByUsername(user);
+
+        // make sure the user is valid
+        if (tempUser != null) {
+            // create the response headers
+            HttpHeaders headers = new HttpHeaders();
+
+            // add the JWT to the headers
+            headers.set("JWT", jwtUtil.generateToken(tempUser.getUser_id()));
+
+            // write the headers & object into the response
+            return ResponseEntity.ok().headers(headers).body(mapper.writeValueAsString(tempUser));
+        }
+
+        // indicate bad request
+        return ResponseEntity.badRequest().build();
+    }
+
+    /**
+     * GET all Accounts associated with a particular User ID.
+     * 
+     * @param token  for current session
+     * @param userId for current User
+     * @return List of Accounts associated with a particular user
+     * @throws JsonProcessingException
+     */
+    @GetMapping(value = "/accounts")
+    @RequireJwt
+    public ResponseEntity<String> getAccountsByUserId(
+            @RequestHeader(name = "token") String token,
+            @RequestHeader(name = "userId") Integer userId)
+            throws JsonProcessingException {
+
+        return ResponseEntity.ok().body(mapper.writeValueAsString(userService.getAccountsByUserId(userId)));
     }
 }
