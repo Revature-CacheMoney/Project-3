@@ -3,7 +3,8 @@
  * Authors: David Alvarado, Brandon Perrien,
  *          Jeremiah Smith, Alvin Frierson,
  *          Trevor Hughes, Maja Wirkijowska,
- *          Ahmad Rawashdeh, Ibrahima Diallo.
+ *          Ahmad Rawashdeh, Ibrahima Diallo,
+ *          Brian Gardner.
  *
  */
 
@@ -23,7 +24,7 @@ import java.util.List;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+
 class UsersServiceTest {
 
     @Autowired
@@ -38,8 +39,6 @@ class UsersServiceTest {
         System.out.println("user service test datainit");
         nullValueUserList = new LinkedList<>();
         emptyStringUserList = new LinkedList<>();
-
-
 
 
         User nullFirstName = new User(null, "Simpson", "homer.simpson@gmail.com", "abcd1234", "hmmdonut");
