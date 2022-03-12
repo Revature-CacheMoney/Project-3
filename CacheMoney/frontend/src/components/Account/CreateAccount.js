@@ -13,8 +13,8 @@ function CreateAccount(props) {
         name: "",
         balance: 0,
         type: "",
-        userId: {
-            user_id: store.getState().userId
+        user: {
+            userId: store.getState().userReducer.userId
         }
     });
 
@@ -23,7 +23,12 @@ function CreateAccount(props) {
 
     // post account
     const postAccount = (account) => {
-        axios.post(`${url}accounts`, account)
+        axios.post(`${url}accounts`, account, {
+            headers: {
+                token: store.getState().userReducer.token,
+                userId: store.getState().userReducer.userId
+            }
+        })
             .catch(error => console.error(`Error: ${error}`));
     }
 

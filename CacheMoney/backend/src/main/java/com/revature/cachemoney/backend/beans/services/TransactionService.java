@@ -6,6 +6,7 @@ import java.util.Optional;
 import com.revature.cachemoney.backend.beans.models.Account;
 import com.revature.cachemoney.backend.beans.models.Transaction;
 import com.revature.cachemoney.backend.beans.models.User;
+import com.revature.cachemoney.backend.beans.repositories.AccountRepo;
 import com.revature.cachemoney.backend.beans.repositories.TransactionRepo;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +16,12 @@ import org.springframework.stereotype.Service;
 public class TransactionService {
 
     private final TransactionRepo transactionRepo;
+    private final AccountRepo accountRepo;
 
     @Autowired
-    public TransactionService(TransactionRepo transactionRepo) {
+    public TransactionService(TransactionRepo transactionRepo, AccountRepo accountRepo) {
         this.transactionRepo = transactionRepo;
+        this.accountRepo = accountRepo;
     }
 
     // DEPOSIT transaction by account_id
@@ -55,20 +58,34 @@ public class TransactionService {
     }
 
     // GET transaction by transaction id
-    public Optional<Transaction> getTransactionById(Integer id) {
-        return transactionRepo.findById(id);
+    public Optional<Transaction> getTransactionById(Integer transactionId, Integer userId) {
+        if (transactionRepo.getById(transactionId).getAccount().getUser().getUserId() == userId) {
+            return transactionRepo.findById(transactionId);
+        }
+
+        return Optional.empty();
     }
 
     // POST a transaction
-    public void postTransaction(Transaction transaction) {
-        transactionRepo.save(transaction);
+    public Boolean postTransaction(Transaction transaction, Integer userId) {
+        Account account = accountRepo.getById(transaction.getAccount().getAccountId());
+        if (account.getUser().getUserId() == userId) {
+            transactionRepo.save(transaction);
+
+            return true;
+        }
+
+        return false;
     }
 
-    // DELETE a transaction
-    // do we need this, even when bank accounts are closed, there's always a
-    // transaction history
-    public void deleteTransactionById(Integer id) {
-        transactionRepo.deleteById(id);
-    }
+    // DELETE a transaction by ID
+    public Boolean deleteTransactionById(Integer transactionId, Integer userId) {
+        if (transactionRepo.getById(transactionId).getAccount().getUser().getUserId() == userId) {
+            transactionRepo.deleteById(transactionId);
 
+            return true;
+        }
+
+        return false;
+    }
 }

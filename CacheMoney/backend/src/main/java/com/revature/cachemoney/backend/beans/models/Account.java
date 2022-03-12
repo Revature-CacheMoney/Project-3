@@ -17,10 +17,9 @@ import lombok.ToString;
 @Entity
 @Table(name = "accounts")
 public class Account {
-
 	@Id
-	@Column(name = "account_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "account_id")
 	private Integer accountId;
 
 	@Column(name = "type", nullable = false)
@@ -34,11 +33,11 @@ public class Account {
 
 	@JoinColumn(name = "user_id", nullable = false)
 	@ManyToOne
-	private User userId;
+	private User user;
 
 	public Account(String type) {
 		this.type = type;
-		this.name = this.type + hashCode();
+		this.name = "";
 		this.balance = 0.00;
 	}
 

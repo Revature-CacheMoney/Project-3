@@ -6,7 +6,8 @@ const initialState = {
 	userId: "",
 	username: "",
 	firstName: "",
-	lastName: ""
+	lastName: "",
+	token: ""
 };
 
 
@@ -26,19 +27,25 @@ function userReducer(state = initialState, action) {
 		case "UPDATE_USERNAME":
 			return {
 				...state,
-				username: action.payload,
+				username: action.payload
 			};
 
 		case "UPDATE_NAME_FIRST":
 			return {
 				...state,
-				firstName: action.payload,
+				firstName: action.payload
 			};
 
 		case "UPDATE_NAME_LAST":
 			return {
 				...state,
-				lastName: action.payload,
+				lastName: action.payload
+			};
+
+		case "UPDATE_TOKEN":
+			return {
+				...state,
+				token: action.payload
 			};
 
 		default:

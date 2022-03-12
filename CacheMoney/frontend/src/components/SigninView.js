@@ -36,6 +36,7 @@ function SigninView() {
 	function doLogin() {
 		let responseStatus;
 		let responseData;
+		let responseHeaders;
 		let user = {
 			username: formData.username,
 			password: formData.password
@@ -46,6 +47,7 @@ function SigninView() {
 			.then((response) => {
 				responseData = response.data;
 				responseStatus = response.status;
+				responseHeaders = response.headers;
 				if (responseStatus !== 200 || responseData.user_id === null) {
 					console.log("Login failed - bad username/password");
 					document.getElementById("login-error-box").innerHTML = "Error: incorrect username or password.";
@@ -56,10 +58,10 @@ function SigninView() {
 					}
 					//alert("Invalid login attempt.");
 				} else {
-					console.log("Response from login API: ", responseData);
+					console.log("Response body from login API: ", responseData);
 					userStore.dispatch({
 						type: "UPDATE_ID",
-						payload: responseData.user_id,
+						payload: responseData.userId,
 					});
 					userStore.dispatch({
 						type: "UPDATE_USERNAME",
@@ -72,6 +74,10 @@ function SigninView() {
 					userStore.dispatch({
 						type: "UPDATE_NAME_LAST",
 						payload: responseData.lastName,
+					});
+					userStore.dispatch({
+						type: "UPDATE_TOKEN",
+						payload: responseHeaders.jwt
 					});
 					
 					navigate("/main");
