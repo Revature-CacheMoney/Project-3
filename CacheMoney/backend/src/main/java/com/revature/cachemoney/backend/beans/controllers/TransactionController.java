@@ -35,7 +35,6 @@ public class TransactionController {
 	 * @return List of all Transactions
 	 */
 	@GetMapping(value = "/all")
-	@RequireJwt
 	public List<Transaction> getAllTransactions() {
 		return transactionService.getAllTransactions();
 	}

@@ -110,7 +110,8 @@ public class AccountService {
                     // set the current date
                     transaction.setTransactionDate(new Date());
 
-                    // save the transaction
+                    // set new balance & store it
+                    transaction.setEndingBalance(account.getBalance());
                     transactionRepo.save(transaction);
 
                     // store the updated balance
@@ -153,7 +154,7 @@ public class AccountService {
                 amount = Math.round(amount * 100) / 100.0;
 
                 // check if the amount is positive
-                if ((amount >= 0) && (amount >= account.getBalance())) {
+                if ((amount >= 0) && (amount <= account.getBalance())) {
                     // update the balance locally
                     account.setBalance(account.getBalance() - amount);
 
@@ -165,7 +166,8 @@ public class AccountService {
                     // set the current date
                     transaction.setTransactionDate(new Date());
 
-                    // make a new transaction & store it
+                    // set new balance & store it
+                    transaction.setEndingBalance(account.getBalance());
                     transactionRepo.save(transaction);
 
                     // store the updated balance
