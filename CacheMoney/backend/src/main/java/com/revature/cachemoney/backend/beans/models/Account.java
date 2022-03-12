@@ -15,10 +15,11 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @Entity
+@SequenceGenerator(name = "account_gen", sequenceName = "account_gen",  initialValue = 10000000)
 @Table(name = "accounts")
 public class Account {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "account_gen")
 	@Column(name = "account_id")
 	private Integer accountId;
 
