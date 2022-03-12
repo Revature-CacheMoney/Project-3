@@ -5,6 +5,11 @@ import AccountList from "./Account/AccountList.js";
 import userStore from "../store/Store.js";
 import NavBar from "./NavBar.js";
 import { useNavigate } from "react-router-dom";
+import { useDarkMode } from "./style/useDarkMode";
+import {ThemeProvider} from "styled-components";
+import { GlobalStyles } from "../components/style/GlobalStyles";
+import Toggle from "./style/Toggle";
+import { lightTheme, darkTheme } from "../components/style/Themes";
 
 function MainPageView2() {
 	const navigate = useNavigate();
@@ -22,33 +27,45 @@ function MainPageView2() {
 		});
 
 		navigate("/");
-
-
 	}
+
+	const [theme, themeToggler, mountedComponent] = useDarkMode();
+	const themeMode = theme === "light" ? lightTheme : darkTheme;
+
+	if(!mountedComponent) return <div />
+
 	return (
-		<div className="main-page-container container-view">
-			<div className="header">
-				<div className="header-welcome-box">
-					Welcome, <br />
-					<span className="header-username">
-						{userData.firstName} {userData.lastName}
-					</span>
+		<ThemeProvider theme={themeMode}>
+			<>
+				<GlobalStyles/>
+				<div className="main-page-container container-view">
+					<div className="header">
+						<div className="header-welcome-box">
+							Welcome, <br />
+							<span className="header-username">
+								{userData.firstName} {userData.lastName}
+							</span>
+						</div>
+						<div className="main-upper-buttons">
+							<a href="#">
+								<button id="logout-button" onClick={handleLogout}> Log Out</button>
+							</a>
+							<Toggle id="main-theme-button" theme={theme} toggleTheme={themeToggler} />
+						</div>
+					</div>
+
+					{/* <Navigation /> */}
+					<NavBar />
+
+					<div className="main-page-content">
+						{/******* Insert body content here ********/}
+						<AccountList />
+					</div>
+
+					<Footer />
 				</div>
-				<a href="#">
-					<button id="logout-button" onClick={handleLogout}> Log Out</button>
-				</a>
-			</div>
-
-			{/* <Navigation /> */}
-			<NavBar />
-
-			<div className="main-page-content">
-				{/******* Insert body content here ********/}
-				<AccountList />
-			</div>
-
-			<Footer />
-		</div>
+			</>
+		</ ThemeProvider>
 	);
 }
 

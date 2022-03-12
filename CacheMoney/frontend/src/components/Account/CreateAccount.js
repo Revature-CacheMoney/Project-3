@@ -6,7 +6,6 @@ import axios from "axios";
 import { useState } from "react";
 import config from "../../config";
 import store from "../../store/Store.js";
-import "../../css/Account.css";
 
 function CreateAccount(props) {
     // local formData state
