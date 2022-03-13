@@ -60,4 +60,22 @@ public class Transaction {
 		this.transactionAmount = transaction_amount;
 		this.endingBalance = ending_balance;
 	}
+
+
+
+	/**
+	 *
+	 * ******************STRICTLY FOR TESTING PURPOSES*********************
+	 *
+	 * */
+	public String toStringWithoutDate() {
+		return "Transaction{" +
+				"transactionId=" + transactionId +
+				", account=" + account +
+				", description='" + description + '\'' +
+//				", transactionDate=" + transactionDate +
+				", transactionAmount=" + transactionAmount +
+				", endingBalance=" + endingBalance +
+				'}';
+	}
 }

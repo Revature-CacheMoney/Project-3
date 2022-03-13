@@ -13,14 +13,21 @@ package com.revature.cachemoney.backend.beans.services;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.when;
+
+import com.revature.cachemoney.backend.beans.models.Account;
 import com.revature.cachemoney.backend.beans.models.User;
+import com.revature.cachemoney.backend.beans.repositories.AccountRepo;
+import com.revature.cachemoney.backend.beans.repositories.UserRepo;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -29,6 +36,8 @@ class UserServiceTest {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private AccountService accountService;
 
     private static List<User> validUserList;
     private static List<User> nullValueUserList;
@@ -135,7 +144,6 @@ class UserServiceTest {
     }
 
 
-
     @Test
     void deleteUserById() {
         System.out.println("user service test deleteuserbyid");
@@ -143,17 +151,27 @@ class UserServiceTest {
         List<User> userWithID = userService.getAllUsers();
 
         for (User currentUser : userWithID){
-            assertEquals(true, userService.deleteUserById(currentUser.getUserId()));
+             assertEquals(true, userService.deleteUserById(currentUser.getUserId()));
         }
 
     }
 
     @Test
-    void getUserByEmail() {
+    void getAccountsByUserId(){
+        List<Account> account = new LinkedList<>();
+        account.add(new Account("checking"));
+        account.get(0).setUser(validUserList.get(0));
+        accountService.postAccount(account.get(0), validUserList.get(0).getUserId());
+
+        assertEquals(account.toString(),
+                userService.getAccountsByUserId(validUserList.get(0).getUserId()).toString());
+
+        accountService.deleteAllAccounts();
+
     }
 
-    @Test
 
+    @Test
     void getUserByUsername() {
         System.out.println("user service test username");
         // Tests if fields other than username or password are required for successful

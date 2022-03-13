@@ -122,11 +122,10 @@ class UserControllerTest {
     }
 
 //
-    @Test
-    void deleteUserById() {
-        
-
-    }
+//    @Test
+//    void deleteUserById() {
+//
+//    }
 //
     @Test
     void login() throws JsonProcessingException {

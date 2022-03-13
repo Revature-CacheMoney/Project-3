@@ -4,33 +4,41 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import com.revature.cachemoney.backend.beans.models.Account;
+import com.revature.cachemoney.backend.beans.models.Transaction;
 import com.revature.cachemoney.backend.beans.models.User;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class AccountServiceTest {
     @Autowired
-    AccountService accountService;
-
+    private AccountService accountService;
     @Autowired
     private UserService userService;
-    
+    @Autowired
+    private TransactionService transactionService;
+
     private User tempUser;
 
     private List<Account> validAccounts;
 
     @BeforeEach
-    void populateDBWithUserandAccounts(){
-        if (userService.getAllUsers().size() != 0){
-            if (accountService.getAllAccounts().size() != 0){
+    void populateDBWithUserandAccounts() {
+        if (userService.getAllUsers().size() != 0) {
+            if (accountService.getAllAccounts().size() != 0) {
                 accountService.deleteAllAccounts();
             }
             userService.deleteAllUsers();
@@ -58,16 +66,20 @@ class AccountServiceTest {
         validAccounts.add(checkingAccWithNickname);
 
         // persist accounts to database
-        for (Account validAcc : validAccounts){
+        for (Account validAcc : validAccounts) {
             accountService.postAccount(validAcc, validAcc.getUser().getUserId());
         }
-
     }
 
     @AfterEach
-    void deleteDBData(){
-
-        accountService.deleteAllAccounts();
+    void deleteDBData() {
+        if (transactionService.getAllTransactions().size() != 0){
+            transactionService.deleteAllTransactions();
+        }
+        //accountService.deleteAllAccounts();
+        if (accountService.getAllAccounts().size() != 0){
+            accountService.deleteAllAccounts();
+        }
         userService.deleteAllUsers();
 
         // must be set to null because after models are persisted
@@ -80,7 +92,6 @@ class AccountServiceTest {
     }
 
 
-
     @Test
     void getAllAccounts() {
         assertEquals(3, accountService.getAllAccounts().size());
@@ -91,9 +102,10 @@ class AccountServiceTest {
 
         List<Account> accountListFromDB = accountService.getAllAccounts();
 
-        for (Account currAcc : accountListFromDB){
+        for (Account currAcc : accountListFromDB) {
+
             assertTrue(accountService.getAccountByID(currAcc.getAccountId(),
-                            currAcc.getUser().getUserId()).isPresent());
+                    currAcc.getUser().getUserId()).isPresent());
         }
 
         assertFalse(accountService.getAccountByID(0, 1).isPresent());
@@ -101,25 +113,35 @@ class AccountServiceTest {
     }
 
 
-
-
     @Test
     void deleteAccountById() {
         List<Account> accountListFromDB = accountService.getAllAccounts();
 
         for (Account currAcc : accountListFromDB){
+
             assertTrue(accountService.deleteAccountById(currAcc.getAccountId(), currAcc.getUser().getUserId()));
         }
 
         assertFalse(accountService.deleteAccountById(0, 1));
 
-    }
-
-
+        }
 
 
     @Test
-    void getTransactionsById() {
+    void getTransactionsById() throws ParseException {
+        Date date = new Date();
+
+        List<Transaction> transactions = new LinkedList<>();
+        transactions.add(new Transaction(validAccounts.get(0),
+                "my first transaction", date, 12.50, 12.50));
+        accountService.depositToAccount(tempUser.getUserId(), transactions.get(0));
+
+        transactions.get(0).getAccount().setBalance(12.50);
+
+        assertEquals(transactions.get(0).toStringWithoutDate(), accountService.getTransactionsById(validAccounts.get(0).getAccountId(),
+                validAccounts.get(0).getUser().getUserId()).get(0).toStringWithoutDate());
+        transactionService.deleteAllTransactions();
+
     }
 
 
@@ -139,17 +161,14 @@ class AccountServiceTest {
                 userService.postUser(tempUser);
             }
             if (accountService.getAllAccounts().size() != 0){
-                accountService.deleteAllAccounts();
+                //accountService.deleteAllAccounts();
             }
-
-
         }
 
         @AfterEach
         void deleteDBData(){
             accountService.deleteAllAccounts();
             userService.deleteAllUsers();
-
             tempUser = null;
 
         }
@@ -160,6 +179,7 @@ class AccountServiceTest {
 
             Account testChecking = new Account("checking");
             Account testIncorrectType = new Account("blahblah");
+
             testChecking.setUser(tempUser);
             testIncorrectType.setUser(tempUser);
 
