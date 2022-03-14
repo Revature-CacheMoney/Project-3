@@ -35,6 +35,18 @@ class MessageParser {
     if (input.includes("questions")) {
       return this.actionProvider.handleAtmFinder();
     }
+    if (
+      input.includes("joke") ||
+      input.includes("jokes") ||
+      input.includes("funny")
+    ) {
+      return this.actionProvider.handleJoke();
+    }
+
+    if (input.includes("thanks") || input.includes("thank you")) {
+      return this.actionProvider.handleThanks();
+    }
+
   }
 }
 
