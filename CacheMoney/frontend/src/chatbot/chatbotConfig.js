@@ -35,6 +35,9 @@ const chatbotConfig = {
       //     widget: "overview",
       //   }
     ),
+    createChatBotMessage(
+      `Or type in " joke " and I will tell you something funny...`
+    ),
   ],
   widgets: [
     {
