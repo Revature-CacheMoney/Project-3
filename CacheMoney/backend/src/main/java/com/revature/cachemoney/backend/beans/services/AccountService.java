@@ -14,6 +14,11 @@ import com.revature.cachemoney.backend.beans.repositories.TransactionRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * Service layer for Account requests.
+ * 
+ * @author Alvin Frierson, Cody Gonsowski, & Jeffrey Lor
+ */
 @Service
 public class AccountService {
 
