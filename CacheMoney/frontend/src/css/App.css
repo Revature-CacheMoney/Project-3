@@ -875,7 +875,7 @@ So there had to be overrides on the containers to get the theme we were aiming f
 */
 
 .benjamin {
-	display: none;
+	/* display: none; */
 	font-size: 14px;
 	position: absolute;
 	bottom: 36px;

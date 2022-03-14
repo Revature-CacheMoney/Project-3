@@ -8,6 +8,8 @@ import { ThemeProvider } from "styled-components";
 import { GlobalStyles } from "../components/style/GlobalStyles";
 import Toggle from "./style/Toggle";
 import { lightTheme, darkTheme } from "../components/style/Themes";
+import Popup from "reactjs-popup";
+import "reactjs-popup/dist/index.css";
 
 // The splash screen is the first view the user will see when using the app.
 // It prompts the user to login or register.
@@ -21,14 +23,17 @@ function SplashView() {
       <>
         <GlobalStyles />
         <div id="splash-outer-container" className="container-view">
-        <div className="benjamin">
-          <Chatbot
-            config={chatbotConfig}
-            actionProvider={ActionProvider}
-            messageParser={MessageParser}
-            // ChatBotRoutes={ChatBotRoutes}
-          />
-        </div>
+          <div className="benjamin">
+            <Popup trigger={<button> Trigger</button>} position="center">
+              <div>
+                <Chatbot
+                  config={chatbotConfig}
+                  actionProvider={ActionProvider}
+                  messageParser={MessageParser}
+                />
+              </div>
+            </Popup>
+          </div>
           <div id="splash-mode-container">
             <Toggle
               theme={theme}
@@ -54,7 +59,6 @@ function SplashView() {
             </div>
           </div>
         </div>
-
       </>
     </ThemeProvider>
   );
