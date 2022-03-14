@@ -1,3 +1,6 @@
+/**
+ * @author Cody Gonsowski & Jeffrey Lor
+ */
 import axios from "axios";
 import { useState } from "react";
 import config from "../../config";
