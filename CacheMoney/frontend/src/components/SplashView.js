@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Chatbot from "react-chatbot-kit";
-import chatbotConfig from "./chatbot/chatbotConfig";
-import MessageParser from "./chatbot/MessageParser";
-import ActionProvider from "./chatbot/ActionProvider";
-import ChatBotRoutes from "./ChatBotRoutes";
+import chatbotConfig from "./../chatbot/chatbotConfig";
+import MessageParser from "./../chatbot/MessageParser";
+import ActionProvider from "./../chatbot/ActionProvider";
+// import ChatBotRoutes from "./../ChatBotRoutes";
 
 import { useDarkMode } from "./style/useDarkMode";
 import { ThemeProvider } from "styled-components";
@@ -48,12 +48,12 @@ function SplashView() {
             </div>
           </div>
         </div>
-        <div className="chatbot-container">
+        <div className="benjamin">
           <Chatbot
             config={chatbotConfig}
             actionProvider={ActionProvider}
             messageParser={MessageParser}
-            ChatBotRoutes={ChatBotRoutes}
+            // ChatBotRoutes={ChatBotRoutes}
           />
         </div>
       </>
