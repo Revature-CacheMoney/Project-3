@@ -9,6 +9,7 @@ import store from "../../store/Store.js";
 import CurrencyFormat from "react-currency-format";
 import "../../css/Account.css";
 import AdditionalActions from "../Transaction/AdditionalActions.js";
+import TransactionFilter from "../Transaction/TransactionFilter.js";
 
 function AccountList(props) {
 	// local transaction state
@@ -23,6 +24,7 @@ function AccountList(props) {
 	useEffect(() => {
 		getAllAccounts();
 	}, [accounts]);
+	//}, [accounts]);
 
 	const getAllAccounts = () => {
 		//${url}users/accounts/${store.getState().userId}
@@ -51,7 +53,13 @@ function AccountList(props) {
 		console.log("showAdditionalActions: ", acctNum);
 		if (acctNum == store.getState().accountReducer.currentAccountId) {
 			console.log("Additional Actions should be shown for acct ", acctNum);
-			return <AdditionalActions />;
+			return (
+				<>
+					<AdditionalActions />
+					<br />
+					<TransactionFilter />
+				</>
+			);
 		}
 	};
 
@@ -95,31 +103,37 @@ function AccountList(props) {
 
 	const content = accounts.map((account) => {
 		return (
-			<div
-				className="account_item"
-				key={account.accountId}
-				id={account.accountId}
-				onClick={handleAccountClick}
-			>
-				<div className="account_name">
-					<p>
-						{account.name} (***{account.accountId.toString().slice(-4)})
-					</p>
-				</div>
-				<div className="account_item_info">
-					<div className="account_type">
-						<p>{account.type}</p>
+			<div class="account-container">
+				<div class="account-list">
+					<div
+						className="account_item"
+						key={account.accountId}
+						id={account.accountId}
+						onClick={handleAccountClick}
+					>
+						<div className="account_name">
+							<p>
+								{account.name} (***{account.accountId.toString().slice(-4)})
+							</p>
+						</div>
+						<div className="account_item_info">
+							<div className="account_type">
+								<p>{account.type}</p>
+							</div>
+							<div className="account_balance">
+								<CurrencyFormat
+									value={account.balance}
+									displayType={"text"}
+									thousandSeparator={true}
+									prefix={"$"}
+								/>
+							</div>
+						</div>
 					</div>
-					<div className="account_balance">
-						<CurrencyFormat
-							value={account.balance}
-							displayType={"text"}
-							thousandSeparator={true}
-							prefix={"$"}
-						/>
-					</div>
 				</div>
-				{showAdditionalActions(account.accountId)}
+				<div classname="transaction-container">
+					{showAdditionalActions(account.accountId)}
+				</div>
 			</div>
 		);
 	});
