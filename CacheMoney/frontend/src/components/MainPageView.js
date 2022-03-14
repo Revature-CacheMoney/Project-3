@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Navigation from "./NavBar";
 import Footer from "./Footer.js";
 
+
 function MainPageView(props) {
 	//let accountPreview = [];
 	//   let [accountPreview, setAccountPreview] = useState([]);
@@ -28,6 +29,8 @@ function MainPageView(props) {
 			</li>
 		);
 	}); */
+
+
 
 	return (
 		<div className="container-view main-container-content">

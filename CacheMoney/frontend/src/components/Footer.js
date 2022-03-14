@@ -30,7 +30,7 @@ function Footer(props) {
 				<li>HotdogPizza Sandwich Associationd</li>
 			</div>
 
-			<img src={footerLogo} />
+			<img id="footer-logo" src={footerLogo} />
 		</div>
 	);
 }
