@@ -1,0 +1,28 @@
+export const DevData = [
+  { id: 1, name: "Daniel Gordon", github: "https://github.com/Tiptopolis" },
+  { id: 2, name: "Ahmad Rawashdeh", github: "https://github.com/Ahmadrawash" },
+  { id: 3, name: "Jeffrey Lor", github: "https://github.com/jlor993" },
+  { id: 4, name: "Tiffany Obi", github: "https://github.com/TiffanyObi" },
+  { id: 5, name: "Jason Graves", github: "https://github.com/JasonGraves96" },
+  { id: 6, name: "Donald Farrar", github: "https://github.com/DonaldFarrar" },
+  { id: 7, name: "CJ Jones", github: "https://github.com/cj-jones-codes" },
+  { id: 8, name: "Jeremiah Smith", github: "https://github.com/JMattSmith" },
+  { id: 9, name: "Cody Gonsowki", github: "https://github.com/jondgons" },
+  {
+    id: 10,
+    name: "Maja Wirkijowska",
+    github: "https://github.com/maja-wirkijowska",
+  },
+  { id: 11, name: "Brandon Perrien", github: "https://github.com/bmperrien" },
+  { id: 12, name: "Alvin Frierson", github: "https://github.com/ajfrierson" },
+  { id: 13, name: "Ibrahima Diallo", github: "https://github.com/Ibrahdiallo" },
+  {
+    id: 14,
+    name: "David Alvarado",
+    github: "https://github.com/DavidAlvaradoSoftware",
+  },
+  { id: 15, name: "Cheryl See", github: "https://github.com/cherylsee" },
+  { id: 16, name: "Mark Young", github: "https://github.com/Mark-Young95" },
+  { id: 17, name: "Trevor Hughes", github: "https://github.com/TrevHughes" },
+  { id: 18, name: "Brian Gardner", github: "https://github.com/brigardner" },
+];
