@@ -23,6 +23,14 @@ function SplashView() {
       <>
         <GlobalStyles />
         <div id="splash-outer-container" className="container-view">
+        <div className="benjamin">
+          <Chatbot
+            config={chatbotConfig}
+            actionProvider={ActionProvider}
+            messageParser={MessageParser}
+            // ChatBotRoutes={ChatBotRoutes}
+          />
+        </div>
           <div id="splash-mode-container">
             <Toggle
               theme={theme}
@@ -48,14 +56,7 @@ function SplashView() {
             </div>
           </div>
         </div>
-        <div className="benjamin">
-          <Chatbot
-            config={chatbotConfig}
-            actionProvider={ActionProvider}
-            messageParser={MessageParser}
-            // ChatBotRoutes={ChatBotRoutes}
-          />
-        </div>
+
       </>
     </ThemeProvider>
   );
