@@ -12,6 +12,8 @@ import org.springframework.stereotype.Component;
 /**
  * Aspect to retrieve JWT information from requests.
  * Used alongside @RequireJwt.
+ * 
+ * @author Cody Gonsowski & Jeffrey Lor
  */
 @Aspect
 @Component
