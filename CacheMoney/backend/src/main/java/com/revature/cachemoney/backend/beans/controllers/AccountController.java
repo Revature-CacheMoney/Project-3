@@ -82,7 +82,7 @@ public class AccountController {
 	 * @return OK | Bad Request based on POST success
 	 */
 	@PostMapping
-	@RequireJw
+	@RequireJwt
 	public ResponseEntity<String> postAccount(
 			@RequestHeader(name = "token") String token,
 			@RequestHeader(name = "userId") Integer userId,
@@ -191,7 +191,7 @@ public class AccountController {
 	 * 
 	 * @param token       for current session
 	 * @param userId      for current User
-	 * @param transaction for User's Transaction
+	 * @param transfer for User's Transaction
 	 * @return OK | Bad Request based on POST success
 	 */
 	@PostMapping(value = "/transfer")

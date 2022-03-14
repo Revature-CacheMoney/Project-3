@@ -1,7 +1,8 @@
 package com.revature.cachemoney.backend.beans.controllers;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -21,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -93,7 +95,7 @@ class UserControllerTest {
                 .get("/users")
                 .header("token", testTokens[0])
                 .header("userId", 1))
-                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath(".firstName").value("Hank"));
 
 
@@ -145,14 +147,16 @@ class UserControllerTest {
 
     @Test
     void postUser() throws Exception {
-//        when(userService.postUser(testUsers[0])).thenReturn(true);
-//        assertTrue(userController.postUser(testUsers[0]));
-//        when(userService.postUser(loginUsers[0])).thenReturn(false);
-//        assertFalse(userController.postUser(loginUsers[0]));
-//        when(userService.postUser(testUsers[0])).thenReturn(true);
-//        this.mockMvc.perform(MockMvcRequestBuilders.post("/users")).andExpect();
 
+        when(userService.postUser(testUsers[0])).thenReturn(true);
+        assertTrue(userController.postUser(testUsers[0]));
+        when(userService.postUser(loginUsers[0])).thenReturn(false);
+        assertFalse(userController.postUser(loginUsers[0]));
+
+        when(userService.postUser(testUsers[0])).thenReturn(true);
+        String jsonString = mapper.writeValueAsString(testUsers[0]);
+        this.mockMvc.perform(MockMvcRequestBuilders.post("/users").contentType(MediaType.APPLICATION_JSON)
+                .content(jsonString)).andExpect(status().isOk());
 
     }
-
 }
