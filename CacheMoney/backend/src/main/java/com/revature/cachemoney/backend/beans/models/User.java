@@ -8,7 +8,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- * Object for interacting with Users.
+ * Model containing information regarding a User account.
  */
 @Getter
 @Setter
@@ -44,6 +44,4 @@ public class User {
 		this.password = password;
 		this.username = username;
 	}
-
-
 }

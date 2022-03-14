@@ -7,7 +7,6 @@ import java.util.Optional;
 
 import com.revature.cachemoney.backend.beans.models.Account;
 import com.revature.cachemoney.backend.beans.models.Transaction;
-import com.revature.cachemoney.backend.beans.models.User;
 import com.revature.cachemoney.backend.beans.repositories.AccountRepo;
 import com.revature.cachemoney.backend.beans.repositories.TransactionRepo;
 
@@ -21,7 +20,6 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class AccountService {
-
     private final AccountRepo accountRepo;
     private final TransactionRepo transactionRepo;
 
@@ -31,12 +29,22 @@ public class AccountService {
         this.transactionRepo = transactionRepo;
     }
 
-    // GET all accounts
+    /**
+     * Service method to GET *ALL* Accounts.
+     * 
+     * @return List of Accounts
+     */
     public List<Account> getAllAccounts() {
         return accountRepo.findAll();
     }
 
-    // GET account by ID
+    /**
+     * Service method to GET an Account by Account's ID.
+     * 
+     * @param accountId of Account to find
+     * @param userId    to verify the User owns the Account
+     * @return Account associated with the User
+     */
     public Optional<Account> getAccountByID(Integer accountId, Integer userId) {
         if (accountRepo.getById(accountId).getUser().getUserId() == userId) {
             return accountRepo.findById(accountId);
@@ -45,7 +53,13 @@ public class AccountService {
         return Optional.empty();
     }
 
-    // POST an account
+    /**
+     * Service method to POST an Account.
+     * 
+     * @param account of Account to save
+     * @param userId  to verify the User owns the Account
+     * @return (true | false) if the User owns the Account
+     */
     public Boolean postAccount(Account account, Integer userId) {
         if (account.getUser().getUserId() == userId) {
             accountRepo.save(account);
@@ -56,7 +70,13 @@ public class AccountService {
         return false;
     }
 
-    // DELETE an account
+    /**
+     * Service method to DELETE an Account by Account's ID.
+     * 
+     * @param accountId of Account to delete
+     * @param userId    to verify the User owns the Account
+     * @return (true | false) if the User owns the Account
+     */
     public Boolean deleteAccountById(Integer accountId, Integer userId) {
         if (accountRepo.getById(accountId).getUser().getUserId() == userId) {
             accountRepo.deleteById(accountId);
@@ -67,7 +87,13 @@ public class AccountService {
         return false;
     }
 
-    // GET transaction by ID
+    /**
+     * Service method to GET Transactions associated with an Account's ID.
+     * 
+     * @param accountId of Account to retrieve Transactions from
+     * @param userId    to verify the User owns the Account
+     * @return List of Transactions associated with the Account
+     */
     public List<Transaction> getTransactionsById(Integer accountId, Integer userId) {
         if (accountRepo.getById(accountId).getUser().getUserId() == userId) {
             return (ArrayList<Transaction>) transactionRepo.findByAccount(accountRepo.getById(accountId));
@@ -176,7 +202,7 @@ public class AccountService {
 
                     // store the amount as a negative
                     transaction.setTransactionAmount(-transaction.getTransactionAmount());
-                    
+
                     // save the transaction
                     transactionRepo.save(transaction);
 
@@ -230,15 +256,5 @@ public class AccountService {
 
         // transfer fail
         return false;
-    }
-
-    // SEND money from user's own account to another account owned by ANOTHER user.
-    // user initiating transfer CANNOT take money from other user, only send to
-    // other user
-    // NOT MVP, just setting up stretch goal if there's time
-    public void sendToAccountOfDifferentUser(User sender, User receiver, Account sendFromAccount,
-            Account receiveToAccount, Double amount) {
-        sendFromAccount.setBalance(sendFromAccount.getBalance() - amount);
-        receiveToAccount.setBalance(receiveToAccount.getBalance() + amount);
     }
 }
