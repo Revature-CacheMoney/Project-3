@@ -1,5 +1,10 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { useDarkMode } from "./style/useDarkMode";
+import {ThemeProvider} from "styled-components";
+import { GlobalStyles } from "../components/style/GlobalStyles";
+import Toggle from "./style/Toggle";
+import { lightTheme, darkTheme } from "../components/style/Themes"
 import { useNavigate } from "react-router-dom";
 import config from "../config.js";
 
@@ -171,126 +176,137 @@ function RegisterView() {
 			.catch((error) => console.error(`Error: ${error}`));
 	}
 
+	const [theme, themeToggler, mountedComponent] = useDarkMode();
+	const themeMode = theme === "light" ? lightTheme : darkTheme;
+
+	if(!mountedComponent) return <div />
+
 	return (
-		<div className="container-view login-outer-container">
-			<div className="login-inner-container">
-				<div className="login-content-box">
-					<h2 className="logo-smaller" id="register-logo">
-						CacheMoney
-					</h2>
-					<div id="register-white-box" className="login-white-box">
-						<div className="login-white-box-column">
-							<div className="error-container">
-								<span id="registration-error"></span>
-							</div>
-							<div id="registration-name-boxes">
-								<div id="box-L" className="reg-name-box">
-									<label htmlFor="firstName" id="label-L">
-										First name:
-										<span className="detail-text" id="firstname-span"></span>
-										<span className="err-desc" id="firstname-description"></span>
-									</label>
-									<input
-										type="text"
-										name="firstName"
-										className="reg-input-box"
-										id="firstname"
-										onChange={handleChange}
-										required
-									/>
+		<ThemeProvider theme={themeMode}>
+			<>
+				<GlobalStyles/>
+				<div className="container-view login-outer-container">
+					<div className="login-inner-container">
+						<div className="login-content-box">
+							<Toggle id="register-theme-button" theme={theme} toggleTheme={themeToggler} />
+							<h2 className="logo-smaller" id="register-logo">
+								CacheMoney
+							</h2>
+							<div id="register-white-box" className="login-white-box">
+								<div className="login-white-box-column">
+									<div className="error-container">
+										<span id="registration-error"></span>
+									</div>
+									<div id="registration-name-boxes">
+										<div id="box-L" className="reg-name-box">
+											<label htmlFor="firstName" id="label-L">
+												First name:
+												<span className="detail-text" id="firstname-span"></span>
+												<span className="err-desc" id="firstname-description"></span>
+											</label>
+											<input
+												type="text"
+												name="firstName"
+												className="reg-input-box"
+												id="firstname"
+												onChange={handleChange}
+												required
+											/>
+										</div>
+
+										<div id="box-R" className="reg-name-box">
+											<label htmlFor="lastName" id="label-R">
+												Last name:
+												<span className="detail-text" id="lastname-span"></span>
+												<span className="err-desc" id="lastname-description"></span>
+											</label>
+											<input
+												type="text"
+												name="lastName"
+												className="reg-input-box"
+												id="lastname"
+												onChange={handleChange}
+												required
+											/>
+										</div>
+									</div>
+
+									<div className="reg-field-box">
+										<label htmlFor="email">
+											Email:
+											<span className="detail-text" id="email-span">
+												*must be unregistered valid email
+											</span>
+											<span className="err-desc" id="email-description"></span>
+										</label>
+										<input
+											type="text"
+											name="email"
+											className="reg-input-box"
+											id="email"
+											onChange={handleChange}
+											required
+										/>
+									</div>
+
+									<div className="reg-field-box">
+										<label htmlFor="username">
+											Username:
+											<span className="detail-text" id="username-span">
+												*must be unique
+											</span>
+											<span className="err-desc" id="username-description"></span>
+										</label>
+										<input
+											type="text"
+											name="username"
+											className="reg-input-box"
+											id="username"
+											onChange={handleChange}
+											required
+										/>
+									</div>
+
+									<div className="reg-field-box">
+										<label htmlFor="password">
+											Password:
+											<span className="detail-text" id="password1-span"></span>
+											<span className="err-desc" id="password1-description"></span>
+										</label>
+										<input
+											type="text"
+											name="password1"
+											id="password1"
+											className="password-box reg-input-box"
+											onChange={handleChange}
+											required
+										/>
+									</div>
+
+									<div className="reg-field-box">
+										<label htmlFor="password2">
+											Confirm password:
+											<span className="detail-text" id="password2-span"></span>
+											<span className="err-desc" id="password2-description"></span>
+										</label>
+										<input
+											type="text"
+											name="password2"
+											id="password2"
+											className="password-box reg-input-box"
+											onChange={handleChange}
+											required
+										/>
+									</div>
+
+									<input type="submit" value="Register" className="login" id="register-button" onClick={handleSubmit} />
 								</div>
-
-								<div id="box-R" className="reg-name-box">
-									<label htmlFor="lastName" id="label-R">
-										Last name:
-										<span className="detail-text" id="lastname-span"></span>
-										<span className="err-desc" id="lastname-description"></span>
-									</label>
-									<input
-										type="text"
-										name="lastName"
-										className="reg-input-box"
-										id="lastname"
-										onChange={handleChange}
-										required
-									/>
-								</div>
 							</div>
-
-							<div className="reg-field-box">
-								<label htmlFor="email">
-									Email:
-									<span className="detail-text" id="email-span">
-										*must be unregistered valid email
-									</span>
-									<span className="err-desc" id="email-description"></span>
-								</label>
-								<input
-									type="text"
-									name="email"
-									className="reg-input-box"
-									id="email"
-									onChange={handleChange}
-									required
-								/>
-							</div>
-
-							<div className="reg-field-box">
-								<label htmlFor="username">
-									Username:
-									<span className="detail-text" id="username-span">
-										*must be unique
-									</span>
-									<span className="err-desc" id="username-description"></span>
-								</label>
-								<input
-									type="text"
-									name="username"
-									className="reg-input-box"
-									id="username"
-									onChange={handleChange}
-									required
-								/>
-							</div>
-
-							<div className="reg-field-box">
-								<label htmlFor="password">
-									Password:
-									<span className="detail-text" id="password1-span"></span>
-									<span className="err-desc" id="password1-description"></span>
-								</label>
-								<input
-									type="text"
-									name="password1"
-									id="password1"
-									className="password-box reg-input-box"
-									onChange={handleChange}
-									required
-								/>
-							</div>
-
-							<div className="reg-field-box">
-								<label htmlFor="password2">
-									Confirm password:
-									<span className="detail-text" id="password2-span"></span>
-									<span className="err-desc" id="password2-description"></span>
-								</label>
-								<input
-									type="text"
-									name="password2"
-									id="password2"
-									className="password-box reg-input-box"
-									onChange={handleChange}
-									required
-								/>
-							</div>
-
-							<input type="submit" value="Register" onClick={handleSubmit} />
 						</div>
 					</div>
 				</div>
-			</div>
-		</div>
+			</>
+		</ ThemeProvider>
 	);
 }
 

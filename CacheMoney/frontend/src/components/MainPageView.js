@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Navigation from "./NavBar";
 import Footer from "./Footer.js";
+//donald
 
 function MainPageView(props) {
 	//let accountPreview = [];
@@ -28,6 +29,8 @@ function MainPageView(props) {
 			</li>
 		);
 	}); */
+
+
 
 	return (
 		<div className="container-view main-container-content">
