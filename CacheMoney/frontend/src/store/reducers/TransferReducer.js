@@ -3,8 +3,8 @@
  */
 
 const initialState = {
-    sourceAccountId: "",
-    destinationAccountId: ""
+    sourceAccountId: -1,
+    destinationAccountId: -1
 }
 
 function transferReducer(state = initialState, action) {
