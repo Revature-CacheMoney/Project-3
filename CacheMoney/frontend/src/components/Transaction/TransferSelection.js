@@ -7,14 +7,19 @@ import config from "../../config";
 import store from "../../store/Store";
 
 //TODO finish this
-function TransferSelection({ updateAccounts }) {
+function TransferSelection({ updateAccounts, whichAccount }) {
     const [accountId, setAccountId] = useState();
     const [accounts, setAccounts] = useState([]);
 
     // update account selection locally & in parent component
     const changeAccount = (event) => {
         setAccountId(event.target.value);
-        updateAccounts(accountId);
+        // updateAccounts(accountId);
+        if (whichAccount === "SOURCE") {
+            store.dispatch({ type: 'UPDATE_SOURCE_ACCOUNT_ID', payload: event.target.value })
+        } else if (whichAccount === "DESTINATION") {
+            store.dispatch({ type: 'UPDATE_DESTINATION_ACCOUNT_ID', payload: event.target.value })
+        }
     }
 
     // retrieve url from config
@@ -23,7 +28,8 @@ function TransferSelection({ updateAccounts }) {
     // effect hook
     useEffect(() => {
         getAccounts();
-    })
+        console.log();
+    }, [])
 
     // get all accounts associated with the user
     const getAccounts = () => {

@@ -11,8 +11,8 @@ import TransferSelection from "./TransferSelection";
 function Transfer(props) {
     // local formData state
     const [formData, setFormData] = useState({
-        sourceAccountId: null,
-        destinationAccountId: null,
+        sourceAccountId: store.getState().transferReducer.sourceAccountId,
+        destinationAccountId: store.getState().transferReducer.destinationAccountId,
         transaction: {
             description: "",
             transactionAmount: ""
@@ -20,6 +20,8 @@ function Transfer(props) {
     });
     const [sourceAccount, setSourceAccount] = useState(null);
     const [destinationAccount, setDestinationAccount] = useState(null);
+    const [description, setDescription] = useState("");
+    const [transactionAmount, setTransactionAmount] = useState(0);
 
     // retrieve the url from the config
     const url = config.url;
@@ -40,28 +42,48 @@ function Transfer(props) {
 
     // post transfer transaction
     const postTransfer = () => {
-        axios.post(`${url}accounts/transfer`, formData,
-        {
-            headers: {
-                token: store.getState().userReducer.token,
-                userId: store.getState().userReducer.userId
-            }
-        })
+        axios.post(`${url}accounts/transfer`,
+            {
+                sourceAccountId: store.getState().transferReducer.sourceAccountId,
+                destinationAccountId: store.getState().transferReducer.destinationAccountId,
+                transaction: {
+                    description: description,
+                    transactionAmount: transactionAmount
+                }
+            },
+            {
+                headers: {
+                    token: store.getState().userReducer.token,
+                    userId: store.getState().userReducer.userId
+                }
+            })
             .catch(error => console.error(`Error: ${error}`));
     }
 
     // updates form data when form changes
     const handleChange = (event) => {
         event.preventDefault();
-        setFormData({ ...formData, [event.target.name]: event.target.value });
+        if (event.target.name === "transactionAmount") {
+            setFormData({ ...formData, transaction: { transactionAmount: event.target.value } });
+        }
+        else if (event.target.name === "description") {
+            setFormData({ ...formData, transaction: { description: event.target.value } });
+        }
+        else {
+            setFormData({ ...formData, [event.target.name]: event.target.value });
+        }
     }
 
     // what the submit button should do
-    const handleSubmit = () => {
-        setFormData({
-            sourceAccount,
-            destinationAccount
-        });
+    const handleSubmit = (event) => {
+        event.preventDefault();
+
+        setDescription(event.target.description.value);
+        setTransactionAmount(event.target.transactionAmount.value);
+
+        console.log("desc: ", description);
+        console.log("amt: ", transactionAmount);
+
         console.log(formData);
         postTransfer(formData);
     }
@@ -72,15 +94,15 @@ function Transfer(props) {
                 <div className="transfer-form">
                     <p className="transfer-form-header">Transfer</p>
 
-                    <form>
-                        <div className="transfer-to-account">
-                            <label>TO</label>
-                            <TransferSelection updateAccounts={updateDestinationAccount}></TransferSelection>
-                        </div>
-
+                    <form onSubmit={handleSubmit}>
                         <div className="transfer-from-account">
                             <label>FROM</label>
-                            <TransferSelection updateAccounts={updateSourceAccount}></TransferSelection>
+                            <TransferSelection updateAccounts={updateSourceAccount} whichAccount="SOURCE"></TransferSelection>
+                        </div>
+
+                        <div className="transfer-to-account">
+                            <label>TO</label>
+                            <TransferSelection updateAccounts={updateDestinationAccount} whichAccount="DESTINATION"></TransferSelection>
                         </div>
 
                         <div className="transfer-amount">
@@ -90,11 +112,13 @@ function Transfer(props) {
 
                         <div className="transfer-description">
                             <label>Description</label>
-                            <input type="text" id="transfer-description" name="description" onChange={handleChange}></input>
+                            <input type="text" id="transfer-description" name="description" onChange={handleChange} />
                         </div>
+
+                        <button type="submit">Submit</button>
                     </form>
 
-                    <button className="transfer-submit-button" type="button" name="submit" onClick={handleSubmit}>Submit</button>
+                    {/* <button className="transfer-submit-button" type="button" name="submit" onClick={handleSubmit}>Submit</button> */}
                 </div>
             </div>
         </div>
