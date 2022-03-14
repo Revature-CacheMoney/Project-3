@@ -82,7 +82,7 @@ public class AccountController {
 	 * @return OK | Bad Request based on POST success
 	 */
 	@PostMapping
-	@RequireJwt
+	@RequireJw
 	public ResponseEntity<String> postAccount(
 			@RequestHeader(name = "token") String token,
 			@RequestHeader(name = "userId") Integer userId,
