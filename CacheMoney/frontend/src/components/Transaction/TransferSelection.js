@@ -8,13 +8,13 @@ import store from "../../store/Store";
 
 //TODO finish this
 function TransferSelection({ updateAccounts }) {
-    const [account, setAccount] = useState("");
+    const [accountId, setAccountId] = useState();
     const [accounts, setAccounts] = useState([]);
 
     // update account selection locally & in parent component
     const changeAccount = (event) => {
-        setAccount(event.target.value);
-        updateAccounts(account);
+        setAccountId(event.target.value);
+        updateAccounts(accountId);
     }
 
     // retrieve url from config
@@ -50,7 +50,7 @@ function TransferSelection({ updateAccounts }) {
         )
 
     return (
-        <select id="selectAccount" onChange={changeAccount} value={account}>
+        <select id="selectAccount" onChange={changeAccount} value={accountId}>
             {options}
         </select>
     );
