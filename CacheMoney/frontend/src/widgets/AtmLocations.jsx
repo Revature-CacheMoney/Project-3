@@ -20,7 +20,7 @@ function Location() {
   const listAtms = atmInfo.map((info) => {
     return (
       <div className="atmInfo" key={info.id}>
-        <div className="column" loading={loading.toString()}>
+        <div className="atm-column" loading={loading.toString()}>
           <ul>
             <li>Address: {info.address}</li>
             <li>Zipcode: {info.zipCode}</li>
