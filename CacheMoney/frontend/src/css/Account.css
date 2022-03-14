@@ -1,8 +1,13 @@
 /* ACCOUNT_LIST */
 .account_list {
+	/*
 	height: 640px;
 	width: 720px;
+	*/
 	max-width: 80%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
 	overflow-y: auto;
 	margin: auto;
 }
@@ -133,12 +138,11 @@
 	justify-content: space-between;
 }
 
-/*
 .account-container {
 	display: flex;
 	flex-direction: row;
 	/*grid-template-areas: account transaction;
-	grid-template-columns: 50% 50%;
+	grid-template-columns: 50% 50%; */
 }
 
 .account-list {
@@ -147,4 +151,4 @@
 
 .transaction-container {
 	grid-area: transaction;
-} */
+}
