@@ -158,7 +158,7 @@ public class AccountService {
      * withdrawal.
      * 
 //     * @param accountId associated with an Account
-//     * @param amount    to withdraw
+//     * @param amount    to withdraw (positive values only)
 //     * @param desc      description for the transaction
      * @return (true | false) based on withdrawal status
      */
@@ -235,9 +235,11 @@ public class AccountService {
 
             // validates that the source & destination User IDs match
             if (source.get().getUser().getUserId() == dest.get().getUser().getUserId()) {
+
                 // attempt to withdraw & deposit
                 if (withdrawFromAccount(userId, transaction) && depositToAccount(userId, destTransaction)) {
-                    // transfer success
+                    // transfer success;
+
                     return true;
                 }
             }
@@ -251,10 +253,10 @@ public class AccountService {
     // user initiating transfer CANNOT take money from other user, only send to
     // other user
     // NOT MVP, just setting up stretch goal if there's time
-    public void sendToAccountOfDifferentUser(User sender, User receiver, Account sendFromAccount,
-            Account receiveToAccount, Double amount) {
-        sendFromAccount.setBalance(sendFromAccount.getBalance() - amount);
-        receiveToAccount.setBalance(receiveToAccount.getBalance() + amount);
-    }
+//    public void sendToAccountOfDifferentUser(User sender, User receiver, Account sendFromAccount,
+//            Account receiveToAccount, Double amount) {
+//        sendFromAccount.setBalance(sendFromAccount.getBalance() - amount);
+//        receiveToAccount.setBalance(receiveToAccount.getBalance() + amount);
+//    }
 }
 

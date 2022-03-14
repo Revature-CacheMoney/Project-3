@@ -22,7 +22,6 @@ import java.util.Locale;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class AccountServiceTest {
     @Autowired
     private AccountService accountService;
@@ -44,9 +43,7 @@ class AccountServiceTest {
             userService.deleteAllUsers();
         }
         tempUser = new User("Hank", "Hill", "hankaccounthill@gmail.com", "abcd1234", "accounttest");
-        System.out.println(tempUser.toString());
         userService.postUser(tempUser);
-        System.out.println(tempUser.toString());
 
         // Create accounts (They dont currently have a valid user model under attribute "userId")
         Account checkingAcc = new Account("checking");
@@ -128,7 +125,11 @@ class AccountServiceTest {
 
 
     @Test
-    void getTransactionsById() throws ParseException {
+    void getTransactionsById() {
+        // NOTE: THE DATE VALUE BEFORE THE TRANSACTION IS PERSISTED IS DIFFERENT
+        //      FROM WHAT YOU GET FROM THE DATABASE. THIS IS WHY "toStringWithoutDate"
+        //      WAS CREATED. AS OF 3/13/2022, THE DATES MATCH BUT ARE FORMATTED DIFFERENTLY.
+
         Date date = new Date();
 
         List<Transaction> transactions = new LinkedList<>();
@@ -141,6 +142,78 @@ class AccountServiceTest {
         assertEquals(transactions.get(0).toStringWithoutDate(), accountService.getTransactionsById(validAccounts.get(0).getAccountId(),
                 validAccounts.get(0).getUser().getUserId()).get(0).toStringWithoutDate());
         transactionService.deleteAllTransactions();
+
+    }
+
+    // account used for the following test is the first account in the validAccounts list.
+    @Test
+    void withdrawFromAccount() {
+        // check to see if you can withdraw from an account with balance 0.
+        // NOTE: ONLY POSITIVE VALUES IN TRANSACTION_AMOUNT ARGUMENT.
+        Transaction withdrawal = new Transaction(validAccounts.get(0),
+                "withdrawal after my initial deposit", new Date(), 10.50, 2.50);
+
+        // we assert that this should fail since we dont have sufficient funds.
+        assertFalse(accountService.withdrawFromAccount(tempUser.getUserId(), withdrawal));
+
+        // check to see if a withdrawal can be made with an account that has sufficient funds.
+        // first we add funds since all accounts created start off with $0.00 in their account
+        Transaction initialDeposit = new Transaction(validAccounts.get(0),
+                "initial deposit to account", new Date(), 12.50, 12.50);
+        accountService.depositToAccount(tempUser.getUserId(), initialDeposit);
+
+        // We retrieve the account from the database and set it equal to the first element in the
+        // validAccount list with a check to make sure that the account is actually present.
+        if (accountService.getAccountByID(validAccounts.get(0).getAccountId(), tempUser.getUserId()).isPresent()) {
+            validAccounts.set(
+                    0,
+                    accountService.getAccountByID(
+                            validAccounts.get(0).getAccountId(),
+                            tempUser.getUserId()).get());
+        }
+
+        // we update the withdrawal transaction to hold the new state of our account
+        // which was retrieved from the database.
+        withdrawal.setAccount(validAccounts.get(0));
+
+        // we assert that this transaction should pass since account, funds, and
+        assertTrue(accountService.withdrawFromAccount(tempUser.getUserId(), withdrawal));
+
+
+    }
+
+    // note all accounts in validAccounts are tied to 1 user.
+    @Test
+    void transferBetweenAccountsOfOneUser() {
+        // test for valid transaction between 2 accounts owned by the same user.
+        // we will be using the first 2 accounts in the validAccounts list.
+
+        // create transaction to add funds to an account
+        // since they are initialized with $0.00 funds.
+        Transaction initialDeposit = new Transaction(validAccounts.get(0),
+                "initial deposit to account", new Date(), 12.50, 12.50);
+        // add funds to account.
+        accountService.depositToAccount(tempUser.getUserId(), initialDeposit);
+
+        //positive transfer amount to be made.
+        Transaction transferAmount = new Transaction(validAccounts.get(0),
+                "initial deposit to account", new Date(), 12.50, 12.50);
+
+        // Actual test to check if transfer was successful
+        assertTrue(accountService.transferBetweenAccountsOfOneUser(
+                tempUser.getUserId(),
+                validAccounts.get(0).getAccountId(),
+                validAccounts.get(1).getAccountId(),
+                transferAmount));
+
+        // test for cases where there are insufficient funds in the source account.
+
+    }
+
+    @Test
+    void sendToAccountOfDifferentUser() {
+        // will not test until other functionality that is part of MVP
+        // is tested. As of 3/12/2022, this is a stretch goal not fully implemented.
 
     }
 
@@ -175,7 +248,6 @@ class AccountServiceTest {
 
         @Test
         void postAccount() {
-            System.out.println("account service test postaccount");
 
             Account testChecking = new Account("checking");
             Account testIncorrectType = new Account("blahblah");

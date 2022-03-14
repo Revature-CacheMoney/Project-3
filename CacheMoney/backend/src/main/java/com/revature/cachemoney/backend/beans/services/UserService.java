@@ -58,13 +58,12 @@ public class UserService {
                 userRepo.save(user);
             } catch (Exception e) {
                 // inform failed result
-                System.out.println("failed due to exception");
                 return false;
             }
             // inform successful result
             return true;
         } else {
-            System.out.println("invalid credentials");
+
             return false;
         }
     }

@@ -1,8 +1,10 @@
 package com.revature.cachemoney.backend.beans.services;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
+import com.revature.cachemoney.backend.beans.models.Account;
 import com.revature.cachemoney.backend.beans.models.Transaction;
 import com.revature.cachemoney.backend.beans.repositories.TransactionRepo;
 
@@ -26,8 +28,11 @@ public class TransactionService {
 
     // GET transaction by transaction id
     public Optional<Transaction> getTransactionById(Integer transactionId, Integer userId) {
-        if (transactionRepo.getById(transactionId).getAccount().getUser().getUserId() == userId) {
-            return transactionRepo.findById(transactionId);
+        Optional<Transaction> returnTransaction = transactionRepo.findById(transactionId);
+        if (returnTransaction.isPresent()) {
+            if (Objects.equals(returnTransaction.get().getAccount().getUser().getUserId(), userId)) {
+                return transactionRepo.findById(transactionId);
+            }
         }
 
         return Optional.empty();
@@ -35,10 +40,13 @@ public class TransactionService {
 
     // DELETE a transaction by ID
     public Boolean deleteTransactionById(Integer transactionId, Integer userId) {
-        if (transactionRepo.getById(transactionId).getAccount().getUser().getUserId() == userId) {
-            transactionRepo.deleteById(transactionId);
+        Optional<Transaction> returnTransaction = transactionRepo.findById(transactionId);
+        if (returnTransaction.isPresent()) {
+            if (Objects.equals(returnTransaction.get().getAccount().getUser().getUserId(), userId)) {
+                transactionRepo.deleteById(transactionId);
 
-            return true;
+                return true;
+            }
         }
 
         return false;
