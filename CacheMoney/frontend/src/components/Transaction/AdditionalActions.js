@@ -26,7 +26,7 @@ function AdditionalActions() {
 		<div className="account-details">
 			<div className="account-additional-options">
 				<button
-					class="account-option"
+					className="account-option"
 					value="deposit"
 					onClick={handleOptionSelection}
 				>

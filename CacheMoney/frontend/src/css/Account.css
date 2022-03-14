@@ -1,15 +1,22 @@
+.account-container {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	padding: 10px;
+}
 /* ACCOUNT_LIST */
 .account_list {
 	/*
 	height: 640px;
 	width: 720px;
 	*/
-	max-width: 80%;
+
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
 	overflow-y: auto;
-	margin: auto;
+	width: 50%;
+	margin-left: 0px;
 }
 
 .account_item {
@@ -17,6 +24,7 @@
 	border-radius: 10px;
 	margin-bottom: 4px;
 	height: 120px;
+	width: 100%;
 	display: flex;
 	flex-flow: column;
 }
@@ -138,17 +146,11 @@
 	justify-content: space-between;
 }
 
-.account-container {
-	display: flex;
-	flex-direction: row;
-	/*grid-template-areas: account transaction;
-	grid-template-columns: 50% 50%; */
-}
-
-.account-list {
-	grid-area: account;
-}
-
 .transaction-container {
-	grid-area: transaction;
+}
+
+.account-additional-options button {
+	width: 100px;
+	height: 40px;
+	font-size: 1.2em;
 }
