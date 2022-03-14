@@ -1114,4 +1114,33 @@ So there had to be overrides on the containers to get the theme we were aiming f
 	margin-top: 6px;
   }
   
+  /* Benjamin Popup Styling */
+  #popup-2 {
+	margin: auto;
+	background: #3e4f3d;
+	width: 360px;
+	padding: 5px;
+  }
+
+  #popup-2[style] {
+	  top: auto !important;
+	  bottom: 48px;
+	  left: auto !important;
+	  right: 24px;
+  }
+
+  .popup-arrow {
+	color: none;
+  }
+  .popup-content {
+	top: 20px;
+	box-shadow: rgba(0, 0, 0, 0.16) 0px 0px 3px;
+  }
+  
+  .popup-overlay {
+	background: rgba(0, 0, 0, 0.5);
+  }
+  [data-popup='tooltip'].popup-overlay {
+	background: transparent;
+  } 
   
