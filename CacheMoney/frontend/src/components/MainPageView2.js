@@ -1,30 +1,46 @@
-import React from "react";
-import Navigation from "./NavBar.jsx";
+import React, { useEffect, useState } from "react";
 import Footer from "./Footer.js";
 import AccountList from "./Account/AccountList.js";
 import userStore from "../store/Store.js";
 import NavBar from "./NavBar.js";
 import { useNavigate } from "react-router-dom";
+import Transfer from "./Transaction/Transfer.js";
+import CreateAccount from "./Account/CreateAccount.js";
 
 function MainPageView2() {
 	const navigate = useNavigate();
-	const userData = userStore.getState().userReducer;
-	console.log("Data store: ", userData);
-	//const username = "REVMAN3076";
-	console.log("Name: ", userData.firstName);
+	let userData = userStore.getState().userReducer;
+
+	const [page, setPage] = useState("account-overview");
 
 	const handleLogout = (event) => {
-		// event.preventDefault;
-
 		userStore.dispatch({
 			type: "LOGOUT_USER",
-			payload: ""
+			payload: "",
 		});
 
 		navigate("/");
+	};
 
+	const updateMainPageContent = (event) => {
+		console.log(event.target.id + " was clicked");
+		setPage(event.target.id);
+		mainPageContentComponent(event.target.id);
+	};
 
-	}
+	const mainPageContentComponent = () => {
+		switch (page) {
+			case "account-overview":
+				return <AccountList />;
+			case "create-account":
+				return <CreateAccount />;
+			case "transfer-money":
+				return <Transfer />;
+			default:
+				return <AccountList />;
+		}
+	};
+
 	return (
 		<div className="main-page-container container-view">
 			<div className="header">
@@ -35,16 +51,22 @@ function MainPageView2() {
 					</span>
 				</div>
 				<a href="#">
-					<button id="logout-button" onClick={handleLogout}> Log Out</button>
+					<button id="logout-button" onClick={handleLogout}>
+						{" "}
+						Log Out
+					</button>
 				</a>
 			</div>
 
-			{/* <Navigation /> */}
-			<NavBar />
+			<NavBar handleClick={updateMainPageContent} />
 
 			<div className="main-page-content">
 				{/******* Insert body content here ********/}
-				<AccountList />
+				{mainPageContentComponent()}
+			</div>
+
+			<div className="popup-overlay hidden">
+				{/* Popup to do a deposit/withdrawal */}
 			</div>
 
 			<Footer />
