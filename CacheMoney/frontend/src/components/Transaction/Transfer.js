@@ -18,8 +18,8 @@ function Transfer(props) {
             transactionAmount: ""
         }
     });
-    const [sourceAccount, setSourceAccount] = useState();
-    const [destinationAccount, setDestinationAccount] = useState();
+    const [sourceAccount, setSourceAccount] = useState(null);
+    const [destinationAccount, setDestinationAccount] = useState(null);
 
     // retrieve the url from the config
     const url = config.url;
@@ -39,7 +39,7 @@ function Transfer(props) {
     }
 
     // post transfer transaction
-    const postTransfer = (transaction) => {
+    const postTransfer = () => {
         axios.post(`${url}accounts/transfer`, formData,
         {
             headers: {
@@ -86,6 +86,11 @@ function Transfer(props) {
                         <div className="transfer-amount">
                             <label>Amount</label>
                             <input type="number" min="0.00" step="0.01" id="transfer-input" name="transactionAmount" onChange={handleChange} />
+                        </div>
+
+                        <div className="transfer-description">
+                            <label>Description</label>
+                            <input type="text" id="transfer-description" name="description" onChange={handleChange}></input>
                         </div>
                     </form>
 
