@@ -204,7 +204,6 @@ public class AccountController {
 		if (accountService.transferBetweenAccountsOfOneUser(userId, transfer.getSourceAccountId(),
 				transfer.getDestinationAccountId(), transfer.getTransaction())) {
 
-			System.out.println("in if");
 			return ResponseEntity.ok().build();
 		}
 

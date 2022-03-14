@@ -171,8 +171,13 @@ public class AccountService {
                     // set the current date
                     transaction.setTransactionDate(new Date());
 
-                    // set new balance & store it
+                    // set new balance
                     transaction.setEndingBalance(account.getBalance());
+
+                    // store the amount as a negative
+                    transaction.setTransactionAmount(-transaction.getTransactionAmount());
+                    
+                    // save the transaction
                     transactionRepo.save(transaction);
 
                     // store the updated balance
