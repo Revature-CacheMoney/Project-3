@@ -55,11 +55,14 @@ function AccountList(props) {
 	};
 
 	const handleAccountClick = (event, props, data, triggerEvent) => {
+		// if an account had previously been selected, hide the additional options
+
 		// TODO route to `Transaction` page
 		store.dispatch({
 			type: "UPDATE_CURRENT_ACCOUNT_ID",
 			payload: event.currentTarget.id,
 		});
+		//showAdditionalActions();
 
 		// how to access the associated account id
 		//console.log("store: ", store.getState().accountReducer.currentAccountId);
