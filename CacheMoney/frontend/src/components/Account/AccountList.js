@@ -8,10 +8,13 @@ import config from "../../config.js";
 import store from "../../store/Store.js";
 import CurrencyFormat from "react-currency-format";
 import "../../css/Account.css";
+import AdditionalActions from "../Transaction/AdditionalActions.js";
 
 function AccountList(props) {
 	// local transaction state
-	const [accounts, getAccounts] = useState([]);
+	const [accounts, setAccounts] = useState([]);
+	// setAccounts is the setter function
+	// read state with accounts
 
 	// url
 	const url = config.url;
@@ -19,7 +22,7 @@ function AccountList(props) {
 	// effect hook
 	useEffect(() => {
 		getAllAccounts();
-	});
+	}, [accounts]);
 
 	const getAllAccounts = () => {
 		//${url}users/accounts/${store.getState().userId}
@@ -32,40 +35,62 @@ function AccountList(props) {
 			})
 			.then((response) => {
 				const allAccounts = response.data;
-				getAccounts(allAccounts);
+
+				// Modifying the account object to also have whether displayed or not
+				allAccounts.forEach((account) => {
+					account.showingOptions = false;
+				});
+				setAccounts(allAccounts);
 			})
 			.catch((error) => console.error(`Error: ${error}`));
 	};
 
 	// This occurs when the user has selected an account
 	// it displays additional options (deposit, withdraw, transfer)
-	const showAdditionalActions = () => {
-		const selectedAccountId = store.getState().accountReducer.currentAccountId;
-		// in theory, this should not work if it is an empty string
-		console.log(selectedAccountId);
-		if (selectedAccountId) {
-			return (
-				<div class="account-additional-options">
-					<button class="account-option">Deposit</button>
-					<button class="account-option">Withdrawal</button>
-					<button class="account-option">Transfer</button>
-				</div>
-			);
+	const showAdditionalActions = (acctNum) => {
+		console.log("showAdditionalActions: ", acctNum);
+		if (acctNum == store.getState().accountReducer.currentAccountId) {
+			console.log("Additional Actions should be shown for acct ", acctNum);
+			return <AdditionalActions />;
 		}
 	};
 
+	// When selected, this updates the state
+	// Selected account is showing options, hides old one
+	// acctNum = specified account (clicked or unclicked)
+	// isToggled = boolean, if selected or deselected
+	function updateAccountDisplay(acctNum, isToggled) {
+		console.log("updating " + acctNum + " with: " + isToggled);
+		let modifiedAccounts = accounts;
+		// find the selected account and set its displayoptions to none
+		for (let i = 0; i < modifiedAccounts.length; i++) {
+			let account = modifiedAccounts[i];
+			if (account.accountId === acctNum) {
+				account.showingOptions = isToggled;
+			}
+		}
+		// Update the account state
+		setAccounts(modifiedAccounts);
+	}
+
 	const handleAccountClick = (event, props, data, triggerEvent) => {
 		// if an account had previously been selected, hide the additional options
-
+		const currentlySelectedAccount =
+			store.getState().accountReducer.currentAccountId;
+		if (currentlySelectedAccount) {
+			// hide dropdown from previously selected account
+			//console.log("An id already existed:", currentlySelectedAccount);
+			console.log("updating to show account: ", event.currentTarget.id);
+			updateAccountDisplay(currentlySelectedAccount, false);
+		}
 		// TODO route to `Transaction` page
 		store.dispatch({
 			type: "UPDATE_CURRENT_ACCOUNT_ID",
 			payload: event.currentTarget.id,
 		});
-		//showAdditionalActions();
 
-		// how to access the associated account id
-		//console.log("store: ", store.getState().accountReducer.currentAccountId);
+		// Show additional options for the currently selected account
+		updateAccountDisplay(event.currentTarget.id, true);
 	};
 
 	const content = accounts.map((account) => {
@@ -94,6 +119,7 @@ function AccountList(props) {
 						/>
 					</div>
 				</div>
+				{showAdditionalActions(account.accountId)}
 			</div>
 		);
 	});
