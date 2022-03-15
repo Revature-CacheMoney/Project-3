@@ -3,6 +3,7 @@ package com.revature.cachemoney.backend.beans.services;
 import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.ignoreCase;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -26,7 +27,7 @@ public class UserService {
     private final SecurityConfig passwordEncoder;
 
     private final String emailRegEx = "^[a-zA-Z0-9._-]+@{1}[a-zA-Z0-9-_]+[.]{1}[a-zA-Z0-9]+[a-zA-Z_.-]*$";
-    private final String nameRegEx = "^[a-zA-Z][a-zA-Z -]+[a-zA-Z]$";
+    private final String nameRegEx = "^[a-zA-Z][a-zA-Z' -]+[a-zA-Z]$";
     private final String usernameRegEx = "^[a-zA-Z0-9@~._-]{8,}$";
     private final String passwordRegEx = "^[a-zA-Z0-9@^%$#/\\,;|~._-]{8,50}$";
 
@@ -53,6 +54,10 @@ public class UserService {
             try {
                 // encodes the password for database storage
                 user.setPassword(passwordEncoder.passwordEncoder().encode(user.getPassword()));
+
+                // changing to lowercase so that two usernames that are the same with different cases won't both be accepted
+                user.setEmail(user.getEmail().toLowerCase());
+                user.setUsername(user.getUsername().toLowerCase());
 
                 // save the user in the database
                 userRepo.save(user);
@@ -95,7 +100,7 @@ public class UserService {
             }
         }
 
-        return user;
+        return null;
     }
 
     /**
