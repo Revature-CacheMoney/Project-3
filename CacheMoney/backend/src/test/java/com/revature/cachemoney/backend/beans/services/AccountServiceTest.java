@@ -1,24 +1,25 @@
 package com.revature.cachemoney.backend.beans.services;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.when;
+
 import com.revature.cachemoney.backend.beans.models.Account;
 import com.revature.cachemoney.backend.beans.models.Transaction;
 import com.revature.cachemoney.backend.beans.models.User;
+import com.revature.cachemoney.backend.beans.repositories.AccountRepo;
+import com.revature.cachemoney.backend.beans.repositories.TransactionRepo;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -29,6 +30,11 @@ class AccountServiceTest {
     private UserService userService;
     @Autowired
     private TransactionService transactionService;
+
+    @MockBean
+    private AccountRepo accountRepo;
+    @MockBean
+    private TransactionRepo transactionRepo;
 
     private User tempUser;
 
@@ -43,7 +49,7 @@ class AccountServiceTest {
             userService.deleteAllUsers();
         }
         tempUser = new User("Hank", "Hill", "hankaccounthill@gmail.com", "abcd1234", "accounttest");
-        userService.postUser(tempUser);
+        tempUser.setUserId(1);
 
         // Create accounts (They dont currently have a valid user model under attribute "userId")
         Account checkingAcc = new Account("checking");
@@ -55,6 +61,11 @@ class AccountServiceTest {
         checkingAcc.setUser(tempUser);
         savingsAcc.setUser(tempUser);
         checkingAccWithNickname.setUser(tempUser);
+
+        // setting account ids
+        checkingAcc.setAccountId(1);
+        savingsAcc.setAccountId(2);
+        checkingAccWithNickname.setAccountId(3);
 
         // add accounts to list.
         validAccounts = new LinkedList<>();
@@ -91,7 +102,8 @@ class AccountServiceTest {
 
     @Test
     void getAllAccounts() {
-        assertEquals(3, accountService.getAllAccounts().size());
+        when(accountRepo.findAll()).thenReturn(validAccounts);
+        assertEquals(validAccounts.size(), accountService.getAllAccounts().size());
     }
 
     @Test
@@ -112,16 +124,20 @@ class AccountServiceTest {
 
     @Test
     void deleteAccountById() {
-        List<Account> accountListFromDB = accountService.getAllAccounts();
+        when(accountRepo.findById(validAccounts.get(0).getAccountId())).thenReturn(Optional.empty());
+        assertFalse(accountService.deleteAccountById(
+                validAccounts.get(0).getAccountId(),
+                tempUser.getUserId()));
 
-        for (Account currAcc : accountListFromDB){
+        when(accountRepo.findById(validAccounts.get(0).getAccountId())).thenReturn(Optional.of(validAccounts.get(0)));
+        assertFalse(accountService.deleteAccountById(
+                validAccounts.get(0).getAccountId(),
+                -1));
 
-            assertTrue(accountService.deleteAccountById(currAcc.getAccountId(), currAcc.getUser().getUserId()));
-        }
-
-        assertFalse(accountService.deleteAccountById(0, 1));
-
-        }
+        assertTrue(accountService.deleteAccountById(
+                validAccounts.get(0).getAccountId(),
+                tempUser.getUserId()));
+    }
 
 
     @Test
@@ -130,90 +146,184 @@ class AccountServiceTest {
         //      FROM WHAT YOU GET FROM THE DATABASE. THIS IS WHY "toStringWithoutDate"
         //      WAS CREATED. AS OF 3/13/2022, THE DATES MATCH BUT ARE FORMATTED DIFFERENTLY.
 
-        Date date = new Date();
+        when(accountRepo.findById(validAccounts.get(0).getAccountId())).thenReturn(Optional.empty());
+        assertNull(accountService.getTransactionsById(
+                validAccounts.get(0).getAccountId(),
+                tempUser.getUserId()));
 
-        List<Transaction> transactions = new LinkedList<>();
-        transactions.add(new Transaction(validAccounts.get(0),
-                "my first transaction", date, 12.50, 12.50));
-        accountService.depositToAccount(tempUser.getUserId(), transactions.get(0));
+        when(accountRepo.findById(validAccounts.get(0).getAccountId())).thenReturn(Optional.of(validAccounts.get(0)));
+        when(transactionRepo.findByAccount(validAccounts.get(0))).thenReturn(new LinkedList<Transaction>());
+        assertEquals(new LinkedList<Transaction>(),accountService.getTransactionsById(
+                validAccounts.get(0).getAccountId(),
+                tempUser.getUserId()));
 
-        transactions.get(0).getAccount().setBalance(12.50);
+        assertNull(accountService.getTransactionsById(
+                validAccounts.get(0).getAccountId(),
+               -1));
 
-        assertEquals(transactions.get(0).toStringWithoutDate(), accountService.getTransactionsById(validAccounts.get(0).getAccountId(),
-                validAccounts.get(0).getUser().getUserId()).get(0).toStringWithoutDate());
-        transactionService.deleteAllTransactions();
 
     }
 
     // account used for the following test is the first account in the validAccounts list.
     @Test
     void withdrawFromAccount() {
-        // check to see if you can withdraw from an account with balance 0.
-        // NOTE: ONLY POSITIVE VALUES IN TRANSACTION_AMOUNT ARGUMENT.
         Transaction withdrawal = new Transaction(validAccounts.get(0),
-                "withdrawal after my initial deposit", new Date(), 10.50, 2.50);
-
-        // we assert that this should fail since we dont have sufficient funds.
+               "withdrawal after my initial deposit", new Date(), 10.50, 2.50);
+        when(accountRepo.findById(1)).thenReturn(Optional.empty());
         assertFalse(accountService.withdrawFromAccount(tempUser.getUserId(), withdrawal));
 
-        // check to see if a withdrawal can be made with an account that has sufficient funds.
-        // first we add funds since all accounts created start off with $0.00 in their account
-        Transaction initialDeposit = new Transaction(validAccounts.get(0),
-                "initial deposit to account", new Date(), 12.50, 12.50);
-        accountService.depositToAccount(tempUser.getUserId(), initialDeposit);
+        when(accountRepo.findById(1)).thenReturn(Optional.of(validAccounts.get(0)));
+        assertFalse(accountService.withdrawFromAccount(-1, withdrawal));
 
-        // We retrieve the account from the database and set it equal to the first element in the
-        // validAccount list with a check to make sure that the account is actually present.
-        if (accountService.getAccountByID(validAccounts.get(0).getAccountId(), tempUser.getUserId()).isPresent()) {
-            validAccounts.set(
-                    0,
-                    accountService.getAccountByID(
-                            validAccounts.get(0).getAccountId(),
-                            tempUser.getUserId()).get());
-        }
+        withdrawal.setTransactionAmount(-1.00);
+        assertFalse(accountService.withdrawFromAccount(
+                validAccounts.get(0).getUser().getUserId(),
+                withdrawal));
 
-        // we update the withdrawal transaction to hold the new state of our account
-        // which was retrieved from the database.
-        withdrawal.setAccount(validAccounts.get(0));
+        withdrawal.setTransactionAmount(1.00);
+        assertFalse(accountService.withdrawFromAccount(
+                validAccounts.get(0).getUser().getUserId(),
+                withdrawal));
 
-        // we assert that this transaction should pass since account, funds, and
-        assertTrue(accountService.withdrawFromAccount(tempUser.getUserId(), withdrawal));
+        validAccounts.get(0).setBalance(1000.00);
+        withdrawal.setTransactionAmount(1.00);
+        withdrawal.setDescription(null);
+        when(transactionRepo.save(withdrawal)).thenReturn(withdrawal);
+        when(accountRepo.save(validAccounts.get(0))).thenReturn(validAccounts.get(0));
+
+        assertTrue(accountService.withdrawFromAccount(
+                validAccounts.get(0).getUser().getUserId(),
+                withdrawal));
+
+        withdrawal.setDescription("");
+        assertTrue(accountService.withdrawFromAccount(
+                validAccounts.get(0).getUser().getUserId(),
+                withdrawal));
+
+        withdrawal.setDescription("test");
+        assertTrue(accountService.withdrawFromAccount(
+                validAccounts.get(0).getUser().getUserId(),
+                withdrawal));
 
 
     }
 
-    // note all accounts in validAccounts are tied to 1 user.
+    @Test
+    void depositToAccount(){
+        Transaction deposit = new Transaction(validAccounts.get(0),
+                "deposit", new Date(), 10.50, 2.50);
+        when(accountRepo.findById(1)).thenReturn(Optional.empty());
+        assertFalse(accountService.depositToAccount(tempUser.getUserId(), deposit));
+
+        when(accountRepo.findById(1)).thenReturn(Optional.of(validAccounts.get(0)));
+        assertFalse(accountService.depositToAccount(-1, deposit));
+
+        deposit.setTransactionAmount(-1.00);
+        assertFalse(accountService.depositToAccount(
+                validAccounts.get(0).getUser().getUserId(),
+                deposit));
+
+        validAccounts.get(0).setBalance(1000.00);
+        deposit.setTransactionAmount(1.00);
+        deposit.setDescription(null);
+        when(transactionRepo.save(deposit)).thenReturn(deposit);
+        when(accountRepo.save(validAccounts.get(0))).thenReturn(validAccounts.get(0));
+
+        assertTrue(accountService.depositToAccount(
+                validAccounts.get(0).getUser().getUserId(),
+                deposit));
+
+        deposit.setDescription("");
+        assertTrue(accountService.depositToAccount(
+                validAccounts.get(0).getUser().getUserId(),
+                deposit));
+
+        deposit.setDescription("deposit test");
+        assertTrue(accountService.depositToAccount(
+                validAccounts.get(0).getUser().getUserId(),
+                deposit));
+
+
+
+    }
+
+    /**
+     * Tests only fail cases in AccountService.transferBetweenAccountsOfOneUser.
+     *
+     * */
     @Test
     void transferBetweenAccountsOfOneUser() {
-        // test for valid transaction between 2 accounts owned by the same user.
-        // we will be using the first 2 accounts in the validAccounts list.
+        Transaction transaction= new Transaction(validAccounts.get(0),
+                "transfer", new Date(), 10.50, 2.50);
+        when(accountRepo.findById(validAccounts.get(0).getAccountId())).thenReturn(Optional.empty());
+        when(accountRepo.findById(validAccounts.get(1).getAccountId())).thenReturn(Optional.empty());
 
-        // create transaction to add funds to an account
-        // since they are initialized with $0.00 funds.
-        Transaction initialDeposit = new Transaction(validAccounts.get(0),
-                "initial deposit to account", new Date(), 12.50, 12.50);
-        // add funds to account.
-        accountService.depositToAccount(tempUser.getUserId(), initialDeposit);
-
-        //positive transfer amount to be made.
-        Transaction transferAmount = new Transaction(validAccounts.get(0),
-                "initial deposit to account", new Date(), 12.50, 12.50);
-
-        // Actual test to check if transfer was successful
-        assertTrue(accountService.transferBetweenAccountsOfOneUser(
+        assertFalse(accountService.transferBetweenAccountsOfOneUser(
                 tempUser.getUserId(),
                 validAccounts.get(0).getAccountId(),
                 validAccounts.get(1).getAccountId(),
-                transferAmount));
+                transaction));
 
-        // test for cases where there are insufficient funds in the source account.
+        when(accountRepo.findById(validAccounts.get(0).getAccountId())).thenReturn(Optional.of(validAccounts.get(0)));
+        assertFalse(accountService.transferBetweenAccountsOfOneUser(
+                tempUser.getUserId(),
+                validAccounts.get(0).getAccountId(),
+                validAccounts.get(1).getAccountId(),
+                transaction));
 
-    }
+        when(accountRepo.findById(validAccounts.get(0).getAccountId())).thenReturn(Optional.empty());
+        when(accountRepo.findById(validAccounts.get(1).getAccountId())).thenReturn(Optional.of(validAccounts.get(1)));
+        assertFalse(accountService.transferBetweenAccountsOfOneUser(
+                tempUser.getUserId(),
+                validAccounts.get(0).getAccountId(),
+                validAccounts.get(1).getAccountId(),
+                transaction));
 
-    @Test
-    void sendToAccountOfDifferentUser() {
-        // will not test until other functionality that is part of MVP
-        // is tested. As of 3/12/2022, this is a stretch goal not fully implemented.
+        validAccounts.get(0).getUser().setUserId(-1);
+        when(accountRepo.findById(validAccounts.get(0).getAccountId())).thenReturn(Optional.of(validAccounts.get(0)));
+        assertFalse(accountService.transferBetweenAccountsOfOneUser(
+                tempUser.getUserId(),
+                validAccounts.get(0).getAccountId(),
+                validAccounts.get(1).getAccountId(),
+                transaction));
+
+        validAccounts.get(0).getUser().setUserId(tempUser.getUserId());
+        when(accountRepo.findById(validAccounts.get(0).getAccountId())).thenReturn(Optional.of(validAccounts.get(0)));
+        Transaction destTransaction = new Transaction(validAccounts.get(1), transaction.getDescription(), null,
+                transaction.getTransactionAmount(), null);
+
+
+        // mockedAccountService had to be created to mock methods inside AccountService.
+//        when(accountRepo.findById(validAccounts.get(0).getAccountId())).thenReturn(Optional.of(validAccounts.get(0)));
+//        when(accountService.withdrawFromAccount(tempUser.getUserId(), transaction)).thenReturn(false);
+//        when(accountService.depositToAccount(tempUser.getUserId(), destTransaction)).thenReturn(false);
+//        assertFalse(accountService.transferBetweenAccountsOfOneUser(
+//                tempUser.getUserId(),
+//                validAccounts.get(0).getAccountId(),
+//                validAccounts.get(1).getAccountId(),
+//                transaction));
+//
+//        when(accountService.withdrawFromAccount(tempUser.getUserId(), transaction)).thenReturn(true);
+//        assertFalse(accountService.transferBetweenAccountsOfOneUser(
+//                tempUser.getUserId(),
+//                validAccounts.get(0).getAccountId(),
+//                validAccounts.get(1).getAccountId(),
+//                transaction));
+//
+//        when(accountService.withdrawFromAccount(tempUser.getUserId(), transaction)).thenReturn(false);
+//        when(accountService.depositToAccount(tempUser.getUserId(), destTransaction)).thenReturn(true);
+//        assertFalse(accountService.transferBetweenAccountsOfOneUser(
+//                tempUser.getUserId(),
+//                validAccounts.get(0).getAccountId(),
+//                validAccounts.get(1).getAccountId(),
+//                transaction));
+
+//        when(accountService.withdrawFromAccount(tempUser.getUserId(), transaction)).thenReturn(true);
+//        assertTrue(accountService.transferBetweenAccountsOfOneUser(
+//                tempUser.getUserId(),
+//                validAccounts.get(0).getAccountId(),
+//                validAccounts.get(1).getAccountId(),
+//                transaction));
 
     }
 

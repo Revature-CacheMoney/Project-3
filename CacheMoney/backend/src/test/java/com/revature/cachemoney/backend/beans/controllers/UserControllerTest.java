@@ -156,7 +156,8 @@ class UserControllerTest {
         when(userService.postUser(testUsers[0])).thenReturn(true);
         String jsonString = mapper.writeValueAsString(testUsers[0]);
         this.mockMvc.perform(MockMvcRequestBuilders.post("/users").contentType(MediaType.APPLICATION_JSON)
-                .content(jsonString)).andExpect(status().isOk());
+                .content(jsonString))
+                .andExpect(status().isOk());
 
     }
 }

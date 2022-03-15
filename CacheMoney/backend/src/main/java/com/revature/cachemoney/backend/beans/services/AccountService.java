@@ -54,11 +54,15 @@ public class AccountService {
     public Boolean postAccount(Account account, Integer userId) {
 
         if (account.getType().equals(accountTypes[0]) || account.getType().equals(accountTypes[1])) {
+
             if (account.getUser().getUserId() == userId) {
+
                 accountRepo.save(account);
+
                 return true;
             }
         }
+
         return false;
     }
 
@@ -81,7 +85,7 @@ public class AccountService {
         Optional<Account> account = accountRepo.findById(accountId);
         if (account.isPresent()) {
             if (Objects.equals(account.get().getUser().getUserId(), userId)) {
-                return (ArrayList<Transaction>) transactionRepo.findByAccount(accountRepo.getById(accountId));
+                return transactionRepo.findByAccount(accountRepo.getById(accountId));
             }
         }
         return null;
@@ -169,15 +173,13 @@ public class AccountService {
         if (optAccount.isPresent()) {
             // placeholder account
             Account account = optAccount.get();
-
             // transaction amount holder
             Double amount = transaction.getTransactionAmount();
 
             // verify the account belongs to the user
-            if (account.getUser().getUserId() == userId) {
+            if (Objects.equals(account.getUser().getUserId(), userId)) {
                 // force decimal to be 2 places
                 amount = Math.round(amount * 100) / 100.0;
-
                 // check if the amount is positive
                 if ((amount >= 0) && (amount <= account.getBalance())) {
                     // update the balance locally
@@ -219,7 +221,6 @@ public class AccountService {
      */
     public Boolean transferBetweenAccountsOfOneUser(Integer userId, Integer sourceAccountId, Integer destAccountId,
             Transaction transaction) {
-
         // optional accounts
         Optional<Account> source = accountRepo.findById(sourceAccountId);
         Optional<Account> dest = accountRepo.findById(destAccountId);
@@ -235,7 +236,6 @@ public class AccountService {
 
             // validates that the source & destination User IDs match
             if (source.get().getUser().getUserId() == dest.get().getUser().getUserId()) {
-
                 // attempt to withdraw & deposit
                 if (withdrawFromAccount(userId, transaction) && depositToAccount(userId, destTransaction)) {
                     // transfer success;
