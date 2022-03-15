@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import Deposit from "./Deposit.js";
 import Withdraw from "./Withdraw.js";
 import Transfer from "./Transfer.js";
 
 function AdditionalActions() {
-	let additionalContent = (type) => {
-		switch (type) {
+	const [submenu, setSubMenu] = useState("");
+
+	let additionalContent = (submenu) => {
+		switch (submenu) {
 			case "deposit":
 				return <Deposit />;
 			case "withdraw":
@@ -19,7 +21,9 @@ function AdditionalActions() {
 
 	const handleOptionSelection = (event) => {
 		console.log(event.target.value);
-		additionalContent(event.target.value);
+		setSubMenu(event.target.value);
+		console.log(submenu);
+		additionalContent(submenu);
 	};
 
 	return (
@@ -47,7 +51,9 @@ function AdditionalActions() {
 					Transfer
 				</button>
 			</div>
-			<div className="additional-options-content">{additionalContent}</div>
+			<div className="additional-options-content">
+				{additionalContent(submenu)}
+			</div>
 		</div>
 	);
 }

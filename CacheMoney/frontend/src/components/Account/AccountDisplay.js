@@ -18,7 +18,9 @@ function AccountDisplay() {
 		if (currentlySelectedAccount) {
 			return (
 				<>
-					<div id="account-display-header">{account.name}</div>
+					<div id="account-display-header">
+						<h2>{account.name}</h2>
+					</div>
 					<AdditionalActions />
 					<br />
 					<TransactionFilter />

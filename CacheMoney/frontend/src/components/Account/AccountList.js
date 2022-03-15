@@ -22,7 +22,7 @@ function AccountList(props) {
 	// effect hook
 	useEffect(() => {
 		getAllAccounts();
-		console.log("Use effect has been called a lot");
+		console.log("Use effect has been called");
 	}, []);
 	//}, [accounts]);
 
@@ -89,33 +89,31 @@ function AccountList(props) {
 
 	const content = accounts.map((account) => {
 		return (
-			<>
-				<div
-					className="account_item"
-					key={account.accountId}
-					id={account.accountId}
-					onClick={handleAccountClick}
-				>
-					<div className="account_name">
-						<p>
-							{account.name} (***{account.accountId.toString().slice(-4)})
-						</p>
+			<div
+				className="account_item"
+				key={account.accountId}
+				id={account.accountId}
+				onClick={handleAccountClick}
+			>
+				<div className="account_name">
+					<p>
+						{account.name} (***{account.accountId.toString().slice(-4)})
+					</p>
+				</div>
+				<div className="account_item_info">
+					<div className="account_type">
+						<p>{account.type}</p>
 					</div>
-					<div className="account_item_info">
-						<div className="account_type">
-							<p>{account.type}</p>
-						</div>
-						<div className="account_balance">
-							<CurrencyFormat
-								value={account.balance}
-								displayType={"text"}
-								thousandSeparator={true}
-								prefix={"$"}
-							/>
-						</div>
+					<div className="account_balance">
+						<CurrencyFormat
+							value={account.balance}
+							displayType={"text"}
+							thousandSeparator={true}
+							prefix={"$"}
+						/>
 					</div>
 				</div>
-			</>
+			</div>
 		);
 	});
 
