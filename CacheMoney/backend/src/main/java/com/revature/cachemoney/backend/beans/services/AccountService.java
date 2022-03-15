@@ -1,5 +1,7 @@
 package com.revature.cachemoney.backend.beans.services;
 
+import java.util.*;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -22,6 +24,7 @@ import org.springframework.stereotype.Service;
 public class AccountService {
     private final AccountRepo accountRepo;
     private final TransactionRepo transactionRepo;
+    private final String[] accountTypes = { "checking", "savings" };
 
     @Autowired
     public AccountService(AccountRepo accountRepo, TransactionRepo transactionRepo) {
@@ -35,6 +38,7 @@ public class AccountService {
      * @return List of Accounts
      */
     public List<Account> getAllAccounts() {
+
         return accountRepo.findAll();
     }
 
@@ -46,11 +50,16 @@ public class AccountService {
      * @return Account associated with the User
      */
     public Optional<Account> getAccountByID(Integer accountId, Integer userId) {
-        if (accountRepo.getById(accountId).getUser().getUserId() == userId) {
-            return accountRepo.findById(accountId);
+        Optional<Account> returnAccount = accountRepo.findById(accountId);
+
+        if (returnAccount.isPresent()) {
+            if (Objects.equals(returnAccount.get().getUser().getUserId(), userId)) {
+                return accountRepo.findById(accountId);
+            }
         }
 
         return Optional.empty();
+
     }
 
     /**
@@ -61,10 +70,15 @@ public class AccountService {
      * @return (true | false) if the User owns the Account
      */
     public Boolean postAccount(Account account, Integer userId) {
-        if (account.getUser().getUserId() == userId) {
-            accountRepo.save(account);
 
-            return true;
+        if (account.getType().equals(accountTypes[0]) || account.getType().equals(accountTypes[1])) {
+
+            if (account.getUser().getUserId() == userId) {
+
+                accountRepo.save(account);
+
+                return true;
+            }
         }
 
         return false;
@@ -78,10 +92,13 @@ public class AccountService {
      * @return (true | false) if the User owns the Account
      */
     public Boolean deleteAccountById(Integer accountId, Integer userId) {
-        if (accountRepo.getById(accountId).getUser().getUserId() == userId) {
-            accountRepo.deleteById(accountId);
 
-            return true;
+        Optional<Account> returnAccount = accountRepo.findById(accountId);
+        if (returnAccount.isPresent()) {
+            if (Objects.equals(returnAccount.get().getUser().getUserId(), userId)) {
+                accountRepo.deleteById(accountId);
+                return true;
+            }
         }
 
         return false;
@@ -95,10 +112,12 @@ public class AccountService {
      * @return List of Transactions associated with the Account
      */
     public List<Transaction> getTransactionsById(Integer accountId, Integer userId) {
-        if (accountRepo.getById(accountId).getUser().getUserId() == userId) {
-            return (ArrayList<Transaction>) transactionRepo.findByAccount(accountRepo.getById(accountId));
+        Optional<Account> account = accountRepo.findById(accountId);
+        if (account.isPresent()) {
+            if (Objects.equals(account.get().getUser().getUserId(), userId)) {
+                return transactionRepo.findByAccount(accountRepo.getById(accountId));
+            }
         }
-
         return null;
     }
 
@@ -107,9 +126,9 @@ public class AccountService {
      * Deposit to an amount to an Account provided the Account's ID.
      * Creates a transaction with a custom description associated with the deposit.
      * 
-     * @param accountId associated with an Account
-     * @param amount    to deposit
-     * @param desc      description for the transaction
+     * @param userId      to verify the User owns the Account
+     * @param transaction containing the accountId, the amount, & (optionally) a
+     *                    description
      * @return (true | false) based on deposit status
      */
     public Boolean depositToAccount(Integer userId, Transaction transaction) {
@@ -163,9 +182,9 @@ public class AccountService {
      * Creates a transaction with a custom description associated with the
      * withdrawal.
      * 
-     * @param accountId associated with an Account
-     * @param amount    to withdraw
-     * @param desc      description for the transaction
+     * @param userId      to verify the User owns the Account
+     * @param transaction containing the accountId, the amount, & (optionally) a
+     *                    description
      * @return (true | false) based on withdrawal status
      */
     public Boolean withdrawFromAccount(Integer userId, Transaction transaction) {
@@ -175,15 +194,13 @@ public class AccountService {
         if (optAccount.isPresent()) {
             // placeholder account
             Account account = optAccount.get();
-
             // transaction amount holder
             Double amount = transaction.getTransactionAmount();
 
             // verify the account belongs to the user
-            if (account.getUser().getUserId() == userId) {
+            if (Objects.equals(account.getUser().getUserId(), userId)) {
                 // force decimal to be 2 places
                 amount = Math.round(amount * 100) / 100.0;
-
                 // check if the amount is positive
                 if ((amount >= 0) && (amount <= account.getBalance())) {
                     // update the balance locally
@@ -222,15 +239,14 @@ public class AccountService {
     /**
      * Transfer money between two Accounts of the same User.
      * 
+     * @param userId          to verify the User owns the Account
      * @param sourceAccountId of Account to transfer from
      * @param destAccountId   of Account to transfer to
-     * @param amount          to transfer
-     * @param desc            description for the transaction
+     * @param transaction     containing description & amount
      * @return (true | false) based on transfer status
      */
     public Boolean transferBetweenAccountsOfOneUser(Integer userId, Integer sourceAccountId, Integer destAccountId,
             Transaction transaction) {
-
         // optional accounts
         Optional<Account> source = accountRepo.findById(sourceAccountId);
         Optional<Account> dest = accountRepo.findById(destAccountId);
@@ -248,7 +264,8 @@ public class AccountService {
             if (source.get().getUser().getUserId() == dest.get().getUser().getUserId()) {
                 // attempt to withdraw & deposit
                 if (withdrawFromAccount(userId, transaction) && depositToAccount(userId, destTransaction)) {
-                    // transfer success
+                    // transfer success;
+
                     return true;
                 }
             }
@@ -257,4 +274,14 @@ public class AccountService {
         // transfer fail
         return false;
     }
+
+    /**
+     *
+     * ******************STRICTLY FOR TESTING PURPOSES*********************
+     *
+     */
+    public void deleteAllAccounts() {
+        accountRepo.deleteAll();
+    }
+
 }

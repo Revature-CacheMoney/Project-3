@@ -1,6 +1,7 @@
 package com.revature.cachemoney.backend.beans.services;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import com.revature.cachemoney.backend.beans.models.Transaction;
@@ -40,8 +41,11 @@ public class TransactionService {
      * @return Transaction associated with the User
      */
     public Optional<Transaction> getTransactionById(Integer transactionId, Integer userId) {
-        if (transactionRepo.getById(transactionId).getAccount().getUser().getUserId() == userId) {
-            return transactionRepo.findById(transactionId);
+        Optional<Transaction> returnTransaction = transactionRepo.findById(transactionId);
+        if (returnTransaction.isPresent()) {
+            if (Objects.equals(returnTransaction.get().getAccount().getUser().getUserId(), userId)) {
+                return transactionRepo.findById(transactionId);
+            }
         }
 
         return Optional.empty();
@@ -55,12 +59,24 @@ public class TransactionService {
      * @return (true | false) if the User is associated with the Transaction
      */
     public Boolean deleteTransactionById(Integer transactionId, Integer userId) {
-        if (transactionRepo.getById(transactionId).getAccount().getUser().getUserId() == userId) {
-            transactionRepo.deleteById(transactionId);
+        Optional<Transaction> returnTransaction = transactionRepo.findById(transactionId);
+        if (returnTransaction.isPresent()) {
+            if (Objects.equals(returnTransaction.get().getAccount().getUser().getUserId(), userId)) {
+                transactionRepo.deleteById(transactionId);
 
-            return true;
+                return true;
+            }
         }
 
         return false;
+    }
+
+    /**
+     *
+     * ******************STRICTLY FOR TESTING PURPOSES*********************
+     *
+     * */
+    public void deleteAllTransactions(){
+        transactionRepo.deleteAll();
     }
 }

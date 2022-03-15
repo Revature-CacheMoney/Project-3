@@ -1,36 +1,55 @@
 package com.revature.cachemoney.backend.beans.services;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.when;
+
 import com.revature.cachemoney.backend.beans.models.Account;
+import com.revature.cachemoney.backend.beans.models.Transaction;
 import com.revature.cachemoney.backend.beans.models.User;
+import com.revature.cachemoney.backend.beans.repositories.AccountRepo;
+import com.revature.cachemoney.backend.beans.repositories.TransactionRepo;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import java.util.LinkedList;
-import java.util.List;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class AccountServiceTest {
     @Autowired
-    AccountService accountService;
-
+    private AccountService accountService;
     @Autowired
     private UserService userService;
-    
+    @Autowired
+    private TransactionService transactionService;
+
+    @MockBean
+    private AccountRepo accountRepo;
+    @MockBean
+    private TransactionRepo transactionRepo;
+
     private User tempUser;
 
     private List<Account> validAccounts;
 
     @BeforeEach
-    void populateDBWithUserandAccounts(){
+    void populateDBWithUserandAccounts() {
+        if (userService.getAllUsers().size() != 0) {
+            if (accountService.getAllAccounts().size() != 0) {
+                accountService.deleteAllAccounts();
+            }
+            userService.deleteAllUsers();
+        }
         tempUser = new User("Hank", "Hill", "hankaccounthill@gmail.com", "abcd1234", "accounttest");
-        userService.postUser(tempUser);
+        tempUser.setUserId(1);
 
         // Create accounts (They dont currently have a valid user model under attribute "userId")
         Account checkingAcc = new Account("checking");
@@ -38,9 +57,15 @@ class AccountServiceTest {
         Account checkingAccWithNickname = new Account("checking", "secret account");
 
         //populate userId with a user that exists in database
+
         checkingAcc.setUser(tempUser);
         savingsAcc.setUser(tempUser);
         checkingAccWithNickname.setUser(tempUser);
+
+        // setting account ids
+        checkingAcc.setAccountId(1);
+        savingsAcc.setAccountId(2);
+        checkingAccWithNickname.setAccountId(3);
 
         // add accounts to list.
         validAccounts = new LinkedList<>();
@@ -49,16 +74,20 @@ class AccountServiceTest {
         validAccounts.add(checkingAccWithNickname);
 
         // persist accounts to database
-        for (Account validAcc : validAccounts){
-            //accountService.postAccount(validAcc);
+        for (Account validAcc : validAccounts) {
+            accountService.postAccount(validAcc, validAcc.getUser().getUserId());
         }
-
     }
 
     @AfterEach
-    void deleteDBData(){
-
+    void deleteDBData() {
+        if (transactionService.getAllTransactions().size() != 0){
+            transactionService.deleteAllTransactions();
+        }
         //accountService.deleteAllAccounts();
+        if (accountService.getAllAccounts().size() != 0){
+            accountService.deleteAllAccounts();
+        }
         userService.deleteAllUsers();
 
         // must be set to null because after models are persisted
@@ -71,10 +100,10 @@ class AccountServiceTest {
     }
 
 
-
     @Test
     void getAllAccounts() {
-        assertEquals(3, accountService.getAllAccounts().size());
+        when(accountRepo.findAll()).thenReturn(validAccounts);
+        assertEquals(validAccounts.size(), accountService.getAllAccounts().size());
     }
 
     @Test
@@ -82,34 +111,220 @@ class AccountServiceTest {
 
         List<Account> accountListFromDB = accountService.getAllAccounts();
 
-        for (Account currAcc : accountListFromDB){
-            //assertTrue(accountService.getAccountByID(currAcc.getAccountId()).isPresent());
+        for (Account currAcc : accountListFromDB) {
+
+            assertTrue(accountService.getAccountByID(currAcc.getAccountId(),
+                    currAcc.getUser().getUserId()).isPresent());
         }
 
-        //assertFalse(accountService.getAccountByID(0).isPresent());
+        assertFalse(accountService.getAccountByID(0, 1).isPresent());
 
     }
-
-
 
 
     @Test
     void deleteAccountById() {
-        List<Account> accountListFromDB = accountService.getAllAccounts();
+        when(accountRepo.findById(validAccounts.get(0).getAccountId())).thenReturn(Optional.empty());
+        assertFalse(accountService.deleteAccountById(
+                validAccounts.get(0).getAccountId(),
+                tempUser.getUserId()));
 
-        for (Account currAcc : accountListFromDB){
-            //assertTrue(accountService.deleteAccountById(currAcc.getAccountId()));
-        }
+        when(accountRepo.findById(validAccounts.get(0).getAccountId())).thenReturn(Optional.of(validAccounts.get(0)));
+        assertFalse(accountService.deleteAccountById(
+                validAccounts.get(0).getAccountId(),
+                -1));
 
-        //assertFalse(accountService.deleteAccountById(0));
-
+        assertTrue(accountService.deleteAccountById(
+                validAccounts.get(0).getAccountId(),
+                tempUser.getUserId()));
     }
-
-
 
 
     @Test
     void getTransactionsById() {
+        // NOTE: THE DATE VALUE BEFORE THE TRANSACTION IS PERSISTED IS DIFFERENT
+        //      FROM WHAT YOU GET FROM THE DATABASE. THIS IS WHY "toStringWithoutDate"
+        //      WAS CREATED. AS OF 3/13/2022, THE DATES MATCH BUT ARE FORMATTED DIFFERENTLY.
+
+        when(accountRepo.findById(validAccounts.get(0).getAccountId())).thenReturn(Optional.empty());
+        assertNull(accountService.getTransactionsById(
+                validAccounts.get(0).getAccountId(),
+                tempUser.getUserId()));
+
+        when(accountRepo.findById(validAccounts.get(0).getAccountId())).thenReturn(Optional.of(validAccounts.get(0)));
+        when(transactionRepo.findByAccount(validAccounts.get(0))).thenReturn(new LinkedList<Transaction>());
+        assertEquals(new LinkedList<Transaction>(),accountService.getTransactionsById(
+                validAccounts.get(0).getAccountId(),
+                tempUser.getUserId()));
+
+        assertNull(accountService.getTransactionsById(
+                validAccounts.get(0).getAccountId(),
+               -1));
+
+
+    }
+
+    // account used for the following test is the first account in the validAccounts list.
+    @Test
+    void withdrawFromAccount() {
+        Transaction withdrawal = new Transaction(validAccounts.get(0),
+               "withdrawal after my initial deposit", new Date(), 10.50, 2.50);
+        when(accountRepo.findById(1)).thenReturn(Optional.empty());
+        assertFalse(accountService.withdrawFromAccount(tempUser.getUserId(), withdrawal));
+
+        when(accountRepo.findById(1)).thenReturn(Optional.of(validAccounts.get(0)));
+        assertFalse(accountService.withdrawFromAccount(-1, withdrawal));
+
+        withdrawal.setTransactionAmount(-1.00);
+        assertFalse(accountService.withdrawFromAccount(
+                validAccounts.get(0).getUser().getUserId(),
+                withdrawal));
+
+        withdrawal.setTransactionAmount(1.00);
+        assertFalse(accountService.withdrawFromAccount(
+                validAccounts.get(0).getUser().getUserId(),
+                withdrawal));
+
+        validAccounts.get(0).setBalance(1000.00);
+        withdrawal.setTransactionAmount(1.00);
+        withdrawal.setDescription(null);
+        when(transactionRepo.save(withdrawal)).thenReturn(withdrawal);
+        when(accountRepo.save(validAccounts.get(0))).thenReturn(validAccounts.get(0));
+
+        assertTrue(accountService.withdrawFromAccount(
+                validAccounts.get(0).getUser().getUserId(),
+                withdrawal));
+
+        withdrawal.setDescription("");
+        assertTrue(accountService.withdrawFromAccount(
+                validAccounts.get(0).getUser().getUserId(),
+                withdrawal));
+
+        withdrawal.setDescription("test");
+        assertTrue(accountService.withdrawFromAccount(
+                validAccounts.get(0).getUser().getUserId(),
+                withdrawal));
+
+
+    }
+
+    @Test
+    void depositToAccount(){
+        Transaction deposit = new Transaction(validAccounts.get(0),
+                "deposit", new Date(), 10.50, 2.50);
+        when(accountRepo.findById(1)).thenReturn(Optional.empty());
+        assertFalse(accountService.depositToAccount(tempUser.getUserId(), deposit));
+
+        when(accountRepo.findById(1)).thenReturn(Optional.of(validAccounts.get(0)));
+        assertFalse(accountService.depositToAccount(-1, deposit));
+
+        deposit.setTransactionAmount(-1.00);
+        assertFalse(accountService.depositToAccount(
+                validAccounts.get(0).getUser().getUserId(),
+                deposit));
+
+        validAccounts.get(0).setBalance(1000.00);
+        deposit.setTransactionAmount(1.00);
+        deposit.setDescription(null);
+        when(transactionRepo.save(deposit)).thenReturn(deposit);
+        when(accountRepo.save(validAccounts.get(0))).thenReturn(validAccounts.get(0));
+
+        assertTrue(accountService.depositToAccount(
+                validAccounts.get(0).getUser().getUserId(),
+                deposit));
+
+        deposit.setDescription("");
+        assertTrue(accountService.depositToAccount(
+                validAccounts.get(0).getUser().getUserId(),
+                deposit));
+
+        deposit.setDescription("deposit test");
+        assertTrue(accountService.depositToAccount(
+                validAccounts.get(0).getUser().getUserId(),
+                deposit));
+
+
+
+    }
+
+    /**
+     * Tests only fail cases in AccountService.transferBetweenAccountsOfOneUser.
+     *
+     * */
+    @Test
+    void transferBetweenAccountsOfOneUser() {
+        Transaction transaction= new Transaction(validAccounts.get(0),
+                "transfer", new Date(), 10.50, 2.50);
+        when(accountRepo.findById(validAccounts.get(0).getAccountId())).thenReturn(Optional.empty());
+        when(accountRepo.findById(validAccounts.get(1).getAccountId())).thenReturn(Optional.empty());
+
+        assertFalse(accountService.transferBetweenAccountsOfOneUser(
+                tempUser.getUserId(),
+                validAccounts.get(0).getAccountId(),
+                validAccounts.get(1).getAccountId(),
+                transaction));
+
+        when(accountRepo.findById(validAccounts.get(0).getAccountId())).thenReturn(Optional.of(validAccounts.get(0)));
+        assertFalse(accountService.transferBetweenAccountsOfOneUser(
+                tempUser.getUserId(),
+                validAccounts.get(0).getAccountId(),
+                validAccounts.get(1).getAccountId(),
+                transaction));
+
+        when(accountRepo.findById(validAccounts.get(0).getAccountId())).thenReturn(Optional.empty());
+        when(accountRepo.findById(validAccounts.get(1).getAccountId())).thenReturn(Optional.of(validAccounts.get(1)));
+        assertFalse(accountService.transferBetweenAccountsOfOneUser(
+                tempUser.getUserId(),
+                validAccounts.get(0).getAccountId(),
+                validAccounts.get(1).getAccountId(),
+                transaction));
+
+        validAccounts.get(0).getUser().setUserId(-1);
+        when(accountRepo.findById(validAccounts.get(0).getAccountId())).thenReturn(Optional.of(validAccounts.get(0)));
+        assertFalse(accountService.transferBetweenAccountsOfOneUser(
+                tempUser.getUserId(),
+                validAccounts.get(0).getAccountId(),
+                validAccounts.get(1).getAccountId(),
+                transaction));
+
+        validAccounts.get(0).getUser().setUserId(tempUser.getUserId());
+        when(accountRepo.findById(validAccounts.get(0).getAccountId())).thenReturn(Optional.of(validAccounts.get(0)));
+        Transaction destTransaction = new Transaction(validAccounts.get(1), transaction.getDescription(), null,
+                transaction.getTransactionAmount(), null);
+
+
+        // mockedAccountService had to be created to mock methods inside AccountService.
+//        when(accountRepo.findById(validAccounts.get(0).getAccountId())).thenReturn(Optional.of(validAccounts.get(0)));
+//        when(accountService.withdrawFromAccount(tempUser.getUserId(), transaction)).thenReturn(false);
+//        when(accountService.depositToAccount(tempUser.getUserId(), destTransaction)).thenReturn(false);
+//        assertFalse(accountService.transferBetweenAccountsOfOneUser(
+//                tempUser.getUserId(),
+//                validAccounts.get(0).getAccountId(),
+//                validAccounts.get(1).getAccountId(),
+//                transaction));
+//
+//        when(accountService.withdrawFromAccount(tempUser.getUserId(), transaction)).thenReturn(true);
+//        assertFalse(accountService.transferBetweenAccountsOfOneUser(
+//                tempUser.getUserId(),
+//                validAccounts.get(0).getAccountId(),
+//                validAccounts.get(1).getAccountId(),
+//                transaction));
+//
+//        when(accountService.withdrawFromAccount(tempUser.getUserId(), transaction)).thenReturn(false);
+//        when(accountService.depositToAccount(tempUser.getUserId(), destTransaction)).thenReturn(true);
+//        assertFalse(accountService.transferBetweenAccountsOfOneUser(
+//                tempUser.getUserId(),
+//                validAccounts.get(0).getAccountId(),
+//                validAccounts.get(1).getAccountId(),
+//                transaction));
+
+//        when(accountService.withdrawFromAccount(tempUser.getUserId(), transaction)).thenReturn(true);
+//        assertTrue(accountService.transferBetweenAccountsOfOneUser(
+//                tempUser.getUserId(),
+//                validAccounts.get(0).getAccountId(),
+//                validAccounts.get(1).getAccountId(),
+//                transaction));
+
     }
 
 
@@ -119,7 +334,7 @@ class AccountServiceTest {
         void populateDB(){
             if (userService.getAllUsers().size() != 0) {
                 if (accountService.getAllAccounts().size() != 0){
-                    //accountService.deleteAllAccounts();
+                    accountService.deleteAllAccounts();
                 }
                 userService.deleteAllUsers();
                 tempUser = new User("Hank", "Hill", "hankaccounthill@gmail.com", "abcd1234", "accounttest");
@@ -131,31 +346,29 @@ class AccountServiceTest {
             if (accountService.getAllAccounts().size() != 0){
                 //accountService.deleteAllAccounts();
             }
-
-
         }
 
         @AfterEach
         void deleteDBData(){
-            //accountService.deleteAllAccounts();
+            accountService.deleteAllAccounts();
             userService.deleteAllUsers();
-
             tempUser = null;
 
         }
 
         @Test
         void postAccount() {
-            System.out.println("account service test postaccount");
 
             Account testChecking = new Account("checking");
             Account testIncorrectType = new Account("blahblah");
-            //testChecking.setUserId(tempUser);
-            //testIncorrectType.setUserId(tempUser);
+
+            testChecking.setUser(tempUser);
+            testIncorrectType.setUser(tempUser);
 
 
-            //assertEquals(false, accountService.postAccount(testIncorrectType));
-            //assertEquals(true, accountService.postAccount(testChecking));
+            assertEquals(false, accountService.postAccount(testIncorrectType, tempUser.getUserId()));
+            assertEquals(true, accountService.postAccount(testChecking, tempUser.getUserId()));
+            // need to check for valid account but incorrect user id
 
 
         }

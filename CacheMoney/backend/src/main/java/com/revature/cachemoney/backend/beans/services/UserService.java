@@ -89,13 +89,15 @@ public class UserService {
         return false;
     }
 
-    /**
-     * Service method to DELETE a User by ID.
-     * 
-     * @param userId of User to delete
-     */
-    public void deleteUserById(Integer userId) {
-        userRepo.deleteById(userId);
+    // DELETE a user by ID
+    public Boolean deleteUserById(Integer id) {
+        try{
+            userRepo.deleteById(id);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+
     }
 
     /**

@@ -89,6 +89,7 @@ public class AccountController {
 			@RequestBody Account account) {
 
 		if (accountService.postAccount(account, userId)) {
+
 			return ResponseEntity.ok().build();
 		}
 
@@ -191,7 +192,7 @@ public class AccountController {
 	 * 
 	 * @param token       for current session
 	 * @param userId      for current User
-	 * @param transaction for User's Transaction
+	 * @param transfer for User's Transaction
 	 * @return OK | Bad Request based on POST success
 	 */
 	@PostMapping(value = "/transfer")

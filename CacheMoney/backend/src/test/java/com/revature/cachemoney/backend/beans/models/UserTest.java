@@ -116,25 +116,25 @@ class UserTest {
     @Test
     void testToString() {
         User user = new User();
-        String expectedString = "User(user_id=null, firstName=null, lastName=null, email=null, username=null, password=null)";
+        String expectedString = "User(userId=null, firstName=null, lastName=null, email=null, username=null, password=null)";
         assertEquals(expectedString, user.toString());
         user.setUserId(1);
-        expectedString = "User(user_id=1, firstName=null, lastName=null, email=null, username=null, password=null)";
+        expectedString = "User(userId=1, firstName=null, lastName=null, email=null, username=null, password=null)";
         assertEquals(expectedString, user.toString());
         user.setFirstName("firstname");
-        expectedString = "User(user_id=1, firstName=firstname, lastName=null, email=null, username=null, password=null)";
+        expectedString = "User(userId=1, firstName=firstname, lastName=null, email=null, username=null, password=null)";
         assertEquals(expectedString, user.toString());
         user.setLastName("lastname");
-        expectedString = "User(user_id=1, firstName=firstname, lastName=lastname, email=null, username=null, password=null)";
+        expectedString = "User(userId=1, firstName=firstname, lastName=lastname, email=null, username=null, password=null)";
         assertEquals(expectedString, user.toString());
         user.setEmail("email@gmail.com");
-        expectedString = "User(user_id=1, firstName=firstname, lastName=lastname, email=email@gmail.com, username=null, password=null)";
+        expectedString = "User(userId=1, firstName=firstname, lastName=lastname, email=email@gmail.com, username=null, password=null)";
         assertEquals(expectedString, user.toString());
         user.setUsername("username");
-        expectedString = "User(user_id=1, firstName=firstname, lastName=lastname, email=email@gmail.com, username=username, password=null)";
+        expectedString = "User(userId=1, firstName=firstname, lastName=lastname, email=email@gmail.com, username=username, password=null)";
         assertEquals(expectedString, user.toString());
         user.setPassword("password");
-        expectedString = "User(user_id=1, firstName=firstname, lastName=lastname, email=email@gmail.com, username=username, password=password)";
+        expectedString = "User(userId=1, firstName=firstname, lastName=lastname, email=email@gmail.com, username=username, password=password)";
         assertEquals(expectedString, user.toString());
 
 
