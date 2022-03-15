@@ -80,6 +80,15 @@ class ActionProvider {
     });
     this.addMessageToState(message);
   };
+
+  handleInformation = () => {
+    const message = this.createChatBotMessage("Here is a link to our readMe on github for our project: \n", {
+      widget: "Information",
+      loading: true,
+      terminateLoading: true,
+    });
+    this.addMessageToState(message);
+  }
   handleJoke = () => {
     var jokes = [
       "I'm afraid for the calendar. Its days are numbered.",
