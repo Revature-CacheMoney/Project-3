@@ -2,10 +2,6 @@ import React from "react";
 import Options from "./Options";
 
 const GeneralOptions = (props) => {
-  // console.log("props", props);
-  // console.log("props.actionProvider", props.actionProvider);
-  // console.log("props.actionProvider", props.actionProvider.handleAtmFinder);
-
   const options = [
     {
       text: "Contact",
@@ -25,16 +21,10 @@ const GeneralOptions = (props) => {
 
     {
       text: "Information",
-      //handler: props.actionProvider.handleContactInfo,
+      handler: props.actionProvider.handleInformation,
       id: 4,
     },
   ];
-
-  //   const buttonsMarkup = options.map((option) => (
-  //     <button key={option.id} onClick={option.handler} className="option-button">
-  //       {option.text}
-  //     </button>
-  //   ));
 
   return <Options options={options} title="Options" {...props} />;
 };

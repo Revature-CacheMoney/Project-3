@@ -4,6 +4,7 @@ import Contact from "../widgets/Contact";
 import GeneralOptions from "../widgets/Overview";
 import AtmLocations from "../widgets/AtmLocations";
 import Questions from "../widgets/Questions";
+import Information from "../widgets/Information";
 
 /*
 The config controls every configurable aspect of the chatbot.
@@ -35,6 +36,9 @@ const chatbotConfig = {
       //     widget: "overview",
       //   }
     ),
+    createChatBotMessage(
+      `Or type in " joke " and I will tell you something funny...`
+    ),
   ],
   widgets: [
     {
@@ -56,6 +60,10 @@ const chatbotConfig = {
     {
       widgetName: "Recently asked questions",
       widgetFunc: (props) => <Questions />,
+    },
+    {
+      widgetName: "Information",
+      widgetFunc: (props) => <Information />,
     },
   ],
 };
