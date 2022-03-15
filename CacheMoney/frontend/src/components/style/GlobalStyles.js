@@ -42,6 +42,13 @@ a {
 	border: 1px solid ${({ theme }) => theme.greyness};
 }
 
+.login-outer-container {
+	background-image: ${({ theme }) => theme.moneyBackground};
+	background-position: center;
+	background-size: cover;
+	background-repeat: no-repeat;
+}
+
 .login-inner-container {
 	background-color: ${({ theme }) => theme.bread};
 }
@@ -58,6 +65,8 @@ a {
 
 .login:hover {
 	text-shadow: 0px 0px 5px ${({ theme }) => theme.greyness};
+	background-image: ${({ theme }) => theme.moneyBackground};
+	background-size: 75%;
 }
 
 #login-theme-button {
@@ -102,8 +111,26 @@ input[type="text"] {
 	color: ${({ theme }) => theme.error};
 }
 
+#splash-outer-container {
+	background-image: ${({ theme }) => theme.splashBackground};
+	background-position: center;
+	background-size: cover;
+	background-repeat: no-repeat;
+}
+
 #splash-inner-container {
 	background-color: ${({ theme }) => theme.bread};
+}
+
+#splash-mode-button {
+	color: ${({ theme }) => theme.backlight};
+	background-color: ${({ theme }) => theme.text};
+	border: 3px solid ${({ theme }) => theme.backlight};
+}
+
+#splash-mode-button:hover {
+	background-color: ${({ theme }) => theme.backlight};
+	color: ${({ theme }) => theme.text};
 }
 
 #register-here {
@@ -138,6 +165,7 @@ input[type="text"] {
 
 #splash-mode-button {
 	border: 5px solid ${({ theme }) => theme.backlight};
+	background-color: ${({ theme }) => theme.text};
 	color: ${({ theme }) => theme.backlight};
 }
 
@@ -146,8 +174,28 @@ input[type="text"] {
 	background-color: ${({ theme }) => theme.backlight};
 }
 
+.benjamin button {
+	color: ${({ theme }) => theme.backlight};
+	background-color: ${({ theme }) => theme.text};
+	border: 5px solid ${({ theme }) => theme.backlight};
+}
+
+.benjamin button:hover {
+	color: ${({ theme }) => theme.text};
+	background-color: ${({ theme }) => theme.backlight};
+}
+
 .footer {
 	background-color: ${({ theme }) => theme.bread};
+}
+
+#footer-logo {
+	width: 250px;
+	height: 50px;
+	background-image: ${({ theme }) => theme.cacheMoney};
+	background-position: center;
+	background-size: contain;
+	background-repeat: no-repeat;
 }
 
 .nav-bar {
@@ -175,6 +223,10 @@ input[type="text"] {
 }
 
 .main-content-inner {
+	background-color: ${({ theme }) => theme.background};
+}
+
+.main-page-content {
 	background-color: ${({ theme }) => theme.background};
 }
 
@@ -254,6 +306,88 @@ input[type="text"] {
 .not-found-home-text {
     text-shadow: -2px 2px ${({ theme }) => theme.shadow};
 }
+
+.chatbot-box {
+	background-color: ${({ theme }) => theme.text};
+	color: ${({ theme }) => theme.shadow};
+}
+
+.react-chatbot-kit-chat-container {
+	background-color: ${({ theme }) => theme.bread};
+}
+
+.react-chatbot-kit-chat-bot-message-container {
+	color: ${({ theme }) => theme.text};
+	text-align: center;
+	font-weight: 700;
+}
+
+.react-chatbot-kit-chat-header {
+	background-color: ${({ theme }) => theme.text};
+	color: ${({ theme }) => theme.shadow};
+}
+
+.option-button {
+	color: ${({ theme }) => theme.backlight};
+	background-color: ${({ theme }) => theme.text};
+}
+
+.option-button:hover {
+	color: ${({ theme }) => theme.text};
+	background-color: ${({ theme }) => theme.backlight};
+  }
+
+  .react-chatbot-kit-chat-input {
+	color: ${({ theme }) => theme.bread};
+	background-color: ${({ theme }) => theme.text};
+  }
+  
+  .react-chatbot-kit-chat-input:focus {
+	color: ${({ theme }) => theme.text};
+	background-color: ${({ theme }) => theme.shadow};
+  }
+  
+  .react-chatbot-kit-chat-input::placeholder {
+	color: ${({ theme }) => theme.bread};
+  }
+  
+  .react-chatbot-kit-chat-input::placeholder:focus {
+	color: ${({ theme }) => theme.text};
+  }
+
+  .react-chatbot-kit-chat-btn-send {
+	background-color: ${({ theme }) => theme.highlight};
+  }
+
+  .react-chatbot-kit-chat-btn-send:hover {
+	background-color: ${({ theme }) => theme.ultrahighlight};
+  }
+
+  .read-more-link {
+	color: ${({ theme }) => theme.bread};
+	background-color: ${({ theme }) => theme.text};
+  }
+
+  .read-more-link:hover {
+	color: ${({ theme }) => theme.highlight};
+  }
+
+  #popup-2 {
+	background: ${({ theme }) => theme.shadow};
+  }
+
+  #popup-2 a {
+	  color: ${({ theme }) => theme.backlight};
+	  font-weight: 900;
+  }
+
+  #popup-2 a:hover {
+	  color: ${({ theme }) => theme.text}
+  }
+
+  [role=tooltip].popup-content {
+	  box-shadow: 0 0 10px rgb(0 0 0 / 50%) !important;
+  }
 
 @media only screen and (max-width: 1080px) {
 	#splash-outer-container button,

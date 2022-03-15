@@ -16,14 +16,14 @@ const botName = "Benjamin";
 const chatbotConfig = {
   botName: botName,
   lang: "no",
-  customStyles: {
+  /*customStyles: {
     botMessageBox: {
       backgroundColor: "none",
     },
     chatButton: {
       backgroundColor: "gold",
     },
-  },
+  },*/
   initialMessages: [
     createChatBotMessage(`Welcome, `),
     createChatBotMessage(
