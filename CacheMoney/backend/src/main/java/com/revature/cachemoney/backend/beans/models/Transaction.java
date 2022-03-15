@@ -9,6 +9,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+/**
+ * Model containing information regarding a Transaction.
+ */
 @Getter
 @Setter
 @ToString
@@ -28,11 +31,9 @@ public class Transaction {
 	@Column(name = "description")
 	private String description;
 
-	// look into date datatype, and how to/accept formatting...
 	@Column(name = "transaction_date")
 	private Date transactionDate;
 
-	// look into datatype to take care of floating point arithmetic
 	@Column(name = "transaction_amount")
 	private Double transactionAmount;
 
@@ -59,5 +60,23 @@ public class Transaction {
 		this.description = description;
 		this.transactionAmount = transaction_amount;
 		this.endingBalance = ending_balance;
+	}
+
+
+
+	/**
+	 *
+	 * ******************STRICTLY FOR TESTING PURPOSES*********************
+	 *
+	 * */
+	public String toStringWithoutDate() {
+		return "Transaction{" +
+				"transactionId=" + transactionId +
+				", account=" + account +
+				", description='" + description + '\'' +
+//				", transactionDate=" + transactionDate +
+				", transactionAmount=" + transactionAmount +
+				", endingBalance=" + endingBalance +
+				'}';
 	}
 }

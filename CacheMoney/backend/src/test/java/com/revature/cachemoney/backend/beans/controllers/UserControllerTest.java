@@ -1,7 +1,8 @@
 package com.revature.cachemoney.backend.beans.controllers;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -21,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -87,44 +89,23 @@ class UserControllerTest {
 
     @Test
     void getUserById() throws Exception {
-
-//        when(userService.getUserById(testUserIds[0])).thenReturn(Optional.of(testUsers[0]));
-//        when(userService.getUserById(testUserIds[1])).thenReturn(Optional.of(testUsers[1]));
-//        when(jwtUtil.generateToken(testUserIds[0])).thenReturn(testTokens[0]);
-//        when(jwtUtil.generateToken(testUserIds[1])).thenReturn(testTokens[1]);
-//
-//        List<ResponseEntity<String>> actualResponses = new ArrayList<>();
-//        actualResponses.add(userController.getUserById(testTokens[0], testUserIds[0]));
-//        actualResponses.add(userController.getUserById(testTokens[0], testUserIds[1]));
-//        actualResponses.add(userController.getUserById(testTokens[1], testUserIds[0]));
-//
-//        List<String> testUsersJson = new ArrayList<>();
-//        testUsersJson.add(mapper.writeValueAsString(testUsers[0]));
-//        testUsersJson.add(mapper.writeValueAsString(testUsers[1]));
-//
-//        assertEquals(HttpStatus.OK, actualResponses.get(0).getStatusCode());
-//        assertEquals(testUsersJson.get(0), actualResponses.get(0).getBody());
-
-//        assertEquals(HttpStatus.BAD_REQUEST, testResponses.get(1).getStatusCode()); // Http status should not be OK - AspectJwt not being reached
-//        assertNotEquals(testUsersJson.get(0), testResponses.get(1).getBody());
-//        assertNotEquals(testUsersJson.get(1), testResponses.get(1).getBody());
-
         testUsers[0].setUserId(1);
         when(userService.getUserById(testUsers[0].getUserId())).thenReturn(Optional.of(testUsers[0]));
         this.mockMvc.perform(MockMvcRequestBuilders
                 .get("/users")
                 .header("token", testTokens[0])
-                .header("userId", 2))
-                .andExpect(MockMvcResultMatchers.status().isOk());
-//                .andExpect(MockMvcResultMatchers.jsonPath(".firstName").value("Hank"));
+                .header("userId", 1))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath(".firstName").value("Hank"));
 
 
     }
 
 //
-    @Test
-    void deleteUserById() {
-    }
+//    @Test
+//    void deleteUserById() {
+//
+//    }
 //
     @Test
     void login() throws JsonProcessingException {
@@ -166,16 +147,17 @@ class UserControllerTest {
 
     @Test
     void postUser() throws Exception {
-//        when(userService.postUser(testUsers[0])).thenReturn(true);
-//        assertTrue(userController.postUser(testUsers[0]));
-//        when(userService.postUser(loginUsers[0])).thenReturn(false);
-//        assertFalse(userController.postUser(loginUsers[0]));
 
-//        when(userService.postUser(testUsers[0])).thenReturn(true);
-//        this.mockMvc.perform(MockMvcRequestBuilders.post("/users")).andExpect();
+        when(userService.postUser(testUsers[0])).thenReturn(true);
+        assertTrue(userController.postUser(testUsers[0]));
+        when(userService.postUser(loginUsers[0])).thenReturn(false);
+        assertFalse(userController.postUser(loginUsers[0]));
 
-
+        when(userService.postUser(testUsers[0])).thenReturn(true);
+        String jsonString = mapper.writeValueAsString(testUsers[0]);
+        this.mockMvc.perform(MockMvcRequestBuilders.post("/users").contentType(MediaType.APPLICATION_JSON)
+                .content(jsonString))
+                .andExpect(status().isOk());
 
     }
-
 }

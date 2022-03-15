@@ -13,14 +13,22 @@ package com.revature.cachemoney.backend.beans.services;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.LinkedList;
+import java.util.List;
+
+import com.revature.cachemoney.backend.beans.models.Account;
 import com.revature.cachemoney.backend.beans.models.User;
-import org.junit.jupiter.api.*;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import java.util.LinkedList;
-import java.util.List;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -29,6 +37,8 @@ class UserServiceTest {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private AccountService accountService;
 
     private static List<User> validUserList;
     private static List<User> nullValueUserList;
@@ -36,7 +46,6 @@ class UserServiceTest {
 
     @BeforeAll
     public static void dataInit(){
-        System.out.println("user service test datainit");
         nullValueUserList = new LinkedList<>();
         emptyStringUserList = new LinkedList<>();
 
@@ -79,7 +88,6 @@ class UserServiceTest {
         validUserList.add(user4);
         validUserList.add(user5);
 
-        System.out.println("i am in setupDB");
 
         if (userService.getAllUsers().size() == 0){
             for (User validUser : validUserList){
@@ -94,22 +102,16 @@ class UserServiceTest {
     }
     @AfterEach
     void deleteDBData(){
-        System.out.println("i am in deleteDBData");
+
         userService.deleteAllUsers();
-        if (userService.getAllUsers().size() == 0){
-            System.out.println("succesffuly deleted");
-        }else {
-            System.out.println("not fully deleted");
-        }
         validUserList = null;
 
     }
 
     @Test
-
     void getAllUsers() {
 
-        System.out.println("user service test getallusers");
+
 
         // To run this test, you must know how many users are in your db and pass that
         // as an expected value argument.
@@ -119,9 +121,8 @@ class UserServiceTest {
     }
 
     @Test
-
     void getUserById() {
-        System.out.println("user service test getuserbyid");
+
         // Check to see if we are able to successfully retrieve 1 user from database
         // using user_id.
 
@@ -137,27 +138,37 @@ class UserServiceTest {
     }
 
 
-
     @Test
     void deleteUserById() {
-        System.out.println("user service test deleteuserbyid");
+
 
         List<User> userWithID = userService.getAllUsers();
 
         for (User currentUser : userWithID){
-            //assertEquals(true, userService.deleteUserById(currentUser.getUserId()));
+             assertEquals(true, userService.deleteUserById(currentUser.getUserId()));
         }
+        assertFalse(userService.deleteUserById(-1));
 
     }
 
     @Test
-    void getUserByEmail() {
+    void getAccountsByUserId(){
+        List<Account> account = new LinkedList<>();
+        account.add(new Account("checking"));
+        account.get(0).setUser(validUserList.get(0));
+        accountService.postAccount(account.get(0), validUserList.get(0).getUserId());
+
+        assertEquals(account.toString(),
+                userService.getAccountsByUserId(validUserList.get(0).getUserId()).toString());
+
+        accountService.deleteAllAccounts();
+
     }
 
-    @Test
 
+    @Test
     void getUserByUsername() {
-        System.out.println("user service test username");
+
         // Tests if fields other than username or password are required for successful
         // login. (They are not required)
         User invalidUser = new User(null,null,null,null,null);
@@ -166,6 +177,9 @@ class UserServiceTest {
             assertEquals(validUser.getUsername(), userService.getUserByUsername(validUser).getUsername());
             userID++;
         }
+        // test for null username or password values.
+        // maybe create a custom method which outputs a string of all objects attributes except for
+        // password since the password is hashed after retrieving it from database.
 
 
 
@@ -190,7 +204,6 @@ class UserServiceTest {
 
         void postUser() {
 
-            System.out.println("user service test postuser");
             // This test checks if user is successfully persisted into database because it
             // has the right credentials
             // the correct format.

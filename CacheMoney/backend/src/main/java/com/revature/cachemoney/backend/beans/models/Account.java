@@ -8,17 +8,18 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- * Object for interacting with Users.
+ * Model containing information regarding a bank Account.
  */
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor
 @Entity
+@SequenceGenerator(name = "account_gen", sequenceName = "account_gen", initialValue = 10000000)
 @Table(name = "accounts")
 public class Account {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "account_gen")
 	@Column(name = "account_id")
 	private Integer accountId;
 
@@ -45,6 +46,5 @@ public class Account {
 		this.type = type;
 		this.name = name;
 		this.balance = 0.00;
-
 	}
 }

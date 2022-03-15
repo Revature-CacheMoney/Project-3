@@ -7,6 +7,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.cachemoney.backend.beans.annotations.RequireJwt;
 import com.revature.cachemoney.backend.beans.models.Account;
+import com.revature.cachemoney.backend.beans.models.Transaction;
+import com.revature.cachemoney.backend.beans.models.Transfer;
 import com.revature.cachemoney.backend.beans.services.AccountService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 /**
  * Controller to handle requests related to Accounts.
  * 
- * @author Brian Gardner, Cody Gonsowski, & Jeffrey Lor
+ * @author Alvin Frierson, Brian Gardner, Cody Gonsowski, & Jeffrey Lor
  */
 @RestController
 @RequestMapping("/accounts")
@@ -87,6 +89,7 @@ public class AccountController {
 			@RequestBody Account account) {
 
 		if (accountService.postAccount(account, userId)) {
+
 			return ResponseEntity.ok().build();
 		}
 
@@ -135,5 +138,76 @@ public class AccountController {
 
 		return ResponseEntity.ok()
 				.body(mapper.writeValueAsString(accountService.getTransactionsById(accountId, userId)));
+	}
+
+	/**
+	 * POST a deposit to an Account.
+	 * Returns a bad request if the POST is unsuccessful.
+	 * 
+	 * @param token       for current session
+	 * @param userId      for current User
+	 * @param transaction for User's Transaction
+	 * @return OK | Bad Request based on POST success
+	 */
+	@PostMapping(value = "/deposit")
+	@RequireJwt
+	public ResponseEntity<String> deposit(
+			@RequestHeader(name = "token") String token,
+			@RequestHeader(name = "userId") Integer userId,
+			@RequestBody Transaction transaction) {
+
+		if (accountService.depositToAccount(userId, transaction)) {
+			return ResponseEntity.ok().build();
+		}
+
+		return ResponseEntity.badRequest().build();
+	}
+
+	/**
+	 * POST a withdrawl to an Account.
+	 * Returns a bad request if the POST is unsuccessful.
+	 * 
+	 * @param token       for current session
+	 * @param userId      for current User
+	 * @param transaction for User's Transaction
+	 * @return OK | Bad Request based on POST success
+	 */
+	@PostMapping(value = "/withdraw")
+	@RequireJwt
+	public ResponseEntity<String> withdraw(
+			@RequestHeader(name = "token") String token,
+			@RequestHeader(name = "userId") Integer userId,
+			@RequestBody Transaction transaction) {
+
+		if (accountService.withdrawFromAccount(userId, transaction)) {
+			return ResponseEntity.ok().build();
+		}
+
+		return ResponseEntity.badRequest().build();
+	}
+
+	/**
+	 * POST a withdrawl to an Account.
+	 * Returns a bad request if the POST is unsuccessful.
+	 * 
+	 * @param token       for current session
+	 * @param userId      for current User
+	 * @param transfer for User's Transaction
+	 * @return OK | Bad Request based on POST success
+	 */
+	@PostMapping(value = "/transfer")
+	@RequireJwt
+	public ResponseEntity<String> transfer(
+			@RequestHeader(name = "token") String token,
+			@RequestHeader(name = "userId") Integer userId,
+			@RequestBody Transfer transfer) {
+
+		if (accountService.transferBetweenAccountsOfOneUser(userId, transfer.getSourceAccountId(),
+				transfer.getDestinationAccountId(), transfer.getTransaction())) {
+
+			return ResponseEntity.ok().build();
+		}
+
+		return ResponseEntity.badRequest().build();
 	}
 }

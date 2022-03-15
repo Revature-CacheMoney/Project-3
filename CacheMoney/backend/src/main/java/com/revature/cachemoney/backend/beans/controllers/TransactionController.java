@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 /**
  * Controller to handle requests related to Transactions.
  * 
- * @author Brian Gardner, Cody Gonsowski, & Jeffrey Lor
+ * @author Alvin Frierson, Brian Gardner, Cody Gonsowski, & Jeffrey Lor
  */
 @RestController
 @RequestMapping("/transactions")
@@ -35,7 +35,6 @@ public class TransactionController {
 	 * @return List of all Transactions
 	 */
 	@GetMapping(value = "/all")
-	@RequireJwt
 	public List<Transaction> getAllTransactions() {
 		return transactionService.getAllTransactions();
 	}
@@ -60,29 +59,6 @@ public class TransactionController {
 
 		return ResponseEntity.ok()
 				.body(mapper.writeValueAsString(transactionService.getTransactionById(transactionId, userId)));
-	}
-
-	/**
-	 * POST a Transaction with provided ID.
-	 * Returns a bad request if the POST is unsuccessful.
-	 * 
-	 * @param token       for current session
-	 * @param userId      for current User
-	 * @param transaction for User's Transaction
-	 * @return OK | Bad Request based on POST success
-	 */
-	@PostMapping
-	@RequireJwt
-	public ResponseEntity<String> postTransaction(
-			@RequestHeader(name = "token") String token,
-			@RequestHeader(name = "userId") Integer userId,
-			@RequestBody Transaction transaction) {
-
-		if (transactionService.postTransaction(transaction, userId)) {
-			return ResponseEntity.ok().build();
-		}
-
-		return ResponseEntity.badRequest().build();
 	}
 
 	/**
