@@ -14,11 +14,10 @@ function Questions() {
           link to reset them
         </li>
         <li>
-          <a href="/test">click here to be redirected to the contact page.</a>
+          <a href="/register">click here to be redirected to the contact page.</a>
         </li>
       </ol>
       <h4 id="chatbot-faq-create-account-header">
-        {" "}
         Problem creating a bank account
       </h4>
       <ol>
@@ -26,7 +25,7 @@ function Questions() {
         <li>
           If you don't have an account then create an account using the steps
           above in:
-          <a href="/test">Trying to create an user account.</a>
+          <a href="/register">Trying to create an user account.</a>
         </li>
         <li>
           If you already have an account then login in using your username and
@@ -37,7 +36,7 @@ function Questions() {
 
         <li>Create an account: Checking/Saving or any custom title </li>
         <li>
-          <a href="/test">click here to be redirected to the signin page</a>
+          <a href="/signin">click here to be redirected to the signin page</a>
         </li>
       </ol>
     </div>
@@ -57,7 +56,7 @@ function Questions() {
             <li>Fill out all fields</li>
             <li>Click the Register Me Button</li>
             <li>
-              <a href="/test">
+              <a href="/register">
                 Click here to be redirected to the registration page
               </a>
             </li>
