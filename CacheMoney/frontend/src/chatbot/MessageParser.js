@@ -35,6 +35,9 @@ class MessageParser {
     if (input.includes("questions")) {
       return this.actionProvider.handleAtmFinder();
     }
+    if (input.includes("info", "information")) {
+      return this.actionProvider.handleInformation();
+    }
     if (
       input.includes("joke") ||
       input.includes("jokes") ||
