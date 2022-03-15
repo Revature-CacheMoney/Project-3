@@ -81,10 +81,6 @@ function MainPageView2() {
 					{mainPageContentComponent()}
 				</div>
 
-				<div className="popup-overlay hidden">
-					{/* Popup to do a deposit/withdrawal */}
-				</div>
-
 				<Footer />
 			</div>
 		</ ThemeProvider>

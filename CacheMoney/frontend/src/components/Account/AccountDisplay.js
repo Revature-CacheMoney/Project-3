@@ -1,21 +1,18 @@
 import AdditionalActions from "../Transaction/AdditionalActions.js";
 import TransactionFilter from "../Transaction/TransactionFilter.js";
 import AccountList from "./AccountList.js";
-import React, { useEffect, useState } from "react";
-import "../../css/Account.css";
-import store from "../../store/Store.js";
+import React, { useState } from "react";
+import "../../css/App.css";
 
 // This is a wrapper showing the account list and space for transactions
 function AccountDisplay() {
 	const [account, setAccount] = useState({});
 
-	let currentlySelectedAccount =
-		store.getState().accountReducer.currentAccountId;
-
 	// This occurs when the user has selected an account
 	// it displays additional options (deposit, withdraw, transfer)
 	const showAdditionalActions = () => {
-		if (currentlySelectedAccount) {
+		if (account) {
+			// console.log("received in SAA: ", account);
 			return (
 				<>
 					<div id="account-display-header">
@@ -30,11 +27,11 @@ function AccountDisplay() {
 			return;
 		}
 	};
-	store.subscribe(showAdditionalActions);
+	// store.subscribe(showAdditionalActions);
 
-	const handleTitleUpdate = (currentlySelectedAccount) => {
-		setAccount(currentlySelectedAccount);
-		//console.log("received: ", currentlySelectedAccount);
+	const handleTitleUpdate = (newAccount) => {
+		setAccount(newAccount);
+		// console.log("received in HTU: ", newAccount);
 	};
 
 	return (

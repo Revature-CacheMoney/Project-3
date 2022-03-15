@@ -44,7 +44,7 @@ function Deposit(props) {
                     <form onSubmit={handleSubmit}>
                         <div className="deposit-amount">
                             <label>Amount</label>
-                            <input type="number" min="0.00" step="0.01" id="deposit-input" name="transactionAmount" />
+                            <input type="number" min="0.01" step="0.01" id="deposit-input" name="transactionAmount" />
                         </div>
 
                         <button type="submit">Submit</button>

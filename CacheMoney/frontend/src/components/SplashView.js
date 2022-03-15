@@ -1,8 +1,8 @@
 import React from "react";
 import Chatbot from "react-chatbot-kit";
-import chatbotConfig from "./../chatbot/chatbotConfig";
-import MessageParser from "./../chatbot/MessageParser";
-import ActionProvider from "./../chatbot/ActionProvider";
+import chatbotConfig from "../chatbot/chatbotConfig";
+import MessageParser from "../chatbot/MessageParser";
+import ActionProvider from "../chatbot/ActionProvider";
 import { useDarkMode } from "./style/useDarkMode";
 import { ThemeProvider } from "styled-components";
 import { GlobalStyles } from "../components/style/GlobalStyles";
