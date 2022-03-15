@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Footer from "./Footer.js";
-import AccountList from "./Account/AccountList.js";
+//import AccountList from "./Account/AccountList.js";
 import userStore from "../store/Store.js";
 import NavBar from "./NavBar.js";
 import { useNavigate } from "react-router-dom";
 import Transfer from "./Transaction/Transfer.js";
 import CreateAccount from "./Account/CreateAccount.js";
+import AccountDisplay from "./Account/AccountDisplay.js";
 
 function MainPageView2() {
 	const navigate = useNavigate();
@@ -31,13 +32,14 @@ function MainPageView2() {
 	const mainPageContentComponent = () => {
 		switch (page) {
 			case "account-overview":
-				return <AccountList />;
+				return <AccountDisplay />;
 			case "create-account":
 				return <CreateAccount />;
 			case "transfer-money":
 				return <Transfer />;
 			default:
-				return <AccountList />;
+				return <AccountDisplay />;
+			//return <AccountList />;
 		}
 	};
 

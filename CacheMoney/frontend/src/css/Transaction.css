@@ -1,51 +1,50 @@
 .transaction_table {
-    width: 1080px;
-    text-overflow: ellipsis;
-    table-layout: fixed;
-    border-collapse: collapse;
+	text-overflow: ellipsis;
+	table-layout: fixed;
+	border-collapse: collapse;
 }
 
 td,
 th {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-    padding: 12px;
-    margin: auto;
-    text-align: center;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	padding: 12px;
+	margin: auto;
+	text-align: center;
 }
 
 td {
-    border-top: 1px solid;
-    border-bottom: 1px solid;
+	border-top: 1px solid;
+	border-bottom: 1px solid;
 }
 
 tr:nth-child(even) {
-    background-color: #f2f2f2;
+	background-color: #f2f2f2;
 }
 
 .positive_balance {
-    color: green;
-    border-color: black;
+	color: green;
+	border-color: black;
 }
 
 .negative_balance {
-    color: red;
-    border-color: black;
+	color: red;
+	border-color: black;
 }
 
 #header_date {
-    width: 20%;
+	width: 20%;
 }
 
 #header_description {
-    width: 50%;
+	width: 50%;
 }
 
 #header_amount {
-    width: 15%;
+	width: 15%;
 }
 
 #header_balance {
-    width: 15%;
+	width: 15%;
 }

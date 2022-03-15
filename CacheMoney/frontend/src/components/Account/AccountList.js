@@ -8,9 +8,9 @@ import config from "../../config.js";
 import store from "../../store/Store.js";
 import CurrencyFormat from "react-currency-format";
 import "../../css/Account.css";
-import AdditionalActions from "../Transaction/AdditionalActions.js";
 
 function AccountList(props) {
+	const doTitleUpdate = props.doTitleUpdate;
 	// local transaction state
 	const [accounts, setAccounts] = useState([]);
 	// setAccounts is the setter function
@@ -22,7 +22,9 @@ function AccountList(props) {
 	// effect hook
 	useEffect(() => {
 		getAllAccounts();
-	}, [accounts]);
+		console.log("Use effect has been called");
+	}, []);
+	//}, [accounts]);
 
 	const getAllAccounts = () => {
 		//${url}users/accounts/${store.getState().userId}
@@ -37,28 +39,19 @@ function AccountList(props) {
 				const allAccounts = response.data;
 
 				// Modifying the account object to also have whether displayed or not
-				allAccounts.forEach((account) => {
+				/*allAccounts.forEach((account) => {
 					account.showingOptions = false;
-				});
+				}); */
 				setAccounts(allAccounts);
 			})
 			.catch((error) => console.error(`Error: ${error}`));
-	};
-
-	// This occurs when the user has selected an account
-	// it displays additional options (deposit, withdraw, transfer)
-	const showAdditionalActions = (acctNum) => {
-		console.log("showAdditionalActions: ", acctNum);
-		if (acctNum == store.getState().accountReducer.currentAccountId) {
-			console.log("Additional Actions should be shown for acct ", acctNum);
-			return <AdditionalActions />;
-		}
 	};
 
 	// When selected, this updates the state
 	// Selected account is showing options, hides old one
 	// acctNum = specified account (clicked or unclicked)
 	// isToggled = boolean, if selected or deselected
+	/*
 	function updateAccountDisplay(acctNum, isToggled) {
 		console.log("updating " + acctNum + " with: " + isToggled);
 		let modifiedAccounts = accounts;
@@ -71,26 +64,27 @@ function AccountList(props) {
 		}
 		// Update the account state
 		setAccounts(modifiedAccounts);
-	}
+	} */
 
-	const handleAccountClick = (event, props, data, triggerEvent) => {
+	//event, props, data, triggerEvent
+	const handleAccountClick = (event) => {
 		// if an account had previously been selected, hide the additional options
-		const currentlySelectedAccount =
-			store.getState().accountReducer.currentAccountId;
-		if (currentlySelectedAccount) {
-			// hide dropdown from previously selected account
-			//console.log("An id already existed:", currentlySelectedAccount);
-			console.log("updating to show account: ", event.currentTarget.id);
-			updateAccountDisplay(currentlySelectedAccount, false);
-		}
+		const currentlySelectedAccount = accounts.filter((account) => {
+			if (account.accountId == event.currentTarget.id) {
+				return account;
+			}
+		})[0];
+		//store.getState().accountReducer.currentAccountId;
+
 		// TODO route to `Transaction` page
 		store.dispatch({
 			type: "UPDATE_CURRENT_ACCOUNT_ID",
 			payload: event.currentTarget.id,
 		});
+		doTitleUpdate(currentlySelectedAccount);
 
 		// Show additional options for the currently selected account
-		updateAccountDisplay(event.currentTarget.id, true);
+		//updateAccountDisplay(event.currentTarget.id, true);
 	};
 
 	const content = accounts.map((account) => {
@@ -119,7 +113,6 @@ function AccountList(props) {
 						/>
 					</div>
 				</div>
-				{showAdditionalActions(account.accountId)}
 			</div>
 		);
 	});
