@@ -10,7 +10,6 @@ function Location() {
   useEffect(() => {
     const getLocations = async () => {
       const atmInfo = await atmData;
-      //console.log("atminfo: ", atmInfo);
       setAtmInfo(atmInfo);
       setLoading(false);
     };
