@@ -581,17 +581,28 @@ input[type="text"] {
 /* end not-found-view */
 
 /* ACCOUNT_LIST alfull */
+.account-container {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	padding: 10px;
+}
+
 .account_list {
-	height: 640px;
-	width: 720px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
 	overflow-y: auto;
-	margin: auto;
+	width: 50%;
+	margin-left: 0px;
 }
 
 .account_item {
+	border: 2px solid black;
 	border-radius: 10px;
 	margin-bottom: 4px;
 	height: 120px;
+	width: 100%;
 	display: flex;
 	flex-flow: column;
 }
@@ -609,6 +620,7 @@ input[type="text"] {
 	width: 100%;
 	height: 50%;
 	font-size: 24px;
+	background-color: #3e4f3d;
 	border-top-left-radius: 9px;
 	border-top-right-radius: 9px;
 }
@@ -621,6 +633,7 @@ input[type="text"] {
 
 .account_type {
 	width: 36px;
+	border: 1px solid black;
 	border-bottom: 0;
 	border-left: 0;
 	position: relative;
@@ -638,6 +651,7 @@ input[type="text"] {
 .account_balance {
 	text-align: right;
 	width: 100%;
+	border-top: 1px solid black;
 	position: relative;
 }
 
@@ -651,6 +665,8 @@ input[type="text"] {
 
 /* CREATE_ACCOUNT cafull */
 .account_create_form {
+	color: black;
+	border: 1px solid black;
     width: 480px;
     height: 360px;
     display: flex;
@@ -699,6 +715,18 @@ input[type="text"] {
 
 .account_create_submit_button:hover {
     cursor: pointer;
+}
+
+.account-additional-options {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+.account-additional-options button {
+	width: 100px;
+	height: 40px;
+	font-size: 1.2em;
 }
 
 /* 
