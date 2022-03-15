@@ -7,14 +7,16 @@ import config from "../../config";
 import store from "../../store/Store";
 
 //TODO finish this
-function TransferSelection({ updateAccounts, whichAccount }) {
+function TransferSelection({ whichAccount }) {
     const [accountId, setAccountId] = useState();
     const [accounts, setAccounts] = useState([]);
 
     // update account selection locally & in parent component
     const changeAccount = (event) => {
+        // update local state
         setAccountId(event.target.value);
-        // updateAccounts(accountId);
+        
+        // submit the state to the store
         if (whichAccount === "SOURCE") {
             store.dispatch({ type: 'UPDATE_SOURCE_ACCOUNT_ID', payload: event.target.value })
         } else if (whichAccount === "DESTINATION") {
@@ -22,18 +24,10 @@ function TransferSelection({ updateAccounts, whichAccount }) {
         }
     }
 
-    // retrieve url from config
-    const url = config.url;
-
     // effect hook
     useEffect(() => {
-        getAccounts();
-        console.log();
-    }, [])
-
-    // get all accounts associated with the user
-    const getAccounts = () => {
-        axios.get(`${url}users/accounts`, {
+        // retrieve all user's accounts
+        axios.get(`${config.url}users/accounts`, {
             headers: {
                 token: store.getState().userReducer.token,
                 userId: store.getState().userReducer.userId
@@ -43,7 +37,7 @@ function TransferSelection({ updateAccounts, whichAccount }) {
                 setAccounts(response.data);
             })
             .catch(error => console.error(`Error: ${error}`));
-    }
+    }, [])
 
     // map options from get call
     const options = accounts
@@ -57,6 +51,7 @@ function TransferSelection({ updateAccounts, whichAccount }) {
 
     return (
         <select id="selectAccount" onChange={changeAccount} value={accountId}>
+            <option key="default">Select an account...</option>
             {options}
         </select>
     );

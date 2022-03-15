@@ -2,42 +2,37 @@
  * @author Cody Gonsowski & Jeffrey Lor
  */
 import axios from "axios";
-import { useState } from "react";
 import config from "../../config";
 import store from "../../store/Store";
 
 function Deposit(props) {
-    // local formData state
-    const [formData, setFormData] = useState({
-        account: {
-            accountId: store.getState().accountReducer.currentAccountId
-        },
-        transactionAmount: ""
-    });
-
-    // retrieve the url from the config
-    const url = config.url;
-
     // post deposit transaction
     const postDeposit = (transaction) => {
-        axios.post(`${url}accounts/deposit`, transaction, {
-            headers: {
-                token: store.getState().userReducer.token,
-                userId: store.getState().userReducer.userId
-            }
-        })
+        axios.post(`${config.url}accounts/deposit`, transaction,
+            {
+                headers: {
+                    token: store.getState().userReducer.token,
+                    userId: store.getState().userReducer.userId
+                }
+            })
             .catch(error => console.error(`Error: ${error}`));
     }
 
-    // updates form data when form changes
-    const handleChange = (event) => {
-        event.preventDefault();
-        setFormData({ ...formData, [event.target.name]: event.target.value });
-    }
-
     // what the submit button should do
-    const handleSubmit = () => {
-        postDeposit(formData);
+    const handleSubmit = (event) => {
+        // prevent page reloading
+        event.preventDefault();
+
+        // create the deposit payload
+        let deposit = {
+            account: {
+                accountId: store.getState().accountReducer.currentAccountId
+            },
+            transactionAmount: event.target.transactionAmount.value
+        }
+
+        // perform the post
+        postDeposit(deposit);
     }
 
     return (
@@ -46,14 +41,14 @@ function Deposit(props) {
                 <div className="deposit-form">
                     <p className="deposit-form-header">Deposit</p>
 
-                    <form>
+                    <form onSubmit={handleSubmit}>
                         <div className="deposit-amount">
                             <label>Amount</label>
-                            <input type="number" min="0.00" step="0.01" id="deposit-input" name="transactionAmount" onChange={handleChange} />
+                            <input type="number" min="0.00" step="0.01" id="deposit-input" name="transactionAmount" />
                         </div>
-                    </form>
 
-                    <button className="deposit-submit-button" type="button" name="submit" onClick={handleSubmit}>Submit</button>
+                        <button type="submit">Submit</button>
+                    </form>
                 </div>
             </div>
         </div>
