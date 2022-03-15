@@ -1,11 +1,6 @@
 
-import { DevData } from "./../DevelopersData";
 
 export default function ContactEntry(props) {
-
-  // let info = DevData.map((dd) => {
-  //   return dd;
-  // });
 
   return (
     <>

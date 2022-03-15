@@ -2,10 +2,6 @@ import React from "react";
 import Options from "./Options";
 
 const GeneralOptions = (props) => {
-  // console.log("props", props);
-  // console.log("props.actionProvider", props.actionProvider);
-  // console.log("props.actionProvider", props.actionProvider.handleAtmFinder);
-
   const options = [
     {
       text: "Contact",

@@ -72,7 +72,7 @@ function TransactionTable(props) {
                         <td>{transaction.transactionDate}</td>
                         <td>{transaction.description}</td>
                         <td>
-                            <CurrencyFormat className={transaction.transactionAmount > 0 ? 'positive_balance' : 'negative_balance'}
+                            <CurrencyFormat className={transaction.transactionAmount >= 0 ? 'positive_balance' : 'negative_balance'}
                                 value={transaction.transactionAmount} displayType={'text'} thousandSeparator={true} prefix={'$'} />
                         </td>
                         <td>
