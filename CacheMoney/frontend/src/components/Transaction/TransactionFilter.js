@@ -4,7 +4,6 @@
 
 import { useState } from "react";
 import TransactionTable from "./TransactionTable";
-import '../../css/Transaction.css';
 
 function TransactionFilter(props) {
     const [filter, setFilter] = useState("NONE");

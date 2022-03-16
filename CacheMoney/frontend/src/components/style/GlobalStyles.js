@@ -267,7 +267,7 @@ input[type="text"] {
 .account_create_form {
     color: ${({ theme }) => theme.greyness};
     border: 1px solid ${({ theme }) => theme.greyness};
-
+	background-color: 
 }
 
 .account_item {
@@ -287,6 +287,73 @@ input[type="text"] {
 .account_balance {
 	border-top: 1px solid ${({ theme }) => theme.shadow};
 	background-color: ${({ theme }) => theme.gentle};
+}
+
+.account_create_form {
+	color: ${({ theme }) => theme.text};
+	background-color: ${({ theme }) => theme.gentle};
+	border: 3px solid ${({ theme }) => theme.shadow};
+	box-shadow: -8px 8px  ${({ theme }) => theme.shadow};
+}
+
+.account_create_name input {
+	color: ${({ theme }) => theme.shadow};
+	background-color: ${({ theme }) => theme.text};
+	border: none;
+}
+
+.account_create_radio_button input{
+	accent-color: ${({ theme }) => theme.backlight};
+	color: ${({ theme }) => theme.text};
+}
+
+.account_create_submit_button {
+	color: ${({ theme }) => theme.backlight};
+	background-color: ${({ theme }) => theme.text};
+	box-shadow: -5px 5px ${({ theme }) => theme.shadow};
+}
+
+.account_create_submit_button:hover {
+	color: ${({ theme }) => theme.text};
+	background-color: ${({ theme }) => theme.backlight};
+}
+
+.account-options-container {
+	background-color: ${({ theme }) => theme.shadow};
+}
+
+.account-option {
+	background-color: ${({ theme }) => theme.text};
+	color: ${({ theme }) => theme.shadow};
+	box-shadow: -3px 3px ${({ theme }) => theme.gentle};
+}
+
+.account-options-container thead {
+	background-color: ${({ theme }) => theme.gentle};
+	color: ${({ theme }) => theme.shadow};
+}
+
+#selectFilter option {
+	color: ${({ theme }) => theme.shadow};
+	font-weight: 700;
+}
+
+#transaction-list {
+	background-color: ${({ theme }) => theme.text};
+	color: ${({ theme }) => theme.shadow};
+}
+
+tr:nth-child(even) {
+	background-color: ${({ theme }) => theme.shadow};
+	color: ${({ theme }) => theme.text};
+}
+
+.positive_balance {
+	color: ${({ theme }) => theme.bread};
+}
+
+.negative_balance {
+	color: ${({ theme }) => theme.error};
 }
 
 .not-found-inner-container {

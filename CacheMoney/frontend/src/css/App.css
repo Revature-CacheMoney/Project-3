@@ -582,7 +582,6 @@ input[type="text"] {
 .account-container {
 	display: flex;
 	flex-direction: row;
-	justify-content: space-between;
 	box-sizing: border-box;
 	width: auto;
 }
@@ -669,6 +668,46 @@ input[type="text"] {
 	bottom: 0;
 }
 
+#selectFilter {
+	margin-left: 12%;
+	height: 36px;
+	width: 120px;
+	text-align: center;
+	font-family: "Arial";
+	font-weight: 700;
+	border-radius: 20px;
+}
+
+.account-additional-options option {
+	font-family: "Arial";
+}
+
+#selectFilter:focus {
+	border-radius: 20px 20px 0 0;
+}
+
+
+.deposit-form-header {
+	font-size: 18px;
+	text-align: center;
+}
+
+.deposit-amount {
+	font-size: 18px;
+	width: 100%;
+	text-align: center;
+}
+
+.deposit-amount label {
+	margin-right: 12px;
+}
+
+.deposit-form button {
+	height: 36px;
+	font-size: 18px;
+	justify-self: center;
+}
+
 /* CREATE_ACCOUNT cafull */
 .create-account-inner-container {
 	display: flex;
@@ -676,9 +715,6 @@ input[type="text"] {
 }
 
 .account_create_form {
-	color: black;
-	background-color: var(--green-light-tender);
-	border: 1px solid black;
 	border-radius: 10px;
 	width: 480px;
 	height: 360px;
@@ -691,17 +727,22 @@ input[type="text"] {
 .account_create_form_header {
 	font-size: 32px;
 	font-weight: bolder;
-	margin: 2px;
+	margin: 18px 2px 2px 2px;
 	align-self: center;
 }
 
 .account_create_name {
+	font-weight: 700;
 	margin: 20px;
 	display: flex;
 	flex-flow: column;
 	align-items: left;
 	font-size: 22px;
 	font-weight: bold;
+}
+
+.account_create_name label {
+	margin-bottom: 6px;
 }
 
 .account_create_radio_button_group {
@@ -720,10 +761,18 @@ input[type="text"] {
 .account_create_radio_button {
 	font-size: 18px;
 	margin: 8px;
+	text-transform: uppercase;
+	padding-left: 0;
+}
+
+.account_create_radio_button input {
+	margin-right: 20px;
 }
 
 .account_create_submit_button {
 	align-self: center;
+	width: 80%;
+	height: 48px;
 }
 
 .account_create_submit_button:hover {
@@ -733,12 +782,14 @@ input[type="text"] {
 .account-additional-options {
 	display: flex;
 	flex-direction: row;
+	justify-content: center;
 }
 
-.account-additional-options button {
+.account-option {
 	width: 95px;
 	height: 30px;
 	font-size: 1.2em;
+	margin-right: 12px;
 }
 
 .account-options-container {
@@ -748,8 +799,10 @@ input[type="text"] {
 	box-sizing: border-box;
 }
 
-.account-display-header {
-	background-color: var(--green-dark-wallstreet);
+#account-display-header {
+	text-transform: uppercase;
+	text-align: center;
+	font-size: 14px;
 }
 
 .no-account-message {
@@ -759,6 +812,11 @@ input[type="text"] {
 }
 
 /* Transaction stuff */
+.transaction-container {
+	display: block;
+	position: relative;
+}
+
 .transfer-form {
 	color: var(--grey-charcoal);
 	width: 50%;
@@ -768,6 +826,52 @@ input[type="text"] {
 .transaction-inner-container {
 	display: flex;
 	justify-content: center;
+}
+
+.transaction_table {
+	text-overflow: ellipsis;
+	table-layout: fixed;
+	border-collapse: collapse;
+}
+
+#transaction-list {
+	border-radius: 10px;
+	margin-top: 18px;
+}
+
+td,
+th {
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	padding: 12px;
+	margin: auto;
+	text-align: center;
+}
+
+td {
+	border-top: 1px solid;
+	border-bottom: 1px solid;
+}
+
+.positive_balance, .negative_balance {
+	font-weight: 900;
+}
+
+#header_date {
+	width: 20%;
+}
+
+#header_description {
+	width: 50%;
+}
+
+#header_amount {
+	width: 15%;
+}
+
+#header_balance {
+	width: 15%;
 }
 
 /* 
