@@ -16,7 +16,7 @@ function AccountList(props) {
 	// read state with accounts
 
 	const handleAccountUpdate = () => {
-		console.log("Accounts loaded");
+		console.log("Accounts loaded", props.doAccountUpdate);
 		// get all of a user's accounts
 		axios
 			.get(`${config.url}users/accounts`, {
@@ -33,13 +33,14 @@ function AccountList(props) {
 	};
 
 	// watch if someone did a deposit, etc
-	store.subscribe(handleAccountUpdate);
+	//store.subscribe(handleAccountUpdate);
 
 	// effect hook
 	useEffect(() => {
 		console.log("useEffect");
 		handleAccountUpdate();
-	}, [props.someAmount]);
+	}, [props.doTitleUpdate]);
+	//store.getState().accountReducer.someData
 
 	//event, props, data, triggerEvent
 	const handleAccountClick = (event) => {
@@ -58,6 +59,8 @@ function AccountList(props) {
 			payload: event.currentTarget.id,
 		});
 		doTitleUpdate(currentlySelectedAccount);
+		// Do an account update just because
+		handleAccountUpdate();
 	};
 
 	const content = accounts.map((account) => {

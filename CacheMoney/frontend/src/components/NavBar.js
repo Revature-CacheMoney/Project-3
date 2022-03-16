@@ -8,16 +8,14 @@ function NavBar(props) {
 	// Make sure to add additional cases to MainPageView to handle any routing changes/new links
 	return (
 		<div className="navigation-bar">
-			{/*<a href="/accounts">*/}
-			<a href="#">
-				<span
-					className="navigation-link"
-					onClick={props.handleClick}
-					id="account-overview"
-				>
-					Accounts
-				</span>
-			</a>
+			<span
+				className="navigation-link"
+				onClick={props.handleClick}
+				id="account-overview"
+			>
+				Accounts
+			</span>
+
 			<a href="#">
 				{/*<a href="/accounts/create">*/}
 				<span
@@ -43,9 +41,9 @@ function NavBar(props) {
 				<span
 					className="navigation-link"
 					onClick={props.handleClick}
-					id="rewards"
+					id="external-transfer"
 				>
-					Rewards
+					Send Money
 				</span>
 			</a>
 			<div className="settings">

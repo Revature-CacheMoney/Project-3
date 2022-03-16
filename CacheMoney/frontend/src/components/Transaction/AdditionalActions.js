@@ -10,11 +10,11 @@ function AdditionalActions(props) {
 	let additionalContent = (submenu) => {
 		switch (submenu) {
 			case "deposit":
-				return <Deposit doTransactionDone={handleAccountUpdate} />;
+				return <Deposit doTransactionDone={props.doTransactionDone} />;
 			case "withdraw":
-				return <Withdraw doTransactionDone={handleAccountUpdate} />;
+				return <Withdraw doTransactionDone={props.doTransactionDone} />;
 			case "transfer":
-				return <Transfer doTransactionDone={handleAccountUpdate} />;
+				return <Transfer doTransactionDone={props.doTransactionDone} />;
 			default:
 				return;
 		}
@@ -35,6 +35,7 @@ function AdditionalActions(props) {
 			payload: Date.now(),
 		});
 		// UPDATE_ACCOUNTS_PLEASE
+		//console.log(store.getState().accountReducer.someData);
 	};
 
 	return (

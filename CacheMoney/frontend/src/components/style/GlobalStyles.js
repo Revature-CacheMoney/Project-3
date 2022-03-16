@@ -210,6 +210,10 @@ input[type="text"] {
 	color: ${({ theme }) => theme.greyness};
 }
 
+.account-name {
+	background-color: ${({ theme }) => theme.bread};
+}
+
 .transfer-container {
 	color: ${({ theme }) => theme.greyness};
 }
@@ -263,6 +267,33 @@ input[type="text"] {
 	color: ${({ theme }) => theme.text};
 	background-color: ${({ theme }) => theme.highlight};}
 }
+
+.no-account-message {
+	color: ${({ theme }) => theme.backlight};
+}
+
+.deposit-form button, .withdraw-form button, .transfer-form button {
+	color: ${({ theme }) => theme.shadow};
+	background-color: ${({ theme }) => theme.text};
+	box-shadow: -4px 4px 0px ${({ theme }) => theme.gentle};
+}
+
+.deposit-form button:hover, .withdraw-form button:hover, .transfer-form button:hover {
+	color: ${({ theme }) => theme.text};
+	background-color: ${({ theme }) => theme.shadow};
+	border: 2px solid ${({ theme }) => theme.gentle};
+}
+
+#deposit-input, #withdraw-input, #transfer-input, #transfer-description  {
+	color: ${({ theme }) => theme.bread};
+	background-color: ${({ theme }) => theme.text};
+  }
+  
+#deposit-input:focus #withdraw-input:focus, #transfer-input:focus, #transfer-description:focus {
+	color: ${({ theme }) => theme.text};
+	background-color: ${({ theme }) => theme.shadow};
+}
+  
 
 .account_create_form {
     color: ${({ theme }) => theme.greyness};
@@ -328,8 +359,19 @@ input[type="text"] {
 	box-shadow: -3px 3px ${({ theme }) => theme.gentle};
 }
 
+.account-option:hover {
+	color: ${({ theme }) => theme.text};
+	background-color: ${({ theme }) => theme.shadow};
+	border: 2px solid ${({ theme }) => theme.gentle};
+}
+
 .account-options-container thead {
 	background-color: ${({ theme }) => theme.gentle};
+	color: ${({ theme }) => theme.shadow};
+}
+
+#selectFilter, #selectAccount {
+	background-color: ${({ theme }) => theme.text};
 	color: ${({ theme }) => theme.shadow};
 }
 
