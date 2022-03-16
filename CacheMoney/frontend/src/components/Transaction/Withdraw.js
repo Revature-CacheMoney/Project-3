@@ -6,6 +6,7 @@ import config from "../../config";
 import store from "../../store/Store";
 
 function Withdraw(props) {
+
 	// post withdraw transaction
 	const postWithdraw = (transaction) => {
 		axios
@@ -43,7 +44,7 @@ function Withdraw(props) {
 				<div className="withdraw-form">
 					<p className="withdraw-form-header">Withdraw</p>
 
-					<form onSubmit={handleSubmit}>
+					<form id="withdraw-inner-form" onSubmit={handleSubmit}>
 						<div className="withdraw-amount">
 							<label>Amount</label>
 							<input

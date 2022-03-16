@@ -17,7 +17,7 @@ class ActionProvider {
 
   greet = () => {
     const message = this.createChatBotMessage(
-      "What can I assit you with today?"
+      "What can I assist you with today?"
     ); //take this message object and update the chatBot state
     this.addMessageToState(message);
   };

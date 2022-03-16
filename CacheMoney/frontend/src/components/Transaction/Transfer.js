@@ -48,14 +48,14 @@ function Transfer(props) {
 				<div className="transfer-form">
 					<p className="transfer-form-header">Transfer</p>
 
-					<form onSubmit={handleSubmit}>
+					<form id="transfer-inner-form" onSubmit={handleSubmit}>
 						<div className="transfer-from-account">
-							<label>FROM</label>
+							<label>From</label>
 							<TransferSelection whichAccount="SOURCE"></TransferSelection>
 						</div>
 
 						<div className="transfer-to-account">
-							<label>TO</label>
+							<label>To</label>
 							<TransferSelection whichAccount="DESTINATION"></TransferSelection>
 						</div>
 

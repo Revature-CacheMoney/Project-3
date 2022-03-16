@@ -43,7 +43,7 @@ function Deposit(props) {
 				<div className="deposit-form">
 					<p className="deposit-form-header">Deposit</p>
 
-					<form onSubmit={handleSubmit}>
+					<form id="deposit-inner-form" onSubmit={handleSubmit}>
 						<div className="deposit-amount">
 							<label>Amount</label>
 							<input

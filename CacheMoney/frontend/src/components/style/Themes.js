@@ -1,4 +1,4 @@
-import dark from "../../image/CacheMoney_MoneyBackground_Dark.png"
+import dark from "../../image/Dark_Background_image-01.png"
 import light from "../../image/CacheMoney_MoneyBackground_Smaller.png"
 import logo from "../../image/CacheMoney-logo.png"
 import logoDark from "../../image/CacheMoney-logo-dark.png"
