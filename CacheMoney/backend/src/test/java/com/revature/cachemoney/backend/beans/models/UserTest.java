@@ -1,3 +1,13 @@
+/**
+ * Unit testing of the User class.
+ * Authors: David Alvarado, Brandon Perrien,
+ *          Jeremiah Smith, Alvin Frierson,
+ *          Trevor Hughes, Maja Wirkijowska,
+ *          Ahmad Rawashdeh, Ibrahima Diallo,
+ *          Brian Gardner, Jeffrey Lor,
+ *          Mark Young.
+ *
+ */
 package com.revature.cachemoney.backend.beans.models;
 
 import org.junit.jupiter.api.Test;
@@ -6,7 +16,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class UserTest {
 
-
+    /**
+     *
+     * The following test methods test the getters and setters
+     * of a User by creating a user instance and:
+     *  - Altering the values to check setters
+     *  - Adding new values to then retrieve them with getters
+     *
+     * */
     @Test
     void setUserId() {
         User user = new User("user", "model", "email@gmail.com", "password", "userModel");

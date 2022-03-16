@@ -1,3 +1,12 @@
+/**
+ * Unit testing of the TransactionService class.
+ * Authors: David Alvarado, Brandon Perrien,
+ *          Jeremiah Smith, Alvin Frierson,
+ *          Trevor Hughes, Maja Wirkijowska,
+ *          Ahmad Rawashdeh, Ibrahima Diallo,
+ *          Brian Gardner.
+ *
+ */
 package com.revature.cachemoney.backend.beans.services;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -33,13 +42,11 @@ class TransactionServiceTest {
     private List<Transaction> transactionList;
     private User user;
 
-//    @Autowired
-//    TransactionServiceTest(AccountService accountService, UserService userService, TransactionService transactionService){
-//        this.accountService = accountService;
-//        this.userService = userService;
-//        this.transactionService = transactionService;
-//    }
-
+    /**
+     *
+     * Method initializes local variables and deletes any data in database
+     * before each method test.
+     * */
     @BeforeEach
     void populateLocalandDBData(){
         if (transactionService.getAllTransactions().size() != 0){
@@ -92,13 +99,14 @@ class TransactionServiceTest {
         transactionList.add(withdrawal);
 
 
-        // adding all of these transactions to a list in case we need them for comparison.
-
-//        transactionList.add(depositOne);
-//        transactionList.add(depositTwo);
-//        transactionList.add(withdrawal);
-
     }
+
+    /**
+     *
+     * Method deletes all data in database and
+     * from local variables.
+     *
+     * */
     @AfterEach
     void depopulateLocalAndDBData(){
 
@@ -116,11 +124,24 @@ class TransactionServiceTest {
         transactionList = null;
     }
 
+    /**
+     *
+     *  Test method checks if we are able to succesfully
+     *  retrieve the three transactions persisted to database
+     *  using the transactionList.
+     *
+     * */
     @Test
     void getAllTransactions() {
-        assertEquals(3, transactionService.getAllTransactions().size());
+        assertEquals(transactionList.size(), transactionService.getAllTransactions().size());
     }
 
+    /**
+     *
+     * Check that we are able to retrieve a transaction by
+     * a transactionId and userId.
+     *
+     * */
     @Test
     void getTransactionById() {
         // we check that the ending balances are the same
@@ -136,6 +157,14 @@ class TransactionServiceTest {
         assertFalse(transactionService.getTransactionById(-1, -1).isPresent());
     }
 
+
+    /**
+     *
+     * Check to see if we can succesfully delete
+     * a transaction with a valid transactionID
+     * and userID
+     *
+     * */
     @Test
     void deleteTransactionById() {
 
@@ -146,7 +175,4 @@ class TransactionServiceTest {
 
     }
 
-//    @Test
-//    void deleteAllTransactions() {
-//    }
 }
