@@ -1,3 +1,13 @@
+/**
+ * Unit testing of the Account class.
+ * Authors: David Alvarado, Brandon Perrien,
+ *          Jeremiah Smith, Alvin Frierson,
+ *          Trevor Hughes, Maja Wirkijowska,
+ *          Ahmad Rawashdeh, Ibrahima Diallo,
+ *          Brian Gardner, Jeffrey Lor,
+ *          Mark Young.
+ *
+ */
 package com.revature.cachemoney.backend.beans.models;
 
 import org.junit.jupiter.api.Test;
@@ -5,6 +15,15 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class AccountTest {
+
+    /**
+     *
+     * The following test methods test the getters and setters
+     * of an Account by creating an account instance and:
+     *  - Altering the values to check setters
+     *  - Adding new values to then retrieve them with getters
+     *
+     * */
 
     @Test
     void getAccountId() {
