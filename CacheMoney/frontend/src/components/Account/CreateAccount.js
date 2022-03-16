@@ -41,10 +41,10 @@ function CreateAccount(props) {
 
   // what the submit button should do
   const handleSubmit = () => {
-    postAccount(formData);
-    alert(
-      "Account successfully created please return to the accounts page to start using your new account."
-    );
+    postAccount(formData).confirm("Press a button!\nEither OK or Cancel.");
+    // alert(
+    //   "Account successfully created please return to the accounts page to start using your new account."
+    // );
   };
 
   return (
