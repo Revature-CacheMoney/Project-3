@@ -11,8 +11,6 @@ function AccountDisplay() {
 	// This occurs when the user has selected an account
 	// it displays additional options (deposit, withdraw, transfer)
 	const showAdditionalActions = () => {
-		console.log("showAdditionalActions");
-		console.log(account);
 		if (account.name) {
 			// console.log("received in SAA: ", account);
 			return (

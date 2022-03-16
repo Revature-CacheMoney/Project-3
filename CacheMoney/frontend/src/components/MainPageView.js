@@ -44,8 +44,7 @@ function MainPageView2() {
 				return <AccountDisplay />;
 			case "create-account":
 				return <CreateAccount handleClick={updateMainPageContent} />;
-			case "transfer-money":
-				return <Transfer />;
+			// Add new cases here to add more navbar links
 			default:
 				return <AccountDisplay />;
 		}
