@@ -745,7 +745,7 @@ input[type="text"] {
 .no-account-message {
 	color: var(--grey-charcoal);
 	font-size: 3vh;
-	padding: auto;
+	margin: auto;
 }
 
 /* 

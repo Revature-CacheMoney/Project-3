@@ -34,7 +34,6 @@ function MainPageView2() {
 	if (!mountedComponent) return <div />;
 
 	const updateMainPageContent = (event) => {
-		console.log(event.target.id + " was clicked");
 		setPage(event.target.id);
 		mainPageContentComponent(event.target.id);
 	};
@@ -49,7 +48,6 @@ function MainPageView2() {
 				return <Transfer />;
 			default:
 				return <AccountDisplay />;
-			//return <AccountList />;
 		}
 	};
 
