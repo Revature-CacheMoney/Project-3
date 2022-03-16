@@ -33,7 +33,8 @@ function Deposit(props) {
 
 		// perform the post
 		postDeposit(deposit);
-		props.doTransactionDone();
+		// maybe do this in/after the api call
+		props.doTransactionDone(Date.now());
 	};
 
 	return (

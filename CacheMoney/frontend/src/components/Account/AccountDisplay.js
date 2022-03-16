@@ -35,15 +35,19 @@ function AccountDisplay() {
 	// This handler communicates to accountlist to do a reload
 	// It is ultimately called by Deposit, Withdraw, Transfer components onSubmit
 	const handleTransactionDone = (amount) => {
-		console.log("Update the account");
-		console.log(amount);
+		console.log("Update the account", amount);
+		//console.log(amount);
+		// I _think_ this maybe the one letting account list update
 		setAmount(amount);
-		console.log(savedAmount);
+		console.log("Saved Amount", savedAmount);
 	};
 
 	return (
 		<div className="account-container">
-			<AccountList doTitleUpdate={handleTitleUpdate} someAmount={savedAmount} />
+			<AccountList
+				doTitleUpdate={handleTitleUpdate}
+				doAccountUpdate={savedAmount}
+			/>
 			<div className="transaction-container">{showAdditionalActions()}</div>
 		</div>
 	);
