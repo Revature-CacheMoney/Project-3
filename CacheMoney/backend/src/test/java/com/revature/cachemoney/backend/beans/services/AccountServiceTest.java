@@ -11,9 +11,6 @@
 package com.revature.cachemoney.backend.beans.services;
 
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -41,8 +38,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.util.*;
-
 
 
 @ExtendWith(SpringExtension.class)
@@ -52,8 +47,6 @@ class AccountServiceTest {
     private AccountService accountService;
     @Autowired
     private UserService userService;
-    @Autowired
-    private TransactionService transactionService;
 
     @MockBean
     private AccountRepo accountRepo;

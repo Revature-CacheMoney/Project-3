@@ -63,9 +63,6 @@ class TransactionControllerTest {
 
     @Test
     void deleteTransactionById() {
-        // new transaction created
-        Transaction transaction = new Transaction();
-
         // mocking transactionService to return true
         when(transactionService.deleteTransactionById(
                 1,
