@@ -762,8 +762,8 @@ Media queries for reactive views mqfull
 		font-weight: 700;
 	}
 
-	#splash-outer-container button,
-	#splash-outer-container input[type="submit"] {
+	#splash button,
+	#splash-button input[type="submit"] {
 		width: 60%;
 		height: 60px;
 		border-radius: 20px;
@@ -804,8 +804,8 @@ Media queries for reactive views mqfull
 		font-size: 3em;
 	}
 
-	#splash-outer-container button,
-	#splash-outer-container input[type="submit"] {
+	#splash button,
+	#splash-button input[type="submit"] {
 		width: 60%;
 		height: 48px;
 		border-radius: 12px;

@@ -390,8 +390,8 @@ input[type="text"] {
   }
 
 @media only screen and (max-width: 1080px) {
-	#splash-outer-container button,
-	#splash-outer-container input[type="submit"] {
+	#splash button,
+	#splash-button input[type="submit"] {
 		background-color: ${({ theme }) => theme.text};
 		box-shadow: -5px 5px 0px 1px ${({ theme }) => theme.highlight};
 		color: ${({ theme }) => theme.shadow}; 
