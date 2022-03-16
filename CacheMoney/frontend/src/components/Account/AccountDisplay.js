@@ -14,14 +14,14 @@ function AccountDisplay() {
 		if (account) {
 			// console.log("received in SAA: ", account);
 			return (
-				<>
+				<div class="account-options-container">
 					<div id="account-display-header">
 						<h2>{account.name}</h2>
 					</div>
 					<AdditionalActions />
 					<br />
 					<TransactionFilter />
-				</>
+				</div>
 			);
 		} else {
 			return;

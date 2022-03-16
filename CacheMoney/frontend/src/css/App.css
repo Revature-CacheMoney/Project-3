@@ -10,7 +10,6 @@ Light Green: 6c896a;
 /* Naming conventions - try to make it detailed/consistent to prevent duplicate entries
 (ex. account-container, account-button, account-link) */
 
-
 /*
 ---------
 CTRL + F:
@@ -202,18 +201,17 @@ a {
 /* login error content */
 
 #login-error-box {
-    font-size: 30px;
-    margin-bottom: 18px;
+	font-size: 30px;
+	margin-bottom: 18px;
 }
 
 #registration-error {
-    font-size: 24px;
+	font-size: 24px;
 }
 
 .error-container {
-    margin-bottom: 24px;
+	margin-bottom: 24px;
 }
-
 
 /* 
 Registration needs some special overrides - leave this as is 
@@ -348,7 +346,6 @@ input[type="text"] {
 	justify-content: space-between;
 	margin-top: 12px;
 	height: 100%;
-
 }
 
 .column {
@@ -397,7 +394,6 @@ input[type="text"] {
 	width: 100%;
 	height: 23px;
 }
-
 
 /* End navbar */
 
@@ -513,69 +509,69 @@ input[type="text"] {
 /* not-found-view stying nfvfull */
 
 .not-found-outer-container {
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    top: 0;
-    left: 0;
-    background-image: url("../image/Background_image-01.png");
-    background-position: center;
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	top: 0;
+	left: 0;
+	background-image: url("../image/Background_image-01.png");
+	background-position: center;
 	background-size: cover;
 	background-repeat: no-repeat;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 }
 
 .not-found-inner-container {
-    height: 80%;
-    width: 60%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+	height: 80%;
+	width: 60%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 }
 
 .not-found-box {
-    width: 80%;
-    text-align: center;
+	width: 80%;
+	text-align: center;
 }
 
 .not-found-header {
-    font-size: 60px;
-    margin-bottom: 60px;
+	font-size: 60px;
+	margin-bottom: 60px;
 }
 
 .not-found-description {
-    font-size: 36px;
-    margin-bottom: 60px;
-    line-height: 60px;
+	font-size: 36px;
+	margin-bottom: 60px;
+	line-height: 60px;
 }
 
 .not-found-link {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-decoration: none;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-decoration: none;
 }
 
 .not-found-home-button {
-    display: flex;
-    height: 84px;
-    width: 40%;
-    border-radius: 60px;
-    justify-content: center;
-    align-items: center;
-    text-transform: uppercase;
+	display: flex;
+	height: 84px;
+	width: 40%;
+	border-radius: 60px;
+	justify-content: center;
+	align-items: center;
+	text-transform: uppercase;
 }
 
 .not-found-home-text {
-    font-size: 60px;
+	font-size: 60px;
 }
 
 .not-found-home-description {
-    font-size: 16px;
+	font-size: 16px;
 }
 
 /* end not-found-view */
@@ -591,7 +587,7 @@ input[type="text"] {
 .account_list {
 	display: flex;
 	flex-direction: column;
-	justify-content: space-between;
+	justify-content: flex-start;
 	overflow-y: auto;
 	width: 50%;
 	margin-left: 0px;
@@ -605,6 +601,7 @@ input[type="text"] {
 	width: 100%;
 	display: flex;
 	flex-flow: column;
+	justify-content: flex-start;
 }
 
 .account_item:hover {
@@ -667,54 +664,54 @@ input[type="text"] {
 .account_create_form {
 	color: black;
 	border: 1px solid black;
-    width: 480px;
-    height: 360px;
-    display: flex;
-    flex-flow: column;
-    justify-content: left;
-    align-items: left;
+	width: 480px;
+	height: 360px;
+	display: flex;
+	flex-flow: column;
+	justify-content: left;
+	align-items: left;
 }
 
 .account_create_form_header {
-    font-size: 32px;
-    font-weight: bolder;
-    margin: 2px;
-    align-self: center;
+	font-size: 32px;
+	font-weight: bolder;
+	margin: 2px;
+	align-self: center;
 }
 
 .account_create_name {
-    margin: 20px;
-    display: flex;
-    flex-flow: column;
-    align-items: left;
-    font-size: 22px;
-    font-weight: bold;
+	margin: 20px;
+	display: flex;
+	flex-flow: column;
+	align-items: left;
+	font-size: 22px;
+	font-weight: bold;
 }
 
 .account_create_radio_button_group {
-    display: flex;
-    flex-flow: column;
-    align-items: left;
-    margin: 20px;
+	display: flex;
+	flex-flow: column;
+	align-items: left;
+	margin: 20px;
 }
 
 .account_create_type_header {
-    margin: 2px;
-    font-size: 22px;
-    font-weight: bold;
+	margin: 2px;
+	font-size: 22px;
+	font-weight: bold;
 }
 
 .account_create_radio_button {
-    font-size: 18px;
-    margin: 8px;
+	font-size: 18px;
+	margin: 8px;
 }
 
 .account_create_submit_button {
-    align-self: center;
+	align-self: center;
 }
 
 .account_create_submit_button:hover {
-    cursor: pointer;
+	cursor: pointer;
 }
 
 .account-additional-options {
@@ -729,15 +726,17 @@ input[type="text"] {
 	font-size: 1.2em;
 }
 
+.account-options-container {
+	background-color: #3d703a;
+}
+
 /* 
 --------------------------------
 Media queries for reactive views mqfull 
 --------------------------------
 */
 @media only screen and (max-width: 1080px) {
-
 	/* splash page 1080px sv1080 */
-
 
 	#splash-inner-container {
 		margin: auto;
@@ -769,7 +768,7 @@ Media queries for reactive views mqfull
 		border-radius: 20px;
 		font-size: 3em;
 	}
-	
+
 	#register-here {
 		display: block;
 		margin-top: 12px;
@@ -779,9 +778,7 @@ Media queries for reactive views mqfull
 	.login-inner-container {
 		width: 80%;
 	}
-
 }
-
 
 @media only screen and (max-width: 720px) {
 	html {
@@ -799,7 +796,7 @@ Media queries for reactive views mqfull
 	.logo-bigger {
 		font-size: 5em;
 	}
-	
+
 	#welcome {
 		font-size: 3em;
 	}
@@ -892,7 +889,6 @@ Media queries for reactive views mqfull
 	}
 }
 
-
 /*
 CHATBOT STYLING BELOW 
 The chatbot styling came with already pre-styled elements already when installed. 
@@ -912,46 +908,46 @@ So there had to be overrides on the containers to get the theme we were aiming f
 
 .chatbot-box {
 	border-radius: 0 0 18px 18px;
-  }
-  
-  #chatbot-title {
+}
+
+#chatbot-title {
 	margin-top: 24px;
 	text-transform: uppercase;
-  }
-  
-  .react-chatbot-kit-chat-container {
+}
+
+.react-chatbot-kit-chat-container {
 	border-radius: 0 0 18px 18px;
-  }
-  
-  .react-chatbot-kit-chat-header {
+}
+
+.react-chatbot-kit-chat-header {
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	font-size: 24px;
 	margin-bottom: 18px;
-	height: 72px
-  }
-  
-  .react-chatbot-kit-chat-message-container {
+	height: 72px;
+}
+
+.react-chatbot-kit-chat-message-container {
 	margin: 12px 36px;
 	line-height: 30px;
-  }
-  
-  .react-chatbot-kit-chat-bot-message-container {
+}
+
+.react-chatbot-kit-chat-bot-message-container {
 	background-color: none;
-  }
-  
-  .react-chatbot-kit-chat-bot-message {
+}
+
+.react-chatbot-kit-chat-bot-message {
 	font-size: 18px;
-  }
-  
-  .options-container {
+}
+
+.options-container {
 	margin: 18px 0;
 	display: flex;
 	flex-direction: column;
-  }
-  
-  .option-button {
+}
+
+.option-button {
 	margin-top: 6px;
 	padding: 6px;
 	font-size: 18px;
@@ -960,31 +956,30 @@ So there had to be overrides on the containers to get the theme we were aiming f
 	font-weight: 600;
 	border: none;
 	border-radius: 10px;
-  }
-  
-  .option-button:hover {
+}
+
+.option-button:hover {
 	cursor: pointer;
-  }
-  
-  .react-chatbot-kit-chat-input-container {
-	width: 100%
-  }
-  
-  .react-chatbot-kit-chat-input {
+}
+
+.react-chatbot-kit-chat-input-container {
+	width: 100%;
+}
+
+.react-chatbot-kit-chat-input {
 	font-size: 18px;
 	width: 85%;
 	border: none;
 	border-bottom-left-radius: 12px;
 	padding-left: 12px;
-  }
+}
 
-  
-  .react-chatbot-kit-chat-input-form {
+.react-chatbot-kit-chat-input-form {
 	display: flex;
 	width: 100%;
-  }
-  
-  .react-chatbot-kit-chat-btn-send {
+}
+
+.react-chatbot-kit-chat-btn-send {
 	height: auto;
 	border-radius: 0 0 12px 0;
 	font-size: 2.5rem;
@@ -994,139 +989,137 @@ So there had to be overrides on the containers to get the theme we were aiming f
 	width: 15%;
 	border: none;
 	object-fit: fill;
-  }
-  
-  .react-chatbot-kit-chat-btn-send:hover {
+}
+
+.react-chatbot-kit-chat-btn-send:hover {
 	cursor: pointer;
-  }
-  
-  .react-chatbot-kit-chat-btn-send svg {
-	  width: 30px;
-  }
-  
-  .react-chatbot-kit-chat-bot-avatar-container {
+}
+
+.react-chatbot-kit-chat-btn-send svg {
+	width: 30px;
+}
+
+.react-chatbot-kit-chat-bot-avatar-container {
 	display: none;
-  }
-  
-  
-  .react-chatbot-kit-user-chat-message-container {
+}
+
+.react-chatbot-kit-user-chat-message-container {
 	margin-top: 12px;
-  }
-  
-  .react-chatbot-kit-user-chat-message {
+}
+
+.react-chatbot-kit-user-chat-message {
 	font-size: 24px;
 	margin-bottom: 24px;
-  }
-  
-  .react-chatbot-kit-user-avatar {
+}
+
+.react-chatbot-kit-user-avatar {
 	width: 100%;
 	height: 240px;
-  }
-  
-  .react-chatbot-kit-user-avatar {
+}
+
+.react-chatbot-kit-user-avatar {
 	display: block;
 	width: 70%;
 	height: 210px;
 	margin: auto;
-  }
-  
-  .info-list-container {
+}
+
+.info-list-container {
 	height: 240px;
 	overflow-y: scroll;
 	width: 100%;
 	overflow-wrap: break-word;
 	line-height: 24px;
 	margin: 18px 0;
-  }
-  
-  .info-list-container li {
+}
+
+.info-list-container li {
 	margin-bottom: 18px;
-  }
-  
-  .atm_list {
+}
+
+.atm_list {
 	height: 240px;
 	overflow-y: scroll;
-  }
-  
-  .atmInfo ul {
-	padding-left: 0;
-  }
+}
 
-  .atm-column {
-	  width: 100%;
-  }
-  
-  .questions-container {
-	margin-bottom: 24px;
-  }
-  
-  .questions-container h4 {
-	font-size: 18px;
-  }
-  
-  .questions-container ul, .questions-container ol {
+.atmInfo ul {
 	padding-left: 0;
-  }
-  
-  .questions-container li {
+}
+
+.atm-column {
+	width: 100%;
+}
+
+.questions-container {
+	margin-bottom: 24px;
+}
+
+.questions-container h4 {
+	font-size: 18px;
+}
+
+.questions-container ul,
+.questions-container ol {
+	padding-left: 0;
+}
+
+.questions-container li {
 	font-weight: 600;
 	text-align: left;
 	padding-left: 18px;
 	margin-left: 36px;
-  }
-  
-  .read-more-link {
+}
+
+.read-more-link {
 	height: 36px;
 	width: 100%;
 	font-size: 18px;
 	height: 36px;
 	border: none;
 	border-radius: 12px;
-  }
-  
-  .read-more-link h2 {
+}
+
+.read-more-link h2 {
 	margin: 0;
-  }
-  
-  .extra-content-container {
+}
+
+.extra-content-container {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	height: 240px;
 	overflow-y: scroll;
 	margin-top: 24px;
-  }
-  
-  .extra-content-container li {
+}
+
+.extra-content-container li {
 	font-weight: 600;
 	text-align: left;
 	padding-left: 18px;
-  }
-  
-  #chatbot-faq-create-account-header{
+}
+
+#chatbot-faq-create-account-header {
 	margin: 12px 0 0 30px;
-  }
-  
-  .extra-content {
+}
+
+.extra-content {
 	margin-top: 6px;
-  }
-  
-  /* Benjamin Popup Styling */
-  #popup-2 {
+}
+
+/* Benjamin Popup Styling */
+#popup-2 {
 	margin: auto;
 	width: 360px;
 	padding: 5px;
-  }
+}
 
-  #popup-2[style] {
-	  top: auto !important;
-	  bottom: 48px;
-	  left: auto !important;
-	  right: 24px;
-  }
+#popup-2[style] {
+	top: auto !important;
+	bottom: 48px;
+	left: auto !important;
+	right: 24px;
+}
 
-  .popup-arrow {
+.popup-arrow {
 	display: none;
-  }
- 
-  
+}
