@@ -103,7 +103,7 @@ function TransactionTable(props) {
 	// the html stuff
 	return (
 		<>
-			<div className="transaction-container">
+			<div className="transaction-container" id="transaction-list">
 				<table className="transaction_table">
 					<thead>
 						<tr>
