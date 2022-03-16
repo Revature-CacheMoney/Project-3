@@ -23,6 +23,7 @@ nmfull (Navigation Mockup)
 nfvfull (Not Found View / 404 page)
 mqfull (Media Queries)
 mvfull (Main Views)
+cafull (Create Account)
 ----------------------------------------------------------
 Change "full" to desired media query max-width (sans "px")
 ----------------------------------------------------------
@@ -42,10 +43,8 @@ Change "full" to desired media query max-width (sans "px")
 
 body {
 	margin: 0px;
-	width: 100%;
+	width: 100vw;
 	height: 100%;
-	/*background-color: #3d703a; */
-	color: var(--light-element);
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
@@ -62,6 +61,7 @@ input[type="submit"] {
 	margin-top: 10px;
 	margin-bottom: 10px;
 	font-weight: bold;
+	cursor: pointer;
 }
 
 .container-view {
@@ -81,14 +81,12 @@ html {
 }
 
 a {
-	color: var(--gold-bullion);
 	text-decoration: none;
 }
 
 .logo-bigger {
 	font-family: "Cinzel", serif;
 	font-size: 8em;
-	text-shadow: -2px 4px 0px var(--gold-bullion);
 	margin: auto;
 }
 
@@ -109,7 +107,6 @@ a {
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
-	background-color: var(--green-dinero);
 	width: 80%;
 	height: 100%;
 	margin: auto;
@@ -131,23 +128,11 @@ a {
 	font-size: 3em; /* ~36px */
 }
 
-.password-error {
-	border: 1px solid var(--red-error);
-}
-
-.password-ok {
-	border: 1px solid var(--grey-charcoal);
-}
-
 /* Login views - Signin and Registration lvfull */
 .login-outer-container {
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
-	background-image: url("../image/CacheMoney_MoneyBackground_Smaller.png");
-	background-position: center;
-	background-size: cover;
-	background-repeat: no-repeat;
 }
 
 .login-inner-container {
@@ -159,7 +144,6 @@ a {
 	flex-direction: column;
 	justify-content: center;
 	column-gap: 0px;
-	background-color: var(--green-dinero);
 }
 
 /* contains the cachemoney header and white-box */
@@ -176,9 +160,7 @@ a {
 	margin-left: auto;
 	margin-right: auto;
 	font-size: 3em;
-	color: var(--green-dinero);
 	padding: 30px;
-	background-color: var(--light-element);
 	border-radius: 20px;
 	display: flex;
 	flex-direction: column;
@@ -194,10 +176,7 @@ a {
 	margin-right: auto;
 }
 
-.login-outer-container button,
-.login-outer-container input[type="submit"] {
-	background-color: var(--gold-bullion);
-	color: var(--light-element);
+.login {
 	width: 100%;
 	font-size: 2.5rem;
 	box-shadow: none;
@@ -206,32 +185,29 @@ a {
 	margin-right: 0;
 }
 
-.login-outer-container button:hover,
-.login-outer-container input[type="submit"]:hover {
-	text-shadow: 0px 0px 5px var(--grey-charcoal);
-	background-image: url("../image/CacheMoney_MoneyBackground_Smaller.png");
-	background-size: 75%;
+#login-theme-button {
+	position: absolute;
+	width: 240px;
+	height: 36px;
+	top: 10px;
+	font-size: 18px;
 }
 
 .login-outer-container input[type="text"] {
-	border: 2px solid var(--green-dinero);
 	width: 100%;
 	height: 5vh;
-	box-shadow: -4px 4px 0px var(--green-light-tender);
 	margin-bottom: 20px;
 }
 
 /* login error content */
 
 #login-error-box {
-	color: var(--red-error);
     font-size: 30px;
     margin-bottom: 18px;
 }
 
 #registration-error {
     font-size: 24px;
-    color: var(--red-error);
 }
 
 .error-container {
@@ -253,69 +229,31 @@ regfull
 	flex-direction: row;
 	width: 100%;
 	justify-content: space-between;
-	margin-bottom: 10px;
-}
-
-.reg-field-box {
-	margin-bottom: 10px;
-}
-
-::selection {
-	background: var(--gold-bullion);
-	color: var(--light-element);
-}
-
-/*
-#registration-name-boxes {
-	display: grid;
-	grid-template-areas:
-		"boxL boxR";
-	grid-template-columns: 50% 50%;
-	row-gap: 10px;
-	column-gap: 10px;
-}
-*/
-
-input[type="text"]:focus {
-	background-color: var(--green-light-tender);
-	color: var(--light-element);
 }
 
 input[type="text"] {
-	color: var(--grey-charcoal);
 	padding-left: 15px;
 	font-size: 20px;
 }
-
-/*
-#registration-name-boxes input[type="text"] {
-	width: calc(100% - 30px);
-	padding-left: 15px;
-}
-
-#label-L {
-	grid-area: labelL;
-}
-
-#label-R {
-	grid-area: labelR;
-}
-
-#firstname {
-	grid-area: boxL;
-	
-}
-
-#lastname {
-	grid-area: boxR;
-	margin-left: 15px;
-}*/
 
 .reg-name-box {
 	width: 45%;
 }
 
+#register-button {
+	width: 100%;
+}
+
+#register-theme-button {
+	position: absolute;
+	width: 240px;
+	height: 36px;
+	top: 10px;
+	font-size: 18px;
+}
+
 /* this may get used by more than the registration page */
+
 .detail-text {
 	font-size: 1rem;
 	display: inline;
@@ -332,8 +270,19 @@ input[type="text"] {
 
 /* Splash View svfull */
 
+#splash-mode-container {
+	position: absolute;
+	top: 20px;
+	left: 5vw;
+}
+
+.toggle-button {
+	font-size: 18px;
+	width: 180px;
+	height: 48px;
+}
+
 #splash-outer-container {
-	background-image: url("../image/Background_image-01.png");
 	background-position: center;
 	background-size: cover;
 	background-repeat: no-repeat;
@@ -345,7 +294,6 @@ input[type="text"] {
 #splash-inner-container {
 	width: 100%;
 	height: 40vh;
-	background-color: var(--green-dinero);
 	display: flex;
 	flex-direction: row;
 	justify-content: space-around;
@@ -363,24 +311,12 @@ input[type="text"] {
 	height: 100%;
 }
 
-#register-here {
-	color: var(--gold-bullion);
-}
-
-#register-here:hover {
-	color: var(--gold-flake);
-	text-decoration: underline;
-}
-
 /* select any button on splash screen*/
-#splash-outer-container button,
-#splash-outer-container input[type="submit"] {
+#splash button,
+#splash-button input[type="submit"] {
 	width: 200px;
 	height: 50px;
 	border-radius: 10px;
-	background-color: var(--light-element);
-	box-shadow: -5px 5px 0px 1px var(--gold-bullion);
-	color: var(--green-dark-wallstreet);
 	font-size: 2em;
 	margin-top: 10px;
 	margin-bottom: 10px;
@@ -390,53 +326,53 @@ input[type="text"] {
 	font-size: 4em; /* ~48px */
 }
 
-#splash-button:hover {
-	background-color: #d3a940;
-	color: var(--light-element);
+#register-here {
+	font-weight: 700;
 }
 
 /* FOOTER STUFF fsfull */
 
 .footer {
 	grid-area: footer;
-	box-sizing: border-box;
-	width: 100%;
+	height: 300px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 0 30px;
+}
+
+#column-container {
+	width: 90%;
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
-	background-color: var(--green-dinero);
-	padding-left: 30px;
-	padding-right: 30px;
-	padding-bottom: 30px;
+	margin-top: 12px;
+	height: 100%;
+
 }
 
 .column {
 	/* float: left; */
-	width: 15%;
+	width: 20%;
 	/*padding: 20px; */
 }
 
-.footer img {
-	max-width: 20%;
-	max-height: 20%;
-	margin-bottom: 0;
-	margin-right: 0;
-	align-self: flex-end;
+#footer-logo-container {
+	display: flex;
+	width: 90%;
+	justify-content: flex-end;
+	margin-bottom: 24px;
 }
 
-.row:after {
-	/*content: "";
+/*.row:after {
+	content: "";
 	display: table;
-	clear: both; */
-}
+	clear: both; 
+}*/
 
 /* END FOOTER STUFF */
 
 /* Navbar navfull */
-
-.nav-bar {
-	color: var(--grey-charcoal);
-}
 
 .breadcrumb {
 	list-style-type: none;
@@ -451,7 +387,6 @@ input[type="text"] {
 }
 .breadcrumb-item > a {
 	text-decoration: none;
-	color: var(--grey-charcoal);
 }
 
 #top {
@@ -463,12 +398,6 @@ input[type="text"] {
 	height: 23px;
 }
 
-.account-type-container {
-	color: var(--grey-charcoal);
-}
-.transfer-container {
-	color: var(--grey-charcoal);
-}
 
 /* End navbar */
 
@@ -486,7 +415,7 @@ input[type="text"] {
 	/* row-gap: 10px; */
 	/*column-gap: 10px;*/
 	height: 100%;
-	background-color: var(--green-light-tender);
+	width: 100vw;
 	font-size: 1em;
 	margin: 0px;
 	padding: 0px;
@@ -501,13 +430,11 @@ input[type="text"] {
 	padding-left: 30px;
 	padding-right: 30px;
 	padding-top: 30px;
-	background-color: var(--green-dinero);
 	box-sizing: border-box;
 }
 
 /* This contains the username, logout buttons */
 .main-content-inner {
-	background-color: var(--green-light-tender);
 	margin-right: 0px;
 }
 
@@ -518,7 +445,6 @@ input[type="text"] {
 .header-username {
 	/* font-family: "Cinzel", serif; */
 	font-size: 1.5em;
-	text-shadow: -1px 2px 0px var(--gold-bullion);
 }
 
 /* Navigation mockup used on main-view-2 nmfull */
@@ -528,8 +454,6 @@ input[type="text"] {
 	flex-direction: row;
 	justify-content: space-between;
 	column-gap: 50px;
-	background-color: var(--green-dinero);
-	border-bottom: 10px solid var(--green-dark-wallstreet);
 	box-sizing: border-box;
 	padding-left: 30px;
 	padding-right: 30px;
@@ -547,24 +471,17 @@ input[type="text"] {
 
 .navigation-bar a {
 	text-decoration: none;
-	color: var(--light-element);
 }
 
 #logout-button {
 	color: var(--light-element);
-	background-color: var(--green-light-tender);
 	font-size: 2.5rem;
-	box-shadow: -4px 4px 0px var(--green-dark-wallstreet);
 	width: 200px;
 }
 
-.main-page-container button,
-.main-page-container input[type="submit"] {
-	background-color: var(--grey-charcoal);
-	color: var(--light-element);
-	width: 100%;
+#logout-button {
+	width: 240px;
 	font-size: 2.5rem;
-	box-shadow: -5px 5px 0px 1px var(--gold-bullion);
 	padding: 0;
 	margin-left: auto;
 	margin-right: auto;
@@ -575,6 +492,20 @@ input[type="text"] {
 	width: 100%;
 	margin: auto;
 	padding-top: 20px;
+}
+
+.main-upper-buttons {
+	display: flex;
+	flex-direction: column;
+}
+
+#main-theme-button {
+	width: 240px;
+	height: 3rem;
+	font-size: 1.5rem;
+	padding: 0;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 /* End main-view-2 */
@@ -598,7 +529,6 @@ input[type="text"] {
 }
 
 .not-found-inner-container {
-    background-color: #3d703a;
     height: 80%;
     width: 60%;
     display: flex;
@@ -632,8 +562,6 @@ input[type="text"] {
 
 .not-found-home-button {
     display: flex;
-    background-color: #fff;
-    color: #d3a940;
     height: 84px;
     width: 40%;
     border-radius: 60px;
@@ -642,13 +570,7 @@ input[type="text"] {
     text-transform: uppercase;
 }
 
-.not-found-home-button:hover {
-    box-shadow: -5px 5px #3e4f3d;
-    color: #6c896a;
-}
-
 .not-found-home-text {
-    text-shadow: -2px 2px #3e4f3d;
     font-size: 60px;
 }
 
@@ -657,6 +579,155 @@ input[type="text"] {
 }
 
 /* end not-found-view */
+
+/* ACCOUNT_LIST alfull */
+.account-container {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	padding: 10px;
+}
+
+.account_list {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	overflow-y: auto;
+	width: 50%;
+	margin-left: 0px;
+}
+
+.account_item {
+	border: 2px solid black;
+	border-radius: 10px;
+	margin-bottom: 4px;
+	height: 120px;
+	width: 100%;
+	display: flex;
+	flex-flow: column;
+}
+
+.account_item:hover {
+	cursor: pointer;
+}
+
+.account_item_info {
+	display: flex;
+	height: 100%;
+}
+
+.account_name {
+	width: 100%;
+	height: 50%;
+	font-size: 24px;
+	background-color: #3e4f3d;
+	border-top-left-radius: 9px;
+	border-top-right-radius: 9px;
+}
+
+.account_name > p {
+	margin: auto;
+	padding-top: 6px;
+	padding-left: 6px;
+}
+
+.account_type {
+	width: 36px;
+	border: 1px solid black;
+	border-bottom: 0;
+	border-left: 0;
+	position: relative;
+}
+
+.account_type > p {
+	transform: rotate(-90deg);
+	font-size: 16px;
+	margin: auto;
+	position: absolute;
+	bottom: 30px;
+	left: -16px;
+}
+
+.account_balance {
+	text-align: right;
+	width: 100%;
+	border-top: 1px solid black;
+	position: relative;
+}
+
+.account_balance > * {
+	font-size: 48px;
+	margin: auto;
+	position: absolute;
+	right: 8px;
+	bottom: 0;
+}
+
+/* CREATE_ACCOUNT cafull */
+.account_create_form {
+	color: black;
+	border: 1px solid black;
+    width: 480px;
+    height: 360px;
+    display: flex;
+    flex-flow: column;
+    justify-content: left;
+    align-items: left;
+}
+
+.account_create_form_header {
+    font-size: 32px;
+    font-weight: bolder;
+    margin: 2px;
+    align-self: center;
+}
+
+.account_create_name {
+    margin: 20px;
+    display: flex;
+    flex-flow: column;
+    align-items: left;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.account_create_radio_button_group {
+    display: flex;
+    flex-flow: column;
+    align-items: left;
+    margin: 20px;
+}
+
+.account_create_type_header {
+    margin: 2px;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.account_create_radio_button {
+    font-size: 18px;
+    margin: 8px;
+}
+
+.account_create_submit_button {
+    align-self: center;
+}
+
+.account_create_submit_button:hover {
+    cursor: pointer;
+}
+
+.account-additional-options {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+.account-additional-options button {
+	width: 100px;
+	height: 40px;
+	font-size: 1.2em;
+}
 
 /* 
 --------------------------------
@@ -696,9 +767,6 @@ Media queries for reactive views mqfull
 		width: 60%;
 		height: 60px;
 		border-radius: 20px;
-		background-color: var(--light-element);
-		box-shadow: -5px 5px 0px 1px var(--gold-bullion);
-		color: var(--green-dark-wallstreet);
 		font-size: 3em;
 	}
 	
@@ -823,3 +891,247 @@ Media queries for reactive views mqfull
 		font-weight: 700;
 	}
 }
+
+
+/*
+CHATBOT STYLING BELOW 
+The chatbot styling came with already pre-styled elements already when installed. 
+So there had to be overrides on the containers to get the theme we were aiming for
+*/
+
+.benjamin {
+	/* display: none; */
+	font-size: 14px;
+	position: absolute;
+	bottom: 36px;
+	right: 24px;
+	align-items: center;
+	text-align: center;
+	max-width: 480px;
+}
+
+.benjamin-container {
+	max-height: 60vh;
+	overflow-y: auto;
+}
+
+.chatbot-box {
+	border-radius: 0 0 18px 18px;
+  }
+  
+  #chatbot-title {
+	margin-top: 24px;
+	text-transform: uppercase;
+  }
+  
+  .react-chatbot-kit-chat-container {
+	border-radius: 0 0 18px 18px;
+  }
+  
+  .react-chatbot-kit-chat-header {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 24px;
+	margin-bottom: 18px;
+	height: 72px
+  }
+  
+  .react-chatbot-kit-chat-message-container {
+	margin: 12px 36px;
+	line-height: 30px;
+  }
+  
+  .react-chatbot-kit-chat-bot-message-container {
+	background-color: none;
+  }
+  
+  .react-chatbot-kit-chat-bot-message {
+	font-size: 18px;
+  }
+  
+  .options-container {
+	margin: 18px 0;
+	display: flex;
+	flex-direction: column;
+  }
+  
+  .option-button {
+	margin-top: 6px;
+	padding: 6px;
+	font-size: 18px;
+	height: 36px;
+	width: 100%;
+	font-weight: 600;
+	border: none;
+	border-radius: 10px;
+  }
+  
+  .option-button:hover {
+	cursor: pointer;
+  }
+  
+  .react-chatbot-kit-chat-input-container {
+	width: 100%
+  }
+  
+  .react-chatbot-kit-chat-input {
+	font-size: 18px;
+	width: 85%;
+	border: none;
+	border-bottom-left-radius: 12px;
+	padding-left: 12px;
+  }
+
+  
+  .react-chatbot-kit-chat-input-form {
+	display: flex;
+	width: 100%;
+  }
+  
+  .react-chatbot-kit-chat-btn-send {
+	height: auto;
+	border-radius: 0 0 12px 0;
+	font-size: 2.5rem;
+	margin-top: 0;
+	margin-bottom: 0;
+	font-weight: bold;
+	width: 15%;
+	border: none;
+	object-fit: fill;
+  }
+  
+  .react-chatbot-kit-chat-btn-send:hover {
+	cursor: pointer;
+  }
+  
+  .react-chatbot-kit-chat-btn-send svg {
+	  width: 30px;
+  }
+  
+  .react-chatbot-kit-chat-bot-avatar-container {
+	display: none;
+  }
+  
+  
+  .react-chatbot-kit-user-chat-message-container {
+	margin-top: 12px;
+  }
+  
+  .react-chatbot-kit-user-chat-message {
+	font-size: 24px;
+	margin-bottom: 24px;
+  }
+  
+  .react-chatbot-kit-user-avatar {
+	width: 100%;
+	height: 240px;
+  }
+  
+  .react-chatbot-kit-user-avatar {
+	display: block;
+	width: 70%;
+	height: 210px;
+	margin: auto;
+  }
+  
+  .info-list-container {
+	height: 240px;
+	overflow-y: scroll;
+	width: 100%;
+	overflow-wrap: break-word;
+	line-height: 24px;
+	margin: 18px 0;
+  }
+  
+  .info-list-container li {
+	margin-bottom: 18px;
+  }
+  
+  .atm_list {
+	height: 240px;
+	overflow-y: scroll;
+  }
+  
+  .atmInfo ul {
+	padding-left: 0;
+  }
+
+  .atm-column {
+	  width: 100%;
+  }
+  
+  .questions-container {
+	margin-bottom: 24px;
+  }
+  
+  .questions-container h4 {
+	font-size: 18px;
+  }
+  
+  .questions-container ul, .questions-container ol {
+	padding-left: 0;
+  }
+  
+  .questions-container li {
+	font-weight: 600;
+	text-align: left;
+	padding-left: 18px;
+	margin-left: 36px;
+  }
+  
+  .read-more-link {
+	height: 36px;
+	width: 100%;
+	font-size: 18px;
+	height: 36px;
+	border: none;
+	border-radius: 12px;
+  }
+  
+  .read-more-link h2 {
+	margin: 0;
+  }
+  
+  .extra-content-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	height: 240px;
+	overflow-y: scroll;
+	margin-top: 24px;
+  }
+  
+  .extra-content-container li {
+	font-weight: 600;
+	text-align: left;
+	padding-left: 18px;
+  }
+  
+  #chatbot-faq-create-account-header{
+	margin: 12px 0 0 30px;
+  }
+  
+  .extra-content {
+	margin-top: 6px;
+  }
+  
+  /* Benjamin Popup Styling */
+  #popup-2 {
+	margin: auto;
+	width: 360px;
+	padding: 5px;
+  }
+
+  #popup-2[style] {
+	  top: auto !important;
+	  bottom: 48px;
+	  left: auto !important;
+	  right: 24px;
+  }
+
+  .popup-arrow {
+	display: none;
+  }
+ 
+  

@@ -1,6 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import userStore from "../store/Store.js";
 import axios from "axios";
+import { useDarkMode } from "./style/useDarkMode";
+import {ThemeProvider} from "styled-components";
+import { GlobalStyles } from "../components/style/GlobalStyles";
+import Toggle from "./style/Toggle";
+import { lightTheme, darkTheme } from "../components/style/Themes"
 import { useNavigate } from "react-router-dom";
 import config from "../config.js";
 
@@ -83,31 +88,39 @@ function SigninView() {
 			});
 	}
 
-	
+	const [theme, themeToggler, mountedComponent] = useDarkMode();
+	const themeMode = theme === "light" ? lightTheme : darkTheme;
 
+	if(!mountedComponent) return <div />
 	return (
-		<div className="container-view login-outer-container">
-			<div className="login-inner-container">
-				<div className="login-content-box">
-					<h2 className="logo-smaller">CacheMoney</h2>
-					<div className="login-white-box">
-						<div className="login-white-box-column">
-							<p className="subheader-centered">
-								Please Enter Your Credentials
-							</p>
-							<span id="login-error-box"></span>
-							<label htmlFor="username">Username:</label>
-							<input type="text" className="login-input" name="username" id="username" onChange={handleChange} required />
-							<label htmlFor="password">Password:</label>
-							<input type="text" className="login-input" name="password" id="password" onChange={handleChange} required />
-							<button className="login" type="submit" onClick={handleLogin}>
-								SIGN IN
-							</button>
+		<ThemeProvider theme={themeMode}>
+			<>
+				<GlobalStyles/>
+				<div className="container-view login-outer-container">
+					<div className="login-inner-container">
+						<div className="login-content-box">
+							<Toggle theme={theme} id="login-theme-button" toggleTheme={themeToggler} />
+							<h2 className="logo-smaller">CacheMoney</h2>
+							<div className="login-white-box">
+								<div className="login-white-box-column">
+									<p className="subheader-centered">
+										Please Enter Your Credentials
+									</p>
+									<span id="login-error-box"></span>
+									<label htmlFor="username">Username:</label>
+									<input type="text" className="login-input" name="username" id="username" onChange={handleChange} required />
+									<label htmlFor="password">Password:</label>
+									<input type="text" className="login-input" name="password" id="password" onChange={handleChange} required />
+									<button className="login" id="login-button" type="submit" onClick={handleLogin}>
+										SIGN IN
+									</button>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-		</div>
+			</>
+		</ ThemeProvider>
 	);
 }
 

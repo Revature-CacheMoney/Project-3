@@ -2,27 +2,28 @@ package com.revature.cachemoney.backend.beans.services;
 
 import java.util.*;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-
 import com.revature.cachemoney.backend.beans.models.Account;
 import com.revature.cachemoney.backend.beans.models.Transaction;
-import com.revature.cachemoney.backend.beans.models.User;
 import com.revature.cachemoney.backend.beans.repositories.AccountRepo;
 import com.revature.cachemoney.backend.beans.repositories.TransactionRepo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * Service layer for Account requests.
+ * 
+ * @author Alvin Frierson, Cody Gonsowski, & Jeffrey Lor
+ */
 @Service
 public class AccountService {
-
     private final AccountRepo accountRepo;
     private final TransactionRepo transactionRepo;
-    private final String[] accountTypes = {"checking", "savings"};
+    private final String[] accountTypes = { "checking", "savings" };
 
     @Autowired
     public AccountService(AccountRepo accountRepo, TransactionRepo transactionRepo) {
@@ -30,18 +31,28 @@ public class AccountService {
         this.transactionRepo = transactionRepo;
     }
 
-    // GET all accounts
+    /**
+     * Service method to GET *ALL* Accounts.
+     * 
+     * @return List of Accounts
+     */
     public List<Account> getAllAccounts() {
 
         return accountRepo.findAll();
     }
 
-    // GET account by ID
+    /**
+     * Service method to GET an Account by Account's ID.
+     * 
+     * @param accountId of Account to find
+     * @param userId    to verify the User owns the Account
+     * @return Account associated with the User
+     */
     public Optional<Account> getAccountByID(Integer accountId, Integer userId) {
         Optional<Account> returnAccount = accountRepo.findById(accountId);
 
         if (returnAccount.isPresent()) {
-            if (Objects.equals(returnAccount.get().getUser().getUserId(), userId)){
+            if (Objects.equals(returnAccount.get().getUser().getUserId(), userId)) {
                 return accountRepo.findById(accountId);
             }
         }
@@ -50,7 +61,13 @@ public class AccountService {
 
     }
 
-    // POST an account
+    /**
+     * Service method to POST an Account.
+     * 
+     * @param account of Account to save
+     * @param userId  to verify the User owns the Account
+     * @return (true | false) if the User owns the Account
+     */
     public Boolean postAccount(Account account, Integer userId) {
 
         if (account.getType().equals(accountTypes[0]) || account.getType().equals(accountTypes[1])) {
@@ -66,11 +83,17 @@ public class AccountService {
         return false;
     }
 
-    // DELETE an account
+    /**
+     * Service method to DELETE an Account by Account's ID.
+     * 
+     * @param accountId of Account to delete
+     * @param userId    to verify the User owns the Account
+     * @return (true | false) if the User owns the Account
+     */
     public Boolean deleteAccountById(Integer accountId, Integer userId) {
 
         Optional<Account> returnAccount = accountRepo.findById(accountId);
-        if (returnAccount.isPresent()){
+        if (returnAccount.isPresent()) {
             if (Objects.equals(returnAccount.get().getUser().getUserId(), userId)) {
                 accountRepo.deleteById(accountId);
                 return true;
@@ -80,7 +103,13 @@ public class AccountService {
         return false;
     }
 
-    // GET transaction by ID
+    /**
+     * Service method to GET Transactions associated with an Account's ID.
+     * 
+     * @param accountId of Account to retrieve Transactions from
+     * @param userId    to verify the User owns the Account
+     * @return List of Transactions associated with the Account
+     */
     public List<Transaction> getTransactionsById(Integer accountId, Integer userId) {
         Optional<Account> account = accountRepo.findById(accountId);
         if (account.isPresent()) {
@@ -91,23 +120,14 @@ public class AccountService {
         return null;
     }
 
-    /**
-     *
-     * ******************STRICTLY FOR TESTING PURPOSES*********************
-     *
-     * */
-    public void deleteAllAccounts() {
-        accountRepo.deleteAll();
-    }
-
     /******* MONEY HANDLING *******/
     /**
      * Deposit to an amount to an Account provided the Account's ID.
      * Creates a transaction with a custom description associated with the deposit.
      * 
-//     * @param accountId associated with an Account
-//     * @param amount    to deposit
-//     * @param desc      description for the transaction
+     * @param userId      to verify the User owns the Account
+     * @param transaction containing the accountId, the amount, & (optionally) a
+     *                    description
      * @return (true | false) based on deposit status
      */
     public Boolean depositToAccount(Integer userId, Transaction transaction) {
@@ -161,9 +181,9 @@ public class AccountService {
      * Creates a transaction with a custom description associated with the
      * withdrawal.
      * 
-//     * @param accountId associated with an Account
-//     * @param amount    to withdraw (positive values only)
-//     * @param desc      description for the transaction
+     * @param userId      to verify the User owns the Account
+     * @param transaction containing the accountId, the amount, & (optionally) a
+     *                    description
      * @return (true | false) based on withdrawal status
      */
     public Boolean withdrawFromAccount(Integer userId, Transaction transaction) {
@@ -193,8 +213,13 @@ public class AccountService {
                     // set the current date
                     transaction.setTransactionDate(new Date());
 
-                    // set new balance & store it
+                    // set new balance
                     transaction.setEndingBalance(account.getBalance());
+
+                    // store the amount as a negative
+                    transaction.setTransactionAmount(-transaction.getTransactionAmount());
+
+                    // save the transaction
                     transactionRepo.save(transaction);
 
                     // store the updated balance
@@ -213,10 +238,10 @@ public class AccountService {
     /**
      * Transfer money between two Accounts of the same User.
      * 
+     * @param userId          to verify the User owns the Account
      * @param sourceAccountId of Account to transfer from
      * @param destAccountId   of Account to transfer to
-//     * @param amount          to transfer
-//     * @param desc            description for the transaction
+     * @param transaction     containing description & amount
      * @return (true | false) based on transfer status
      */
     public Boolean transferBetweenAccountsOfOneUser(Integer userId, Integer sourceAccountId, Integer destAccountId,
@@ -249,15 +274,13 @@ public class AccountService {
         return false;
     }
 
-    // SEND money from user's own account to another account owned by ANOTHER user.
-    // user initiating transfer CANNOT take money from other user, only send to
-    // other user
-    // NOT MVP, just setting up stretch goal if there's time
-//    public void sendToAccountOfDifferentUser(User sender, User receiver, Account sendFromAccount,
-//            Account receiveToAccount, Double amount) {
-//        sendFromAccount.setBalance(sendFromAccount.getBalance() - amount);
-//        receiveToAccount.setBalance(receiveToAccount.getBalance() + amount);
-//    }
+    /**
+     *
+     * ******************STRICTLY FOR TESTING PURPOSES*********************
+     *
+     */
+    public void deleteAllAccounts() {
+        accountRepo.deleteAll();
+    }
 
 }
-

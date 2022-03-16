@@ -5,6 +5,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+/**
+ * Model containing information regarding a Transfer.
+ */
 @Getter
 @Setter
 @ToString

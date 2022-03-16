@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 /**
  * Controller to handle requests related to Accounts.
  * 
- * @author Brian Gardner, Cody Gonsowski, & Jeffrey Lor
+ * @author Alvin Frierson, Brian Gardner, Cody Gonsowski, & Jeffrey Lor
  */
 @RestController
 @RequestMapping("/accounts")
