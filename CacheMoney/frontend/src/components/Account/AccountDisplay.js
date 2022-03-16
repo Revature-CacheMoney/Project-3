@@ -2,7 +2,6 @@ import AdditionalActions from "../Transaction/AdditionalActions.js";
 import TransactionFilter from "../Transaction/TransactionFilter.js";
 import AccountList from "./AccountList.js";
 import React, { useState } from "react";
-import "../../css/App.css";
 
 // This is a wrapper showing the account list and space for transactions
 function AccountDisplay() {
@@ -12,13 +11,12 @@ function AccountDisplay() {
 	// it displays additional options (deposit, withdraw, transfer)
 	const showAdditionalActions = () => {
 		if (account.name) {
-			// console.log("received in SAA: ", account);
 			return (
 				<div className="account-options-container">
 					<div id="account-display-header">
 						<h2>{account.name}</h2>
 					</div>
-					<AdditionalActions />
+					<AdditionalActions doTransactionDone={handleTransactionDone} />
 					<br />
 					<TransactionFilter />
 				</div>
@@ -27,11 +25,17 @@ function AccountDisplay() {
 			return;
 		}
 	};
-	// store.subscribe(showAdditionalActions);
 
+	// This updates the title on the additional menu (right side)
 	const handleTitleUpdate = (newAccount) => {
 		setAccount(newAccount);
-		// console.log("received in HTU: ", newAccount);
+	};
+
+	// This handler communicates to accountlist to do a reload
+	// It is ultimately called by Deposit, Withdraw, Transfer components onSubmit
+	const handleTransactionDone = (event) => {
+		console.log("Update the account");
+		console.log(event.target);
 	};
 
 	return (

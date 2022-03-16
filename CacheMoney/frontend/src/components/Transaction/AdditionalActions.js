@@ -3,26 +3,25 @@ import Deposit from "./Deposit.js";
 import Withdraw from "./Withdraw.js";
 import Transfer from "./Transfer.js";
 
-function AdditionalActions() {
+function AdditionalActions(props) {
 	const [submenu, setSubMenu] = useState("");
 
 	let additionalContent = (submenu) => {
 		switch (submenu) {
 			case "deposit":
-				return <Deposit />;
+				return <Deposit doTransactionDone={props.doTransactionDone} />;
 			case "withdraw":
-				return <Withdraw />;
+				return <Withdraw doTransactionDone={props.doTransactionDone} />;
 			case "transfer":
-				return <Transfer />;
+				return <Transfer doTransactionDone={props.doTransactionDone} />;
 			default:
 				return;
 		}
 	};
 
+	// User has clicked a button (deposit, withdraw, transfer)
 	const handleOptionSelection = (event) => {
-		console.log(event.target.value);
 		setSubMenu(event.target.value);
-		console.log(submenu);
 		additionalContent(submenu);
 	};
 

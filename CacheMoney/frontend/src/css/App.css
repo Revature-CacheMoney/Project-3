@@ -582,7 +582,7 @@ input[type="text"] {
 .account-container {
 	display: flex;
 	flex-direction: row;
-	justify-content: space-between;
+	justify-content: space-around;
 	box-sizing: border-box;
 	width: auto;
 }
@@ -763,6 +763,10 @@ input[type="text"] {
 	color: var(--grey-charcoal);
 	width: 50%;
 	margin: auto;
+}
+
+.transaction-container {
+	width: auto;
 }
 
 .transaction-inner-container {
