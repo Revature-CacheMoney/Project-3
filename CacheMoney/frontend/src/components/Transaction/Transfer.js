@@ -38,6 +38,8 @@ function Transfer(props) {
 
 		// perform the post
 		postTransfer(transfer);
+		// maybe do this in/after the api call
+		props.doTransactionDone(Date.now());
 	};
 
 	return (

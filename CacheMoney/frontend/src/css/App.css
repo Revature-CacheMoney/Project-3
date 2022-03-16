@@ -450,14 +450,17 @@ input[type="text"] {
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
-	column-gap: 50px;
+	align-content: flex-end;
+	column-gap: 40px;
 	box-sizing: border-box;
 	padding-left: 30px;
 	padding-right: 30px;
 }
 
 .navigation-link {
-	font-size: 3rem;
+	font-size: 2rem;
+	margin-bottom: 0;
+	box-sizing: border-box;
 }
 
 .settings {
@@ -695,6 +698,7 @@ input[type="text"] {
 	border-radius: 20px 20px 0 0;
 }
 
+
 .deposit-form, .withdraw-form {
 	display: flex;
 	flex-direction: column;
@@ -885,6 +889,10 @@ input[type="text"] {
 	margin: auto;
 }
 
+.transaction-container {
+	width: auto;
+}
+
 .transaction-inner-container {
 	display: flex;
 	justify-content: center;
@@ -916,7 +924,8 @@ td {
 	border-bottom: 1px solid;
 }
 
-.positive_balance, .negative_balance {
+.positive_balance,
+.negative_balance {
 	font-weight: 900;
 }
 

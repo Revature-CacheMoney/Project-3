@@ -81,6 +81,8 @@ function TransactionTable(props) {
 							value={transaction.transactionAmount}
 							displayType={"text"}
 							thousandSeparator={true}
+							decimalScale={2}
+							fixedDecimalScale={true}
 							prefix={"$"}
 						/>
 					</td>
@@ -89,6 +91,8 @@ function TransactionTable(props) {
 							value={transaction.endingBalance}
 							displayType={"text"}
 							thousandSeparator={true}
+							decimalScale={2}
+							fixedDecimalScale={true}
 							prefix={"$"}
 						/>
 					</td>

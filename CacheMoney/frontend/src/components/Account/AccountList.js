@@ -15,8 +15,8 @@ function AccountList(props) {
 	// setAccounts is the setter function
 	// read state with accounts
 
-	// effect hook
-	useEffect(() => {
+	const handleAccountUpdate = () => {
+		console.log("Accounts loaded", props.doAccountUpdate);
 		// get all of a user's accounts
 		axios
 			.get(`${config.url}users/accounts`, {
@@ -27,35 +27,20 @@ function AccountList(props) {
 			})
 			.then((response) => {
 				const allAccounts = response.data;
-
-				// Modifying the account object to also have whether displayed or not
-				/*allAccounts.forEach((account) => {
-					account.showingOptions = false;
-				}); */
 				setAccounts(allAccounts);
 			})
 			.catch((error) => console.error(`Error: ${error}`));
-	}, []);
-	//}, [accounts]);
+	};
 
-	// When selected, this updates the state
-	// Selected account is showing options, hides old one
-	// acctNum = specified account (clicked or unclicked)
-	// isToggled = boolean, if selected or deselected
-	/*
-	function updateAccountDisplay(acctNum, isToggled) {
-		console.log("updating " + acctNum + " with: " + isToggled);
-		let modifiedAccounts = accounts;
-		// find the selected account and set its displayoptions to none
-		for (let i = 0; i < modifiedAccounts.length; i++) {
-			let account = modifiedAccounts[i];
-			if (account.accountId === acctNum) {
-				account.showingOptions = isToggled;
-			}
-		}
-		// Update the account state
-		setAccounts(modifiedAccounts);
-	} */
+	// watch if someone did a deposit, etc
+	//store.subscribe(handleAccountUpdate);
+
+	// effect hook
+	useEffect(() => {
+		console.log("useEffect");
+		handleAccountUpdate();
+	}, [props.doTitleUpdate]);
+	//store.getState().accountReducer.someData
 
 	//event, props, data, triggerEvent
 	const handleAccountClick = (event) => {
@@ -74,9 +59,8 @@ function AccountList(props) {
 			payload: event.currentTarget.id,
 		});
 		doTitleUpdate(currentlySelectedAccount);
-
-		// Show additional options for the currently selected account
-		//updateAccountDisplay(event.currentTarget.id, true);
+		// Do an account update just because
+		handleAccountUpdate();
 	};
 
 	const content = accounts.map((account) => {
@@ -101,6 +85,8 @@ function AccountList(props) {
 							value={account.balance}
 							displayType={"text"}
 							thousandSeparator={true}
+							decimalScale={2}
+							fixedDecimalScale={true}
 							prefix={"$"}
 						/>
 					</div>
@@ -108,12 +94,6 @@ function AccountList(props) {
 			</div>
 		);
 	});
-
-	const noAccountMessageWrapper = () => {
-		if (accounts.length === 0) {
-		}
-		<div className="account_list">{content}</div>;
-	};
 
 	const noAccountsMessage = () => {
 		if (accounts.length === 0) {

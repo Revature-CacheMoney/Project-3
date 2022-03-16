@@ -1,8 +1,15 @@
 import React from "react";
-//import userStore from "../store/Store";
+import CurrencyFormat from "react-currency-format";
 
 function Transaction(props) {
 	let { date, description, type, amount } = props.accounts;
+
+	/*
+
+						
+
+*/
+
 	return (
 		<>
 			<tr>
