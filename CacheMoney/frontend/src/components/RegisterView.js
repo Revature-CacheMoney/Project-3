@@ -1,10 +1,10 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useDarkMode } from "./style/useDarkMode";
-import {ThemeProvider} from "styled-components";
+import { ThemeProvider } from "styled-components";
 import { GlobalStyles } from "../components/style/GlobalStyles";
 import Toggle from "./style/Toggle";
-import { lightTheme, darkTheme } from "../components/style/Themes"
+import { lightTheme, darkTheme } from "../components/style/Themes";
 import { useNavigate } from "react-router-dom";
 import config from "../config.js";
 
@@ -31,7 +31,7 @@ function RegisterView() {
 	const handleSubmit = (event) => {
 		event.preventDefault();
 		validateInput();
-		console.log("Information being sent:  ", formData);
+		//console.log("Information being sent:  ", formData);
 		doRegistration();
 	};
 
@@ -64,14 +64,14 @@ function RegisterView() {
 				"Invalid first name",
 				"Please check the spelling and try again."
 			);
-		} 
+		}
 		if (!namePattern.test(lastName)) {
 			regValidity = false;
 			registrationError(
 				"lastname",
 				"lastname-span",
 				"lastname-description",
-				"Invalid last name", 
+				"Invalid last name",
 				"Please check the spelling and try again."
 			);
 		}
@@ -128,7 +128,13 @@ function RegisterView() {
 		return true;
 	}
 
-	function registrationError(id, spanId, descriptionId, errorTitle, errorDescription) {
+	function registrationError(
+		id,
+		spanId,
+		descriptionId,
+		errorTitle,
+		errorDescription
+	) {
 		let ele = document.getElementById(id);
 		ele.style.border = "2px solid red";
 		ele.style.boxShadow = "-4px 4px 0px #b04050";
@@ -159,7 +165,7 @@ function RegisterView() {
 		axios
 			.post(`${url}users/`, newUser)
 			.then((response) => {
-				console.log(response);
+				//console.log(response);
 				responseStatus = response.status;
 				responseData = response.data;
 				if (responseStatus === 200) {
@@ -179,16 +185,20 @@ function RegisterView() {
 	const [theme, themeToggler, mountedComponent] = useDarkMode();
 	const themeMode = theme === "light" ? lightTheme : darkTheme;
 
-	if(!mountedComponent) return <div />
+	if (!mountedComponent) return <div />;
 
 	return (
 		<ThemeProvider theme={themeMode}>
 			<>
-				<GlobalStyles/>
+				<GlobalStyles />
 				<div className="container-view login-outer-container">
 					<div className="login-inner-container">
 						<div className="login-content-box">
-							<Toggle id="register-theme-button" theme={theme} toggleTheme={themeToggler} />
+							<Toggle
+								id="register-theme-button"
+								theme={theme}
+								toggleTheme={themeToggler}
+							/>
 							<h2 className="logo-smaller" id="register-logo">
 								CacheMoney
 							</h2>
@@ -201,8 +211,14 @@ function RegisterView() {
 										<div id="box-L" className="reg-name-box">
 											<label htmlFor="firstName" id="label-L">
 												First name:
-												<span className="detail-text" id="firstname-span"></span>
-												<span className="err-desc" id="firstname-description"></span>
+												<span
+													className="detail-text"
+													id="firstname-span"
+												></span>
+												<span
+													className="err-desc"
+													id="firstname-description"
+												></span>
 											</label>
 											<input
 												type="text"
@@ -218,7 +234,10 @@ function RegisterView() {
 											<label htmlFor="lastName" id="label-R">
 												Last name:
 												<span className="detail-text" id="lastname-span"></span>
-												<span className="err-desc" id="lastname-description"></span>
+												<span
+													className="err-desc"
+													id="lastname-description"
+												></span>
 											</label>
 											<input
 												type="text"
@@ -255,7 +274,10 @@ function RegisterView() {
 											<span className="detail-text" id="username-span">
 												*must be unique
 											</span>
-											<span className="err-desc" id="username-description"></span>
+											<span
+												className="err-desc"
+												id="username-description"
+											></span>
 										</label>
 										<input
 											type="text"
@@ -271,7 +293,10 @@ function RegisterView() {
 										<label htmlFor="password">
 											Password:
 											<span className="detail-text" id="password1-span"></span>
-											<span className="err-desc" id="password1-description"></span>
+											<span
+												className="err-desc"
+												id="password1-description"
+											></span>
 										</label>
 										<input
 											type="text"
@@ -287,7 +312,10 @@ function RegisterView() {
 										<label htmlFor="password2">
 											Confirm password:
 											<span className="detail-text" id="password2-span"></span>
-											<span className="err-desc" id="password2-description"></span>
+											<span
+												className="err-desc"
+												id="password2-description"
+											></span>
 										</label>
 										<input
 											type="text"
@@ -299,14 +327,20 @@ function RegisterView() {
 										/>
 									</div>
 
-									<input type="submit" value="Register" className="login" id="register-button" onClick={handleSubmit} />
+									<input
+										type="submit"
+										value="Register"
+										className="login"
+										id="register-button"
+										onClick={handleSubmit}
+									/>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</>
-		</ ThemeProvider>
+		</ThemeProvider>
 	);
 }
 

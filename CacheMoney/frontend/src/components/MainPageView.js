@@ -26,12 +26,12 @@ function MainPageView2() {
 		});
 
 		navigate("/");
-	}
+	};
 
 	const [theme, themeToggler, mountedComponent] = useDarkMode();
 	const themeMode = theme === "light" ? lightTheme : darkTheme;
 
-	if (!mountedComponent) return <div />
+	if (!mountedComponent) return <div />;
 
 	const updateMainPageContent = (event) => {
 		console.log(event.target.id + " was clicked");
@@ -44,7 +44,7 @@ function MainPageView2() {
 			case "account-overview":
 				return <AccountDisplay />;
 			case "create-account":
-				return <CreateAccount />;
+				return <CreateAccount handleClick={updateMainPageContent} />;
 			case "transfer-money":
 				return <Transfer />;
 			default:
@@ -65,10 +65,16 @@ function MainPageView2() {
 						</span>
 					</div>
 					<div className="main-upper-buttons">
-						<a href="#">
-							<button id="logout-button" onClick={handleLogout}> Log Out</button>
-						</a>
-						<Toggle id="main-theme-button" theme={theme} toggleTheme={themeToggler} />
+						<button id="logout-button" onClick={handleLogout}>
+							{" "}
+							Log Out
+						</button>
+
+						<Toggle
+							id="main-theme-button"
+							theme={theme}
+							toggleTheme={themeToggler}
+						/>
 					</div>
 				</div>
 
@@ -83,7 +89,7 @@ function MainPageView2() {
 
 				<Footer />
 			</div>
-		</ ThemeProvider>
+		</ThemeProvider>
 	);
 }
 

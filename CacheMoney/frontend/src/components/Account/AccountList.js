@@ -7,7 +7,6 @@ import React, { useEffect, useState } from "react";
 import config from "../../config.js";
 import store from "../../store/Store.js";
 import CurrencyFormat from "react-currency-format";
-import "../../css/App.css";
 
 function AccountList(props) {
 	const doTitleUpdate = props.doTitleUpdate;
@@ -36,9 +35,6 @@ function AccountList(props) {
 				setAccounts(allAccounts);
 			})
 			.catch((error) => console.error(`Error: ${error}`));
-
-		// log to verify
-		console.log("Use effect has been called");
 	}, []);
 	//}, [accounts]);
 
@@ -113,8 +109,23 @@ function AccountList(props) {
 		);
 	});
 
+	const noAccountsMessage = () => {
+		console.log(accounts);
+		if (accounts.length === 0) {
+			return (
+				<div className="no-account-message">
+					You currently have no accounts. Select "Create Account" to get started
+					today!
+				</div>
+			);
+		} else {
+			return;
+		}
+	};
+
 	return (
 		<>
+			{noAccountsMessage()}
 			<div className="account_list">{content}</div>
 		</>
 	);
