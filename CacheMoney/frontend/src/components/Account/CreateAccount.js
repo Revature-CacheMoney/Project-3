@@ -6,10 +6,8 @@ import axios from "axios";
 import { useState } from "react";
 import config from "../../config";
 import store from "../../store/Store.js";
-import { useNavigate } from "react-router-dom";
 
 function CreateAccount(props) {
-	const navigate = useNavigate();
 	// local formData state
 	const [formData, setFormData] = useState({
 		name: "",
@@ -46,6 +44,9 @@ function CreateAccount(props) {
 		postAccount(formData);
 		props.handleClick(event);
 		//navigate("/signin");
+		alert(
+			"Account successfully created! Please return to the Accounts page to start using your new account."
+		);
 	};
 
 	return (
