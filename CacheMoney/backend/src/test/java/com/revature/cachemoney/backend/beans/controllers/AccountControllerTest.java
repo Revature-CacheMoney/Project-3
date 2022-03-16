@@ -1,3 +1,13 @@
+/**
+ * Unit testing of the AccountController class.
+ * Authors: David Alvarado, Brandon Perrien,
+ *          Jeremiah Smith, Alvin Frierson,
+ *          Trevor Hughes, Maja Wirkijowska,
+ *          Ahmad Rawashdeh, Ibrahima Diallo,
+ *          Brian Gardner, Jeffrey Lor,
+ *          Mark Young.
+ *
+ */
 package com.revature.cachemoney.backend.beans.controllers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -36,7 +46,10 @@ class AccountControllerTest {
     
     private User user;
     private Account account;
-    
+
+    /**
+     * Data initialization before each test method
+     * */
     @BeforeEach
     void populateData() {
         user = new User("Jon", "Snow", "jonsnow@gmail.com", "theonetrueking", "jonsnowking");
@@ -46,7 +59,9 @@ class AccountControllerTest {
         account = new Account("checking", "jonsaccount"); 
         account.setUser(user);
     }
-
+    /**
+     * Data deleted in case changed were made.
+     * */
     @AfterEach
     void unpopulateData(){
         user = null;
@@ -54,95 +69,145 @@ class AccountControllerTest {
 
     }
 
+    /**
+     *
+     * Method test if retrieving an account by id
+     * is possible when certain criteria is met.
+     * */
     @Test
     void getAccountByID() throws JsonProcessingException {
-
+        // mocking accountService to return an Optional with our account created here.
         when(accountService.getAccountByID(1, 1)).thenReturn(Optional.of(account));
+        //Checking response's http status
         ResponseEntity<String> response = accountController.getAccountByID("test", 1,1);
         assertEquals(HttpStatus.OK, response.getStatusCode());
 
+        // mocking accountService to return an empty optional (failed attempt)
         when(accountService.getAccountByID(1, 1)).thenReturn(Optional.empty());
+        //Checking response's http status
         response = accountController.getAccountByID("test", 1,1);
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 
     }
-
+    /**
+     * Method test to check if persisting an account
+     * is possible when criteria are met.
+     * */
     @Test
     void postAccount() throws Exception {
-
+        // mocking accountService to return true.
         when(accountService.postAccount(account, user.getUserId())).thenReturn(true);
+        //Checking response's http status
         ResponseEntity<String> response = accountController.postAccount("test", user.getUserId(), account);
         assertEquals(HttpStatus.OK,response.getStatusCode());
 
-
+        // mocking accountService to return false.
         when(accountService.postAccount(account, user.getUserId())).thenReturn(false);
+        //Checking response's http status
         response = accountController.postAccount("test", user.getUserId(), account);
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 
 
     }
-
+    /**
+     * Method test to check if deleting an account
+     * is possible when criteria are met.
+     *
+     * */
     @Test
     void deleteAccountById() {
+        // mocking accountService to return true.
         when(accountService.deleteAccountById(account.getAccountId(), user.getUserId())).thenReturn(true);
+        //Checking response's http status
         ResponseEntity<String> response = accountController.deleteAccountById("test", user.getUserId(), account.getAccountId());
         assertEquals(HttpStatus.OK,response.getStatusCode());
 
+        // mocking accountService to return false.
         when(accountService.deleteAccountById(account.getAccountId(), user.getUserId())).thenReturn(false);
+
+        //Checking response's http status
         response = accountController.deleteAccountById("test", user.getUserId(), account.getAccountId());
         assertEquals(HttpStatus.BAD_REQUEST,response.getStatusCode());
 
     }
 
+    /**
+     * Method test to check if retrieving
+     * transactions is possible when
+     * criteria are met.
+     * */
     @Test
     void getTransactionsById() throws JsonProcessingException {
-
+        // mocking accountService to return an empty list of transactions
         when(accountService.getTransactionsById(account.getAccountId(), user.getUserId())).thenReturn(new LinkedList<Transaction>());
+        //Checking response's http status
         ResponseEntity<String> response = accountController.getTransactionsById("test", user.getUserId(), account.getAccountId());
         assertEquals(HttpStatus.OK,response.getStatusCode());
     }
 
+    /**
+     * Method test to check if a deposit
+     * is possible when criteria are met.
+     * */
     @Test
     void deposit() {
+        // new transaction creation
         Transaction transaction = new Transaction();
+        // mocking accountService to return true
         when(accountService.depositToAccount(user.getUserId(), transaction)).thenReturn(true);
+        //Checking response's http status
         ResponseEntity<String> response = accountController.deposit("test", user.getUserId(), transaction);
         assertEquals(HttpStatus.OK,response.getStatusCode());
 
+        // mocking accountService to return false
         when(accountService.depositToAccount(user.getUserId(), transaction)).thenReturn(false);
+        //Checking response's http status
         response = accountController.deposit("test", user.getUserId(), transaction);
         assertEquals(HttpStatus.BAD_REQUEST,response.getStatusCode());
     }
 
+    /**
+     * Method test to check if a withdrawal
+     * is possible when criteria are met.
+     * */
     @Test
     void withdraw() {
+        // new transaction creation
         Transaction transaction = new Transaction();
+        // mocking accountService to return true
         when(accountService.withdrawFromAccount(user.getUserId(), transaction)).thenReturn(true);
+        //Checking response's http status
         ResponseEntity<String> response = accountController.withdraw("test", user.getUserId(), transaction);
         assertEquals(HttpStatus.OK,response.getStatusCode());
 
+        // mocking accountService to return false
         when(accountService.withdrawFromAccount(user.getUserId(), transaction)).thenReturn(false);
+        //Checking response's http status
         response = accountController.withdraw("test", user.getUserId(), transaction);
         assertEquals(HttpStatus.BAD_REQUEST,response.getStatusCode());
     }
 
     @Test
     void transfer() {
+        // new Transfer creation
         Transfer sourceTransfer = new Transfer();
-
+        // mocking accountService to return true
         when(accountService.transferBetweenAccountsOfOneUser(
                 user.getUserId(),sourceTransfer.getSourceAccountId(),
                 sourceTransfer.getDestinationAccountId(),
                 sourceTransfer.getTransaction()))
                 .thenReturn(true);
+        //Checking response's http status
         ResponseEntity<String> response = accountController.transfer("test", user.getUserId(), sourceTransfer);
         assertEquals(HttpStatus.OK,response.getStatusCode());
 
+        // mocking accountService to return false
         when(accountService.transferBetweenAccountsOfOneUser(
                 user.getUserId(),sourceTransfer.getSourceAccountId(),
                 sourceTransfer.getDestinationAccountId(),
                 sourceTransfer.getTransaction()))
                 .thenReturn(false);
+        //Checking response's http status
         response = accountController.transfer("test", user.getUserId(), sourceTransfer);
         assertEquals(HttpStatus.BAD_REQUEST,response.getStatusCode());
     }
