@@ -109,15 +109,15 @@ function AccountList(props) {
 		);
 	});
 
+	const noAccountMessageWrapper = () => {
+		if (accounts.length === 0) {
+		}
+		<div className="account_list">{content}</div>;
+	};
+
 	const noAccountsMessage = () => {
 		if (accounts.length === 0) {
 			// This is the most hacky way to do this.  Sorry.
-
-			try {
-				document.getElementsByClassName(
-					"account-container"
-				)[0].style.flexDirection = "column";
-			} catch {}
 			return (
 				<div className="no-account-message">
 					You currently have no accounts. Select "Create Account" to get started
@@ -125,11 +125,6 @@ function AccountList(props) {
 				</div>
 			);
 		} else {
-			try {
-				document.getElementsByClassName(
-					"account-container"
-				)[0].style.flexDirection = "row";
-			} catch {}
 			return;
 		}
 	};

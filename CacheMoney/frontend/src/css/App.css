@@ -580,7 +580,6 @@ input[type="text"] {
 .account-container {
 	display: flex;
 	flex-direction: row;
-	justify-content: space-between;
 	padding: 10px;
 }
 
@@ -666,9 +665,16 @@ input[type="text"] {
 }
 
 /* CREATE_ACCOUNT cafull */
+.create-account-inner-container {
+	display: flex;
+	justify-content: center;
+}
+
 .account_create_form {
 	color: black;
+	background-color: var(--green-light-tender);
 	border: 1px solid black;
+	border-radius: 10px;
 	width: 480px;
 	height: 360px;
 	display: flex;
@@ -722,7 +728,6 @@ input[type="text"] {
 .account-additional-options {
 	display: flex;
 	flex-direction: row;
-	justify-content: space-between;
 }
 
 .account-additional-options button {
@@ -746,6 +751,18 @@ input[type="text"] {
 	color: var(--grey-charcoal);
 	font-size: 3vh;
 	margin: auto;
+}
+
+/* Transaction stuff */
+.transfer-form {
+	color: var(--grey-charcoal);
+	width: 50%;
+	margin: auto;
+}
+
+.transaction-inner-container {
+	display: flex;
+	justify-content: center;
 }
 
 /* 
