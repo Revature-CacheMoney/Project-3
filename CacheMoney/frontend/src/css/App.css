@@ -415,6 +415,7 @@ input[type="text"] {
 	font-size: 1em;
 	margin: 0px;
 	padding: 0px;
+	box-sizing: border-box;
 }
 
 /* This encompasses header-inner and navigation */
@@ -488,6 +489,7 @@ input[type="text"] {
 	width: 100%;
 	margin: auto;
 	padding-top: 20px;
+	box-sizing: border-box;
 }
 
 .main-upper-buttons {
@@ -580,7 +582,9 @@ input[type="text"] {
 .account-container {
 	display: flex;
 	flex-direction: row;
-	padding: 10px;
+	justify-content: space-between;
+	box-sizing: border-box;
+	width: auto;
 }
 
 .account_list {
@@ -591,6 +595,7 @@ input[type="text"] {
 	width: 47%;
 	margin-left: 0px;
 	box-sizing: border-box;
+	margin-left: 10px;
 }
 
 .account_item {

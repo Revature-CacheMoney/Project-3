@@ -5,6 +5,7 @@ function NavBar(props) {
 		console.log("Hover event", event.target.id);
 	};
 
+	// Make sure to add additional cases to MainPageView to handle any routing changes/new links
 	return (
 		<div className="navigation-bar">
 			{/*<a href="/accounts">*/}
@@ -32,9 +33,19 @@ function NavBar(props) {
 				<span
 					className="navigation-link"
 					onClick={props.handleClick}
-					id="transfer-money"
+					id="investment-portfolio"
 				>
-					Transfer Money
+					Investment Porfolio
+				</span>
+			</a>
+			<a href="#">
+				{/*<a href="/transfer">*/}
+				<span
+					className="navigation-link"
+					onClick={props.handleClick}
+					id="rewards"
+				>
+					Rewards
 				</span>
 			</a>
 			<div className="settings">
