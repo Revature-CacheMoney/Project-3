@@ -15,8 +15,8 @@ function AccountList(props) {
 	// setAccounts is the setter function
 	// read state with accounts
 
-	// effect hook
-	useEffect(() => {
+	const handleAccountUpdate = () => {
+		console.log("Accounts loaded");
 		// get all of a user's accounts
 		axios
 			.get(`${config.url}users/accounts`, {
@@ -30,8 +30,16 @@ function AccountList(props) {
 				setAccounts(allAccounts);
 			})
 			.catch((error) => console.error(`Error: ${error}`));
-	}, []);
-	//}, [accounts]);
+	};
+
+	// watch if someone did a deposit, etc
+	store.subscribe(handleAccountUpdate);
+
+	// effect hook
+	useEffect(() => {
+		console.log("useEffect");
+		handleAccountUpdate();
+	}, [props.someAmount]);
 
 	//event, props, data, triggerEvent
 	const handleAccountClick = (event) => {
@@ -83,12 +91,6 @@ function AccountList(props) {
 			</div>
 		);
 	});
-
-	const noAccountMessageWrapper = () => {
-		if (accounts.length === 0) {
-		}
-		<div className="account_list">{content}</div>;
-	};
 
 	const noAccountsMessage = () => {
 		if (accounts.length === 0) {

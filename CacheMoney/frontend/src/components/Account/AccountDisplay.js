@@ -6,6 +6,7 @@ import React, { useState } from "react";
 // This is a wrapper showing the account list and space for transactions
 function AccountDisplay() {
 	const [account, setAccount] = useState({});
+	const [savedAmount, setAmount] = useState(0);
 
 	// This occurs when the user has selected an account
 	// it displays additional options (deposit, withdraw, transfer)
@@ -33,14 +34,16 @@ function AccountDisplay() {
 
 	// This handler communicates to accountlist to do a reload
 	// It is ultimately called by Deposit, Withdraw, Transfer components onSubmit
-	const handleTransactionDone = (event) => {
+	const handleTransactionDone = (amount) => {
 		console.log("Update the account");
-		console.log(event.target);
+		console.log(amount);
+		setAmount(amount);
+		console.log(savedAmount);
 	};
 
 	return (
 		<div className="account-container">
-			<AccountList doTitleUpdate={handleTitleUpdate} />
+			<AccountList doTitleUpdate={handleTitleUpdate} someAmount={savedAmount} />
 			<div className="transaction-container">{showAdditionalActions()}</div>
 		</div>
 	);

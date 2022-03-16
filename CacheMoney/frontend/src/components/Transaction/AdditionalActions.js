@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Deposit from "./Deposit.js";
 import Withdraw from "./Withdraw.js";
 import Transfer from "./Transfer.js";
+import store from "../../store/Store.js";
 
 function AdditionalActions(props) {
 	const [submenu, setSubMenu] = useState("");
@@ -9,11 +10,11 @@ function AdditionalActions(props) {
 	let additionalContent = (submenu) => {
 		switch (submenu) {
 			case "deposit":
-				return <Deposit doTransactionDone={props.doTransactionDone} />;
+				return <Deposit doTransactionDone={handleAccountUpdate} />;
 			case "withdraw":
-				return <Withdraw doTransactionDone={props.doTransactionDone} />;
+				return <Withdraw doTransactionDone={handleAccountUpdate} />;
 			case "transfer":
-				return <Transfer doTransactionDone={props.doTransactionDone} />;
+				return <Transfer doTransactionDone={handleAccountUpdate} />;
 			default:
 				return;
 		}
@@ -23,6 +24,17 @@ function AdditionalActions(props) {
 	const handleOptionSelection = (event) => {
 		setSubMenu(event.target.value);
 		additionalContent(submenu);
+	};
+
+	// This is the worst idea I've ever had.
+	// When triggered by a transaction completed, it saves the date in ms to store.
+	// Account should subscribe to the store to update when it notices it is changed.
+	const handleAccountUpdate = () => {
+		store.dispatch({
+			type: "UPDATE_ACCOUNTS_PLEASE",
+			payload: Date.now(),
+		});
+		// UPDATE_ACCOUNTS_PLEASE
 	};
 
 	return (
