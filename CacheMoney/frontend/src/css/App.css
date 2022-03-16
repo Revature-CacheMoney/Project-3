@@ -910,6 +910,11 @@ So there had to be overrides on the containers to get the theme we were aiming f
 	max-width: 480px;
 }
 
+.benjamin-container {
+	max-height: 60vh;
+	overflow-y: auto;
+}
+
 .chatbot-box {
 	border-radius: 0 0 18px 18px;
   }

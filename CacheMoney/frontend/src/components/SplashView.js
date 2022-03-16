@@ -25,7 +25,7 @@ function SplashView() {
         <div id="splash-outer-container" className="container-view">
           <div className="benjamin">
             <Popup trigger={<button>Chat</button>} position="center">
-              <div>
+              <div className="benjamin-container">
                 <Chatbot
                   config={chatbotConfig}
                   actionProvider={ActionProvider}
