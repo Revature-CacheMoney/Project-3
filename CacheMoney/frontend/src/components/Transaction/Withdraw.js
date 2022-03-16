@@ -41,7 +41,7 @@ function Withdraw(props) {
                 <div className="withdraw-form">
                     <p className="withdraw-form-header">Withdraw</p>
 
-                    <form onSubmit={handleSubmit}>
+                    <form id="withdraw-inner-form" onSubmit={handleSubmit}>
                         <div className="withdraw-amount">
                             <label>Amount</label>
                             <input type="number" min="0.01" step="0.01" id="withdraw-input" name="transactionAmount" />
