@@ -47,6 +47,8 @@ body {
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
+	/* This is hiding the actual positioning problem in maincontent */
+	overflow-x: hidden;
 }
 
 /* Generic button for any button - note that colors change on diff views */
