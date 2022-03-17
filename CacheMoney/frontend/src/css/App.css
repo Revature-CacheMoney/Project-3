@@ -192,7 +192,8 @@ a {
 	font-size: 18px;
 }
 
-.login-outer-container input[type="text"] {
+.login-outer-container input[type="text"],
+.login-outer-container input[type="password"] {
 	width: 100%;
 	height: 5vh;
 	margin-bottom: 20px;
@@ -229,7 +230,8 @@ regfull
 	justify-content: space-between;
 }
 
-input[type="text"] {
+input[type="text"],
+input[type="password"] {
 	padding-left: 15px;
 	font-size: 20px;
 }
@@ -463,6 +465,10 @@ input[type="text"] {
 	box-sizing: border-box;
 }
 
+.navigation-link:hover {
+	cursor: pointer;
+}
+
 .settings {
 	text-align: end;
 	flex-grow: 2;
@@ -694,12 +700,13 @@ input[type="text"] {
 	border-radius: 20px;
 }
 
-#selectFilter:focus, #selectAccount:focus {
+#selectFilter:focus,
+#selectAccount:focus {
 	border-radius: 20px 20px 0 0;
 }
 
-
-.deposit-form, .withdraw-form {
+.deposit-form,
+.withdraw-form {
 	display: flex;
 	flex-direction: column;
 	height: 150px;
@@ -715,7 +722,8 @@ input[type="text"] {
 	justify-content: center;
 }
 
-#deposit-inner-form, #withdraw-inner-form {
+#deposit-inner-form,
+#withdraw-inner-form {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -729,18 +737,22 @@ input[type="text"] {
 	justify-items: flex-end;
 }
 
-.transfer-from-account label, .transfer-to-account label {
+.transfer-from-account label,
+.transfer-to-account label {
 	font-size: 18px;
 }
 
-.deposit-form-header, .withdraw-form-header, .transfer-form-header {
+.deposit-form-header,
+.withdraw-form-header,
+.transfer-form-header {
 	font-size: 18px;
 	font-weight: 700;
 	text-align: center;
 	margin-top: 0px;
 }
 
-.deposit-amount, .withdraw-amount {
+.deposit-amount,
+.withdraw-amount {
 	font-size: 18px;
 	width: 100%;
 	text-align: center;
@@ -765,11 +777,15 @@ input[type="text"] {
 	margin-bottom: 6px;
 }
 
-.deposit-amount label, .withdraw-amount label, .transfer-amount label {
+.deposit-amount label,
+.withdraw-amount label,
+.transfer-amount label {
 	margin-right: 12px;
 }
 
-.deposit-form button, .withdraw-form button, .transfer-form button {
+.deposit-form button,
+.withdraw-form button,
+.transfer-form button {
 	height: 30px;
 	width: 100%;
 	font-size: 18px;
@@ -951,7 +967,8 @@ Media queries for reactive views mqfull
 --------------------------------
 */
 @media only screen and (max-height: 900px) {
-	.login-outer-container input[type="text"] {
+	.login-outer-container input[type="text"],
+	.login-outer-container input[type="password"] {
 		height: 4vh;
 		margin-bottom: 12px;
 	}
@@ -1087,7 +1104,8 @@ Media queries for reactive views mqfull
 		width: 100%;
 	}
 
-	input[type="text"] {
+	input[type="text"],
+	input[type="password"] {
 		font-size: 1.5vh;
 		font-weight: 700;
 	}
@@ -1133,7 +1151,8 @@ Media queries for reactive views mqfull
 		font-size: 4vh;
 	}
 
-	input[type="text"] {
+	input[type="text"],
+	input[type="password"] {
 		font-size: 1.5vh;
 		font-weight: 700;
 	}
