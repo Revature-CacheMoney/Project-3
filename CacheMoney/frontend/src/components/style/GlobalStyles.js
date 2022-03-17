@@ -80,7 +80,7 @@ a {
 	color: ${({ theme }) => theme.text};
 }
 
-.login-outer-container input[type="text"] {
+.login-outer-container input[type="text"], .login-outer-container input[type="password"] {
 	border: 2px solid ${({ theme }) => theme.bread};
 	box-shadow: -4px 4px 0px ${({ theme }) => theme.gentle};
 }
@@ -98,12 +98,12 @@ a {
 	color: ${({ theme }) => theme.text};
 }
 
-input[type="text"]:focus {
+input[type="text"]:focus, input[type="password"]:focus {
 	background-color: ${({ theme }) => theme.gentle};
 	color: ${({ theme }) => theme.text};
 }
 
-input[type="text"] {
+input[type="text"], input[type="password"] {
 	color: ${({ theme }) => theme.greyness};
 }
 
@@ -506,4 +506,4 @@ tr:nth-child(even) {
 		color: ${({ theme }) => theme.shadow}; 
 	}
 }
-`
+`;

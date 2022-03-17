@@ -17,7 +17,6 @@ function NavBar(props) {
 			</span>
 
 			<a href="#">
-				{/*<a href="/accounts/create">*/}
 				<span
 					className="navigation-link"
 					onClick={props.handleClick}

@@ -2,13 +2,12 @@ import React, { useState, useEffect } from "react";
 import userStore from "../store/Store.js";
 import axios from "axios";
 import { useDarkMode } from "./style/useDarkMode";
-import {ThemeProvider} from "styled-components";
+import { ThemeProvider } from "styled-components";
 import { GlobalStyles } from "../components/style/GlobalStyles";
 import Toggle from "./style/Toggle";
-import { lightTheme, darkTheme } from "../components/style/Themes"
+import { lightTheme, darkTheme } from "../components/style/Themes";
 import { useNavigate } from "react-router-dom";
 import config from "../config.js";
-
 
 // The Signin component is the login form the user sees after pressing the "sign in" button.
 // An API call should be made to test for successful login credentials.
@@ -16,22 +15,19 @@ import config from "../config.js";
 function SigninView() {
 	const navigate = useNavigate();
 
-
-	const [formData,setFormData] = useState({
-		username:"",
-		password:""
-	})
+	const [formData, setFormData] = useState({
+		username: "",
+		password: "",
+	});
 	const handleLogin = () => {
-	
 		doLogin();
 	};
 
-
 	const handleChange = (event) => {
 		event.preventDefault();
-		setFormData({...formData,[event.target.name]:event.target.value})
+		setFormData({ ...formData, [event.target.name]: event.target.value });
 		//
-	}
+	};
 
 	function doLogin() {
 		let responseStatus;
@@ -39,8 +35,8 @@ function SigninView() {
 		let responseHeaders;
 		let user = {
 			username: formData.username,
-			password: formData.password
-		}
+			password: formData.password,
+		};
 		const url = config.url;
 		axios
 			.post(`${url}users/login`, user)
@@ -50,9 +46,10 @@ function SigninView() {
 				responseHeaders = response.headers;
 				if (responseStatus !== 200 || responseData.user_id === null) {
 					console.log("Login failed - bad username/password");
-					document.getElementById("login-error-box").innerHTML = "Error: incorrect username or password.";
+					document.getElementById("login-error-box").innerHTML =
+						"Error: incorrect username or password.";
 					let loginInputArr = document.getElementsByClassName("login-input");
-					for (let i = 0; i < loginInputArr.length; i++){
+					for (let i = 0; i < loginInputArr.length; i++) {
 						loginInputArr[i].style.border = "2px solid red";
 						loginInputArr[i].style.boxShadow = "-4px 4px 0px #b04050";
 					}
@@ -77,9 +74,9 @@ function SigninView() {
 					});
 					userStore.dispatch({
 						type: "UPDATE_TOKEN",
-						payload: responseHeaders.jwt
+						payload: responseHeaders.jwt,
 					});
-					
+
 					navigate("/main");
 				}
 			})
@@ -91,15 +88,19 @@ function SigninView() {
 	const [theme, themeToggler, mountedComponent] = useDarkMode();
 	const themeMode = theme === "light" ? lightTheme : darkTheme;
 
-	if(!mountedComponent) return <div />
+	if (!mountedComponent) return <div />;
 	return (
 		<ThemeProvider theme={themeMode}>
 			<>
-				<GlobalStyles/>
+				<GlobalStyles />
 				<div className="container-view login-outer-container">
 					<div className="login-inner-container">
 						<div className="login-content-box">
-							<Toggle theme={theme} id="login-theme-button" toggleTheme={themeToggler} />
+							<Toggle
+								theme={theme}
+								id="login-theme-button"
+								toggleTheme={themeToggler}
+							/>
 							<h2 className="logo-smaller">CacheMoney</h2>
 							<div className="login-white-box">
 								<div className="login-white-box-column">
@@ -108,10 +109,29 @@ function SigninView() {
 									</p>
 									<span id="login-error-box"></span>
 									<label htmlFor="username">Username:</label>
-									<input type="text" className="login-input" name="username" id="username" onChange={handleChange} required />
+									<input
+										type="text"
+										className="login-input"
+										name="username"
+										id="username"
+										onChange={handleChange}
+										required
+									/>
 									<label htmlFor="password">Password:</label>
-									<input type="text" className="login-input" name="password" id="password" onChange={handleChange} required />
-									<button className="login" id="login-button" type="submit" onClick={handleLogin}>
+									<input
+										type="password"
+										className="login-input"
+										name="password"
+										id="password"
+										onChange={handleChange}
+										required
+									/>
+									<button
+										className="login"
+										id="login-button"
+										type="submit"
+										onClick={handleLogin}
+									>
 										SIGN IN
 									</button>
 								</div>
@@ -120,10 +140,8 @@ function SigninView() {
 					</div>
 				</div>
 			</>
-		</ ThemeProvider>
+		</ThemeProvider>
 	);
 }
 
-
 export default SigninView;
-

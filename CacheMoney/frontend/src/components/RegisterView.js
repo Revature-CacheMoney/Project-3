@@ -299,7 +299,7 @@ function RegisterView() {
 											></span>
 										</label>
 										<input
-											type="text"
+											type="password"
 											name="password1"
 											id="password1"
 											className="password-box reg-input-box"
@@ -318,7 +318,7 @@ function RegisterView() {
 											></span>
 										</label>
 										<input
-											type="text"
+											type="password"
 											name="password2"
 											id="password2"
 											className="password-box reg-input-box"
