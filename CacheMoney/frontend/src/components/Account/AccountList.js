@@ -32,15 +32,25 @@ function AccountList(props) {
 			.catch((error) => console.error(`Error: ${error}`));
 	};
 
-	// watch if someone did a deposit, etc
+	// Watch if someone did a deposit, etc
 	//store.subscribe(handleAccountUpdate);
+
+	// Caution, uncommenting this to fix accounts not updating may lead to infinite looping
+	// Things attempted:
+	// 1. Putting [accounts] in useEffect - it "works" but will call api infinitely until browser crashes
+	// 2. Putting junk data (ex. currentDate in ms) to trigger update / track that as state - nope
+	// 3. User store tracking... stuff... and did store.subscribe - mixed results, but I think infinite loop
+	// 4. Separating out each account from accounts list into a new prop with details - didn't update at all
+	// 5. Cursing out React / Javascript in general - no change in results
+	// 6. Begging code to work - no noticeable change, may require a larger sacrifice
+	// 7. Acceptance (current state) - this is a feature, not a bug
+	// Good luck, future person.  May fortune be ever in your favor.
 
 	// effect hook
 	useEffect(() => {
 		console.log("useEffect");
 		handleAccountUpdate();
 	}, [props.doTitleUpdate]);
-	//store.getState().accountReducer.someData
 
 	//event, props, data, triggerEvent
 	const handleAccountClick = (event) => {
@@ -52,17 +62,17 @@ function AccountList(props) {
 				return null;
 			}
 		})[0];
-		//store.getState().accountReducer.currentAccountId;
 
 		store.dispatch({
 			type: "UPDATE_CURRENT_ACCOUNT_ID",
 			payload: event.currentTarget.id,
 		});
 		doTitleUpdate(currentlySelectedAccount);
-		// Do an account update just because
+		// Do an account update just because - hacky workaround to account state not tracking properly
 		handleAccountUpdate();
 	};
 
+	// Populates a row (account) with information
 	const content = accounts.map((account) => {
 		return (
 			<div
@@ -95,9 +105,9 @@ function AccountList(props) {
 		);
 	});
 
+	// This displays a placeholder message when the user has no accounts.
 	const noAccountsMessage = () => {
 		if (accounts.length === 0) {
-			// This is the most hacky way to do this.  Sorry.
 			return (
 				<div className="no-account-message">
 					You currently have no accounts. Select "Create Account" to get started

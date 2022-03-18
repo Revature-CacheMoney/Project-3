@@ -6,7 +6,6 @@ import config from "../../config";
 import store from "../../store/Store";
 import TransferSelection from "./TransferSelection";
 
-//TODO finish this
 function Transfer(props) {
 	// post transfer transaction
 	const postTransfer = (transaction) => {
@@ -38,7 +37,7 @@ function Transfer(props) {
 
 		// perform the post
 		postTransfer(transfer);
-		// maybe do this in/after the api call
+		// hacky workaround to try forcing the accounts list to update
 		props.doTransactionDone(Date.now());
 	};
 
@@ -77,8 +76,6 @@ function Transfer(props) {
 
 						<button type="submit">Submit</button>
 					</form>
-
-					{/* <button className="transfer-submit-button" type="button" name="submit" onClick={handleSubmit}>Submit</button> */}
 				</div>
 			</div>
 		</div>
