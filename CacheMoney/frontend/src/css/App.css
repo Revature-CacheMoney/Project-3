@@ -94,7 +94,6 @@ a {
 .logo-smaller {
 	font-family: "Cinzel", serif;
 	font-size: 4em;
-	/* text-shadow: -2px 4px 0px #d3a940; */
 	margin: 0px;
 }
 
@@ -103,28 +102,7 @@ a {
 	padding: 0;
 }
 
-/* (old) "Main" views - MainPageView, AccountsView, TransferView */
-.main-container-content {
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	width: 80%;
-	height: 100%;
-	margin: auto;
-}
-
 /* RegisterView */
-/*
-#register-page-container {
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	width: 50%;
-	background-color: #3d703a;
-	padding: 30px;
-	border-radius: 20px;
-} */
-
 #register {
 	font-size: 3em; /* ~36px */
 }
@@ -794,6 +772,8 @@ input[type="password"] {
 	justify-self: center;
 }
 
+/* Account List end */
+
 /* CREATE_ACCOUNT cafull */
 .create-account-inner-container {
 	display: flex;
@@ -896,7 +876,9 @@ input[type="password"] {
 	font-weight: 700;
 }
 
-/* Transaction stuff */
+/* Create Account end */
+
+/* Transaction tcfull */
 .transaction-container {
 	display: block;
 	position: relative;
