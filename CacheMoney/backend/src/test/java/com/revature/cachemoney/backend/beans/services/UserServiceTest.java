@@ -1,15 +1,5 @@
-/**
- * Unit testing of the UserService class.
- * Authors: David Alvarado, Brandon Perrien,
- *          Jeremiah Smith, Alvin Frierson,
- *          Trevor Hughes, Maja Wirkijowska,
- *          Ahmad Rawashdeh, Ibrahima Diallo,
- *          Brian Gardner.
- *
- */
-
-
 package com.revature.cachemoney.backend.beans.services;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -31,13 +21,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-
+/**
+ * Unit testing of the UserService class.
+ * 
+ * @author David Alvarado, Brandon Perrien,
+ *         Jeremiah Smith, Alvin Frierson,
+ *         Trevor Hughes, Maja Wirkijowska,
+ *         Ahmad Rawashdeh, Ibrahima Diallo,
+ *         Brian Gardner
+ */
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 class UserServiceTest {
-
     @Autowired
     private UserService userService;
+
     @Autowired
     private AccountService accountService;
 
@@ -46,15 +44,14 @@ class UserServiceTest {
     private static List<User> emptyStringUserList;
 
     /**
-     * Setup of data for all tests.
+     * Set up data for all tests.
      * nullValueUserList initialized and populated with data.
      * emptyStringUserList initialized and populated with data.
-     * */
+     */
     @BeforeAll
-    public static void dataInit(){
+    public static void dataInit() {
         nullValueUserList = new LinkedList<>();
         emptyStringUserList = new LinkedList<>();
-
 
         User nullFirstName = new User(null, "Simpson", "homer.simpson@gmail.com", "abcd1234", "hmmdonut");
         User nullLastName = new User("Lisa", null, "lisa.simpson@gmail.com", "abcd1234", "lisa_blues");
@@ -77,19 +74,15 @@ class UserServiceTest {
         emptyStringUserList.add(emptyEmail);
         emptyStringUserList.add(emptyPassword);
         emptyStringUserList.add(emptyUsername);
-
-
     }
-    /**
-     *
-     * Setup initial data before each test conducted.
-     * Valid users are placed in a list and
-     * persisted to database only if the database is empty.
-     *
-     * */
 
+    /**
+     * Setup initial data before each test conducted.
+     * Valid Users are placed in a list and
+     * persisted to database only if the database is empty.
+     */
     @BeforeEach
-    void setupDB(){
+    void setupDB() {
         validUserList = new LinkedList<>();
         User user1 = new User("Hank", "Hill", "hank.hill@gmail.com", "abcd1234", "propanemoney");
         User user2 = new User("Peggy", "Hill", "peggy.hill@gmail.com", "abcd1234", "best_sub_teacher");
@@ -102,44 +95,36 @@ class UserServiceTest {
         validUserList.add(user4);
         validUserList.add(user5);
 
-
-        if (userService.getAllUsers().size() == 0){
-            for (User validUser : validUserList){
+        if (userService.getAllUsers().size() == 0) {
+            for (User validUser : validUserList) {
                 userService.postUser(validUser);
             }
-        }else{
+        } else {
             userService.deleteAllUsers();
-            for (User validUser : validUserList){
+            for (User validUser : validUserList) {
                 userService.postUser(validUser);
             }
         }
     }
 
     /**
-     *
-     * Database is cleared and validUserList is set
-     * to null for garbage collection. Any time
-     * a User is persisted to the database,
-     * the userId value changes from null to
-     * the id given by database. This is why
-     * we must empty the list and repopulate it
-     * after every test.
-     *
-     * */
+     * Database is cleared and validUserList is set to null for garbage collection.
+     * Any time a User is persisted to the database, the userId value changes
+     * from null to the id given by database.
+     * This is why we must empty the list and repopulate it after every test.
+     */
     @AfterEach
-    void deleteDBData(){
+    void deleteDBData() {
         userService.deleteAllUsers();
         validUserList = null;
-
     }
 
     /**
-     * Test method checks that the users persisted to database
-     * (size = 5) is equal to the size of validUserList
-     * (which is the list of users that were persisted to database
+     * Test method checks that the Users persisted to database (size = 5)
+     * is equal to the size of validUserList
+     * (the list of Users that were persisted to database
      * in the setupDB method in this test class.)
-     *
-     * */
+     */
     @Test
     void getAllUsers() {
         // Method returns a list, so we use its size to verify users in database.
@@ -147,18 +132,15 @@ class UserServiceTest {
     }
 
     /**
-     *
-     * Test method checks that we are able to retrieve
-     * all users inside validUserList using their
-     * userId as an argument.
-     *
-     * */
+     * Test method checks that we are able to retrieve all Users inside
+     * validUserList using their userId as an argument.
+     */
     @Test
     void getUserById() {
         // Loop to iterate over the validUserList initiated in setupDB method.
         // Remember, anytime a user is persisted, the userId is automatically
         // updated.
-        for (User currentUser :validUserList){
+        for (User currentUser : validUserList) {
             // Method returns boolean, so we check for boolean value.
             assertTrue(userService.getUserById(currentUser.getUserId()).isPresent());
         }
@@ -166,41 +148,34 @@ class UserServiceTest {
         // Check to see if passing in a non-existent userId,
         // it should return false.
         assertFalse(userService.getUserById(0).isPresent());
-
     }
 
     /**
-     *
-     *  Test method checks that all users
-     *  in validUserList are able to be deleted
-     *  using their userId.
-     *
-     * */
+     * Test method checks that all Users in validUserList
+     * can be deleted using their userId.
+     */
     @Test
     void deleteUserById() {
         // loops through validUserList
         // using their userId to delete
         // them from database.
-        for (User currentUser : validUserList){
+        for (User currentUser : validUserList) {
             // Method returns a boolean, so we check for a boolean value.
-             assertTrue(userService.deleteUserById(currentUser.getUserId()));
+            assertTrue(userService.deleteUserById(currentUser.getUserId()));
         }
+
         // Check that a non-existent userId does not
         // yield a truthful result
         assertFalse(userService.deleteUserById(-1));
-
     }
 
     /**
-     *
      * Check to see if we are able to retrieve
      * all accounts that belong to the right user
      * using their userId
-     *
-     * */
-
+     */
     @Test
-    void getAccountsByUserId(){
+    void getAccountsByUserId() {
         // Since this method returns a list, we create
         // an account list to use as the expected value
         // and compare it to the actual value.
@@ -223,21 +198,16 @@ class UserServiceTest {
         // delete accounts since we can't delete users before accounts
         // due to foreign key constraints.
         accountService.deleteAllAccounts();
-
     }
 
     /**
-     *
-     * Check that we can retrieve a User
-     * from the database with a
-     * valid username and password.
-     *
-     * */
-
+     * Check that we can retrieve a User from the database
+     * with a valid username and password.
+     */
     @Test
     void getUserByUsername() {
-        // We use the first valid user from our validUserList. The method only uses the username and password for login
-        // so all other values are ignored.
+        // We use the first valid user from our validUserList. The method only uses the
+        // username and password for login so all other values are ignored.
         assertEquals(validUserList.get(0).toString(), userService.getUserByUsername(validUserList.get(0)).toString());
 
         // New user created to check for null username and password
@@ -253,25 +223,19 @@ class UserServiceTest {
         User nullPassword = new User();
         nullUsername.setUsername("fakeUsername");
         assertNull(userService.getUserByUsername(nullPassword));
-
-
-
     }
 
     /**
-     *
      * Test are run in random order, because of this data
      * may be persisted to database when it should be.
      * We solved this issue by placing the post method test
      * inside a nested class.
-     *
-     * */
+     */
     @Nested
-    class TestPostUser{
-
+    class TestPostUser {
         // Initial values created, validUserList is overwritten
         @BeforeEach
-        void addNewValidUserToList(){
+        void addNewValidUserToList() {
             validUserList = new LinkedList<>();
             User newUser = new User("Louanne", "Platter", "p.platter@gmail.com", "abcd1234", "Pplatter123");
             validUserList.add(newUser);
@@ -279,39 +243,34 @@ class UserServiceTest {
 
         // validUserList data is garbage collected, all users in database are deleted
         @AfterEach
-        void deleteNewValidUserToList(){
+        void deleteNewValidUserToList() {
             validUserList = null;
             userService.deleteAllUsers();
         }
 
+        /**
+         * This test checks if user is successfully persisted into database because it
+         * has the right credentials and the correct format.
+         * Make sure that the values here are not already used in the database.
+         * The values that must be unique are:
+         * - email
+         * - username
+         */
         @Test
         void postUser() {
-
-            // This test checks if user is successfully persisted into database because it
-            // has the right credentials and the correct format.
-            // Make sure that the values here are not already used in the database.
-            // The values that must be unique are:
-            // email
-            // username
-
             // test that valid users are persisted to database, method returns boolean
             // which is what we used to detect success or failure.
             assertTrue(userService.postUser(validUserList.get(0)));
 
             // Following 2 loops check that wrongly formatted
             // users are not persisted
-            for (User nullFieldUser : nullValueUserList){
+            for (User nullFieldUser : nullValueUserList) {
                 assertFalse(userService.postUser(nullFieldUser));
             }
 
-            for (User emptyStringField : emptyStringUserList){
+            for (User emptyStringField : emptyStringUserList) {
                 assertFalse(userService.postUser(emptyStringField));
             }
-
-
         }
-
-
     }
-
 }
