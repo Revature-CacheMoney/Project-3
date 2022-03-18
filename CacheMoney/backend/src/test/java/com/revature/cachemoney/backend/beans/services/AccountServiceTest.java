@@ -1,15 +1,4 @@
-/**
- * Unit testing of the AccountService class.
- * Authors: David Alvarado, Brandon Perrien,
- *          Jeremiah Smith, Alvin Frierson,
- *          Trevor Hughes, Maja Wirkijowska,
- *          Ahmad Rawashdeh, Ibrahima Diallo,
- *          Brian Gardner, Jeffrey Lor,
- *          Mark Young.
- *
- */
 package com.revature.cachemoney.backend.beans.services;
-
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -38,18 +27,28 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-
-
+/**
+ * Unit testing of the AccountService class.
+ * 
+ * @author David Alvarado, Brandon Perrien,
+ *         Jeremiah Smith, Alvin Frierson,
+ *         Trevor Hughes, Maja Wirkijowska,
+ *         Ahmad Rawashdeh, Ibrahima Diallo,
+ *         Brian Gardner, Jeffrey Lor,
+ *         Mark Young
+ */
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 class AccountServiceTest {
     @Autowired
     private AccountService accountService;
+
     @Autowired
     private UserService userService;
 
     @MockBean
     private AccountRepo accountRepo;
+
     @MockBean
     private TransactionRepo transactionRepo;
 
@@ -58,13 +57,11 @@ class AccountServiceTest {
     private List<Account> validAccounts;
 
     /**
-     *
-     *  Data initialization for local variables.
-     *  With these tests, no data is persisted to database.
-     *  We MOCKED the return values of the repo functions
-     *  which are the functions in charge of data persistence.
-     *
-     * */
+     * Data initialization for local variables.
+     * With these tests, no data is persisted to database.
+     * We MOCKED the return values of the repo functions
+     * which are the functions in charge of data persistence.
+     */
     @BeforeEach
     void populateDBWithUserandAccounts() {
         if (userService.getAllUsers().size() != 0) {
@@ -76,12 +73,12 @@ class AccountServiceTest {
         tempUser = new User("Hank", "Hill", "hankaccounthill@gmail.com", "abcd1234", "accounttest");
         tempUser.setUserId(1);
 
-        // Create accounts (They dont currently have a valid user model under attribute "user")
+        // create accounts (no valid user model under attribute "user")
         Account checkingAcc = new Account("checking");
         Account savingsAcc = new Account("savings");
         Account checkingAccWithNickname = new Account("checking", "secret account");
 
-        //populate user field with tempUser
+        // populate user field with tempUser
         checkingAcc.setUser(tempUser);
         savingsAcc.setUser(tempUser);
         checkingAccWithNickname.setUser(tempUser);
@@ -96,121 +93,121 @@ class AccountServiceTest {
         validAccounts.add(checkingAcc);
         validAccounts.add(savingsAcc);
         validAccounts.add(checkingAccWithNickname);
-
     }
 
     /**
-     *
-     * Test to see if we can retrieve all accounts.
-     *
-     * */
+     * Test to see if we can retrieve all Accounts.
+     */
     @Test
     void getAllAccounts() {
-        // mocking repo so when findAll() methos is call, we return
-        // validAccounts
+        // mocking repo so when findAll() methos is call, we return validAccounts
         when(accountRepo.findAll()).thenReturn(validAccounts);
 
-        // we check the size of the list returned with what we expect (our validAccount list)
+        // check size of the list returned with what we expect (our validAccount list)
         assertEquals(validAccounts.size(), accountService.getAllAccounts().size());
     }
 
     /**
-     *
-     *  Checking that we can retrieve an account
-     *  using the account id.
-     *
-     * */
+     * Checking that we can retrieve an Account using the accountId.
+     */
     @Test
     void getAccountByID() {
-        // mocking account repo to return the first account in our validAccount list when
-        // passed in the accountId that belongs to the first account in the validAccount list.
-        when(accountRepo.findById(validAccounts.get(0).getAccountId())).thenReturn(Optional.of(validAccounts.get(0)));
+        // mocking account repo to return the first account in our validAccount list
+        // when passed in the accountId that belongs to the first account in the
+        // validAccount list.
+        when(accountRepo.findById(validAccounts.get(0).getAccountId()))
+                .thenReturn(Optional.of(validAccounts.get(0)));
+
         // checking that the account is returned by the method
-        assertTrue(accountService.getAccountByID(validAccounts.get(0).getAccountId(), tempUser.getUserId()).isPresent());
+        assertTrue(accountService.getAccountByID(validAccounts.get(0).getAccountId(), tempUser.getUserId())
+                .isPresent());
+
         // checking that no account is returned by method
         assertFalse(accountService.getAccountByID(0, 1).isPresent());
     }
+
     /**
-     *
-     * Checking that we can delete an account
-     * with a valid account Id.
-     *
-     * */
+     * Checking that we can delete an Account with a valid accountId.
+     */
     @Test
     void deleteAccountById() {
         // mocking account repo to return an empty Optional list
         when(accountRepo.findById(validAccounts.get(0).getAccountId())).thenReturn(Optional.empty());
+
         // checking that its not present when method is invoked
         assertFalse(accountService.deleteAccountById(
                 validAccounts.get(0).getAccountId(),
                 tempUser.getUserId()));
+
         // mocking account repo to return first account in our validAccount list
-        when(accountRepo.findById(validAccounts.get(0).getAccountId())).thenReturn(Optional.of(validAccounts.get(0)));
+        when(accountRepo.findById(validAccounts.get(0).getAccountId()))
+                .thenReturn(Optional.of(validAccounts.get(0)));
+
         // checking that deleting an account fails with an incorrect userID
         assertFalse(accountService.deleteAccountById(
                 validAccounts.get(0).getAccountId(),
                 -1));
-        // checking that we are able to delete the account with a valid accountId and userId
+
+        // checking ability to delete the account with valid accountId and userId
         assertTrue(accountService.deleteAccountById(
                 validAccounts.get(0).getAccountId(),
                 tempUser.getUserId()));
     }
 
-     /**
-     *
-     * Checking that we are able to
-     *  transactions with their Id
-     *
-     * */
-
+    /**
+     * Checking that we are able to get Transactions with transactionId.
+     */
     @Test
     void getTransactionsById() {
         // NOTE: THE DATE VALUE BEFORE THE TRANSACTION IS PERSISTED IS DIFFERENT
-        //      FROM WHAT YOU GET FROM THE DATABASE. THIS IS WHY "toStringWithoutDate"
-        //      WAS CREATED. AS OF 3/13/2022, THE DATES MATCH BUT ARE FORMATTED DIFFERENTLY.
+        // FROM WHAT YOU GET FROM THE DATABASE. THIS IS WHY "toStringWithoutDate"
+        // WAS CREATED. AS OF 3/13/2022, THE DATES MATCH BUT ARE FORMATTED DIFFERENTLY.
 
         // mocking repo to return empty optional
         when(accountRepo.findById(validAccounts.get(0).getAccountId())).thenReturn(Optional.empty());
+
         // asserting method returns empty optional
         assertNull(accountService.getTransactionsById(
                 validAccounts.get(0).getAccountId(),
                 tempUser.getUserId()));
-        //mocking repo to return a vlid account and a list of transactions which is empty.
-        when(accountRepo.findById(validAccounts.get(0).getAccountId())).thenReturn(Optional.of(validAccounts.get(0)));
+
+        // mocking repo to return a vlid account and an empty list of transactions
+        when(accountRepo.findById(validAccounts.get(0).getAccountId()))
+                .thenReturn(Optional.of(validAccounts.get(0)));
         when(transactionRepo.findByAccount(validAccounts.get(0))).thenReturn(new LinkedList<Transaction>());
+
         // asserting that the output equals an empty transaction list.
-        assertEquals(new LinkedList<Transaction>(),accountService.getTransactionsById(
+        assertEquals(new LinkedList<Transaction>(), accountService.getTransactionsById(
                 validAccounts.get(0).getAccountId(),
                 tempUser.getUserId()));
-        // asserting an empty optional is returned since an invalid username was inserted.
+
+        // asserting an empty optional is returned since an invalid username was
+        // inserted.
         assertNull(accountService.getTransactionsById(
                 validAccounts.get(0).getAccountId(),
-               -1));
-
-
+                -1));
     }
 
     /**
-     *
-     * Checking that we can withdraw from
-     * an account when certain criteria is met
-     * (i.e withdrawing from an account with
-     * sufficient funds, etc...)
-     *
-     * */
+     * Checking that we can withdraw from an Account
+     * when certain criteria is met
+     * (i.e withdrawing from an account with sufficient funds, etc...)
+     */
     @Test
     void withdrawFromAccount() {
         // Withdrawal transaction created
         Transaction withdrawal = new Transaction(validAccounts.get(0),
-               "withdrawal after my initial deposit", new Date(), 10.50, 2.50);
+                "withdrawal after my initial deposit", new Date(), 10.50, 2.50);
 
         // Mocking repo to return an empty optional when accountId= 1
         when(accountRepo.findById(1)).thenReturn(Optional.empty());
+
         // Check that we get a false value when withdrawing from account
         assertFalse(accountService.withdrawFromAccount(tempUser.getUserId(), withdrawal));
 
         // mocking a valid account
         when(accountRepo.findById(1)).thenReturn(Optional.of(validAccounts.get(0)));
+
         // check that we get a false value for using an incorrect userId value
         assertFalse(accountService.withdrawFromAccount(-1, withdrawal));
 
@@ -226,7 +223,7 @@ class AccountServiceTest {
                 validAccounts.get(0).getUser().getUserId(),
                 withdrawal));
 
-        // Adding sufficient funds
+        // adding sufficient funds
         // mocking transactionRepo and accountRepo valid
         // return values to allow withdrawal.
         validAccounts.get(0).setBalance(1000.00);
@@ -251,15 +248,13 @@ class AccountServiceTest {
         assertTrue(accountService.withdrawFromAccount(
                 validAccounts.get(0).getUser().getUserId(),
                 withdrawal));
-
     }
 
     /**
-     * Checking that we are able to make a deposit.
-     *
-     * */
+     * Checking that we can deposit to an Account.
+     */
     @Test
-    void depositToAccount(){
+    void depositToAccount() {
         // Transaction creation
         Transaction deposit = new Transaction(validAccounts.get(0),
                 "deposit", new Date(), 10.50, 2.50);
@@ -302,23 +297,19 @@ class AccountServiceTest {
         assertTrue(accountService.depositToAccount(
                 validAccounts.get(0).getUser().getUserId(),
                 deposit));
-
-
-
     }
 
     /**
-     *
+     * ! unfinished
      * Due to time constraints, this test
      * only checks the cases that the method
      * AccountService.transferBetweenAccountsOfOneUser
      * should not allow a transfer to take place.
-     *
-     * */
+     */
     @Test
     void transferBetweenAccountsOfOneUser() {
         // Transaction creation
-        Transaction transaction= new Transaction(validAccounts.get(0),
+        Transaction transaction = new Transaction(validAccounts.get(0),
                 "transfer", new Date(), 10.50, 2.50);
 
         // Mocking empty source and destination accounts.
@@ -331,9 +322,10 @@ class AccountServiceTest {
                 validAccounts.get(1).getAccountId(),
                 transaction));
 
-        // Mocking that the source account is present, but the destination account is not.
+        // Mocking that source account is present, but destination account is not.
         // Method should return false
-        when(accountRepo.findById(validAccounts.get(0).getAccountId())).thenReturn(Optional.of(validAccounts.get(0)));
+        when(accountRepo.findById(validAccounts.get(0).getAccountId()))
+                .thenReturn(Optional.of(validAccounts.get(0)));
         assertFalse(accountService.transferBetweenAccountsOfOneUser(
                 tempUser.getUserId(),
                 validAccounts.get(0).getAccountId(),
@@ -343,7 +335,8 @@ class AccountServiceTest {
         // Mocking that the dest account is present, but the source account is not.
         // Method should return false
         when(accountRepo.findById(validAccounts.get(0).getAccountId())).thenReturn(Optional.empty());
-        when(accountRepo.findById(validAccounts.get(1).getAccountId())).thenReturn(Optional.of(validAccounts.get(1)));
+        when(accountRepo.findById(validAccounts.get(1).getAccountId()))
+                .thenReturn(Optional.of(validAccounts.get(1)));
         assertFalse(accountService.transferBetweenAccountsOfOneUser(
                 tempUser.getUserId(),
                 validAccounts.get(0).getAccountId(),
@@ -353,61 +346,60 @@ class AccountServiceTest {
         // Checking that an incorrect userId prevents a transaction
         // method should return false
         validAccounts.get(0).getUser().setUserId(-1);
-        when(accountRepo.findById(validAccounts.get(0).getAccountId())).thenReturn(Optional.of(validAccounts.get(0)));
+        when(accountRepo.findById(validAccounts.get(0).getAccountId()))
+                .thenReturn(Optional.of(validAccounts.get(0)));
         assertFalse(accountService.transferBetweenAccountsOfOneUser(
                 tempUser.getUserId(),
                 validAccounts.get(0).getAccountId(),
                 validAccounts.get(1).getAccountId(),
                 transaction));
-
     }
 
     /**
-     *
-     * Nested class checks if accounts can be posted to db
-     *
-     * */
+     * Nested class checks if Accounts can be posted to database.
+     */
     @Nested
-    class TestPostAccount{
+    class TestPostAccount {
         /**
-         * Data initialization, a valid user must be in database, so its persisted here
-         * */
+         * Data initialization:
+         * a valid user must be in database, so it's persisted here.
+         */
         @BeforeEach
-        void populateDB(){
+        void populateDB() {
             if (userService.getAllUsers().size() != 0) {
-                if (accountService.getAllAccounts().size() != 0){
+                if (accountService.getAllAccounts().size() != 0) {
                     accountService.deleteAllAccounts();
                 }
                 userService.deleteAllUsers();
-                tempUser = new User("Hank", "Hill", "hankaccounthill@gmail.com", "abcd1234", "accounttest");
+
+                tempUser = new User("Hank", "Hill", "hankaccounthill@gmail.com", "abcd1234",
+                        "accounttest");
                 userService.postUser(tempUser);
-            }else{
-                tempUser = new User("Hank", "Hill", "hankaccounthill@gmail.com", "abcd1234", "accounttest");
+            } else {
+                tempUser = new User("Hank", "Hill", "hankaccounthill@gmail.com", "abcd1234",
+                        "accounttest");
                 userService.postUser(tempUser);
             }
-
         }
+
         /**
-         * any changes made to tempUser and in the database are
-         * deleted after test.
-         * */
+         * Any changes made to tempUser and in the database are deleted after test.
+         */
         @AfterEach
-        void deleteDBData(){
+        void deleteDBData() {
             accountService.deleteAllAccounts();
             userService.deleteAllUsers();
             tempUser = null;
-
         }
 
         /**
-         * Method test to check if an account is
-         *  persisted to database.
-         *
-         * */
+         * Method test to check if an account is persisted to database.
+         */
         @Test
         void postAccount() {
             // valid account type
             Account testChecking = new Account("checking");
+
             // invalid account type
             Account testIncorrectType = new Account("blahblah");
 
@@ -417,15 +409,12 @@ class AccountServiceTest {
 
             // invalid account fail check
             assertFalse(accountService.postAccount(testIncorrectType, tempUser.getUserId()));
+
             // valid account pass check
             assertTrue(accountService.postAccount(testChecking, tempUser.getUserId()));
+
             // invalid userId check
             assertFalse(accountService.postAccount(testChecking, -1));
-
-
         }
-
-
     }
-
 }
