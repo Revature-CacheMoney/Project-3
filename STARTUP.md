@@ -87,4 +87,4 @@ The `devops` branch contains the `buildspec.yml` file for building the project t
 
 More information regarding building remotely can be found under [Frontend](#remote-building-guide-for-frontend) & [Backend](#remote-building-guide-for-backend).
 
-**NOTE**: I have no idea if you will have access to the same DevOps setup we used. If you do, great! If not, then as DevOps lead I wish you luck in your endeaver to figure out how DevOps works. My only advice is to look at the logs and ask questions.
+**NOTE**: I have no idea if you will have access to the same DevOps setup we used. If you do, great! If not, then as DevOps lead for this project, I wish you luck in your endeaver to figure out how DevOps works. My only advice is to look at the logs and ask questions.
