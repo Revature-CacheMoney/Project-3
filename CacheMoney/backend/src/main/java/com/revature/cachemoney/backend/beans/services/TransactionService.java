@@ -42,6 +42,7 @@ public class TransactionService {
      */
     public Optional<Transaction> getTransactionById(Integer transactionId, Integer userId) {
         Optional<Transaction> returnTransaction = transactionRepo.findById(transactionId);
+        
         if (returnTransaction.isPresent()) {
             if (Objects.equals(returnTransaction.get().getAccount().getUser().getUserId(), userId)) {
                 return transactionRepo.findById(transactionId);
@@ -60,6 +61,7 @@ public class TransactionService {
      */
     public Boolean deleteTransactionById(Integer transactionId, Integer userId) {
         Optional<Transaction> returnTransaction = transactionRepo.findById(transactionId);
+
         if (returnTransaction.isPresent()) {
             if (Objects.equals(returnTransaction.get().getAccount().getUser().getUserId(), userId)) {
                 transactionRepo.deleteById(transactionId);
