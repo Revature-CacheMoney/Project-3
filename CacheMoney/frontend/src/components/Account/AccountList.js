@@ -51,7 +51,6 @@ function AccountList(props) {
 		console.log("useEffect");
 		handleAccountUpdate();
 	}, [props.doTitleUpdate]);
-	//store.getState().accountReducer.someData
 
 	//event, props, data, triggerEvent
 	const handleAccountClick = (event) => {

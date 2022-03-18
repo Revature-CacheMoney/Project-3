@@ -1,4 +1,23 @@
-Frontend Readme - updated 2/28/22
+Frontend Readme - updated 3/18/22
+
+Known issues:
+- Account list not updating - see AccountList.js
+- Horizontal scrollbar displayed on MainPageView - something is causing it to overflow, so
+	we forcibly hid the bar without solving real problem
+- No error feedback on transactions - ex. if you try to withdraw too much from an account,
+	it is silently rejected with no user feedback - may require backend response changes as well
+- No error feedback on registrations - ex. if the username/email address is already exists,
+	there is no feedback given to the user on what the actual response - may require backend response changes
+- Chatbox styling on live/hosted version of the site not being overridden by !important tags
+	- May just want to create your own Chatbot component with similar functionality since the library 
+		used is difficult/impossible to override and uses a lot of fixed styling
+- CSS changes not being reflected on live site - Not sure, annoy your devops person.  I _think_ we 
+determined this had to do with CloudFront? and delays on AWS's side but not sure if workarounds
+(invalidating the cache) fully worked
+- Background images not showing on live side - See Cody's cursed solution - probably something to do
+with webpack and non-development React builds
+- CSS cleanup - we tried
+
 
 Getting started:
 - Create a branch off of "frontend" -

@@ -65,6 +65,10 @@ input[type="submit"] {
 	cursor: pointer;
 }
 
+/* If you ever create a new view (ex. Splash, Signin, Registration, Main are only ones
+currently) throw this into the outermost container to create a sandbox of sorts you can
+style freely without interacting with the others. */
+
 .container-view {
 	position: absolute;
 	top: 0px;
