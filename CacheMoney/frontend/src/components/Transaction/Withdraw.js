@@ -6,7 +6,6 @@ import config from "../../config";
 import store from "../../store/Store";
 
 function Withdraw(props) {
-
 	// post withdraw transaction
 	const postWithdraw = (transaction) => {
 		axios
@@ -35,6 +34,7 @@ function Withdraw(props) {
 		// perform the post
 		postWithdraw(withdraw);
 		// maybe do this in/after the api call
+		// hacky workaround to try forcing the accounts list to update
 		props.doTransactionDone(Date.now());
 	};
 

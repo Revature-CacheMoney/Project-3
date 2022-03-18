@@ -34,8 +34,6 @@ function AdditionalActions(props) {
 			type: "UPDATE_ACCOUNTS_PLEASE",
 			payload: Date.now(),
 		});
-		// UPDATE_ACCOUNTS_PLEASE
-		//console.log(store.getState().accountReducer.someData);
 	};
 
 	return (

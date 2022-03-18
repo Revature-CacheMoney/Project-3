@@ -33,7 +33,7 @@ function Deposit(props) {
 
 		// perform the post
 		postDeposit(deposit);
-		// maybe do this in/after the api call
+		// hacky workaround to try forcing the accounts list to update
 		props.doTransactionDone(Date.now());
 	};
 
