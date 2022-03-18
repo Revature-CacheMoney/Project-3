@@ -1,10 +1,6 @@
 import React from "react";
 
 function NavBar(props) {
-	const testHover = (event) => {
-		console.log("Hover event", event.target.id);
-	};
-
 	// Make sure to add additional cases to MainPageView to handle any routing changes/new links
 	return (
 		<div className="navigation-bar">
@@ -26,7 +22,6 @@ function NavBar(props) {
 				</span>
 			</a>
 			<a href="#">
-				{/*<a href="/transfer">*/}
 				<span
 					className="navigation-link"
 					onClick={props.handleClick}
@@ -36,7 +31,6 @@ function NavBar(props) {
 				</span>
 			</a>
 			<a href="#">
-				{/*<a href="/transfer">*/}
 				<span
 					className="navigation-link"
 					onClick={props.handleClick}

@@ -3,20 +3,21 @@ Your financial present and future is finally at your finger tips with CacheMoney
 
 ## User Stories
 As a User, I can:
- - [ ] Register for a new account.
- - [ ] Login to my account.
- - [ ] Stay logged in until I log out. (session management)
- - [ ] Track any money that gets added to my account.
- - [ ] Track any money that gets subtracted from my account.
- - [ ] Create and track multiple financial accounts.
- - [ ] Transfer money between the accounts I own.
+ - [x] Register for a new account.
+ - [x] Login to my account.
+ - [x] Stay logged in until I log out. (session management)
+ - [x] Track any money that gets added to my account.
+ - [x] Track any money that gets subtracted from my account.
+ - [x] Create and track multiple financial accounts.
+ - [x] Transfer money between the accounts I own.
 
 ### Bonus Stories
 As a User, I can:
  - [ ] Reset my password.
  - [ ] Create and maintain a profile page.
- - [ ] Change the color scheme from normal mode to dark mode.
+ - [x] Change the color scheme from normal mode to dark mode.
  - [ ] Enter a live chat with technical support to ask questions.
+ - [x] Enter an automated chat with a chat bot.
  - [ ] Calculate my monthly budget based upon my expenses and income.
  - [ ] Receive notifications when a transaction has occurred or a transfer has been completed.
  - [ ] Export reports (bank statements) for one of my accounts showing all transactions over a month period.

@@ -24,15 +24,24 @@ public class JwtUtil {
     // pull our secret from properties
     private String secret;
 
+    /**
+     * ! somebody please fix this
+     * Block of code that retrieves the secret from the properties file.
+     */
     {
+        // retrieve the properties
         Properties props = new Properties();
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
         InputStream input = loader.getResourceAsStream("application.properties");
+
+        // attempt to load the properties
         try {
             props.load(input);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        
+        // set the local storage for the secret
         secret = props.getProperty("jwt.token.secret");
     }
 

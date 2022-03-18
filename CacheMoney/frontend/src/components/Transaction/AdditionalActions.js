@@ -26,18 +26,6 @@ function AdditionalActions(props) {
 		additionalContent(submenu);
 	};
 
-	// This is the worst idea I've ever had.
-	// When triggered by a transaction completed, it saves the date in ms to store.
-	// Account should subscribe to the store to update when it notices it is changed.
-	const handleAccountUpdate = () => {
-		store.dispatch({
-			type: "UPDATE_ACCOUNTS_PLEASE",
-			payload: Date.now(),
-		});
-		// UPDATE_ACCOUNTS_PLEASE
-		//console.log(store.getState().accountReducer.someData);
-	};
-
 	return (
 		<div className="account-details">
 			<div className="account-additional-options">

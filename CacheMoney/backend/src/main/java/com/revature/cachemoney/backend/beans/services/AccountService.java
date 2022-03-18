@@ -68,13 +68,9 @@ public class AccountService {
      * @return (true | false) if the User owns the Account
      */
     public Boolean postAccount(Account account, Integer userId) {
-
         if (account.getType().equals(accountTypes[0]) || account.getType().equals(accountTypes[1])) {
-
             if (account.getUser().getUserId() == userId) {
-
                 accountRepo.save(account);
-
                 return true;
             }
         }
@@ -90,8 +86,8 @@ public class AccountService {
      * @return (true | false) if the User owns the Account
      */
     public Boolean deleteAccountById(Integer accountId, Integer userId) {
-
         Optional<Account> returnAccount = accountRepo.findById(accountId);
+
         if (returnAccount.isPresent()) {
             if (Objects.equals(returnAccount.get().getUser().getUserId(), userId)) {
                 accountRepo.deleteById(accountId);
@@ -111,11 +107,13 @@ public class AccountService {
      */
     public List<Transaction> getTransactionsById(Integer accountId, Integer userId) {
         Optional<Account> account = accountRepo.findById(accountId);
+        
         if (account.isPresent()) {
             if (Objects.equals(account.get().getUser().getUserId(), userId)) {
                 return transactionRepo.findByAccount(accountRepo.getById(accountId));
             }
         }
+
         return null;
     }
 

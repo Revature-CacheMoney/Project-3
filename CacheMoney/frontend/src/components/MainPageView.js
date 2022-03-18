@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Footer from "./Footer.js";
-//import AccountList from "./Account/AccountList.js";
 import userStore from "../store/Store.js";
 import NavBar from "./NavBar.js";
 import { useNavigate } from "react-router-dom";
@@ -9,7 +8,6 @@ import { ThemeProvider } from "styled-components";
 import { GlobalStyles } from "./style/GlobalStyles";
 import Toggle from "./style/Toggle";
 import { lightTheme, darkTheme } from "./style/Themes";
-import Transfer from "./Transaction/Transfer.js";
 import CreateAccount from "./Account/CreateAccount.js";
 import AccountDisplay from "./Account/AccountDisplay.js";
 
