@@ -23,8 +23,9 @@ public class Notification {
     private String subject;
     @Column
     private String notif_text;
-    @Column
-    private int user_id;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
     @Column
     private boolean has_read;
     @Column

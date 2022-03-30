@@ -2,6 +2,7 @@ package com.revature.cachemoney.backend.beans.controllers;
 
 import com.revature.cachemoney.backend.beans.annotations.RequireJwt;
 import com.revature.cachemoney.backend.beans.models.Notification;
+import com.revature.cachemoney.backend.beans.models.User;
 import com.revature.cachemoney.backend.beans.services.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -24,17 +25,17 @@ public class NotificationController {
     }
 
     @GetMapping("/unread/{user_id}")
-    List<Notification> findAllUnread(@PathVariable int user_id) {
-        return notificationService.findAllByUnread(user_id);
+    List<Notification> findAllUnread(@RequestBody User user) {
+        return notificationService.findAllByUnread(user);
     }
 
     @PostMapping("/add")
-    Notification findAllUnread(@RequestBody Notification notification) {
+    Notification save(@RequestBody Notification notification) {
         return notificationService.saveNotification(notification);
     }
 
-    @PutMapping("/update/{user_id}")
-    void updateNotifications(@PathVariable int user_id) {
-        notificationService.updateNotifications(user_id);
+    @PutMapping("/update")
+    void updateNotifications(@RequestBody User user) {
+        notificationService.updateNotifications(user);
     }
 }

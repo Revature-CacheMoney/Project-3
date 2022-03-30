@@ -1,6 +1,7 @@
 package com.revature.cachemoney.backend.beans.services;
 
 import com.revature.cachemoney.backend.beans.models.Notification;
+import com.revature.cachemoney.backend.beans.models.User;
 import com.revature.cachemoney.backend.beans.repositories.NotificationRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,11 +30,11 @@ public class NotificationService {
         return notificationRepo.save(notification);
     }
 
-    public List<Notification> findAllByUnread(int user_id) {
-        return notificationRepo.findAllByUnread(user_id);
+    public List<Notification> findAllByUnread(User user) {
+        return notificationRepo.findAllByUnread(user.getUserId());
     }
 
-    public void updateNotifications(int user_id) {
-        notificationRepo.updateNotifications(user_id);
+    public void updateNotifications(User user) {
+        notificationRepo.updateNotifications(user.getUserId());
     }
 }
