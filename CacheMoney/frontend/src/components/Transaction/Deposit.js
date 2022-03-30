@@ -16,7 +16,22 @@ function Deposit(props) {
 				},
 			})
 			.catch((error) => console.error(`Error: ${error}`));
+
+		var today = new Date();
+		const notif = {
+			subject: "Deposit",
+			notif_text: "Deposit of " + transaction.transactionAmount + " approved.",
+			has_read : false,
+			date : today.toDateString(),
+			user_id : store.getState().userReducer.userId
+		}
+
+		axios
+			.post(`${config.url}notifications/add`, notif)
+			.catch((error) => console.error(`Error: ${error}`));
 	};
+
+	
 
 	// what the submit button should do
 	const handleSubmit = (event) => {

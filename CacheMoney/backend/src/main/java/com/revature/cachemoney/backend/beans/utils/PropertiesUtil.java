@@ -4,6 +4,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
+/**
+ * @author Mika Nelson, Dylan Wilson, Cullen Kuch, Max Hilken, Tyler Seufert
+ */
 public class PropertiesUtil {
     public static Properties readPropertiesFile(String fileName) throws IOException {
         FileInputStream input = null;

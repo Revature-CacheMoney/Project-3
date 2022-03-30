@@ -37,7 +37,6 @@ public class AccountService {
      * @return List of Accounts
      */
     public List<Account> getAllAccounts() {
-
         return accountRepo.findAll();
     }
 
@@ -74,7 +73,6 @@ public class AccountService {
                 return true;
             }
         }
-
         return false;
     }
 

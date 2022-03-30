@@ -2,8 +2,6 @@ package com.revature.cachemoney.backend.beans.utils;
 
 import lombok.Data;
 
-import java.io.File;
-import java.util.Arrays;
 import java.util.Properties;
 
 import javax.mail.Message;
@@ -14,6 +12,9 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+/**
+ * @author Mika Nelson, Dylan Wilson, Cullen Kuch, Max Hilken, Tyler Seufert
+ */
 @Data
 public class EmailUtil {
     private static EmailUtil emailUtil = null;
@@ -22,6 +23,7 @@ public class EmailUtil {
     String emailAcc;
     String emailPass;
     Session session;
+
     public static EmailUtil getInstance() {
         if (emailUtil == null) {
             emailUtil = new EmailUtil();
@@ -52,7 +54,10 @@ public class EmailUtil {
         session.setDebug(true);
     }
 
-    public void sendEmailTemplate(String recipient, String subject, String body) {
+    //emails: send money confirmation, request money confirmation, password change,
+    //transaction above a threshold, overdraft
+
+    public void sendEmail(String recipient, String subject, String body) {
         EmailUtil emailUtil = EmailUtil.getInstance();
         try {
             // Create a default MimeMessage object.
@@ -68,7 +73,7 @@ public class EmailUtil {
             message.setSubject(subject);
 
             // Now set the actual message
-            message.setText(body);
+            message.setContent(body, "text/html");
 
             Transport.send(message);
         } catch (MessagingException e) {
