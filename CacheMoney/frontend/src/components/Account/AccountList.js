@@ -33,7 +33,7 @@ function AccountList(props) {
 	};
 
 	// Watch if someone did a deposit, etc
-	//store.subscribe(handleAccountUpdate);
+	store.subscribe(handleAccountUpdate);
 
 	// Caution, uncommenting this to fix accounts not updating may lead to infinite looping
 	// Things attempted:
