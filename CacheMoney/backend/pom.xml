@@ -17,7 +17,7 @@
 	<artifactId>backend</artifactId>
 	<version>1.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
-	<name>Cache Money</name>
+	<name>Cache Money 2</name>
 	<description>project3</description>
 
 	<properties>
