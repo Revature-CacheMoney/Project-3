@@ -13,6 +13,7 @@ import com.revature.cachemoney.backend.beans.repositories.AccountRepo;
 import com.revature.cachemoney.backend.beans.repositories.UserRepo;
 import com.revature.cachemoney.backend.beans.security.SecurityConfig;
 
+import com.revature.cachemoney.backend.beans.utils.EmailUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -86,6 +87,7 @@ public class UserService {
             }
 
             // inform successful result
+            EmailUtil.getInstance().sendEmail(user.getEmail(), "Account Created", "Welcome to CacheMoney!");
             return true;
         }
 
