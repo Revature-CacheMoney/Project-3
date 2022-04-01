@@ -18,18 +18,33 @@ function Deposit(props) {
 				},
 			})
 
-			.then(toast.success('Deposit successful', {
-				position: "bottom-right",
-				autoClose: 2000,
-				hideProgressBar: true,
-				closeOnClick: true,
-				pauseOnHover: true,
-				draggable: true,
-				progress: undefined,
-				})
+			.then(
+				result=>{
+					result.status===200?
+					toast.success('Deposit successful', {
+						position: "bottom-right",
+						autoClose: 2000,
+						hideProgressBar: true,
+						closeOnClick: true,
+						pauseOnHover: true,
+						draggable: true,
+						progress: undefined,
+					}):toast.error('error')
+			}
 				)
 
-			.catch((error) => console.error(`Error: ${error}`));
+			.catch((error) => {
+				console.error(`Error: ${error}`)
+				toast.error('Deposit failed', {
+					position: "bottom-right",
+					autoClose: 2000,
+					hideProgressBar: true,
+					closeOnClick: true,
+					pauseOnHover: true,
+					draggable: true,
+					progress: undefined,
+					})
+			});
 	};
 
 	// what the submit button should do

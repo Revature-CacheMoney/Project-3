@@ -23,18 +23,37 @@ function Transfer(props) {
 					userId: store.getState().userReducer.userId,
 				},
 			})
-			.then(toast.success('Transfer successful', {
-				position: "bottom-right",
-				autoClose: 2000,
-				hideProgressBar: true,
-				closeOnClick: true,
-				pauseOnHover: true,
-				draggable: true,
-				progress: undefined,
-				})
+			.then(
+				res=>{
+				res.status==200?
+					toast.success('Transfer successful', {
+						position: "bottom-right",
+						autoClose: 2000,
+						hideProgressBar: true,
+						closeOnClick: true,
+						pauseOnHover: true,
+						draggable: true,
+						progress: undefined,
+					}):toast.error('error')
+				
+				}	
+				
 				)
 
-			.catch((error) => console.error(`Error: ${error}`));
+			.catch((error) => {
+				console.error(`Error: ${error}`)
+				
+				toast.error('Transfer failed', {
+						position: "bottom-right",
+						autoClose: 2000,
+						hideProgressBar: true,
+						closeOnClick: true,
+						pauseOnHover: true,
+						draggable: true,
+						progress: undefined,
+						})
+					}
+			);
 
 			
 	};

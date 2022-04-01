@@ -18,18 +18,33 @@ function Withdraw(props) {
 				},
 			})
 
-			.then(toast.success('Withdrawal success', {
-				position: "bottom-right",
-				autoClose: 2000,
-				hideProgressBar: true,
-				closeOnClick: true,
-				pauseOnHover: true,
-				draggable: true,
-				progress: undefined,
-				})
+			.then(
+				result=>{
+					result.status===200?
+					toast.success('Withdrawal successful', {
+						position: "bottom-right",
+						autoClose: 2000,
+						hideProgressBar: true,
+						closeOnClick: true,
+						pauseOnHover: true,
+						draggable: true,
+						progress: undefined,
+					}):toast.error('error')
+			}
 				)
 
-			.catch((error) => console.error(`Error: ${error}`));
+			.catch((error) => {
+				console.error(`Error: ${error}`)
+				toast.error('Withdrawal failed', {
+					position: "bottom-right",
+					autoClose: 2000,
+					hideProgressBar: true,
+					closeOnClick: true,
+					pauseOnHover: true,
+					draggable: true,
+					progress: undefined,
+					})
+			});
 	};
 
 	// what the submit button should do
