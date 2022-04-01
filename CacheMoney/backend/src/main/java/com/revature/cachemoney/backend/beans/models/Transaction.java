@@ -62,8 +62,6 @@ public class Transaction {
 		this.endingBalance = ending_balance;
 	}
 
-
-
 	/**
 	 *
 	 * ******************STRICTLY FOR TESTING PURPOSES*********************
