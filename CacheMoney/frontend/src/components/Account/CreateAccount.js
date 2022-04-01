@@ -6,6 +6,8 @@ import axios from "axios";
 import { useState } from "react";
 import config from "../../config";
 import store from "../../store/Store.js";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function CreateAccount(props) {
 	// local formData state
@@ -44,13 +46,21 @@ function CreateAccount(props) {
 		postAccount(formData);
 		props.handleClick(event);
 		//navigate("/signin");
-		alert(
-			"Account successfully created! Please return to the Accounts page to start using your new account."
-		);
+		toast.success('Account createds!', {
+			position: "bottom-right",
+			autoClose: 2000,
+			hideProgressBar: true,
+			closeOnClick: true,
+			pauseOnHover: true,
+			draggable: true,
+			progress: undefined,
+			});
 	};
 
 	return (
+
 		<div className="create-account-outer-container">
+		<ToastContainer/>
 			<div className="create-account-inner-container">
 				<div className="account_create_form">
 					<p className="account_create_form_header">Create Account</p>

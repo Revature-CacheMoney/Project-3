@@ -4,6 +4,8 @@
 import axios from "axios";
 import config from "../../config";
 import store from "../../store/Store";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Withdraw(props) {
 	// post withdraw transaction
@@ -15,6 +17,18 @@ function Withdraw(props) {
 					userId: store.getState().userReducer.userId,
 				},
 			})
+
+			.then(toast.success('Withdrawal successful', {
+				position: "bottom-right",
+				autoClose: 2000,
+				hideProgressBar: true,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				})
+				)
+
 			.catch((error) => console.error(`Error: ${error}`));
 	};
 
@@ -40,6 +54,7 @@ function Withdraw(props) {
 
 	return (
 		<div className="withdraw-outer-container">
+			<ToastContainer />
 			<div className="withdraw-inner-container">
 				<div className="withdraw-form">
 					<p className="withdraw-form-header">Withdraw</p>
