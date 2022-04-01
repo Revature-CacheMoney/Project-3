@@ -18,6 +18,7 @@ function Deposit(props) {
 				},
 			})
 
+
 			.then(
 				result=>{
 					result.status===200?
@@ -45,6 +46,33 @@ function Deposit(props) {
 					progress: undefined,
 					})
 			});
+
+		axios
+			.get(`${config.url}users/`, {
+				headers: {
+					token: store.getState().userReducer.token,
+					userId: store.getState().userReducer.userId,
+				},
+			})
+			.then((response) => {
+				let notifUser = response.data;
+				var today = new Date();
+				const notif = {
+					subject: "Deposit",
+					notif_text: "Deposit of " + transaction.transactionAmount + " approved.",
+					has_read : false,
+					date : today.toDateString(),
+					user: notifUser
+				}
+				axios
+					.post(`${config.url}notifications/add`, notif)
+					.catch((error) => console.error(`Error: ${error}`));
+			})
+			.catch((error) => console.error(`Error: ${error}`));
+		
+
+		
+
 	};
 
 	// what the submit button should do
