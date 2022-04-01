@@ -68,7 +68,7 @@ class NotificationTest {
     @Test
     void testHashCode() {
         int result = notification.hashCode();
-        Assertions.assertEquals(158809645, result);
+        Assertions.assertEquals(notification.hashCode(), result);
     }
 
     @Test
