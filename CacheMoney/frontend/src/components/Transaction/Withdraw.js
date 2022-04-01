@@ -18,7 +18,7 @@ function Withdraw(props) {
 				},
 			})
 
-			.then(toast.success('Withdrawal successful', {
+			.then(toast.success('Withdrawal success', {
 				position: "bottom-right",
 				autoClose: 2000,
 				hideProgressBar: true,

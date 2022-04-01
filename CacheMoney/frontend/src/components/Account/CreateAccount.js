@@ -32,6 +32,19 @@ function CreateAccount(props) {
 					userId: store.getState().userReducer.userId,
 				},
 			})
+			.then(
+				//this isn't firing before the page re-renders. Either rework or remove.
+				toast.success('Account created!', {
+					position: "bottom-right",
+					autoClose: 2000,
+					hideProgressBar: true,
+					closeOnClick: true,
+					pauseOnHover: true,
+					draggable: true,
+					progress: undefined,
+				})
+			)
+
 			.catch((error) => console.error(`Error: ${error}`));
 	};
 
@@ -44,17 +57,12 @@ function CreateAccount(props) {
 	// what the submit button should do
 	const handleSubmit = (event) => {
 		postAccount(formData);
-		props.handleClick(event);
+		
+		props.handleClick(event)
+		
 		//navigate("/signin");
-		toast.success('Account createds!', {
-			position: "bottom-right",
-			autoClose: 2000,
-			hideProgressBar: true,
-			closeOnClick: true,
-			pauseOnHover: true,
-			draggable: true,
-			progress: undefined,
-			});
+
+			
 	};
 
 	return (
