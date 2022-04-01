@@ -16,8 +16,8 @@ import javax.persistence.*;
 @Table(name = "transfer")
 public class Transfer {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer transfer_id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer transferId;
 
     @OneToOne
     private Account sourceAccount;
@@ -26,5 +26,5 @@ public class Transfer {
     private Account destinationAccount;
 
     @Column
-    private int amount;
+    private double amount;
 }

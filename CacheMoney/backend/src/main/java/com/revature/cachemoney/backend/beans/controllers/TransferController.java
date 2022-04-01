@@ -27,7 +27,7 @@ public class TransferController {
         return this.transferService.findBySourceUser(userId);
     }
 
-    @PostMapping()
+    @PostMapping
     public Transfer saveTransfer(@RequestBody Transfer transfer) {
         return this.transferService.save(transfer);
     }
