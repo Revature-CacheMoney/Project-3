@@ -1,9 +1,8 @@
 package com.revature.cachemoney.backend.beans.models;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
+
+import javax.persistence.*;
 
 /**
  * Model containing information regarding a Transfer.
@@ -12,8 +11,21 @@ import lombok.ToString;
 @Setter
 @ToString
 @NoArgsConstructor
+@AllArgsConstructor
+@Entity
 public class Transfer {
-    private Integer sourceAccountId;
-    private Integer destinationAccountId;
-    private Transaction transaction;
+    @Id
+    @GeneratedValue
+    private int transfer_id;
+
+    @OneToOne
+    @JoinColumn(name = "account_id", insertable = false, updatable = false)
+    private Account sourceAccount;
+
+    @OneToOne
+    @JoinColumn(name = "account_id", insertable = false, updatable = false)
+    private Account destinationAccount;
+
+    @Column
+    private int amount;
 }
