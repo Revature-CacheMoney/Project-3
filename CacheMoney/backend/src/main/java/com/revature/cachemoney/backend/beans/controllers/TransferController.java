@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("transfer")
 public class TransferController {
     private TransferService transferService;
 
@@ -16,17 +17,17 @@ public class TransferController {
         this.transferService = transferService;
     }
 
-    @GetMapping(value = "transfer/destination/{userId}")
+    @GetMapping(value = "destination/{userId}")
     public List<Transfer> findByDestinationUser(@PathVariable int userId) {
         return this.transferService.findByDestinationUser(userId);
     }
 
-    @GetMapping(value = "transfer/source/{userId}")
+    @GetMapping(value = "source/{userId}")
     public List<Transfer> findBySourceUser(@PathVariable int userId) {
         return this.transferService.findBySourceUser(userId);
     }
 
-    @PostMapping("transfer")
+    @PostMapping()
     public Transfer saveTransfer(@RequestBody Transfer transfer) {
         return this.transferService.save(transfer);
     }

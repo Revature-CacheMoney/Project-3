@@ -13,17 +13,16 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Table(name = "transfer")
 public class Transfer {
     @Id
-    @GeneratedValue
-    private int transfer_id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer transfer_id;
 
     @OneToOne
-    @JoinColumn(name = "account_id", insertable = false, updatable = false)
     private Account sourceAccount;
 
     @OneToOne
-    @JoinColumn(name = "account_id", insertable = false, updatable = false)
     private Account destinationAccount;
 
     @Column
