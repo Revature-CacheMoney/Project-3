@@ -10,7 +10,10 @@ import java.util.List;
 public interface TransferRepo extends JpaRepository<Transfer, Integer> {
 
     @Query("FROM Transfer t WHERE t.destinationAccount.user.userId = :userId")
-    public List<Transfer> findByUser(int userId);
+    public List<Transfer> findByDestinationUser(int userId);
+
+    @Query("FROM Transfer t WHERE t.sourceAccount.user.userId = :userId")
+    public List<Transfer> findBySourceUser(int userId);
 
     public Transfer save(Transfer transfer);
 }

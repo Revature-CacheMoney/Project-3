@@ -16,8 +16,12 @@ public class TransferService {
         this.repo = repo;
     }
 
-    public List<Transfer> findByUser(int userId) {
-        return this.repo.findByUser(userId);
+    public List<Transfer> findByDestinationUser(int userId) {
+        return this.repo.findByDestinationUser(userId);
+    }
+
+    public List<Transfer> findBySourceUser(int userId) {
+        return this.repo.findBySourceUser(userId);
     }
 
     public Transfer save(Transfer transfer) { return this.repo.save(transfer); }

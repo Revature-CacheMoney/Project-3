@@ -16,9 +16,14 @@ public class TransferController {
         this.transferService = transferService;
     }
 
-    @GetMapping(value = "transfer/{userId}")
-    public List<Transfer> findByUser(@PathVariable int userId) {
-        return this.transferService.findByUser(userId);
+    @GetMapping(value = "transfer/destination/{userId}")
+    public List<Transfer> findByDestinationUser(@PathVariable int userId) {
+        return this.transferService.findByDestinationUser(userId);
+    }
+
+    @GetMapping(value = "transfer/source/{userId}")
+    public List<Transfer> findBySourceUser(@PathVariable int userId) {
+        return this.transferService.findBySourceUser(userId);
     }
 
     @PostMapping("transfer")
