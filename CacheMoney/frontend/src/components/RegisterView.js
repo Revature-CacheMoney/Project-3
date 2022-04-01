@@ -165,12 +165,11 @@ function RegisterView() {
 		axios
 			.post(`${url}users/`, newUser)
 			.then((response) => {
-				//console.log(response);
 				responseStatus = response.status;
 				responseData = response.data;
 				if (responseStatus === 200) {
 					if (responseData === true || responseData.result === true) {
-						//console.log("Registration successful");
+						// console.log("Registration successful");
 						navigate("/signin");
 					} else {
 						alert(
