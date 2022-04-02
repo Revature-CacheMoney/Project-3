@@ -16,9 +16,11 @@ class EmailUtilTest {
     EmailUtil emailUtil1;
     @Mock
     Properties properties;
+
     //Field session of type Session - was not mocked since Mockito doesn't mock a Final class when 'mock-maker-inline' option is not set
     @InjectMocks
     EmailUtil emailUtil;
+
 
     @BeforeEach
     void setUp() {
@@ -28,11 +30,12 @@ class EmailUtilTest {
     @Test
     void testGetInstance() {
         EmailUtil result = EmailUtil.getInstance();
+        System.out.println(result);
         result.setProperties(properties);
-        result.setHost("smtp.gmail.com");
-        result.setEmailAcc("cachemoneyapp@gmail.com");
-        result.setEmailPass("5FSqN!tifr#mqo5P");
-         result.setSession(emailUtil.getSession());
+        result.setHost(emailUtil.getHost());
+        result.setEmailAcc(emailUtil.getEmailAcc());
+        result.setEmailPass(emailUtil.getEmailPass());
+        result.setSession(emailUtil.getSession());
 
         Assertions.assertEquals(emailUtil, result);
     }
@@ -73,15 +76,14 @@ class EmailUtilTest {
 
     @Test
     void testEquals() {
-       //EmailUtil emailUtil2 = new EmailUtil(properties, "smtp.gmail.com", "cachemoneyapp@gmail.com", "5FSqN!tifr#mqo5P", "javax.mail.Session@5cde6747");
-        when(emailUtil1.getProperties()).thenReturn(null);
-        when(emailUtil1.getHost()).thenReturn("smtp.gmail.com");
-        when(emailUtil1.getEmailAcc()).thenReturn("cachemoneyapp@gmail.com");
-        when(emailUtil1.getEmailPass()).thenReturn("5FSqN!tifr#mqo5P");
+
+        when(emailUtil1.getProperties()).thenReturn(properties);
+        when(emailUtil1.getHost()).thenReturn(emailUtil.getHost());
+        when(emailUtil1.getEmailAcc()).thenReturn(emailUtil.getEmailAcc());
+        when(emailUtil1.getEmailPass()).thenReturn(emailUtil.getEmailPass());
         when(emailUtil1.getSession()).thenReturn(null);
         when(emailUtil1.canEqual(any())).thenReturn(true);
 
-        emailUtil.setProperties(null);
         emailUtil.setSession(null);
 
         boolean result = emailUtil.equals(emailUtil1);
@@ -93,20 +95,9 @@ class EmailUtilTest {
     @Test
     void testHashCode() {
 
-        int result = emailUtil1.hashCode();
-        Assertions.assertEquals(emailUtil1.hashCode(), result);
+        int result = emailUtil.hashCode();
+        Assertions.assertEquals(emailUtil.hashCode(), result);
     }
 
-    @Test
-    void testToString() {
-        when(emailUtil1.getProperties()).thenReturn(null);
-        when(emailUtil1.getHost()).thenReturn("getHostResponse");
-        when(emailUtil1.getEmailAcc()).thenReturn("getEmailAccResponse");
-        when(emailUtil1.getEmailPass()).thenReturn("getEmailPassResponse");
-        when(emailUtil1.getSession()).thenReturn(emailUtil.getSession());
-
-        String result = emailUtil.toString();
-        Assertions.assertEquals("EmailUtil(properties=properties, host=smtp.gmail.com, emailAcc=cachemoneyapp@gmail.com, emailPass=5FSqN!tifr#mqo5P, session=javax.mail.Session@52851b44)", result);
-    }
 }
 
