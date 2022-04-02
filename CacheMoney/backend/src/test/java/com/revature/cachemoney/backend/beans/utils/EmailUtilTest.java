@@ -30,7 +30,7 @@ class EmailUtilTest {
     @Test
     void testGetInstance() {
         EmailUtil result = EmailUtil.getInstance();
-        System.out.println(result);
+
         result.setProperties(properties);
         result.setHost(emailUtil.getHost());
         result.setEmailAcc(emailUtil.getEmailAcc());
@@ -42,7 +42,7 @@ class EmailUtilTest {
 
     @Test
     void testSendEmail() {
-        //when(EmailUtil.getInstance()).thenReturn(null);
+
         when(emailUtil1.getEmailAcc()).thenReturn("getEmailAccResponse");
         when(emailUtil1.getSession()).thenReturn(null);
 
