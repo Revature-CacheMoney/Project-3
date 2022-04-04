@@ -31,7 +31,7 @@ public class TransferService {
     public Transfer save(Transfer transfer) {
         int sourceId = transfer.getSourceAccount().getAccountId();
         transfer.setSourceAccount(accountRepo.getById(sourceId));
-        if (transfer.getSourceAccount().getUser().getUserId() != 1) {
+        if (transfer.getSourceAccount().getUser().getUserId() != 1) { // TODO change 1 to the user's id
             // TODO add some kind of error handling here
             System.out.println("No user found");
             return null;
