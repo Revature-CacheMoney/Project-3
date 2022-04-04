@@ -19,18 +19,18 @@ public class TransferRequestController {
     }
 
     @PostMapping
-    public TransferRequest save(TransferRequest transferRequest) {
+    public TransferRequest save(@RequestBody TransferRequest transferRequest) {
         return this.transferRequestService.save(transferRequest);
     }
 
     @GetMapping("source/{userId}")
-    public List<TransferRequest> findByRequestedUser(@PathVariable int userId) {
-        return this.transferRequestService.findByRequestedUser(userId);
+    public List<TransferRequest> findByRequestingUser(@PathVariable int userId) {
+        return this.transferRequestService.findByRequestingUser(userId);
     }
 
     @GetMapping("destination/{userId}")
-    public List<TransferRequest> findByRequestingUser(@PathVariable int userId) {
-        return this.transferRequestService.findByRequestingUser(userId);
+    public List<TransferRequest> findByRequestedUser(@PathVariable int userId) {
+        return this.transferRequestService.findByRequestedUser(userId);
     }
 
     @PostMapping("accept")
@@ -38,8 +38,8 @@ public class TransferRequestController {
         return this.transferRequestService.acceptTransfer(transferRequest);
     }
 
-    @DeleteMapping
-    public void deleteTransfer(@RequestBody TransferRequest transferRequest) {
-        this.transferRequestService.delete(transferRequest);
+    @DeleteMapping("{requestId}")
+    public void deleteTransfer(@PathVariable int requestId) {
+        this.transferRequestService.delete(requestId);
     }
 }

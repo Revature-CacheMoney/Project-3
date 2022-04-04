@@ -25,12 +25,19 @@ public class TransferRequestService {
     }
 
     public TransferRequest save(TransferRequest transferRequest) {
-        System.out.println(transferRequest.getDestinationAccount());
-//        Account destinationAccount = accountRepo.getById(transferRequest.getDestinationAccount().getAccountId());
-//        Account sourceAccount = accountRepo.getById(transferRequest.getSourceAccount().getAccountId());
-//        transferRequest.setDestinationAccount(destinationAccount);
-//        transferRequest.setSourceAccount(sourceAccount);
-//        return this.transferRequestRepo.save(transferRequest);
+        Account destinationAccount = accountRepo.getById(transferRequest.getDestinationAccount().getAccountId());
+        Account sourceAccount = accountRepo.getById(transferRequest.getSourceAccount().getAccountId());
+        // check if destination is different from source
+        if(destinationAccount!=sourceAccount) {
+            // check if destination and source exists
+            if(destinationAccount!=null && sourceAccount!=null) {
+                transferRequest.setDestinationAccount(destinationAccount);
+                transferRequest.setSourceAccount(sourceAccount);
+                return this.transferRequestRepo.save(transferRequest);
+            }
+        }
+        // if source and/or destination is the same or null
+        // TODO some form of error handling
         return null;
     }
 
@@ -42,9 +49,17 @@ public class TransferRequestService {
         return this.transferRequestRepo.findByRequestingUser(userId);
     }
 
-    public void delete(TransferRequest transferRequest) {
-        // TODO restrict to requested or requesting users
-        this.transferRequestRepo.delete(transferRequest);
+    public void delete(int requestId) {
+        // TODO actually check for correct userIDs
+        int userId = 1;
+        TransferRequest transferRequest = this.transferRequestRepo.findById(requestId);
+        int destinationUser = transferRequest.getDestinationAccount().getUser().getUserId();
+        int sourceUser = transferRequest.getSourceAccount().getUser().getUserId();
+        // only involved users can delete the request
+        if(destinationUser == userId || sourceUser == userId) {
+            System.out.println(transferRequest);
+            this.transferRequestRepo.delete(transferRequest);
+        }
     }
 
     public Transfer acceptTransfer(TransferRequest transferRequest) {
