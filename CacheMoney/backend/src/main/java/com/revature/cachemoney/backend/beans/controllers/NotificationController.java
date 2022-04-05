@@ -11,6 +11,7 @@ import java.util.List;
 
 @CrossOrigin
 @RestController
+@CrossOrigin
 @RequestMapping("/notifications")
 public class NotificationController {
     NotificationService notificationService;
