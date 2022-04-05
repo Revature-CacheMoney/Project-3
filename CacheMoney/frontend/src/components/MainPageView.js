@@ -10,6 +10,7 @@ import Toggle from "./style/Toggle";
 import { lightTheme, darkTheme } from "./style/Themes";
 import CreateAccount from "./Account/CreateAccount.js";
 import AccountDisplay from "./Account/AccountDisplay.js";
+import SendRequest from "./SendRequest/SendRequest.js";
 
 function MainPageView2() {
 	const navigate = useNavigate();
@@ -43,6 +44,8 @@ function MainPageView2() {
 			case "create-account":
 				return <CreateAccount handleClick={updateMainPageContent} />;
 			// Add new cases here to add more navbar links
+			case "create-account":
+				return <SendRequest handleClick={updateMainPageContent} />;
 			default:
 				return <AccountDisplay />;
 		}
