@@ -116,5 +116,4 @@ function Deposit(props) {
 		</div>
 	);
 }
-
 export default Deposit;

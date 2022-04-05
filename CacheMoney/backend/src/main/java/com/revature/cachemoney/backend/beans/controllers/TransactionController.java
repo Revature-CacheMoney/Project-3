@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
  * @author Alvin Frierson, Brian Gardner, Cody Gonsowski, & Jeffrey Lor
  */
 @RestController
+@CrossOrigin
 @RequestMapping("/transactions")
 public class TransactionController {
 	private final TransactionService transactionService;

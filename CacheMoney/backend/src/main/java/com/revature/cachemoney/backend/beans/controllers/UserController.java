@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
  * @author Alvin Frierson, Brian Gardner, Cody Gonsowski, & Jeffrey Lor
  */
 @RestController
+@CrossOrigin
 @RequestMapping("/users")
 public class UserController {
     private final UserService userService;
