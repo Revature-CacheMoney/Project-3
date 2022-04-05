@@ -49,11 +49,7 @@ function MainPageView2() {
 			case "create-account":
 				return <CreateAccount handleClick={updateMainPageContent} />;
 			// Add new cases here to add more navbar links
-<<<<<<< HEAD
-			case "create-account":
-=======
 			case "send-request":
->>>>>>> 1f15d37228863160cf0be74c4c1590781d021101
 				return <SendRequest handleClick={updateMainPageContent} />;
 			default:
 				return <AccountDisplay />;
