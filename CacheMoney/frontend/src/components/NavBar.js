@@ -27,7 +27,7 @@ function NavBar(props) {
 					onClick={props.handleClick}
 					id="investment-portfolio"
 				>
-					Investment Porfolio
+					Investment Portfolio
 				</span>
 			</a>
 			<a href="#">
