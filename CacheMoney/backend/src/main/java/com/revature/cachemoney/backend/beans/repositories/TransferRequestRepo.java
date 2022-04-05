@@ -11,9 +11,6 @@ import java.util.List;
 @Transactional
 public interface TransferRequestRepo extends JpaRepository<TransferRequest, Integer> {
 
-    // TODO remove this later
-    public List<TransferRequest> findAll();
-
     public TransferRequest save(TransferRequest transferRequest);
 
     public TransferRequest findById(int requestId);
