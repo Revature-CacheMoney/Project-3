@@ -4,13 +4,12 @@ import com.revature.cachemoney.backend.beans.models.Transfer;
 import com.revature.cachemoney.backend.beans.repositories.AccountRepo;
 import com.revature.cachemoney.backend.beans.repositories.TransferRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
-
-import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @Service
 public class TransferService {
@@ -31,23 +30,26 @@ public class TransferService {
         return this.transferRepo.findBySourceUser(userId);
     }
 
-    public Transfer save(Transfer transfer, Integer userId) {
+    public Transfer save(Transfer transfer, Integer userId) throws ResponseStatusException {
         int sourceId = transfer.getSourceAccount().getAccountId();
         transfer.setSourceAccount(accountRepo.getById(sourceId));
         if (transfer.getSourceAccount().getUser().getUserId() != userId) {
-            // TODO add some kind of error handling here
-            System.out.println("No user found");
-            return null;
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "You can only transfer money from YOUR accounts");
         }
         int destId = transfer.getDestinationAccount().getAccountId();
-        System.out.println("Before account is gotten from repo");
         try {
             transfer.setDestinationAccount(accountRepo.getById(destId));
-            System.out.println(transfer.getDestinationAccount().toString());
         } catch (EntityNotFoundException e) {
-            // TODO add some kind of error handling here
-            throw new ResponseStatusException(NOT_FOUND, "Unable to find resource");
-            //return null;
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Unable to find destination account");
+        }
+        // Setting description to default
+        if (transfer.getDescription() == null) {
+            transfer.setDescription(
+                    "Transfer from account "
+                            + transfer.getSourceAccount().getAccountId()
+                            + " to "
+                            + transfer.getDestinationAccount().getAccountId()
+            );
         }
         double amount = transfer.getAmount();
         double balance = transfer.getSourceAccount().getBalance();
@@ -55,12 +57,9 @@ public class TransferService {
             transfer.getSourceAccount().setBalance(balance - amount);
             double destBalance = transfer.getDestinationAccount().getBalance();
             transfer.getDestinationAccount().setBalance(destBalance + amount);
-            System.out.println(transfer.toString());
             return this.transferRepo.save(transfer);
         } else {
-            // TODO show some error to front end like "Not enough money" or "Amount less than zero"
-            System.out.println("Not enough money to transfer for this request");
-            return null;
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Not enough money to transfer specified amount");
         }
     }
 }

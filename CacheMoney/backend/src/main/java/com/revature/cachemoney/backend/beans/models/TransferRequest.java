@@ -28,11 +28,15 @@ public class TransferRequest {
     @Column
     private double amount;
 
+    @Column
+    private String description;
+
     public Transfer toTransfer() {
         Transfer transfer = new Transfer();
         transfer.setDestinationAccount(this.getDestinationAccount());
         transfer.setSourceAccount(this.getSourceAccount());
         transfer.setAmount(this.getAmount());
+        transfer.setDescription(this.getDescription());
         System.out.println(transfer.toString());
         return transfer;
     }

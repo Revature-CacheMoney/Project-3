@@ -7,7 +7,9 @@ import com.revature.cachemoney.backend.beans.repositories.AccountRepo;
 import com.revature.cachemoney.backend.beans.repositories.TransferRepo;
 import com.revature.cachemoney.backend.beans.repositories.TransferRequestRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -26,13 +28,12 @@ public class TransferRequestService {
         this.transferService = transferService;
     }
 
-    public TransferRequest save(TransferRequest transferRequest) {
+    public TransferRequest save(TransferRequest transferRequest) throws ResponseStatusException {
         Account destinationAccount = accountRepo.getById(transferRequest.getDestinationAccount().getAccountId());
         Account sourceAccount = accountRepo.getById(transferRequest.getSourceAccount().getAccountId());
         // check if amount is > 0
         if(transferRequest.getAmount() <= 0) {
-            // TODO some message to user
-            return null;
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Amount cannot be less than or equal 0");
         }
         // check if destination is different from source
         if(destinationAccount!=sourceAccount) {
@@ -40,12 +41,21 @@ public class TransferRequestService {
             if(destinationAccount!=null && sourceAccount!=null) {
                 transferRequest.setDestinationAccount(destinationAccount);
                 transferRequest.setSourceAccount(sourceAccount);
+                // Setting Description to default
+                if (transferRequest.getDescription() == null) {
+                    transferRequest.setDescription(
+                            "Transfer from account "
+                                    + transferRequest.getSourceAccount().getAccountId()
+                                    + " to "
+                                    + transferRequest.getDestinationAccount().getAccountId()
+                    );
+                }
                 return this.transferRequestRepo.save(transferRequest);
             }
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Source and Destination accounts must exist");
         }
         // if source and/or destination is the same or null
-        // TODO some form of error handling
-        return null;
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Source and Destination accounts cannot be the same account");
     }
 
     public List<TransferRequest> findByRequestedUser(int userId) {
@@ -56,25 +66,24 @@ public class TransferRequestService {
         return this.transferRequestRepo.findByRequestingUser(userId);
     }
 
-    public void delete(int requestId, Integer userId) {
+    public void delete(int requestId, Integer userId) throws ResponseStatusException {
         TransferRequest transferRequest = this.transferRequestRepo.findById(requestId);
         int destinationUser = transferRequest.getDestinationAccount().getUser().getUserId();
         int sourceUser = transferRequest.getSourceAccount().getUser().getUserId();
         // only involved users can delete the request
         if(destinationUser == userId || sourceUser == userId) {
-            System.out.println(transferRequest);
             this.transferRequestRepo.delete(transferRequest);
         }
+        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Only the requester or requestee may delete a request");
     }
 
-    public Transfer acceptTransfer(int requestId, Integer userId) {
+    public Transfer acceptTransfer(int requestId, Integer userId) throws ResponseStatusException {
         TransferRequest transferRequest = this.transferRequestRepo.findById(requestId);
         Transfer returnTransfer = this.transferService.save(transferRequest.toTransfer(), userId);
         if(returnTransfer!=null) {
             delete(transferRequest.getRequestId(), userId);
             return returnTransfer;
         }
-        // TODO maybe some error message
-        return null;
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Transfer was not saved");
     }
 }

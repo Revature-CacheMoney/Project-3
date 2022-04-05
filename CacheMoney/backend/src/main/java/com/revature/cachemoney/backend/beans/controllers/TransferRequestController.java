@@ -6,6 +6,7 @@ import com.revature.cachemoney.backend.beans.models.TransferRequest;
 import com.revature.cachemoney.backend.beans.services.TransferRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -20,38 +21,40 @@ public class TransferRequestController {
     }
 
     @PostMapping
-    //@RequireJwt
-    public TransferRequest save(@RequestBody TransferRequest transferRequest) {
+    @RequireJwt
+    public TransferRequest save(@RequestBody TransferRequest transferRequest) throws ResponseStatusException {
         return this.transferRequestService.save(transferRequest);
     }
 
     @GetMapping("source")
-    //@RequireJwt
-    public List<TransferRequest> findByRequestingUser(//@RequestHeader(name = "token") String token,
-                                                      @RequestHeader(name = "userId") Integer userId) {
+    @RequireJwt
+    public List<TransferRequest> findByRequestingUser(
+            @RequestHeader(name = "token") String token,
+            @RequestHeader(name = "userId") Integer userId) {
         return this.transferRequestService.findByRequestingUser(userId);
     }
 
     @GetMapping("destination")
-    //@RequireJwt
-    public List<TransferRequest> findByRequestedUser(//@RequestHeader(name = "token") String token,
-                                                     @RequestHeader(name = "userId") Integer userId) {
+    @RequireJwt
+    public List<TransferRequest> findByRequestedUser(
+            @RequestHeader(name = "token") String token,
+            @RequestHeader(name = "userId") Integer userId) {
         return this.transferRequestService.findByRequestedUser(userId);
     }
 
     @PostMapping("accept/{requestId}")
-    //@RequireJwt
+    @RequireJwt
     public Transfer acceptTransfer(@PathVariable int requestId,
-                                   //@RequestHeader(name = "token") String token,
-                                   @RequestHeader(name = "userId") Integer userId) {
+                                   @RequestHeader(name = "token") String token,
+                                   @RequestHeader(name = "userId") Integer userId) throws ResponseStatusException {
         return this.transferRequestService.acceptTransfer(requestId, userId);
     }
 
     @DeleteMapping("{requestId}")
-    //@RequireJwt
+    @RequireJwt
     public void deleteTransfer(@PathVariable int requestId,
-                               //@RequestHeader(name = "token") String token,
-                               @RequestHeader(name = "userId") Integer userId) {
+                               @RequestHeader(name = "token") String token,
+                               @RequestHeader(name = "userId") Integer userId) throws ResponseStatusException {
         this.transferRequestService.delete(requestId, userId);
     }
 }
