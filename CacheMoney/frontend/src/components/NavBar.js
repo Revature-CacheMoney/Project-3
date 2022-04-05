@@ -7,14 +7,22 @@ import axios from "axios";
 
 function NavBar(props) {
 	const [unreadNotifications, setUnreadNotifications] = useState([]);
-	const [dotDisplay, setDotDisplay] = useState();
+	const [dotDisplay, setDotDisplay] = useState('none');
 	useEffect(() => {
-		if (unreadNotifications.length > 0){
-			setDotDisplay('block')}
-			else{
-				setDotDisplay('none')
+		getUnread();
+	},[])
+
+	useEffect(() => {
+		const timer = setTimeout(() => {
+			console.log(unreadNotifications);
+			if (unreadNotifications.length > 0){
+				setDotDisplay('block');
+			} else {
+				setDotDisplay('none');
 			}
-			},[unreadNotifications])
+		  }, 1000);
+		  return () => clearTimeout(timer);
+	},[unreadNotifications])
 
 	async function getUnread(){
 		var unread;
@@ -53,7 +61,7 @@ function NavBar(props) {
 			setNotificationDisplay('block')
 		} else {
 			setNotificationDisplay('none')
-
+		}
 			await axios
 			.get(`${config.url}users/`, {
 				headers: {
@@ -70,7 +78,6 @@ function NavBar(props) {
 			await axios
 			.put(`${config.url}notifications/update`, user)
 			.catch((error) => console.error(`Error: ${error}`));
-		}
 	}
 
 	return (

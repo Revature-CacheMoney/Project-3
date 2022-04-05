@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 @RestController
 @RequestMapping("/accounts")
-@CrossOrigin
 public class AccountController {
 	private final AccountService accountService;
 	private final ObjectMapper mapper;
