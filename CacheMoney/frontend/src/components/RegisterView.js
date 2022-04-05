@@ -49,12 +49,16 @@ function RegisterView() {
 			registrationError(
 				"password1",
 				"password1-span",
-				"Passwords do not match."
+				"password1-description",
+				"Passwords do not match",
+				"Please check your input and try again."
 			);
 			registrationError(
 				"password2",
 				"password2-span",
-				"Passwords do not match."
+				"password2-description",
+				"Passwords do not match",
+				"Please check your input and try again."
 			);
 		}
 		// Test the firstname, lastname for validity - ex. no empty strings
@@ -181,22 +185,23 @@ function RegisterView() {
 					else navigate("/signin");
 
 				} else {
-                    toast.error('There was an issue creating an account', {
-                        position: "bottom-center",
-                        autoClose: 2000,
-                        hideProgressBar: true,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        });
-
                     // alert(
                     // 	"Some Error occurred during registration. \n Check if the email or username is already in use?"
                     // );
                 }
 			})
-			.catch((error) => console.error(`Error: ${error}`));
+			.catch((error) => {
+				toast.error('There was an issue creating an account', {
+					position: "bottom-center",
+					autoClose: 2000,
+					hideProgressBar: true,
+					closeOnClick: true,
+					pauseOnHover: true,
+					draggable: true,
+					progress: undefined,
+					});
+			    console.error(`Error: ${error}`);
+			});
 	}
 
 	const [theme, themeToggler, mountedComponent] = useDarkMode();

@@ -16,7 +16,7 @@
 	<groupId>com.revature.cachemoney</groupId>
 	<artifactId>backend</artifactId>
 	<version>1.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>Cache Money</name>
 	<description>project3</description>
 
