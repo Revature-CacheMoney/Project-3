@@ -28,10 +28,10 @@ public class TransferService {
         return this.transferRepo.findBySourceUser(userId);
     }
 
-    public Transfer save(Transfer transfer) {
+    public Transfer save(Transfer transfer, Integer userId) {
         int sourceId = transfer.getSourceAccount().getAccountId();
         transfer.setSourceAccount(accountRepo.getById(sourceId));
-        if (transfer.getSourceAccount().getUser().getUserId() != 1) { // TODO change 1 to the user's id
+        if (transfer.getSourceAccount().getUser().getUserId() != userId) { // TODO change 1 to the user's id
             // TODO add some kind of error handling here
             System.out.println("No user found");
             return null;
@@ -51,6 +51,7 @@ public class TransferService {
             transfer.getSourceAccount().setBalance(balance - amount);
             double destBalance = transfer.getDestinationAccount().getBalance();
             transfer.getDestinationAccount().setBalance(destBalance + amount);
+            System.out.println(transfer.toString());
             return this.transferRepo.save(transfer);
         } else {
             // TODO show some error to front end like "Not enough money" or "Amount less than zero"

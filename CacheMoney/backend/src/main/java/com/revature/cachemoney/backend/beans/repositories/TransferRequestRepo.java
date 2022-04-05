@@ -5,8 +5,10 @@ import com.revature.cachemoney.backend.beans.models.TransferRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
+@Transactional
 public interface TransferRequestRepo extends JpaRepository<TransferRequest, Integer> {
 
     // TODO remove this later

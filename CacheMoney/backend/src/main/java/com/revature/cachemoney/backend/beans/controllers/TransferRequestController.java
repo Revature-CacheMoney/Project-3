@@ -1,5 +1,6 @@
 package com.revature.cachemoney.backend.beans.controllers;
 
+import com.revature.cachemoney.backend.beans.annotations.RequireJwt;
 import com.revature.cachemoney.backend.beans.models.Transfer;
 import com.revature.cachemoney.backend.beans.models.TransferRequest;
 import com.revature.cachemoney.backend.beans.services.TransferRequestService;
@@ -33,9 +34,12 @@ public class TransferRequestController {
         return this.transferRequestService.findByRequestedUser(userId);
     }
 
-    @PostMapping("accept")
-    public Transfer acceptTransfer(@RequestBody TransferRequest transferRequest) {
-        return this.transferRequestService.acceptTransfer(transferRequest);
+    @PostMapping("accept/{requestId}")
+    //@RequireJwt
+    public Transfer acceptTransfer(@PathVariable int requestId,
+                                   //@RequestHeader(name = "token") String token,
+                                   @RequestHeader(name = "userId") Integer userId) {
+        return this.transferRequestService.acceptTransfer(requestId, userId);
     }
 
     @DeleteMapping("{requestId}")
