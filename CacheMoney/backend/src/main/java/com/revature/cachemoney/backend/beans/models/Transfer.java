@@ -16,7 +16,7 @@ import javax.persistence.*;
 @Table(name = "transfer")
 public class Transfer {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer transferId;
 
     @OneToOne
