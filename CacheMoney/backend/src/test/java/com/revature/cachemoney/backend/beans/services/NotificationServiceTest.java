@@ -60,7 +60,7 @@ class NotificationServiceTest {
 
         when(notificationRepo.findAllByUnread(anyInt())).thenReturn(notifsList);
 
-        List<Notification> result = notificationService1.findAllByUnread(user.getUserId());
+        List<Notification> result = notificationService1.findAllByUnread(1);
         Assertions.assertEquals(notifsList, result);
     }
 

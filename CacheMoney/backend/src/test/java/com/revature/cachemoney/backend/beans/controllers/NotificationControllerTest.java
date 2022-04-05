@@ -53,9 +53,9 @@ class NotificationControllerTest {
 
 
 
-        when(notificationService.findAllByUnread(any())).thenReturn(notifsList);
+        when(notificationService.findAllByUnread(anyInt())).thenReturn(notifsList);
 
-        List<Notification> result = notificationController.findAllUnread(user.getUserId());
+        List<Notification> result = notificationController.findAllUnread(1);
         Assertions.assertEquals(notifsList, result);
     }
 
