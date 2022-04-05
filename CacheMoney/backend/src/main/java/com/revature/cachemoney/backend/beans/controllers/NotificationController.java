@@ -25,8 +25,8 @@ public class NotificationController {
     }
 
     @GetMapping("/unread/{user_id}")
-    List<Notification> findAllUnread(@RequestBody User user) {
-        return notificationService.findAllByUnread(user);
+    List<Notification> findAllUnread(@PathVariable int user_id) {
+        return notificationService.findAllByUnread(user_id);
     }
 
     @PostMapping("/add")
