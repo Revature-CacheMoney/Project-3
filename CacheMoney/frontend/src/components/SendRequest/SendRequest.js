@@ -5,7 +5,7 @@
  import config from "../../config";
  import store from "../../store/Store";
  import { ToastContainer, toast } from 'react-toastify';
- import TransferSelection from "../Transaction/TransferSelection";
+ import SendRequestSelection from "./SendRequestSelection";
  import 'react-toastify/dist/ReactToastify.css';
  
  
@@ -87,17 +87,17 @@
              <ToastContainer />
              <div className="SendRequest-inner-container">
                  <div className="SendRequest-form">
-                     <p className="SendRequest-form-header">SendRequest</p>
+                    <p style = {{color: "green"}} className="SendRequest-form-header">SendRequest Money</p>
  
                      <form id="SendRequest-inner-form" onSubmit={handleSubmit}>
                          <div className="SendRequest-from-account">
                              <label>From</label>
-                             <TransferSelection whichAccount="SOURCE"></TransferSelection>
+                             <SendRequestSelection whichAccount="SOURCE"></SendRequestSelection>
                          </div>
  
                          <div className="SendRequest-to-account">
                              <label>To</label>
-                             <TransferSelection whichAccount="DESTINATION"></TransferSelection>
+                             <SendRequestSelection whichAccount="DESTINATION"></SendRequestSelection>
                          </div>
  
                          <div className="SendRequest-amount">

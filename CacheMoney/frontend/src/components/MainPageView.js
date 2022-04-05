@@ -12,9 +12,6 @@ import CreateAccount from "./Account/CreateAccount.js";
 import AccountDisplay from "./Account/AccountDisplay.js";
 import SendRequest from "./SendRequest/SendRequest.js";
 import * as PropTypes from "prop-types";
-import SendRequest from "./Account/Transfer.js";
-
-import SendRequest from "./SendRequest/SendRequest";
 
 function MainPageView2() {
 	const navigate = useNavigate();
