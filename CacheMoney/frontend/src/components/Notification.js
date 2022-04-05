@@ -1,50 +1,12 @@
-import axios from "axios";
-import config from "../config";
-import store from "../store/Store";
+
 import { useEffect, useState } from "react";
-
-
 
 // @author Max Hilken, Mika Nelson, Cullen Kuch
 
-export default function Notification(props){
-    const [unreadNotifications, setUnreadNotifications] = useState([]);
-
-    useEffect(()=> {
-        getUnread();
-        async function getUnread(){
-            var unread;
-            var user;
-            await axios
-                    .get(`${config.url}users/`, {
-                        headers: {
-                            token: store.getState().userReducer.token,
-                            userId: store.getState().userReducer.userId,
-                        },
-                    })
-                    .then((response) => {
-                        user = response.data;
-                        console.log(user);
-                    })
-                    .catch((error) => console.error(`Error: ${error}`));
-        
-                    await axios
-                    .get(`${config.url}notifications/unread/` + user.userId)
-                    .then((response) => {
-                        unread = response.data;
-                        setUnreadNotifications(unread);
-                        console.log(unread);
-                    })
-                    .catch((error) => console.error(`Error: ${error}`));
-                    return unread;
-
-                    
-        }
-    },[])
-
-
-    return(unreadNotifications ?
+export default function Notification({unreadNotifications}){
+    return(
         <div>
+            {console.log(unreadNotifications)}
             <div className = "NotifParent">
             {unreadNotifications.length > 0 ? (
                     unreadNotifications.map((noti) => (
@@ -86,8 +48,5 @@ export default function Notification(props){
             </Popover>}  />
             <Button variant="secondary">Popover on </Button>
             <OverlayTrigger/> */}
-        </div>: <h1>
-            loading
-        </h1>
-    );
+        </div>)
 }

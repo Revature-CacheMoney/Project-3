@@ -5,14 +5,41 @@ import Notification from "./Notification";
 import {useState} from "react";
 import axios from "axios";
 
-
 function NavBar(props) {
+	const [unreadNotifications, setUnreadNotifications] = useState([]);
+	async function getUnread(){
+		var unread;
+		var user;
+		await axios
+				.get(`${config.url}users/`, {
+					headers: {
+						token: store.getState().userReducer.token,
+						userId: store.getState().userReducer.userId,
+					},
+				})
+				.then((response) => {
+					user = response.data;
+					console.log(user);
+				})
+				.catch((error) => console.error(`Error: ${error}`));
+	
+				await axios
+				.get(`${config.url}notifications/unread/` + user.userId)
+				.then((response) => {
+					unread = response.data;
+					setUnreadNotifications(unread);
+					console.log(unread);
+				})
+				.catch((error) => console.error(`Error: ${error}`));
+				return unread;
+	}
+
 	// Make sure to add additional cases to MainPageView to handle any routing changes/new links
 	const [notificationDisplay, setNotificationDisplay] = useState('none');
 	// @author Max Hilken, Mika Nelson, Cullen Kuch
-	async function toggleNotificationDisplay(){
+	async function ToggleNotificationDisplay(){
 		var user;
-		
+		getUnread();
 		if (notificationDisplay == 'none'){
 			setNotificationDisplay('block')
 		} else {
@@ -33,7 +60,6 @@ function NavBar(props) {
 
 			await axios
 			.put(`${config.url}notifications/update`, user)
-			
 			.catch((error) => console.error(`Error: ${error}`));
 		}
 	}
@@ -79,17 +105,18 @@ function NavBar(props) {
 				<a href="#">
 					<span
 						className="navigation-link"
-						onClick={() => toggleNotificationDisplay()}
+						onClick={() => ToggleNotificationDisplay()}
 						id="Notification"
 					>
 						Notifications
 					</span>
 					<span style={{display: notificationDisplay}}>
-						<Notification />
+						<Notification unreadNotifications={unreadNotifications}/>
 					</span>
 				</a>
 			</div>
 		</div>
 	);
 }
+
 export default NavBar;
