@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.cachemoney.backend.beans.annotations.RequireJwt;
 import com.revature.cachemoney.backend.beans.models.User;
 import com.revature.cachemoney.backend.beans.security.JwtUtil;
+import com.revature.cachemoney.backend.beans.controllers.payload.PostUserResponse;
 import com.revature.cachemoney.backend.beans.services.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,8 @@ import org.springframework.web.bind.annotation.*;
 /**
  * Controller to handle requests related to Users.
  * 
- * @author Alvin Frierson, Brian Gardner, Cody Gonsowski, & Jeffrey Lor
+ * @author Version 1 (Alvin Frierson, Brian Gardner, Cody Gonsowski, & Jeffrey Lor)
+ *         Version 2 (Phillip Vo, Josue Rodriguez, Prakash, Maikel Vera)
  */
 @RestController
 @RequestMapping("/users")
@@ -64,12 +66,22 @@ public class UserController {
     /**
      * POST a User.
      * 
-     * @param user containing the firstName, lastName, email, username, & password
-     * @return true | false based on registration status
+     * @param user containing the firstName, lastName, email, username, password, & mfa
+     * @return PostUserResponse | badRequest() based on registration status
+     *
      */
     @PostMapping
-    public Boolean postUser(@RequestBody User user) {
-        return userService.postUser(user);
+    public ResponseEntity<String> postUser(@RequestBody User user) throws JsonProcessingException {
+
+        if(userService.postUser(user)){
+            System.out.println(user.toString());
+            return ResponseEntity.ok().body(mapper.writeValueAsString(
+                    new PostUserResponse(user.isMfa(), user.getQrImageUri())
+            ));
+        }
+
+        // indicate bad request
+        return ResponseEntity.badRequest().build();
     }
 
     /**
@@ -102,19 +114,40 @@ public class UserController {
     @PostMapping(value = "/login")
     public ResponseEntity<String> login(@RequestBody User user) throws JsonProcessingException {
         // has internal checking to see if user is valid
+
         User tempUser = userService.getUserByUsername(user);
 
         // make sure the user is valid
         if (tempUser != null) {
-            // create the response headers
-            HttpHeaders headers = new HttpHeaders();
+            if(tempUser.isMfa()){
+                return ResponseEntity.ok().body(mapper.writeValueAsString(tempUser));
+            }
+            else {
+                // write the headers & object into the response
+                return ResponseEntity.ok()
+                        .headers(this.generateToken(tempUser.getUserId()))
+                        .body(mapper.writeValueAsString(tempUser));
+            }
+        }
 
-            // add the JWT to the headers
-            headers.set("JWT", jwtUtil.generateToken(tempUser.getUserId()));
-            headers.set("Access-Control-Expose-Headers", "JWT");
+        // indicate bad request
+        return ResponseEntity.badRequest().build();
+    }
 
+    /**
+     * Verify the OTP for 2FA process.
+     *
+     * @param userId Id of the user to authenticate
+     * @param code OTP code to verify
+     * @return UserID & its associated JWT
+     */
+    @PostMapping("/verify")
+    public ResponseEntity<String> verifyCode(
+            @RequestParam Integer userId, @RequestParam String code) {
+
+        if(userService.verify(userId, code)){
             // write the headers & object into the response
-            return ResponseEntity.ok().headers(headers).body(mapper.writeValueAsString(tempUser));
+            return ResponseEntity.ok().headers(this.generateToken(userId)).body(userId.toString());
         }
 
         // indicate bad request
@@ -137,5 +170,15 @@ public class UserController {
             throws JsonProcessingException {
 
         return ResponseEntity.ok().body(mapper.writeValueAsString(userService.getAccountsByUserId(userId)));
+    }
+
+    private HttpHeaders generateToken(Integer userId){
+        HttpHeaders headers = new HttpHeaders();
+
+        // add the JWT to the headers
+        headers.set("JWT", jwtUtil.generateToken(userId));
+        headers.set("Access-Control-Expose-Headers", "JWT");
+
+        return headers;
     }
 }

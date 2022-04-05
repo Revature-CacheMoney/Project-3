@@ -20,6 +20,7 @@ function RegisterView() {
 		username: "",
 		password1: "",
 		password2: "",
+		mfa: false,
 	});
 
 	const handleChange = (event) => {
@@ -37,7 +38,7 @@ function RegisterView() {
 
 	//   // Checks input against validation (should be same patterns as used in backend)
 	function validateInput() {
-		const { firstName, lastName, email, username, password1, password2 } =
+		const { firstName, lastName, email, username, password1, password2, mfa } =
 			formData;
 		let regValidity = true;
 		if (password1 !== password2) {
@@ -161,6 +162,7 @@ function RegisterView() {
 			email: formData.email,
 			username: formData.username,
 			password: formData.password1,
+			mfa: (formData.mfa),
 		};
 		axios
 			.post(`${url}users/`, newUser)
@@ -169,14 +171,16 @@ function RegisterView() {
 				responseStatus = response.status;
 				responseData = response.data;
 				if (responseStatus === 200) {
-					if (responseData === true || responseData.result === true) {
+					if (responseData.mfa === true && responseData.secretImageUri) {
 						//console.log("Registration successful");
-						navigate("/signin");
-					} else {
-						alert(
-							"Some error occurred during registration. \n Check if the email or username is already in use?"
-						);
-					}
+						navigate("/qrcode");
+					} 
+					else navigate("/signin");
+				}
+				else {
+					alert(
+						"Some error occurred during registration. \n Check if the email or username is already in use?"
+					);
 				}
 			})
 			.catch((error) => console.error(`Error: ${error}`));
@@ -323,6 +327,21 @@ function RegisterView() {
 											id="password2"
 											className="password-box reg-input-box"
 											onChange={handleChange}
+											required
+										/>
+									</div>
+
+									<div className="reg-field-box">
+										<label htmlFor="mfa">
+										    Enable two-factor authentication:
+										</label>
+										<input
+											type="checkbox"
+											name="mfa"
+											id="mfa"
+											className="check-box reg-input-box"
+											onChange={handleChange}
+											value="true"
 											required
 										/>
 									</div>

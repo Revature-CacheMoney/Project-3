@@ -73,11 +73,23 @@ function SigninView() {
 						payload: responseData.lastName,
 					});
 					userStore.dispatch({
-						type: "UPDATE_TOKEN",
-						payload: responseHeaders.jwt,
+						type: "UPDATE_MFA",
+						payload: responseData.mfa,
 					});
 
-					navigate("/main");
+					if(responseData.mfa){
+						
+						navigate("/verify");
+					}
+					else {
+						
+						userStore.dispatch({
+							type: "UPDATE_TOKEN",
+							payload: responseHeaders.jwt,
+						});
+						
+						navigate("/main");
+					}
 				}
 			})
 			.catch((error) => {
