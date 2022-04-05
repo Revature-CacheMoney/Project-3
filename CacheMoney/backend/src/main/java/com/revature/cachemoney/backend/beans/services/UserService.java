@@ -2,8 +2,7 @@ package com.revature.cachemoney.backend.beans.services;
 
 import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.ignoreCase;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -13,6 +12,7 @@ import com.revature.cachemoney.backend.beans.repositories.AccountRepo;
 import com.revature.cachemoney.backend.beans.repositories.UserRepo;
 import com.revature.cachemoney.backend.beans.security.SecurityConfig;
 
+import com.revature.cachemoney.backend.beans.security.TotpManager;
 import com.revature.cachemoney.backend.beans.utils.EmailUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
@@ -22,7 +22,8 @@ import org.springframework.stereotype.Service;
 /**
  * Service layer for User requests.
  * 
- * @author Alvin Frierson
+ * @author Version 1 (Alvin Frierson)
+ *         Version 2 (Phillip Vo, Josue Rodriguez, Prakash, Maikel Vera)
  */
 @Service
 public class UserService {
@@ -31,16 +32,20 @@ public class UserService {
 
     private final SecurityConfig passwordEncoder;
 
+    private final TotpManager totpManager;
+
     private final String emailRegEx = "^[a-zA-Z0-9._-]+@{1}[a-zA-Z0-9-_]+[.]{1}[a-zA-Z0-9]+[a-zA-Z_.-]*$";
     private final String nameRegEx = "^[a-zA-Z][a-zA-Z' -]+[a-zA-Z]$";
     private final String usernameRegEx = "^[a-zA-Z0-9@~._-]{8,}$";
     private final String passwordRegEx = "^[a-zA-Z0-9@^%$#/\\,;|~._-]{8,50}$";
 
     @Autowired
-    public UserService(UserRepo userRepo, AccountRepo accountRepo, SecurityConfig passwordEncoder) {
+    public UserService(UserRepo userRepo, AccountRepo accountRepo,
+                       SecurityConfig passwordEncoder, TotpManager totpManager) {
         this.userRepo = userRepo;
         this.accountRepo = accountRepo;
         this.passwordEncoder = passwordEncoder;
+        this.totpManager = totpManager;
     }
 
     /**
@@ -68,7 +73,7 @@ public class UserService {
      * @param user of User to save
      * @return (true | false) if the User is saved
      */
-    public Boolean postUser(User user) {
+    public Boolean postUser(User user){
         // verify the User's credentials
         if (areCredentialsValid(user)) {
             try {
@@ -79,16 +84,22 @@ public class UserService {
                 user.setEmail(user.getEmail().toLowerCase());
                 user.setUsername(user.getUsername().toLowerCase());
 
+                if(user.isMfa()) {
+                    user.setSecret(totpManager.generateSecret());
+                    user.setQrImageUri(totpManager.getUriForImage(user.getUsername(), user.getSecret()));
+                }
+
                 // save the user in the database
                 userRepo.save(user);
+
+                // inform successful result
+                //EmailUtil.getInstance().sendEmail(user.getEmail(), "Account Created", "Welcome to CacheMoney!");
+                return true;
+
             } catch (Exception e) {
                 // fail on save exception
                 return false;
             }
-
-            // inform successful result
-            EmailUtil.getInstance().sendEmail(user.getEmail(), "Account Created", "Welcome to CacheMoney!");
-            return true;
         }
 
         // fail by default
@@ -113,31 +124,52 @@ public class UserService {
      * @return User object with username
      */
     public User getUserByUsername(User user) {
+
         // fail if the username or password is null
-        if (user.getUsername() == null || user.getPassword() == null) {
-            return null;
-        }
+        if (user.getUsername() != null && user.getPassword() != null) {
 
-        // verify the username matches
-        ExampleMatcher em = ExampleMatcher.matching()
-                .withIgnorePaths("user_id", "first_name", "last_name", "email", "accounts", "password")
-                .withMatcher("username", ignoreCase());
+            // verify the username matches
 
-        // search for the User in the database
-        Example<User> example = Example.of(user, em);
 
-        // does the User exist?
-        if (userRepo.exists(example)) {
-            // get the actual User
-            Optional<User> optionalUser = userRepo.findOne(example);
+            ExampleMatcher em = ExampleMatcher.matching()
+                    .withIgnorePaths("user_id", "first_name", "last_name", "email", "accounts", "password", "mfa", "secret")
+                    .withMatcher("username", ignoreCase());
 
-            // password checking
-            if (passwordEncoder.passwordEncoder().matches(user.getPassword(), optionalUser.get().getPassword())) {
-                return optionalUser.get();
+            // search for the User in the database
+            Example<User> example = Example.of(user, em);
+
+            // does the User exist?
+            try {
+                if (userRepo.exists(example)) {
+                    // get the actual User
+                    User optionalUser = userRepo.findOne(example).orElseThrow(null);
+
+                    // password checking
+                    if (passwordEncoder.passwordEncoder().matches(user.getPassword(), optionalUser.getPassword())) {
+                        optionalUser.setPassword("");
+                        return optionalUser;
+                    }
+                }
+            } catch (RuntimeException e) {
+                return null;
             }
         }
 
         return null;
+    }
+
+    public Boolean verify(Integer userId, String code) {
+
+        try {
+
+            User user = userRepo.findById(userId).orElseThrow(null);
+
+            return totpManager.verifyCode(code, user.getSecret());
+
+
+        } catch (RuntimeException e) {
+            return false;
+        }
     }
 
     /**
@@ -156,7 +188,7 @@ public class UserService {
      * @param user to check for valid credentials
      * @return (true | false) based on login status
      */
-    public Boolean areCredentialsValid(User user) {
+    private Boolean areCredentialsValid(User user) {
         // fail if any fields are null
         if (user.getFirstName() == null || user.getLastName() == null ||
                 user.getEmail() == null || user.getUsername() == null ||

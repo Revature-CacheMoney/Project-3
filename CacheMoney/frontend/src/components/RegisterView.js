@@ -7,11 +7,14 @@ import Toggle from "./style/Toggle";
 import { lightTheme, darkTheme } from "../components/style/Themes";
 import { useNavigate } from "react-router-dom";
 import config from "../config.js";
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 // The registrration component handles the registration form for new users.
 // The info is persisted in the database and locally (partial).
 
 function RegisterView() {
+
+
 	const navigate = useNavigate();
 	const [formData, setFormData] = useState({
 		firstName: "",
@@ -20,6 +23,7 @@ function RegisterView() {
 		username: "",
 		password1: "",
 		password2: "",
+		mfa: false,
 	});
 
 	const handleChange = (event) => {
@@ -37,7 +41,7 @@ function RegisterView() {
 
 	//   // Checks input against validation (should be same patterns as used in backend)
 	function validateInput() {
-		const { firstName, lastName, email, username, password1, password2 } =
+		const { firstName, lastName, email, username, password1, password2, mfa } =
 			formData;
 		let regValidity = true;
 		if (password1 !== password2) {
@@ -45,12 +49,16 @@ function RegisterView() {
 			registrationError(
 				"password1",
 				"password1-span",
-				"Passwords do not match."
+				"password1-description",
+				"Passwords do not match",
+				"Please check your input and try again."
 			);
 			registrationError(
 				"password2",
 				"password2-span",
-				"Passwords do not match."
+				"password2-description",
+				"Passwords do not match",
+				"Please check your input and try again."
 			);
 		}
 		// Test the firstname, lastname for validity - ex. no empty strings
@@ -161,6 +169,7 @@ function RegisterView() {
 			email: formData.email,
 			username: formData.username,
 			password: formData.password1,
+			mfa: (formData.mfa),
 		};
 		axios
 			.post(`${url}users/`, newUser)
@@ -169,17 +178,30 @@ function RegisterView() {
 				responseStatus = response.status;
 				responseData = response.data;
 				if (responseStatus === 200) {
-					if (responseData === true || responseData.result === true) {
+					if (responseData.mfa === true && responseData.secretImageUri) {
 						//console.log("Registration successful");
-						navigate("/signin");
-					} else {
-						alert(
-							"Some error occurred during registration. \n Check if the email or username is already in use?"
-						);
+						navigate("/qrcode");
 					}
-				}
+					else navigate("/signin");
+
+				} else {
+                    // alert(
+                    // 	"Some Error occurred during registration. \n Check if the email or username is already in use?"
+                    // );
+                }
 			})
-			.catch((error) => console.error(`Error: ${error}`));
+			.catch((error) => {
+				toast.error('There was an issue creating an account', {
+					position: "bottom-center",
+					autoClose: 2000,
+					hideProgressBar: true,
+					closeOnClick: true,
+					pauseOnHover: true,
+					draggable: true,
+					progress: undefined,
+					});
+			    console.error(`Error: ${error}`);
+			});
 	}
 
 	const [theme, themeToggler, mountedComponent] = useDarkMode();
@@ -191,6 +213,17 @@ function RegisterView() {
 		<ThemeProvider theme={themeMode}>
 			<>
 				<GlobalStyles />
+				<ToastContainer
+					position="bottom-center"
+					autoClose={2000}
+					hideProgressBar
+					newestOnTop={false}
+					closeOnClick
+					rtl={false}
+					pauseOnFocusLoss
+					draggable
+					pauseOnHover
+					/>
 				<div className="container-view login-outer-container">
 					<div className="login-inner-container">
 						<div className="login-content-box">
@@ -323,6 +356,21 @@ function RegisterView() {
 											id="password2"
 											className="password-box reg-input-box"
 											onChange={handleChange}
+											required
+										/>
+									</div>
+
+									<div className="reg-field-box">
+										<label htmlFor="mfa">
+										    Enable two-factor authentication:
+										</label>
+										<input
+											type="checkbox"
+											name="mfa"
+											id="mfa"
+											className="check-box reg-input-box"
+											onChange={handleChange}
+											value="true"
 											required
 										/>
 									</div>
