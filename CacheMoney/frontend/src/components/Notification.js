@@ -61,7 +61,7 @@ export default function Notification(props){
                     </div>
                     ))
                 ) : (
-                    <h4 style={{ color: "white" }}>No notifications</h4>
+                    <h4 style={{ color: "black" }}>No notifications</h4>
                 )}
                 
             </div>
