@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import config from "../config";
 import store from "../store/Store";
 import Notification from "./Notification";
@@ -7,6 +7,15 @@ import axios from "axios";
 
 function NavBar(props) {
 	const [unreadNotifications, setUnreadNotifications] = useState([]);
+	const [dotDisplay, setDotDisplay] = useState();
+	useEffect(() => {
+		if (unreadNotifications.length > 0){
+			setDotDisplay('block')}
+			else{
+				setDotDisplay('none')
+			}
+			},[unreadNotifications])
+
 	async function getUnread(){
 		var unread;
 		var user;
@@ -109,6 +118,8 @@ function NavBar(props) {
 						id="Notification"
 					>
 						Notifications
+
+					<span className = "notifDot" style={{display: dotDisplay}}/>
 					</span>
 					<span style={{display: notificationDisplay}}>
 						<Notification unreadNotifications={unreadNotifications}/>
