@@ -34,7 +34,7 @@ function NavBar(props) {
 				<span
 					className="navigation-link"
 					onClick={props.handleClick}
-					id="external-transfer"
+					id="transfer"
 				>
 					Send/Request Money
 				</span>
