@@ -1,5 +1,6 @@
 package com.revature.cachemoney.backend.beans.controllers;
 
+import com.revature.cachemoney.backend.beans.annotations.RequireJwt;
 import com.revature.cachemoney.backend.beans.models.Transfer;
 import com.revature.cachemoney.backend.beans.models.TransferRequest;
 import com.revature.cachemoney.backend.beans.services.TransferRequestService;
@@ -19,27 +20,30 @@ public class TransferRequestController {
     }
 
     @PostMapping
-    public TransferRequest save(TransferRequest transferRequest) {
+    public TransferRequest save(@RequestBody TransferRequest transferRequest) {
         return this.transferRequestService.save(transferRequest);
     }
 
     @GetMapping("source/{userId}")
-    public List<TransferRequest> findByRequestedUser(@PathVariable int userId) {
-        return this.transferRequestService.findByRequestedUser(userId);
-    }
-
-    @GetMapping("destination/{userId}")
     public List<TransferRequest> findByRequestingUser(@PathVariable int userId) {
         return this.transferRequestService.findByRequestingUser(userId);
     }
 
-    @PostMapping("accept")
-    public Transfer acceptTransfer(@RequestBody TransferRequest transferRequest) {
-        return this.transferRequestService.acceptTransfer(transferRequest);
+    @GetMapping("destination/{userId}")
+    public List<TransferRequest> findByRequestedUser(@PathVariable int userId) {
+        return this.transferRequestService.findByRequestedUser(userId);
     }
 
-    @DeleteMapping
-    public void deleteTransfer(@RequestBody TransferRequest transferRequest) {
-        this.transferRequestService.delete(transferRequest);
+    @PostMapping("accept/{requestId}")
+    //@RequireJwt
+    public Transfer acceptTransfer(@PathVariable int requestId,
+                                   //@RequestHeader(name = "token") String token,
+                                   @RequestHeader(name = "userId") Integer userId) {
+        return this.transferRequestService.acceptTransfer(requestId, userId);
+    }
+
+    @DeleteMapping("{requestId}")
+    public void deleteTransfer(@PathVariable int requestId) {
+        this.transferRequestService.delete(requestId);
     }
 }

@@ -33,6 +33,7 @@ public class TransferRequest {
         transfer.setDestinationAccount(this.getDestinationAccount());
         transfer.setSourceAccount(this.getSourceAccount());
         transfer.setAmount(this.getAmount());
+        System.out.println(transfer.toString());
         return transfer;
     }
 }

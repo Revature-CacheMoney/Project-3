@@ -10,12 +10,11 @@ import Toggle from "./style/Toggle";
 import { lightTheme, darkTheme } from "./style/Themes";
 import CreateAccount from "./Account/CreateAccount.js";
 import AccountDisplay from "./Account/AccountDisplay.js";
-<<<<<<< HEAD
 import SendRequest from "./SendRequest/SendRequest.js";
-=======
 import * as PropTypes from "prop-types";
 import SendRequest from "./Account/Transfer.js";
->>>>>>> 1f15d37228863160cf0be74c4c1590781d021101
+
+import SendRequest from "./SendRequest/SendRequest";
 
 function MainPageView2() {
 	const navigate = useNavigate();
