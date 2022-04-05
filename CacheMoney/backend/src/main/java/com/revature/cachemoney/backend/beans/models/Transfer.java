@@ -27,4 +27,7 @@ public class Transfer {
 
     @Column
     private double amount;
+
+    @Column
+    private String description;
 }

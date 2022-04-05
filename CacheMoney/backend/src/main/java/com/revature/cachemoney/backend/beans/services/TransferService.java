@@ -5,9 +5,12 @@ import com.revature.cachemoney.backend.beans.repositories.AccountRepo;
 import com.revature.cachemoney.backend.beans.repositories.TransferRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
+
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @Service
 public class TransferService {
@@ -31,7 +34,7 @@ public class TransferService {
     public Transfer save(Transfer transfer, Integer userId) {
         int sourceId = transfer.getSourceAccount().getAccountId();
         transfer.setSourceAccount(accountRepo.getById(sourceId));
-        if (transfer.getSourceAccount().getUser().getUserId() != userId) { // TODO change 1 to the user's id
+        if (transfer.getSourceAccount().getUser().getUserId() != userId) {
             // TODO add some kind of error handling here
             System.out.println("No user found");
             return null;
@@ -43,7 +46,8 @@ public class TransferService {
             System.out.println(transfer.getDestinationAccount().toString());
         } catch (EntityNotFoundException e) {
             // TODO add some kind of error handling here
-            return null;
+            throw new ResponseStatusException(NOT_FOUND, "Unable to find resource");
+            //return null;
         }
         double amount = transfer.getAmount();
         double balance = transfer.getSourceAccount().getBalance();
@@ -55,6 +59,7 @@ public class TransferService {
             return this.transferRepo.save(transfer);
         } else {
             // TODO show some error to front end like "Not enough money" or "Amount less than zero"
+            System.out.println("Not enough money to transfer for this request");
             return null;
         }
     }

@@ -18,13 +18,17 @@ public class TransferController {
         this.transferService = transferService;
     }
 
-    @GetMapping(value = "destination/{userId}")
-    public List<Transfer> findByDestinationUser(@PathVariable int userId) {
+    @GetMapping(value = "destination")
+    //@RequireJwt
+    public List<Transfer> findByDestinationUser(//@RequestHeader(name = "token") String token,
+                                                @RequestHeader(name = "userId") Integer userId) {
         return this.transferService.findByDestinationUser(userId);
     }
 
-    @GetMapping(value = "source/{userId}")
-    public List<Transfer> findBySourceUser(@PathVariable int userId) {
+    @GetMapping(value = "source")
+    //@RequireJwt
+    public List<Transfer> findBySourceUser(//@RequestHeader(name = "token") String token,
+                                           @RequestHeader(name = "userId") Integer userId) {
         return this.transferService.findBySourceUser(userId);
     }
 
