@@ -20,17 +20,22 @@ public class TransferRequestController {
     }
 
     @PostMapping
+    //@RequireJwt
     public TransferRequest save(@RequestBody TransferRequest transferRequest) {
         return this.transferRequestService.save(transferRequest);
     }
 
-    @GetMapping("source/{userId}")
-    public List<TransferRequest> findByRequestingUser(@PathVariable int userId) {
+    @GetMapping("source")
+    //@RequireJwt
+    public List<TransferRequest> findByRequestingUser(//@RequestHeader(name = "token") String token,
+                                                      @RequestHeader(name = "userId") Integer userId) {
         return this.transferRequestService.findByRequestingUser(userId);
     }
 
-    @GetMapping("destination/{userId}")
-    public List<TransferRequest> findByRequestedUser(@PathVariable int userId) {
+    @GetMapping("destination")
+    //@RequireJwt
+    public List<TransferRequest> findByRequestedUser(//@RequestHeader(name = "token") String token,
+                                                     @RequestHeader(name = "userId") Integer userId) {
         return this.transferRequestService.findByRequestedUser(userId);
     }
 
@@ -43,7 +48,10 @@ public class TransferRequestController {
     }
 
     @DeleteMapping("{requestId}")
-    public void deleteTransfer(@PathVariable int requestId) {
-        this.transferRequestService.delete(requestId);
+    //@RequireJwt
+    public void deleteTransfer(@PathVariable int requestId,
+                               //@RequestHeader(name = "token") String token,
+                               @RequestHeader(name = "userId") Integer userId) {
+        this.transferRequestService.delete(requestId, userId);
     }
 }

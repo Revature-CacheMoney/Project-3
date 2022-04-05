@@ -56,9 +56,7 @@ public class TransferRequestService {
         return this.transferRequestRepo.findByRequestingUser(userId);
     }
 
-    public void delete(int requestId) {
-        // TODO actually check for correct userIDs
-        int userId = 1;
+    public void delete(int requestId, Integer userId) {
         TransferRequest transferRequest = this.transferRequestRepo.findById(requestId);
         int destinationUser = transferRequest.getDestinationAccount().getUser().getUserId();
         int sourceUser = transferRequest.getSourceAccount().getUser().getUserId();
@@ -70,12 +68,10 @@ public class TransferRequestService {
     }
 
     public Transfer acceptTransfer(int requestId, Integer userId) {
-        // TODO check if requestSourceID == your userId maybe
         TransferRequest transferRequest = this.transferRequestRepo.findById(requestId);
-        // TODO delete transfer request after acceptance
         Transfer returnTransfer = this.transferService.save(transferRequest.toTransfer(), userId);
         if(returnTransfer!=null) {
-            delete(transferRequest.getRequestId());
+            delete(transferRequest.getRequestId(), userId);
             return returnTransfer;
         }
         // TODO maybe some error message
