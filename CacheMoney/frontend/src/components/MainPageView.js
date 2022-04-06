@@ -12,8 +12,9 @@ import CreateAccount from "./Account/CreateAccount.js";
 import AccountDisplay from "./Account/AccountDisplay.js";
 import SendRequest from "./SendRequest/SendRequest.js";
 import * as PropTypes from "prop-types";
+import Request from "./SendRequest/Request.js";
 
-function MainPageView2() {
+function MainPageView() {
 	const navigate = useNavigate();
 	let userData = userStore.getState().userReducer;
 
@@ -47,6 +48,8 @@ function MainPageView2() {
 			// Add new cases here to add more navbar links
 			case "send-request":
 				return <SendRequest handleClick={updateMainPageContent} />;
+			case "request-tab":
+				return <Request/>;
 			default:
 				return <AccountDisplay />;
 		}
@@ -92,4 +95,4 @@ function MainPageView2() {
 	);
 }
 
-export default MainPageView2;
+export default MainPageView;
