@@ -16,8 +16,7 @@ import org.springframework.stereotype.Component;
 /**
  * Utility for creating & validating JSON Web Tokens (JWTs).
  * 
- * @author Version 1 (Ibrahima Diallo, Brian Gardner, Cody Gonsowski, & Jeffrey Lor)
- *         Version 2 (Phillip Vo, Josue Rodriguez, Prakash, Maikel Vera)
+ * @author Ibrahima Diallo, Brian Gardner, Cody Gonsowski, & Jeffrey Lor
  */
 @Data
 @NoArgsConstructor

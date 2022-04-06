@@ -19,9 +19,9 @@ import org.springframework.web.bind.annotation.*;
 /**
  * Controller to handle requests related to Users.
  * 
- * @author Version 1 (Alvin Frierson, Brian Gardner, Cody Gonsowski, & Jeffrey Lor)
- *         Version 2 (Phillip Vo, Josue Rodriguez, Prakash, Maikel Vera)
+ * @author Alvin Frierson, Brian Gardner, Cody Gonsowski, & Jeffrey Lor
  */
+@CrossOrigin
 @RestController
 @RequestMapping("/users")
 public class UserController {

@@ -2,7 +2,8 @@ package com.revature.cachemoney.backend.beans.services;
 
 import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.ignoreCase;
 
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -14,6 +15,7 @@ import com.revature.cachemoney.backend.beans.repositories.UserRepo;
 import com.revature.cachemoney.backend.beans.security.TotpManager;
 import com.revature.cachemoney.backend.beans.utils.EmailUtil;
 import dev.samstevens.totp.exceptions.QrGenerationException;
+import com.revature.cachemoney.backend.beans.utils.PropertiesUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -25,8 +27,7 @@ import javax.persistence.EntityNotFoundException;
 /**
  * Service layer for User requests.
  * 
- * @author Version 1 (Alvin Frierson)
- *         Version 2 (Phillip Vo, Josue Rodriguez, Prakash, Maikel Vera)
+ * @author Alvin Frierson
  */
 @Service
 public class UserService {
@@ -95,7 +96,15 @@ public class UserService {
             userRepo.save(user);
 
             // inform successful result
-            //EmailUtil.getInstance().sendEmail(user.getEmail(), "Account Created", "Welcome to CacheMoney!");
+            try {
+                String body = PropertiesUtil.getHTML("src/main/resources/welcome.html");
+                body = body.replace("{FIRSTNAME LASTNAME}", user.getFirstName() + " " + user.getLastName());
+                EmailUtil.getInstance().sendEmail(user.getEmail(), "Account Created", body);
+            } catch (Exception e) {
+                //e.printStackTrace();
+            }
+
+
             return true;
         }
 
