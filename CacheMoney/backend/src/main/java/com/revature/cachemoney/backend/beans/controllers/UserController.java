@@ -10,6 +10,7 @@ import com.revature.cachemoney.backend.beans.security.JwtUtil;
 import com.revature.cachemoney.backend.beans.controllers.payload.PostUserResponse;
 import com.revature.cachemoney.backend.beans.services.UserService;
 
+import dev.samstevens.totp.exceptions.QrGenerationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -68,10 +69,12 @@ public class UserController {
      * 
      * @param user containing the firstName, lastName, email, username, password, & mfa
      * @return PostUserResponse | badRequest() based on registration status
-     *
+     * @throws JsonProcessingException
+     * @throws QrGenerationException
      */
     @PostMapping
-    public ResponseEntity<String> postUser(@RequestBody User user) throws JsonProcessingException {
+    public ResponseEntity<String> postUser(@RequestBody User user)
+            throws JsonProcessingException, QrGenerationException {
 
         if(userService.postUser(user)){
             System.out.println(user.toString());
@@ -91,14 +94,12 @@ public class UserController {
      * @param token  for current session
      * @param userId for current User
      * @return OK | Bad Request based on DELETE success
-     * @throws JsonProcessingException
      */
     @DeleteMapping
     @RequireJwt
     public ResponseEntity<String> deleteUserById(
             @RequestHeader(name = "token") String token,
-            @RequestHeader(name = "userId") Integer userId)
-            throws JsonProcessingException {
+            @RequestHeader(name = "userId") Integer userId) {
 
         userService.deleteUserById(userId);
         return ResponseEntity.ok().build();
@@ -135,10 +136,10 @@ public class UserController {
     }
 
     /**
-     * Verify the OTP for 2FA process.
+     * Verify the TOTP for 2FA process.
      *
      * @param userId Id of the user to authenticate
-     * @param code OTP code to verify
+     * @param code TOTP code to verify
      * @return UserID & its associated JWT
      */
     @PostMapping("/verify")
@@ -168,7 +169,7 @@ public class UserController {
             @RequestHeader(name = "token") String token,
             @RequestHeader(name = "userId") Integer userId)
             throws JsonProcessingException {
-
+        
         return ResponseEntity.ok().body(mapper.writeValueAsString(userService.getAccountsByUserId(userId)));
     }
 
