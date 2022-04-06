@@ -4,8 +4,6 @@
 import axios from "axios";
 import config from "../../config";
 import store from "../../store/Store";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 function Deposit(props) {
 	// post deposit transaction
@@ -17,36 +15,7 @@ function Deposit(props) {
 					userId: store.getState().userReducer.userId,
 				},
 			})
-
-
-			.then(
-				result=>{
-					result.status===200?
-					toast.success('Deposit successful', {
-						position: "bottom-right",
-						autoClose: 2000,
-						hideProgressBar: true,
-						closeOnClick: true,
-						pauseOnHover: true,
-						draggable: true,
-						progress: undefined,
-					}):toast.error('error')
-			}
-				)
-
-			.catch((error) => {
-				console.error(`Error: ${error}`)
-				toast.error('Deposit failed', {
-					position: "bottom-right",
-					autoClose: 2000,
-					hideProgressBar: true,
-					closeOnClick: true,
-					pauseOnHover: true,
-					draggable: true,
-					progress: undefined,
-					})
-			});
-
+			.catch((error) => console.error(`Error: ${error}`));
 		axios
 			.get(`${config.url}users/`, {
 				headers: {
@@ -72,7 +41,6 @@ function Deposit(props) {
 		
 
 		
-
 	};
 
 	// what the submit button should do
@@ -96,7 +64,6 @@ function Deposit(props) {
 
 	return (
 		<div className="deposit-outer-container">
-			<ToastContainer />
 			<div className="deposit-inner-container">
 				<div className="deposit-form">
 					<p className="deposit-form-header">Deposit</p>

@@ -1,6 +1,5 @@
 import "./css/App.css";
 import SplashView from "./components/SplashView.js";
-import React, { Component }  from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import SigninView from "./components/SigninView.js";
 import RegisterView from "./components/RegisterView.js";
