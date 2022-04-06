@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- * Service layer for Account requests.
+ * This is the service layer for Account requests.
  * 
  * @author Alvin Frierson, Cody Gonsowski, and Jeffrey Lor
  */

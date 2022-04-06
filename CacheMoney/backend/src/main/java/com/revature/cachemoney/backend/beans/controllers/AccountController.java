@@ -16,7 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * Controller to handle requests related to Accounts.
+ * This is a controller to handle requests related to Accounts.
  * 
  * @author Alvin Frierson, Brian Gardner, Cody Gonsowski, and Jeffrey Lor
  */
