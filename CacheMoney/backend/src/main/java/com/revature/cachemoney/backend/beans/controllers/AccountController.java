@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 /**
  * Controller to handle requests related to Accounts.
  * 
- * @author Alvin Frierson, Brian Gardner, Cody Gonsowski, & Jeffrey Lor
+ * @author Alvin Frierson, Brian Gardner, Cody Gonsowski, and Jeffrey Lor
  */
 @CrossOrigin
 @RestController
@@ -51,7 +51,7 @@ public class AccountController {
 	 * @param userId    for current User
 	 * @param accountId for User's Account
 	 * @return Account associated with the User
-	 * @throws JsonProcessingException
+	 * @throws JsonProcessingException this is thrown when an issue arises from the JSON string
 	 */
 	@GetMapping
 	@RequireJwt
@@ -127,7 +127,7 @@ public class AccountController {
 	 * @param userId    for current User
 	 * @param accountId for User's Account
 	 * @return List of Transactions associated with a particular User's Account
-	 * @throws JsonProcessingException
+	 * @throws JsonProcessingException this is thrown when there is an issue with the JSON string
 	 */
 	@PostMapping(value = "/transactions")
 	@RequireJwt
