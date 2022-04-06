@@ -30,8 +30,8 @@ public class NotificationService {
         return notificationRepo.save(notification);
     }
 
-    public List<Notification> findAllByUnread(User user) {
-        return notificationRepo.findAllByUnread(user.getUserId());
+    public List<Notification> findAllByUnread(int user_id) {
+        return notificationRepo.findAllByUnread(user_id);
     }
 
     public void updateNotifications(User user) {

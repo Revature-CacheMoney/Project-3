@@ -2,7 +2,8 @@ package com.revature.cachemoney.backend.beans.services;
 
 import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.ignoreCase;
 
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -10,27 +11,30 @@ import com.revature.cachemoney.backend.beans.models.Account;
 import com.revature.cachemoney.backend.beans.models.User;
 import com.revature.cachemoney.backend.beans.repositories.AccountRepo;
 import com.revature.cachemoney.backend.beans.repositories.UserRepo;
-import com.revature.cachemoney.backend.beans.security.SecurityConfig;
 
 import com.revature.cachemoney.backend.beans.security.TotpManager;
 import com.revature.cachemoney.backend.beans.utils.EmailUtil;
+import dev.samstevens.totp.exceptions.QrGenerationException;
+import com.revature.cachemoney.backend.beans.utils.PropertiesUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import javax.persistence.EntityNotFoundException;
 
 /**
  * Service layer for User requests.
  * 
- * @author Version 1 (Alvin Frierson)
- *         Version 2 (Phillip Vo, Josue Rodriguez, Prakash, Maikel Vera)
+ * @author Alvin Frierson
  */
 @Service
 public class UserService {
     private final UserRepo userRepo;
     private final AccountRepo accountRepo;
 
-    private final SecurityConfig passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     private final TotpManager totpManager;
 
@@ -41,7 +45,7 @@ public class UserService {
 
     @Autowired
     public UserService(UserRepo userRepo, AccountRepo accountRepo,
-                       SecurityConfig passwordEncoder, TotpManager totpManager) {
+                       PasswordEncoder passwordEncoder, TotpManager totpManager) {
         this.userRepo = userRepo;
         this.accountRepo = accountRepo;
         this.passwordEncoder = passwordEncoder;
@@ -73,33 +77,35 @@ public class UserService {
      * @param user of User to save
      * @return (true | false) if the User is saved
      */
-    public Boolean postUser(User user){
+    public Boolean postUser(User user) throws QrGenerationException {
         // verify the User's credentials
         if (areCredentialsValid(user)) {
-            try {
-                // encodes the password for database storage
-                user.setPassword(passwordEncoder.passwordEncoder().encode(user.getPassword()));
+            // encodes the password for database storage
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-                // changing to lowercase so that two usernames that are the same with different cases won't both be accepted
-                user.setEmail(user.getEmail().toLowerCase());
-                user.setUsername(user.getUsername().toLowerCase());
+            // changing to lowercase so that two usernames that are the same with different cases won't both be accepted
+            user.setEmail(user.getEmail().toLowerCase());
+            user.setUsername(user.getUsername().toLowerCase());
 
-                if(user.isMfa()) {
-                    user.setSecret(totpManager.generateSecret());
-                    user.setQrImageUri(totpManager.getUriForImage(user.getUsername(), user.getSecret()));
-                }
-
-                // save the user in the database
-                userRepo.save(user);
-
-                // inform successful result
-                //EmailUtil.getInstance().sendEmail(user.getEmail(), "Account Created", "Welcome to CacheMoney!");
-                return true;
-
-            } catch (Exception e) {
-                // fail on save exception
-                return false;
+            if(user.isMfa()) {
+                user.setSecret(totpManager.generateSecret());
+                user.setQrImageUri(totpManager.getUriForImage(user.getUsername(), user.getSecret()));
             }
+
+            // save the user in the database
+            userRepo.save(user);
+
+            // inform successful result
+            try {
+                String body = PropertiesUtil.getHTML("src/main/resources/welcome.html");
+                body = body.replace("{FIRSTNAME LASTNAME}", user.getFirstName() + " " + user.getLastName());
+                EmailUtil.getInstance().sendEmail(user.getEmail(), "Account Created", body);
+            } catch (Exception e) {
+                //e.printStackTrace();
+            }
+
+
+            return true;
         }
 
         // fail by default
@@ -123,7 +129,7 @@ public class UserService {
      * @param user containing at least username & password
      * @return User object with username
      */
-    public User getUserByUsername(User user) {
+    public User getUserByUsername(User user) throws EntityNotFoundException {
 
         // fail if the username or password is null
         if (user.getUsername() != null && user.getPassword() != null) {
@@ -140,18 +146,18 @@ public class UserService {
 
             // does the User exist?
             try {
-                if (userRepo.exists(example)) {
+                //if (userRepo.exists(example)) {
                     // get the actual User
                     User optionalUser = userRepo.findOne(example).orElseThrow(null);
 
                     // password checking
-                    if (passwordEncoder.passwordEncoder().matches(user.getPassword(), optionalUser.getPassword())) {
+                    if (passwordEncoder.matches(user.getPassword(), optionalUser.getPassword())) {
                         optionalUser.setPassword("");
                         return optionalUser;
                     }
-                }
+                //}
             } catch (RuntimeException e) {
-                return null;
+                throw new EntityNotFoundException("User with username: "+user.getUsername()+" isn't in the DataBase.");
             }
         }
 

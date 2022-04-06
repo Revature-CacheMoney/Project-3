@@ -16,8 +16,7 @@ import org.springframework.stereotype.Component;
 /**
  * Utility for creating & validating JSON Web Tokens (JWTs).
  * 
- * @author Version 1 (Ibrahima Diallo, Brian Gardner, Cody Gonsowski, & Jeffrey Lor)
- *         Version 2 (Phillip Vo, Josue Rodriguez, Prakash, Maikel Vera)
+ * @author Ibrahima Diallo, Brian Gardner, Cody Gonsowski, & Jeffrey Lor
  */
 @Data
 @NoArgsConstructor
@@ -60,20 +59,15 @@ public class JwtUtil {
      * @param userId userId associated with token
      * @return token verification success state (true | false)
      */
-    public Boolean validateToken(String token, Integer userId) {
-        try {
-            // create a verifier using the same algorithm as generated token
-            DecodedJWT jwt = JWT
-                    .require(Algorithm.HMAC256(this.secret))
-                    .withIssuer(this.issuer)
-                    .build()
-                    .verify(token);
+    public Boolean validateToken(String token, Integer userId) throws JWTVerificationException {
+        // create a verifier using the same algorithm as generated token
+        DecodedJWT jwt = JWT
+                .require(Algorithm.HMAC256(this.secret))
+                .withIssuer(this.issuer)
+                .build()
+                .verify(token);
 
-            // double-check user id matches
-            return jwt.getClaim(this.user).asInt().equals(userId);
-
-        } catch (JWTVerificationException e) {
-            return false;
-        }
+        // double-check user id matches
+        return jwt.getClaim(this.user).asInt().equals(userId);
     }
 }
