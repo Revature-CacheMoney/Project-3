@@ -1,3 +1,6 @@
+/**
+ * @author Shawntaria Burden, Sebastian Fierros, Ethan Edmond, Tyler Daniel
+ */
 import axios from "axios";
 import { useEffect, useState } from "react";
 import config from "../../config";

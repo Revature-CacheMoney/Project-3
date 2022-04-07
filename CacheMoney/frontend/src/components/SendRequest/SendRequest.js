@@ -1,5 +1,5 @@
 /**
- * @author Cody Gonsowski & Jeffrey Lor
+ * @author Shawntaria Burden, Sebastian Fierros, Ethan Edmond, Tyler Daniel
  */
  import axios from "axios";
  import config from "../../config";
