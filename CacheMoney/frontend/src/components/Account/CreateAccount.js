@@ -7,6 +7,12 @@ import { useState } from "react";
 import config from "../../config";
 import store from "../../store/Store.js";
 
+//Implementing patch to fix Axios DDoS vulnerability.
+import rateLimit from 'axios-rate-limit';
+const http = rateLimit(axios.create(), { maxRequests: 2, perMilliseconds: 1000, maxRPS: 2 })
+
+// This class should be secured against SQL injection
+
 function CreateAccount(props) {
 	// local formData state
 	const [formData, setFormData] = useState({

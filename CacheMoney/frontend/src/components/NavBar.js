@@ -1,5 +1,9 @@
 import React from "react";
 
+// 		(From Gideon) it turns out that using "<a href="#">" just links to the top of the current page, and shouldn't
+// be vulnerable to URL injection (not 100% sure on that, though). But this does mean that this file shouldn't need any
+// immediete patches.
+
 function NavBar(props) {
 	// Make sure to add additional cases to MainPageView to handle any routing changes/new links
 	return (

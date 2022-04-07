@@ -8,6 +8,10 @@ import { lightTheme, darkTheme } from "../components/style/Themes";
 import { useNavigate } from "react-router-dom";
 import config from "../config.js";
 
+//Implementing patch to fix Axios DDoS vulnerability.
+import rateLimit from 'axios-rate-limit';
+const http = rateLimit(axios.create(), { maxRequests: 2, perMilliseconds: 1000, maxRPS: 2 })
+
 // The registrration component handles the registration form for new users.
 // The info is persisted in the database and locally (partial).
 

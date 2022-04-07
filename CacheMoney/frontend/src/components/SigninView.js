@@ -9,6 +9,10 @@ import { lightTheme, darkTheme } from "../components/style/Themes";
 import { useNavigate } from "react-router-dom";
 import config from "../config.js";
 
+//Implementing patch to fix Axios DDoS vulnerability.
+import rateLimit from 'axios-rate-limit';
+const http = rateLimit(axios.create(), { maxRequests: 2, perMilliseconds: 1000, maxRPS: 2 })
+
 // The Signin component is the login form the user sees after pressing the "sign in" button.
 // An API call should be made to test for successful login credentials.
 // The user's info (partial) should be persisted throughout the app.
@@ -30,9 +34,20 @@ function SigninView() {
 	};
 
 	function doLogin() {
+		const validCharacterPattern = /^[a-zA-Z0-9@^%$#/\\,;|~._-]{8,50}$/;
 		let responseStatus;
 		let responseData;
 		let responseHeaders;
+		// 		(From Gideon) I am adding validation right here, before the entered information from formData is used for any commands, to
+		//	validate them. If they fail to pass validation, they get cleared so no injection attacks can go through.
+		if (!validCharacterPattern.test(formData.username)) {
+			// username is invalid. Replace with something that both cannot be a possible username and won't cause an injection.
+			formData.username = "Invalid!String";
+		}
+		if (!validCharacterPattern.test(formData.password)) {
+			// password is invalid. Replace with something that both cannot be a possible username and won't cause an injection.
+			formData.password = "Invalid!String";
+		}
 		let user = {
 			username: formData.username,
 			password: formData.password,
