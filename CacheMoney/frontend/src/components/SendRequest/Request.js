@@ -3,9 +3,14 @@ import React, { useState, useEffect } from "react";
 import config from "../../config";
 import store from "../../store/Store";
 import "./Request.css";
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
 
 const Request = (props) => {
     const [accounts, setAccounts] = useState([]);
+    const notify=() => {
+        toast("")
+    }
 
     //cutting a slice of state to hold form data
     const  [formData, setFormData]  = useState({
@@ -47,13 +52,57 @@ const Request = (props) => {
     //handles submit request
     const handleSubmit = (submitRequest) => {
         submitRequest.preventDefault();
-        console.log(formData);
+        const sendingToPost = {
+            amount: formData.amount,
+            sourceAccount: {accountId: formData.sourceAccountId},
+            destinationAccount: {accountId: formData.destinationAccountId},
+            description: formData.description
+        }
+        axios
+            .post(`${config.url}request`, sendingToPost, {
+                headers: {
+                    token: store.getState().userReducer.token,
+                    userId: store.getState().userReducer.userId,
+                }
+            })
+            .then((response) => {
+                setFormData({
+                    sourceAccountId: 0,
+                    destinationAccountId: accounts[0],
+                    description: "",
+                    amount: 0,
+                })
+                //only notify upon successful 200
+                response.status==200?
+                toast.success('Request Processed Successfully', {
+                    position: "bottom-right",
+                    autoClose: 2000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                }):toast.error('error')
+            })
+            .catch((error) => {
+                console.error(`Error: ${error}`)
+                toast.error('Request failed', {
+                    position: "bottom-right",
+                    autoClose: 2000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    })
+                })
     }
-    
     return (
+        <>
+        <ToastContainer/>
         <form onSubmit={handleSubmit}>
             <label htmlFor="source-id">Source Account</label>
-            <input id="source-id" type="number" min={0} step={1} name="sourceAccountId" onChange={handleChange}/>
+            <input id="source-id" type="number" min={0} step={1} max={2147483647} name="sourceAccountId" onChange={handleChange}/>
 
             
             <label htmlFor="destination-id">Destination Account</label>
@@ -70,6 +119,7 @@ const Request = (props) => {
 
             <button id="submit-request"> Request Money </button>
         </form>
+        </>
     );
 }
 
