@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.revature.cachemoney.backend.beans.security.payload.MfaResponse;
 import com.revature.cachemoney.backend.beans.models.Account;
 import com.revature.cachemoney.backend.beans.models.User;
 import com.revature.cachemoney.backend.beans.repositories.AccountRepo;
@@ -112,6 +113,36 @@ public class UserService {
         return false;
     }
 
+    /**
+     * Service method to update the mfa flag to an existing User .
+     *
+     * @param userId id of User to update
+     * @param mfa the value of mfa flag to update
+     * @return MfaResponse based on update status
+     * @throws EntityNotFoundException If the userId is not exist in the DataBase
+     */
+    public MfaResponse update2faUser(Integer userId, boolean mfa)
+            throws QrGenerationException, EntityNotFoundException {
+
+        User user = userRepo.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User with userid:"+userId+" isn't in the DataBase."));
+
+        if (mfa && !user.isMfa()) {
+            user.setMfa(true);
+            user.setSecret(totpManager.generateSecret());
+            user.setQrImageUri(totpManager.getUriForImage(user.getUsername(), user.getSecret()));
+        }
+        else if (!mfa){
+            user.setMfa(false);
+            user.setSecret(null);
+        }
+
+        // save the user in the database
+        userRepo.save(user);
+
+        return new MfaResponse(user.isMfa(), user.getQrImageUri());
+    }
+
     // DELETE a user by ID
     public Boolean deleteUserById(Integer id) {
         try{
@@ -128,6 +159,7 @@ public class UserService {
      * 
      * @param user containing at least username & password
      * @return User object with username
+     * @throws EntityNotFoundException If the user is not in the DataBase or the password is not match
      */
     public User getUserByUsername(User user) throws EntityNotFoundException {
 
@@ -145,37 +177,44 @@ public class UserService {
             Example<User> example = Example.of(user, em);
 
             // does the User exist?
-            try {
-                //if (userRepo.exists(example)) {
-                    // get the actual User
-                    User optionalUser = userRepo.findOne(example).orElseThrow(null);
 
-                    // password checking
-                    if (passwordEncoder.matches(user.getPassword(), optionalUser.getPassword())) {
-                        optionalUser.setPassword("");
-                        return optionalUser;
-                    }
-                //}
-            } catch (RuntimeException e) {
-                throw new EntityNotFoundException("User with username: "+user.getUsername()+" isn't in the DataBase.");
+            //if (userRepo.exists(example)) {
+            // get the actual User
+            User optionalUser = userRepo.findOne(example)
+                    .orElseThrow(() -> new EntityNotFoundException("User with username:"+
+                            user.getUsername()+" isn't in the DataBase."));
+
+            // password checking
+            if (passwordEncoder.matches(user.getPassword(), optionalUser.getPassword())) {
+                optionalUser.setPassword("");
+                return optionalUser;
             }
+            else {
+                throw new EntityNotFoundException(
+                        "User with username:"+user.getUsername()+" is in the DataBase, "+
+                        "but the password isn't match.");
+            }
+            //}
+
         }
 
         return null;
     }
 
-    public Boolean verify(Integer userId, String code) {
+    /**
+     * Service method to verify the TOPT code for an User.
+     *
+     * @param userId containing the id of user
+     * @param code the TOPT code key to verify
+     * @return true | false If the code is correct for the user
+     * @throws EntityNotFoundException If the userId is not exist in the DataBase
+     */
+    public Boolean verify(Integer userId, String code) throws EntityNotFoundException {
+        User user = userRepo.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User with userid:"+
+                        userId+" isn't in the DataBase."));
 
-        try {
-
-            User user = userRepo.findById(userId).orElseThrow(null);
-
-            return totpManager.verifyCode(code, user.getSecret());
-
-
-        } catch (RuntimeException e) {
-            return false;
-        }
+        return totpManager.verifyCode(code, user.getSecret());
     }
 
     /**
