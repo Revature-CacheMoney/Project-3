@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
  * Aspect to retrieve JWT information from requests.
  * Used alongside @RequireJwt.
  * 
- * @author Cody Gonsowski & Jeffrey Lor
+ * @author Cody Gonsowski and Jeffrey Lor
  */
 @Aspect
 @Component
@@ -32,7 +32,7 @@ public class JwtAspect {
      * 
      * @param jp contains arguments containing the JWT string and the associated User's ID
      * @return an OK to proceed
-     * @throws Throwable If any error occur.
+     * @throws Throwable this is a general throwable exception
      */
     @Around("@annotation(com.revature.cachemoney.backend.beans.annotations.RequireJwt)")
     public ResponseEntity<?> validate(ProceedingJoinPoint jp) throws Throwable {

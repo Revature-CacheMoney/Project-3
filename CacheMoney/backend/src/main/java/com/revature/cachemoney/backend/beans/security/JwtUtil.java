@@ -14,9 +14,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 /**
- * Utility for creating & validating JSON Web Tokens (JWTs).
+ * Utility for creating and validating JSON Web Tokens (JWTs).
  * 
- * @author Ibrahima Diallo, Brian Gardner, Cody Gonsowski, & Jeffrey Lor
+ * @author Ibrahima Diallo, Brian Gardner, Cody Gonsowski, and Jeffrey Lor
  */
 @Data
 @NoArgsConstructor
@@ -40,8 +40,8 @@ public class JwtUtil {
      * 
      * @param userId associated with user trying to create token
      * @return JWT that contains verification information
-     * @throws IllegalArgumentException If JWT is malformed
-     * @throws JWTCreationException if any error occur
+     * @throws IllegalArgumentException this will throw when wrong data type is enter
+     * @throws JWTCreationException this will throw when there is an issue with JWT creation
      */
     public String generateToken(Integer userId) throws IllegalArgumentException, JWTCreationException {
         return JWT.create()

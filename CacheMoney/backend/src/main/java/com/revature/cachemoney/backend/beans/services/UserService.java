@@ -157,7 +157,7 @@ public class UserService {
     /**
      * Service method to GET a User by username.
      * 
-     * @param user containing at least username & password
+     * @param user containing at least username and password
      * @return User object with username
      * @throws EntityNotFoundException If the user is not in the DataBase or the password is not match
      */

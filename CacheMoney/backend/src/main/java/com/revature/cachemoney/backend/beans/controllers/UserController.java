@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 /**
  * Controller to handle requests related to Users.
  * 
- * @author Alvin Frierson, Brian Gardner, Cody Gonsowski, & Jeffrey Lor
+ * @author Alvin Frierson, Brian Gardner, Cody Gonsowski, and Jeffrey Lor
  */
 @CrossOrigin
 @RestController
@@ -52,7 +52,7 @@ public class UserController {
      * @param token  for current session
      * @param userId for current User
      * @return User object
-     * @throws JsonProcessingException
+     * @throws JsonProcessingException this is thrown when there is an issue with the JSON string
      */
     @GetMapping
     @RequireJwt
@@ -69,8 +69,8 @@ public class UserController {
      * 
      * @param user containing the firstName, lastName, email, username, password, & mfa
      * @return MfaResponse | badRequest() based on registration status
-     * @throws JsonProcessingException
-     * @throws QrGenerationException
+     * @throws JsonProcessingException If any error occur in the Json process
+     * @throws QrGenerationException If any error occur in the Qr Image Generator in the 2fa authentication
      */
     @PostMapping
     public ResponseEntity<String> postUser(@RequestBody User user)
@@ -94,7 +94,8 @@ public class UserController {
      * @param userId for current User
      * @param mfa  new value for mfa flag
      * @return MfaResponse based on update status
-     * @throws JsonProcessingException
+     * @throws JsonProcessingException If any error occur in the Json process
+     * @throws QrGenerationException If any error occur in the Qr Image Generator in the 2fa authentication
      */
     @PostMapping(value = "/2fa")
     @RequireJwt
@@ -127,14 +128,13 @@ public class UserController {
     /**
      * Log in to a User account.
      * 
-     * @param user containing (at least) username & password
-     * @return User object & its associated JWT
-     * @throws JsonProcessingException
+     * @param user containing (at least) username and password
+     * @return User object and its associated JWT
+     * @throws JsonProcessingException this is thrown when there is an issue with the JSON string
      */
     @PostMapping(value = "/login")
     public ResponseEntity<String> login(@RequestBody User user) throws JsonProcessingException {
         // has internal checking to see if user is valid
-
         User tempUser = userService.getUserByUsername(user);
 
         // make sure the user is valid
@@ -180,7 +180,7 @@ public class UserController {
      * @param token  for current session
      * @param userId for current User
      * @return List of Accounts associated with a particular user
-     * @throws JsonProcessingException
+     * @throws JsonProcessingException this is thrown when there is an issue with the JSON string
      */
     @GetMapping(value = "/accounts")
     @RequireJwt
@@ -188,7 +188,7 @@ public class UserController {
             @RequestHeader(name = "token") String token,
             @RequestHeader(name = "userId") Integer userId)
             throws JsonProcessingException {
-        
+
         return ResponseEntity.ok().body(mapper.writeValueAsString(userService.getAccountsByUserId(userId)));
     }
 
