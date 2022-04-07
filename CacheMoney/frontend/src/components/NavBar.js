@@ -27,16 +27,16 @@ function NavBar(props) {
 					onClick={props.handleClick}
 					id="investment-portfolio"
 				>
-					Investment Porfolio
+					Investment Portfolio
 				</span>
 			</a>
 			<a href="#">
 				<span
 					className="navigation-link"
 					onClick={props.handleClick}
-					id="external-transfer"
+					id="send-request"
 				>
-					Send Money
+					Send/Request Money
 				</span>
 			</a>
 			<div className="settings">
