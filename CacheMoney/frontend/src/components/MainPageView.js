@@ -11,6 +11,7 @@ import { lightTheme, darkTheme } from "./style/Themes";
 import CreateAccount from "./Account/CreateAccount.js";
 import AccountDisplay from "./Account/AccountDisplay.js";
 import SendRequest from "./SendRequest/SendRequest.js";
+import RequestTab from "./SendRequest/RequestTab.js";
 import Request from "./SendRequest/Request.js";
 
 function MainPageView() {
@@ -48,7 +49,7 @@ function MainPageView() {
 			case "send-request":
 				return <SendRequest handleClick={updateMainPageContent} />;
 			case "request-tab":
-				return <Request/>;
+				return <RequestTab/>;
 			default:
 				return <AccountDisplay />;
 		}

@@ -21,13 +21,13 @@ public class TransferRequestController {
     }
 
     @PostMapping
-    @RequireJwt
+    // TODO @RequireJwt
     public TransferRequest save(@RequestBody TransferRequest transferRequest) throws ResponseStatusException {
         return this.transferRequestService.save(transferRequest);
     }
 
     @GetMapping("source")
-    @RequireJwt
+    // TODO @RequireJwt
     public List<TransferRequest> findByRequestingUser(
             @RequestHeader(name = "token") String token,
             @RequestHeader(name = "userId") Integer userId) {
@@ -35,7 +35,7 @@ public class TransferRequestController {
     }
 
     @GetMapping("destination")
-    @RequireJwt
+    // TODO @RequireJwt
     public List<TransferRequest> findByRequestedUser(
             @RequestHeader(name = "token") String token,
             @RequestHeader(name = "userId") Integer userId) {
