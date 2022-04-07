@@ -1,9 +1,5 @@
 /**
-<<<<<<< HEAD
  * @author Shawntaria Burden, Sebastian Fierros, Ethan Edmond, Tyler Daniel
-=======
- * @author Cody Gonsowski & Jeffrey Lor
->>>>>>> send-request
  */
  import axios from "axios";
  import config from "../../config";
