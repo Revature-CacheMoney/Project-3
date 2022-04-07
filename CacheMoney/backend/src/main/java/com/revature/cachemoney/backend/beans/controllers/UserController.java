@@ -7,8 +7,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.cachemoney.backend.beans.annotations.RequireJwt;
 import com.revature.cachemoney.backend.beans.models.User;
 import com.revature.cachemoney.backend.beans.security.JwtUtil;
+import com.revature.cachemoney.backend.beans.security.payload.MfaResponse;
 import com.revature.cachemoney.backend.beans.services.UserService;
 
+import dev.samstevens.totp.exceptions.QrGenerationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -65,12 +67,44 @@ public class UserController {
     /**
      * POST a User.
      * 
-     * @param user containing the firstName, lastName, email, username, and password
-     * @return true | false based on registration status
+     * @param user containing the firstName, lastName, email, username, password, & mfa
+     * @return MfaResponse | badRequest() based on registration status
+     * @throws JsonProcessingException If any error occur in the Json process
+     * @throws QrGenerationException If any error occur in the Qr Image Generator in the 2fa authentication
      */
     @PostMapping
-    public Boolean postUser(@RequestBody User user) {
-        return userService.postUser(user);
+    public ResponseEntity<String> postUser(@RequestBody User user)
+            throws JsonProcessingException, QrGenerationException {
+
+        if(userService.postUser(user)){
+
+            return ResponseEntity.ok().body(mapper.writeValueAsString(
+                    new MfaResponse(user.isMfa(), user.getQrImageUri())
+            ));
+        }
+
+        // indicate bad request
+        return ResponseEntity.badRequest().build();
+    }
+
+    /**
+     * POST a User for update the mfa flag.
+     *
+     * @param token  for current session
+     * @param userId for current User
+     * @param mfa  new value for mfa flag
+     * @return MfaResponse based on update status
+     * @throws JsonProcessingException If any error occur in the Json process
+     * @throws QrGenerationException If any error occur in the Qr Image Generator in the 2fa authentication
+     */
+    @PostMapping(value = "/2fa")
+    @RequireJwt
+    public ResponseEntity<String> update2faUser(
+            @RequestHeader(name = "token") String token,
+            @RequestHeader(name = "userId") Integer userId,
+            @RequestParam Boolean mfa) throws JsonProcessingException, QrGenerationException {
+
+        return ResponseEntity.ok().body(mapper.writeValueAsString(userService.update2faUser(userId, mfa)));
     }
 
     /**
@@ -80,14 +114,12 @@ public class UserController {
      * @param token  for current session
      * @param userId for current User
      * @return OK | Bad Request based on DELETE success
-     * @throws JsonProcessingException this is thrown when there is an issue with the JSON string
      */
     @DeleteMapping
     @RequireJwt
     public ResponseEntity<String> deleteUserById(
             @RequestHeader(name = "token") String token,
-            @RequestHeader(name = "userId") Integer userId)
-            throws JsonProcessingException {
+            @RequestHeader(name = "userId") Integer userId) {
 
         userService.deleteUserById(userId);
         return ResponseEntity.ok().build();
@@ -107,15 +139,35 @@ public class UserController {
 
         // make sure the user is valid
         if (tempUser != null) {
-            // create the response headers
-            HttpHeaders headers = new HttpHeaders();
+            if(tempUser.isMfa()){
+                return ResponseEntity.ok().body(mapper.writeValueAsString(tempUser));
+            }
+            else {
+                // write the headers & object into the response
+                return ResponseEntity.ok()
+                        .headers(this.generateToken(tempUser.getUserId()))
+                        .body(mapper.writeValueAsString(tempUser));
+            }
+        }
 
-            // add the JWT to the headers
-            headers.set("JWT", jwtUtil.generateToken(tempUser.getUserId()));
-            headers.set("Access-Control-Expose-Headers", "JWT");
+        // indicate bad request
+        return ResponseEntity.badRequest().build();
+    }
 
+    /**
+     * Verify the TOTP for 2FA process.
+     *
+     * @param userId Id of the user to authenticate
+     * @param code TOTP code to verify
+     * @return UserID & its associated JWT
+     */
+    @PostMapping("/verify")
+    public ResponseEntity<String> verifyCode(
+            @RequestParam Integer userId, @RequestParam String code) {
+
+        if(userService.verify(userId, code)){
             // write the headers & object into the response
-            return ResponseEntity.ok().headers(headers).body(mapper.writeValueAsString(tempUser));
+            return ResponseEntity.ok().headers(this.generateToken(userId)).body(userId.toString());
         }
 
         // indicate bad request
@@ -138,5 +190,15 @@ public class UserController {
             throws JsonProcessingException {
 
         return ResponseEntity.ok().body(mapper.writeValueAsString(userService.getAccountsByUserId(userId)));
+    }
+
+    private HttpHeaders generateToken(Integer userId){
+        HttpHeaders headers = new HttpHeaders();
+
+        // add the JWT to the headers
+        headers.set("JWT", jwtUtil.generateToken(userId));
+        headers.set("Access-Control-Expose-Headers", "JWT");
+
+        return headers;
     }
 }
