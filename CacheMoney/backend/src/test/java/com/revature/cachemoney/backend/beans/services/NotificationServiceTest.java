@@ -25,11 +25,19 @@ class NotificationServiceTest {
     @InjectMocks
     NotificationService notificationService1;
 
+    /**
+     * This is setting up the data to be mocked prior to each test.
+     * Each test in this suite of tests, tests CRUD operations for
+     * the notification class/model
+     */
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
     }
 
+    /**
+     * This test ensures data retrieval for all notifications is working.
+     */
     @Test
     void testFindAll() {
         List<Notification> notifsList = Arrays.asList(new Notification( 0, "subject", "notif_text", new User("firstName", "lastName", "email", "password", "username"), true, "date"),
@@ -40,6 +48,9 @@ class NotificationServiceTest {
         Assertions.assertEquals(notifsList, result);
     }
 
+    /**
+     * This test ensures notifications can be saved to a database.
+     */
     @Test
     void testSaveNotification() {
 
@@ -50,6 +61,9 @@ class NotificationServiceTest {
         Assertions.assertEquals(notification, result);
     }
 
+    /**
+     * This test ensures only unread notifications can be retrieved.
+     */
     @Test
     void testFindAllByUnread() {
 
@@ -64,6 +78,9 @@ class NotificationServiceTest {
         Assertions.assertEquals(notifsList, result);
     }
 
+    /**
+     * This test ensures notifications can be updated.
+     */
     @Test
     void testUpdateNotifications() {
         notificationService.updateNotifications(user);
