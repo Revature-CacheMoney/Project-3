@@ -1,4 +1,4 @@
-package com.revature.cachemoney.backend.beans.controllers.exception;
+package com.revature.cachemoney.backend.beans.exception;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import dev.samstevens.totp.exceptions.QrGenerationException;
@@ -14,6 +14,11 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import javax.persistence.EntityNotFoundException;
 
+/**
+ * Controller to handle requests related to Users.
+ *
+ * @author Phillip Vo, Josue Rodriguez, Prakash, Maikel Vera
+ */
 @ControllerAdvice
 @Slf4j
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {

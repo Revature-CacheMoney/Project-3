@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.cachemoney.backend.beans.annotations.RequireJwt;
 import com.revature.cachemoney.backend.beans.models.User;
 import com.revature.cachemoney.backend.beans.security.JwtUtil;
-import com.revature.cachemoney.backend.beans.controllers.payload.PostUserResponse;
+import com.revature.cachemoney.backend.beans.security.payload.MfaResponse;
 import com.revature.cachemoney.backend.beans.services.UserService;
 
 import dev.samstevens.totp.exceptions.QrGenerationException;
@@ -68,7 +68,7 @@ public class UserController {
      * POST a User.
      * 
      * @param user containing the firstName, lastName, email, username, password, & mfa
-     * @return PostUserResponse | badRequest() based on registration status
+     * @return MfaResponse | badRequest() based on registration status
      * @throws JsonProcessingException
      * @throws QrGenerationException
      */
@@ -77,14 +77,33 @@ public class UserController {
             throws JsonProcessingException, QrGenerationException {
 
         if(userService.postUser(user)){
-            System.out.println(user.toString());
+
             return ResponseEntity.ok().body(mapper.writeValueAsString(
-                    new PostUserResponse(user.isMfa(), user.getQrImageUri())
+                    new MfaResponse(user.isMfa(), user.getQrImageUri())
             ));
         }
 
         // indicate bad request
         return ResponseEntity.badRequest().build();
+    }
+
+    /**
+     * POST a User for update the mfa flag.
+     *
+     * @param token  for current session
+     * @param userId for current User
+     * @param mfa  new value for mfa flag
+     * @return MfaResponse based on update status
+     * @throws JsonProcessingException
+     */
+    @PostMapping(value = "/2fa")
+    @RequireJwt
+    public ResponseEntity<String> update2faUser(
+            @RequestHeader(name = "token") String token,
+            @RequestHeader(name = "userId") Integer userId,
+            @RequestParam Boolean mfa) throws JsonProcessingException, QrGenerationException {
+
+        return ResponseEntity.ok().body(mapper.writeValueAsString(userService.update2faUser(userId, mfa)));
     }
 
     /**

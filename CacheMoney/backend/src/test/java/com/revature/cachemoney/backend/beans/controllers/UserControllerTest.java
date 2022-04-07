@@ -10,7 +10,7 @@ import java.util.Optional;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.revature.cachemoney.backend.beans.controllers.payload.PostUserResponse;
+import com.revature.cachemoney.backend.beans.security.payload.MfaResponse;
 import com.revature.cachemoney.backend.beans.models.Account;
 import com.revature.cachemoney.backend.beans.models.User;
 import com.revature.cachemoney.backend.beans.security.JwtUtil;
@@ -204,7 +204,7 @@ class UserControllerTest {
 
         // checking that the returned by controller method is true
         ResponseEntity<String> response1 = userController.postUser(testUsers[0]);
-        PostUserResponse objResponse1 = mapper.readValue(response1.getBody(), PostUserResponse.class);
+        MfaResponse objResponse1 = mapper.readValue(response1.getBody(), MfaResponse.class);
         assertEquals(objResponse1.getSecretImageUri(), testUsers[0].getQrImageUri());
         assertEquals(objResponse1.isMfa(), testUsers[0].isMfa());
 
