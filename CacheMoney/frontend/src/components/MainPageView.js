@@ -11,7 +11,6 @@ import { lightTheme, darkTheme } from "./style/Themes";
 import CreateAccount from "./Account/CreateAccount.js";
 import AccountDisplay from "./Account/AccountDisplay.js";
 import SendRequest from "./SendRequest/SendRequest.js";
-import * as PropTypes from "prop-types";
 import Request from "./SendRequest/Request.js";
 
 function MainPageView() {

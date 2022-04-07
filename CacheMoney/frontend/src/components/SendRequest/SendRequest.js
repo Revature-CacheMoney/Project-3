@@ -1,123 +1,95 @@
 /**
+<<<<<<< HEAD
  * @author Shawntaria Burden, Sebastian Fierros, Ethan Edmond, Tyler Daniel
+=======
+ * @author Cody Gonsowski & Jeffrey Lor
+>>>>>>> send-request
  */
  import axios from "axios";
  import config from "../../config";
  import store from "../../store/Store";
- import { ToastContainer, toast } from 'react-toastify';
  import SendRequestSelection from "./SendRequestSelection";
- import 'react-toastify/dist/ReactToastify.css';
- 
  
  function SendRequest(props) {
-     const notify=()=>{
-         toast("")
-     }
-
-     // post SendRequest transaction
-     const postSendRequest = (transfer) => {
-         
+     // post transfer transaction
+     const postTransfer = (transaction) => {
          axios
-             .post(`${config.url}transfer`, transfer, {
+             .post(`${config.url}transfer`, transaction, {
                  headers: {
                      token: store.getState().userReducer.token,
                      userId: store.getState().userReducer.userId,
                  },
              })
-             .then(
-                 res=>{
-                 res.status==200?
-                     toast.success('SendRequest successful', {
-                         position: "bottom-right",
-                         autoClose: 2000,
-                         hideProgressBar: true,
-                         closeOnClick: true,
-                         pauseOnHover: true,
-                         draggable: true,
-                         progress: undefined,
-                     }):toast.error('error')
-                 
-                 }	
-                 
-                 )
- 
-             .catch((error) => {
-                 console.error(`Error: ${error}`)
-                 
-                 toast.error('SendRequest failed', {
-                         position: "bottom-right",
-                         autoClose: 2000,
-                         hideProgressBar: true,
-                         closeOnClick: true,
-                         pauseOnHover: true,
-                         draggable: true,
-                         progress: undefined,
-                         })
-                     }
-             );
- 
-             
+             .catch((error) => console.error(`Error: ${error}`));
      };
  
      // what the submit button should do
      const handleSubmit = (event) => {
          // prevent page reloading
          event.preventDefault();
-        console.log(store.getState().SendRequestReducer);
-         // create the SendRequest payload
-         let SendRequest = {
-             
-             sourceAccountId: store.getState().SendRequestReducer.sourceAccountId,
+ 
+         // create the transfer payload
+         let transfer = {
+             sourceAccountId: store.getState().transferReducer.sourceAccountId,
              destinationAccountId:
-                 store.getState().SendRequestReducer.destinationAccountId,
-                 description: event.target.Amount.value,
-                 Amount: event.target.Amount.value,
+             store.getState().transferReducer.destinationAccountId,
+             transaction: {
+                 description: event.target.description.value,
+                 transactionAmount: event.target.transactionAmount.value,
+             },
          };
  
          // perform the post
-         postSendRequest(SendRequest);
-         
-         
+         postTransfer(transfer);
          // hacky workaround to try forcing the accounts list to update
          props.doTransactionDone(Date.now());
      };
  
      return (
-         <div className="SendRequest-outer-container">
-             <ToastContainer />
-             <div className="SendRequest-inner-container">
-                 <div className="SendRequest-form">
-                    <p style = {{color: "green"}} className="SendRequest-form-header">SendRequest Money</p>
+         <div className="create-account-outer-container">
+             <div className="create-account-inner-container">
+                 <div className="account_create_form">
+                     <p className="account_create_form_header">Money Transfer</p>
  
-                     <form id="SendRequest-inner-form" onSubmit={handleSubmit}>
-                         <div className="SendRequest-from-account">
+                     <form>
+                         <div className="transfer-from-account">
                              <label>From</label>
                              <SendRequestSelection whichAccount="SOURCE"></SendRequestSelection>
                          </div>
  
-                         <div className="SendRequest-to-account">
-                             <label>To</label>
-                             <SendRequestSelection whichAccount="DESTINATION"></SendRequestSelection>
+                         <div className="transfer-to-account">
+                             <label>Recipient's Account ID:</label>
+                             <input type="number"/><br></br>
                          </div>
  
-                         <div className="SendRequest-amount">
+                         <div className="transfer-amount">
                              <label>Amount</label>
                              <input
                                  type="number"
                                  min="0.00"
                                  step="0.01"
-                                 id="SendRequest-input"
+                                 id="transfer-input"
                                  name="transactionAmount"
                              />
                          </div>
  
-                         <div className="SendRequest-description">
+                         <div className="transfer-description">
                              <label>Description</label>
-                             <input type="text" id="SendRequest-description" name="description" />
+                             <input type="text" id="transfer-description" name="description" />
                          </div>
  
-                         <button type="submit">Submit</button>
                      </form>
+ 
+                     <button
+                         className="account-create_submit_button"
+                         type="button"
+                         name="submit"
+                         id="create-new-account"
+                         onClick={handleSubmit}
+                     >
+                         Submit
+                     </button>
+ 
                  </div>
              </div>
          </div>
