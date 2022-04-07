@@ -21,20 +21,22 @@ const RequestList = (props) => {
             }
         })
 
-        const gotten = [];
-
         Promise.all([gettingSource, gettingDest])
         .then( values => {
-            console.log(values);
-        })
-        .finally(() => {
-            console.log(gotten);
+            setRequests(values.reduce((acc, curr) => {
+                return [...acc, ...curr.data];
+            }, []));
         })
 
     }, []);
 
+    console.log(requests);
     return (
-        <h1 style={{color: "black"}}>AAAAAAAAA</h1>
+        <>
+            {
+                requests.map(request => <h1 style={{color: "black"}}>{request.amount}</h1>)
+            }
+        </>
     );
 }
 
