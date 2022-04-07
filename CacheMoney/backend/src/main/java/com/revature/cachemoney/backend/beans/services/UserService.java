@@ -118,7 +118,7 @@ public class UserService {
     /**
      * Service method to GET a User by username.
      * 
-     * @param user containing at least username & password
+     * @param user containing at least username and password
      * @return User object with username
      */
     public User getUserByUsername(User user) {
