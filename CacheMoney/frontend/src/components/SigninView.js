@@ -9,6 +9,8 @@ import { lightTheme, darkTheme } from "../components/style/Themes";
 import { useNavigate } from "react-router-dom";
 import config from "../config.js";
 
+import Popup from "reactjs-popup";
+
 // The Signin component is the login form the user sees after pressing the "sign in" button.
 // An API call should be made to test for successful login credentials.
 // The user's info (partial) should be persisted throughout the app.
@@ -80,6 +82,7 @@ function SigninView() {
 					if(responseData.mfa){
 						
 						navigate("/verify");
+						
 					}
 					else {
 						
