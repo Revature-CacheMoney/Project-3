@@ -8,6 +8,8 @@ import Toggle from "./style/Toggle";
 import { lightTheme, darkTheme } from "../components/style/Themes";
 import { useNavigate } from "react-router-dom";
 import config from "../config.js";
+import TOTPModal from "./TOTPModal.js";
+
 
 // The Signin component is the login form the user sees after pressing the "sign in" button.
 // An API call should be made to test for successful login credentials.
@@ -80,6 +82,7 @@ function SigninView() {
 					if(responseData.mfa){
 						//console.log(userStore.getState().userReducer);
 						navigate("/verify");
+						
 					}
 					else {
 						
