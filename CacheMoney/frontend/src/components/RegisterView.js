@@ -9,8 +9,7 @@ import { useNavigate } from "react-router-dom";
 import config from "../config.js";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Popup from "reactjs-popup";
-import "reactjs-popup/dist/index.css";
+import QRModal from "./QRModal";
 
 // The registrration component handles the registration form for new users.
 // The info is persisted in the database and locally (partial).
@@ -28,6 +27,7 @@ function RegisterView() {
   });
 
   const [qrCode, setQrCode] = useState("");
+  const [qrFlag, setQrFlag] = useState(false);
 
   const handleChange = (event) => {
     event.preventDefault();
@@ -185,7 +185,11 @@ function RegisterView() {
             //console.log("Registration successful");
             //navigate("/qrcode");
             console.log(responseData.secretImageUri);
+
             setQrCode(responseData.secretImageUri);
+
+            setQrFlag(true);
+
           } else navigate("/signin");
         } else {
           // alert(
@@ -207,6 +211,7 @@ function RegisterView() {
       });
   }
 
+ 
   const [theme, themeToggler, mountedComponent] = useDarkMode();
   const themeMode = theme === "light" ? lightTheme : darkTheme;
 
@@ -378,10 +383,6 @@ function RegisterView() {
                     />
                   </div>
 
-                  <Popup trigger={<button> Trigger</button>} position="right center">
-                    <img src={qrCode}/>
-                  </Popup>
-
                   <input
                     type="submit"
                     value="Register"
@@ -389,6 +390,9 @@ function RegisterView() {
                     id="register-button"
                     onClick={handleSubmit}
                   />
+
+                  {qrFlag && <QRModal data={qrCode} />}
+
                 </div>
               </div>
             </div>
