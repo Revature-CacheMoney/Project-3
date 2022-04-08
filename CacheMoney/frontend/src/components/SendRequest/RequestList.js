@@ -1,0 +1,43 @@
+import axios from "axios";
+import React, { useState, useEffect } from "react";
+import config from "../../config";
+import store from "../../store/Store";
+
+const RequestList = (props) => {
+    const [requests, setRequests] = useState([]);
+
+    useEffect(() => {
+        const gettingSource = axios.get(`${config.url}request/source`,
+        {
+            headers: {
+                token: store.getState().userReducer.token,
+                userId: store.getState().userReducer.userId
+            }
+        })
+        const gettingDest = axios.get(`${config.url}request/destination`, {
+            headers: {
+                token: store.getState().userReducer.token,
+                userId: store.getState().userReducer.userId
+            }
+        })
+
+        Promise.all([gettingSource, gettingDest])
+        .then( values => {
+            setRequests(values.reduce((acc, curr) => {
+                return [...acc, ...curr.data];
+            }, []));
+        })
+
+    }, []);
+
+    console.log(requests);
+    return (
+        <>
+            {
+                requests.map(request => <h1 style={{color: "black"}}>{request.amount}</h1>)
+            }
+        </>
+    );
+}
+
+export default RequestList;
