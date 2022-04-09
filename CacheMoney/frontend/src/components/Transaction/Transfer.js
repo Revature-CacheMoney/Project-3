@@ -8,9 +8,11 @@ import TransferSelection from "./TransferSelection";
 
 //Implementing patch to fix Axios DDoS vulnerability.
 import rateLimit from 'axios-rate-limit';
-const http = rateLimit(axios.create(), { maxRequests: 2, perMilliseconds: 1000, maxRPS: 2 })
 
 function Transfer(props) {
+	// Use rate limit to prevent DDoS attacks
+	const http = rateLimit(axios.create(), { maxRequests: 2, perMilliseconds: 1000, maxRPS: 2 })
+	
 	// post transfer transaction
 	const postTransfer = (transaction) => {
 		axios

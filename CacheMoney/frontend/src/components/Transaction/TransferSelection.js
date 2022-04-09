@@ -8,9 +8,12 @@ import store from "../../store/Store";
 
 //Implementing patch to fix Axios DDoS vulnerability.
 import rateLimit from 'axios-rate-limit';
-const http = rateLimit(axios.create(), { maxRequests: 2, perMilliseconds: 1000, maxRPS: 2 })
+
 
 function TransferSelection({ whichAccount }) {
+	// Use rate limit to prevent DDoS attacks
+	const http = rateLimit(axios.create(), { maxRequests: 2, perMilliseconds: 1000, maxRPS: 2 })
+	
 	const [accountId, setAccountId] = useState();
 	const [accounts, setAccounts] = useState([]);
 

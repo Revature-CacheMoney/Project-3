@@ -22,7 +22,6 @@ To do this, go into the following files within Frontend:
 
     ...and remove the following lines of coding from all of them:
     
-    //Implementing patch to fix Axios DDoS vulnerability.
     import rateLimit from 'axios-rate-limit';
     const http = rateLimit(axios.create(), { maxRequests: 2, perMilliseconds: 1000, maxRPS: 2 })
 

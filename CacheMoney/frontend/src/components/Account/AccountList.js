@@ -8,9 +8,9 @@ import config from "../../config.js";
 import store from "../../store/Store.js";
 import CurrencyFormat from "react-currency-format";
 
-//Implementing patch to fix Axios DDoS vulnerability.
+//import rate limit
 import rateLimit from 'axios-rate-limit';
-const http = rateLimit(axios.create(), { maxRequests: 2, perMilliseconds: 1000, maxRPS: 2 })
+
 
 function AccountList(props) {
 	const doTitleUpdate = props.doTitleUpdate;
@@ -18,6 +18,9 @@ function AccountList(props) {
 	const [accounts, setAccounts] = useState([]);
 	// setAccounts is the setter function
 	// read state with accounts
+
+	// Use rate limit to prevent DDoS attacks.
+	const http = rateLimit(axios.create(), { maxRequests: 2, perMilliseconds: 1000, maxRPS: 2 })
 
 	const handleAccountUpdate = () => {
 		console.log("Accounts loaded", props.doAccountUpdate);
@@ -54,7 +57,7 @@ function AccountList(props) {
 	useEffect(() => {
 		console.log("useEffect");
 		handleAccountUpdate();
-	}, [props.doTitleUpdate]);
+	}, [props.doTitleUpdate]); 
 
 	//event, props, data, triggerEvent
 	const handleAccountClick = (event) => {

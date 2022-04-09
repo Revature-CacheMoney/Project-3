@@ -11,13 +11,15 @@ import config from "../config.js";
 
 //Implementing patch to fix Axios DDoS vulnerability.
 import rateLimit from 'axios-rate-limit';
-const http = rateLimit(axios.create(), { maxRequests: 2, perMilliseconds: 1000, maxRPS: 2 })
+
 
 // The Signin component is the login form the user sees after pressing the "sign in" button.
 // An API call should be made to test for successful login credentials.
 // The user's info (partial) should be persisted throughout the app.
 function SigninView() {
 	const navigate = useNavigate();
+	// use Rate Limit to prevent DDoS attacks
+	const http = rateLimit(axios.create(), { maxRequests: 2, perMilliseconds: 1000, maxRPS: 2 })
 
 	const [formData, setFormData] = useState({
 		username: "",

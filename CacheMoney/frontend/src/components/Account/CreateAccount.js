@@ -7,9 +7,9 @@ import { useState } from "react";
 import config from "../../config";
 import store from "../../store/Store.js";
 
-//Implementing patch to fix Axios DDoS vulnerability.
+//import rate limit
 import rateLimit from 'axios-rate-limit';
-const http = rateLimit(axios.create(), { maxRequests: 2, perMilliseconds: 1000, maxRPS: 2 })
+
 
 // This class should be secured against SQL injection
 
@@ -23,6 +23,9 @@ function CreateAccount(props) {
 			userId: store.getState().userReducer.userId,
 		},
 	});
+
+	// Use rate limit to prevent DDoS attacks
+	const http = rateLimit(axios.create(), { maxRequests: 2, perMilliseconds: 1000, maxRPS: 2 })
 
 	// retrieve the url from the config
 	const url = config.url;

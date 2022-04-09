@@ -10,11 +10,13 @@ import CurrencyFormat from "react-currency-format";
 
 //Implementing patch to fix Axios DDoS vulnerability.
 import rateLimit from 'axios-rate-limit';
-const http = rateLimit(axios.create(), { maxRequests: 2, perMilliseconds: 1000, maxRPS: 2 })
 
 function TransactionTable(props) {
 	// local transaction state
 	const [transactions, getTransactions] = useState([]);
+
+	// Use Rate Limit to protect against DDoS attacks
+	const http = rateLimit(axios.create(), { maxRequests: 2, perMilliseconds: 1000, maxRPS: 2 })
 
 	// url
 	const url = config.url;
