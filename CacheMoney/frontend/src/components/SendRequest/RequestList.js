@@ -8,9 +8,8 @@ import config from "../../config";
 import store from "../../store/Store";
 import "./RequestList.css";
 
-const RequestList = (props) => {
+const RequestList = ({rerender, rerenderer}) => {
     const [requests, setRequests] = useState([]);
-    const [rerenderer, setRerenderer] = useState(false);
 
     useEffect(() => {
         const gettingSource = axios.get(`${config.url}request/source`,
@@ -61,7 +60,7 @@ const RequestList = (props) => {
             })
             .then(() => {
                 // TODO put a toast.success here
-                setRerenderer(!rerenderer);
+                rerender();
             })
             .catch(() => {
                 // TODO put a toast.error here
@@ -73,13 +72,12 @@ const RequestList = (props) => {
         return () => {
             axios.get(`${config.url}request/delete/${requestId}`, {
                 headers: {
-                    "Access-Control-Allow-Origin": "*",
                     token: store.getState().userReducer.token,
                     userId: store.getState().userReducer.userId
                 }
             })
             .then(() => {
-                setRerenderer(!rerenderer);
+                rerender();
                 // TODO put a toast.success here
             })
             .catch(() => {
