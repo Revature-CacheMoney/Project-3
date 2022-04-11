@@ -85,7 +85,6 @@ const Request = ({rerender}) => {
                 rerender();
             })
             .catch((error) => {
-                console.error(`Error: ${error}`)
                 toast.error('Request failed', {
                     position: "bottom-right",
                     autoClose: 2000,
@@ -104,27 +103,28 @@ const Request = ({rerender}) => {
             <h1 className="RequestFormHeader">
                 Make a Request
             </h1>
+
             <div className="Input">
-            <label htmlFor="source-id">Source Account</label>
-            <input id="source-id" type="number" min={0} step={1} max={2147483647} name="sourceAccountId" onChange={handleChange}/>
+                <label htmlFor="source-id">Source Account</label>
+                <input id="source-id" type="number" min={0} step={1} max={2147483647} name="sourceAccountId" onChange={handleChange}/>
             </div>
             
             <div className="Input">
-            <label htmlFor="destination-id">Destination Account</label>
-            <select value={formData.destinationAccountId} id="destination-id" name="destinationAccountId" onChange={handleChange}>
-                {accounts.length == 0 && <option value={null}>No Accounts to be Displayed</option>}
-                {options}
-            </select>
+                <label htmlFor="destination-id">Destination Account</label>
+                <select value={formData.destinationAccountId} id="destination-id" name="destinationAccountId" onChange={handleChange}>
+                    {accounts.length == 0 && <option value={null}>No Accounts to be Displayed</option>}
+                    {options}
+                </select>
             </div>
 
             <div className="Input">
-            <label htmlFor="amount">Amount of Money</label>
-            <input id="amount" type="number" min={0.01} step={0.01} name="amount" onChange={handleChange}/>
+                <label htmlFor="amount">Amount of Money</label>
+                <input id="amount" type="number" min={0.01} step={0.01} name="amount" onChange={handleChange}/>
             </div>
 
             <div className="Input">
-            <label htmlFor="description">Memo/Description</label>
-            <input id="description" type="text" maxLength={255} name="description" onChange={handleChange}/>
+                <label htmlFor="description">Memo/Description</label>
+                <input id="description" type="text" maxLength={255} name="description" onChange={handleChange}/>
             </div>
             
             <button id="submit-request"> Request Money </button>
