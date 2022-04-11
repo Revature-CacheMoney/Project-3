@@ -16,13 +16,9 @@ function AccountList(props) {
 	// read state with accounts
 
 	const handleAccountUpdate = () => {
-		console.log("Accounts loaded", props.doAccountUpdate);
-		// get all of a user's 
-		// console.log("Token: ", store.getState.userReducer.token);
 		const token = store.getState().userReducer.token;
 		const userId = store.getState().userReducer.userId;
 
-		console.log("User:", userId);
 		(token !== null) && (userId !== null) && axios
 			.get(`http://localhost:9000/users/accounts`, {
 				headers: {
@@ -31,7 +27,6 @@ function AccountList(props) {
 				},
 			})
 			.then((response) => {
-				console.log("Response: ", response);
 				const allAccounts = response.data;
 				setAccounts(allAccounts);
 			})
@@ -54,7 +49,6 @@ function AccountList(props) {
 
 	// effect hook
 	useEffect(() => {
-		console.log("useEffect");
 		handleAccountUpdate();
 	}, [props.doTitleUpdate]);
 
