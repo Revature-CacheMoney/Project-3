@@ -72,7 +72,8 @@ public class TransferRequestController {
         }
     }
 
-    @DeleteMapping("{requestId}")
+
+    @GetMapping("delete/{requestId}")
     // TODO @RequireJwt
     public void deleteTransfer(@PathVariable int requestId,
                                @RequestHeader(name = "token") String token,
