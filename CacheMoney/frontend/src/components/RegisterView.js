@@ -12,11 +12,6 @@ import config from "../config.js";
 // The info is persisted in the database and locally (partial).
 
 function RegisterView() {
-<<<<<<< HEAD
-
-
-=======
->>>>>>> send-request
 	const navigate = useNavigate();
 	const [formData, setFormData] = useState({
 		firstName: "",
@@ -179,19 +174,9 @@ function RegisterView() {
 				responseStatus = response.status;
 				responseData = response.data;
 				if (responseStatus === 200) {
-<<<<<<< HEAD
 					if (responseData.mfa === true && responseData.secretImageUri) {
 						//console.log("Registration successful");
 						navigate("/qrcode");
-=======
-					if (responseData === true || responseData.result === true) {
-						// console.log("Registration successful");
-						navigate("/signin");
-					} else {
-						alert(
-							"Some error occurred during registration. \n Check if the email or username is already in use?"
-						);
->>>>>>> send-request
 					}
 					else navigate("/signin");
 
