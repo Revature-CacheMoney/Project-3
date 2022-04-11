@@ -71,7 +71,7 @@ const RequestList = (props) => {
 
     const onDecline = (requestId) => {
         return () => {
-            axios.delete(`${config.url}request/${requestId}`, {
+            axios.get(`${config.url}request/delete/${requestId}`, {
                 headers: {
                     "Access-Control-Allow-Origin": "*",
                     token: store.getState().userReducer.token,
