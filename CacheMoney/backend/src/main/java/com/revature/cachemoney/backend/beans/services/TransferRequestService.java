@@ -73,8 +73,9 @@ public class TransferRequestService {
         // only involved users can delete the request
         if(destinationUser == userId || sourceUser == userId) {
             this.transferRequestRepo.delete(transferRequest);
+        } else {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Only the requester or requestee may delete a request");
         }
-        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Only the requester or requestee may delete a request");
     }
 
     public Transfer acceptTransfer(int requestId, Integer userId) throws ResponseStatusException {
