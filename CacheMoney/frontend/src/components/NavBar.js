@@ -143,8 +143,5 @@ function NavBar(props) {
 		</div>
 	);
 }
-<<<<<<< HEAD
 
-=======
->>>>>>> send-request
 export default NavBar;
