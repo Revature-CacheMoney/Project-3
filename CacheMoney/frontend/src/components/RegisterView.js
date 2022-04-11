@@ -7,14 +7,16 @@ import Toggle from "./style/Toggle";
 import { lightTheme, darkTheme } from "../components/style/Themes";
 import { useNavigate } from "react-router-dom";
 import config from "../config.js";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+
 // The registrration component handles the registration form for new users.
 // The info is persisted in the database and locally (partial).
 
 function RegisterView() {
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> send-request
 	const navigate = useNavigate();
 	const [formData, setFormData] = useState({
 		firstName: "",
@@ -174,13 +176,22 @@ function RegisterView() {
 		axios
 			.post(`${url}users/`, newUser)
 			.then((response) => {
-				//console.log(response);
 				responseStatus = response.status;
 				responseData = response.data;
 				if (responseStatus === 200) {
+<<<<<<< HEAD
 					if (responseData.mfa === true && responseData.secretImageUri) {
 						//console.log("Registration successful");
 						navigate("/qrcode");
+=======
+					if (responseData === true || responseData.result === true) {
+						// console.log("Registration successful");
+						navigate("/signin");
+					} else {
+						alert(
+							"Some error occurred during registration. \n Check if the email or username is already in use?"
+						);
+>>>>>>> send-request
 					}
 					else navigate("/signin");
 
@@ -213,17 +224,6 @@ function RegisterView() {
 		<ThemeProvider theme={themeMode}>
 			<>
 				<GlobalStyles />
-				<ToastContainer
-					position="bottom-center"
-					autoClose={2000}
-					hideProgressBar
-					newestOnTop={false}
-					closeOnClick
-					rtl={false}
-					pauseOnFocusLoss
-					draggable
-					pauseOnHover
-					/>
 				<div className="container-view login-outer-container">
 					<div className="login-inner-container">
 						<div className="login-content-box">

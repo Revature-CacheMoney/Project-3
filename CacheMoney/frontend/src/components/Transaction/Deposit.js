@@ -4,8 +4,6 @@
 import axios from "axios";
 import config from "../../config";
 import store from "../../store/Store";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 function Deposit(props) {
 	const postDeposit = (transaction) => {
@@ -16,6 +14,7 @@ function Deposit(props) {
 					userId: store.getState().userReducer.userId,
 				},
 			})
+<<<<<<< HEAD
 			.then(
 				result=>{
 					result.status===200?
@@ -43,6 +42,9 @@ function Deposit(props) {
 					})
 			});
 
+=======
+			.catch((error) => console.error(`Error: ${error}`));
+>>>>>>> send-request
 		axios
 			.get(`${config.url}users/`, {
 				headers: {
@@ -68,7 +70,6 @@ function Deposit(props) {
 		
 
 		
-
 	};
 
 	// what the submit button should do
@@ -92,7 +93,6 @@ function Deposit(props) {
 
 	return (
 		<div className="deposit-outer-container">
-			<ToastContainer />
 			<div className="deposit-inner-container">
 				<div className="deposit-form">
 					<p className="deposit-form-header">Deposit</p>
