@@ -59,11 +59,28 @@ const RequestList = ({rerender, rerenderer}) => {
                 }
             })
             .then(() => {
-                // TODO put a toast.success here
+                toast.success('Transfer Request Accepted', {
+                    position: "bottom-right",
+                    autoClose: 2000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                })
                 rerender();
             })
             .catch(() => {
-                // TODO put a toast.error here
+                toast.error('Failed to Accept Request', {
+                    position: "bottom-right",
+                    autoClose: 2000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    })
+                })
             })
         }
     }
@@ -77,11 +94,28 @@ const RequestList = ({rerender, rerenderer}) => {
                 }
             })
             .then(() => {
+                toast.success('Transfer Request Deleted', {
+                    position: "bottom-right",
+                    autoClose: 2000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                })
                 rerender();
-                // TODO put a toast.success here
             })
             .catch(() => {
-                // TODO put a toast.error here
+                toast.error('Failed to Delete Request', {
+                    position: "bottom-right",
+                    autoClose: 2000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    })
+                })
             })
         }
     }
@@ -116,8 +150,7 @@ const RequestList = ({rerender, rerenderer}) => {
                     }
                 </div>
             )    
-        })
-        }
+        })}
         </div>
     );
 }
