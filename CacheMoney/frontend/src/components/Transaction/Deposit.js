@@ -4,6 +4,8 @@
 import axios from "axios";
 import config from "../../config";
 import store from "../../store/Store";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Deposit(props) {
 	const postDeposit = (transaction) => {
@@ -87,6 +89,7 @@ function Deposit(props) {
 
 	return (
 		<div className="deposit-outer-container">
+			<ToastContainer />
 			<div className="deposit-inner-container">
 				<div className="deposit-form">
 					<p className="deposit-form-header">Deposit</p>
