@@ -24,7 +24,7 @@ import org.springframework.stereotype.Component;
 public class JwtUtil {
 
     @Value("${security.jwt.expiration:}")
-    private int expiration;
+    private Integer expiration;
 
     @Value("${security.jwt.secret:}")
     private String secret;
