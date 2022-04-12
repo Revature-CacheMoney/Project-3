@@ -42,7 +42,7 @@ public class JwtAspect {
         // if either the token or userId is invalid
         try {
             if (!jwtUtil.validateToken((String) args[0], (Integer) args[1])) {
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid Token");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Please provide a valid token");
             }
         } catch (JWTVerificationException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
