@@ -30,7 +30,6 @@ function Transfer(props) {
                 setAccounts(response.data);
                 setFormData({...formData, sourceAccountId: response.data[0].accountId})
             }).catch((error) => {
-                console.error(`Error: ${error}`)
                 toast.error('Could not get Accounts', {
                     position: "bottom-right",
                     autoClose: 2000,
@@ -64,7 +63,6 @@ function Transfer(props) {
                 })
             })
             .catch((error) => {
-                console.error(`Error: ${error}`)
                 toast.error('Request failed', {
                     position: "bottom-right",
                     autoClose: 2000,
@@ -90,7 +88,6 @@ function Transfer(props) {
             description: formData.description
         }
 
-        console.log(transfer);
         // perform the post
         postTransfer(transfer);
     };
