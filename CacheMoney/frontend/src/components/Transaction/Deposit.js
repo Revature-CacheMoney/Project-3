@@ -14,7 +14,6 @@ function Deposit(props) {
 					userId: store.getState().userReducer.userId,
 				},
 			})
-<<<<<<< HEAD
 			.then(
 				result=>{
 					result.status===200?
@@ -27,10 +26,8 @@ function Deposit(props) {
 						draggable: true,
 						progress: undefined,
 					}):toast.error('error')
-			}
-				)
+			})
 			.catch((error) => {
-				console.error(`Error: ${error}`)
 				toast.error('Deposit failed', {
 					position: "bottom-right",
 					autoClose: 2000,
@@ -42,9 +39,6 @@ function Deposit(props) {
 					})
 			});
 
-=======
-			.catch((error) => console.error(`Error: ${error}`));
->>>>>>> send-request
 		axios
 			.get(`${config.url}users/`, {
 				headers: {
