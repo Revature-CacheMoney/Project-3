@@ -7,6 +7,8 @@ import Toggle from "./style/Toggle";
 import { lightTheme, darkTheme } from "../components/style/Themes";
 import { useNavigate } from "react-router-dom";
 import config from "../config.js";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // The registrration component handles the registration form for new users.
 // The info is persisted in the database and locally (partial).
@@ -209,6 +211,17 @@ function RegisterView() {
 		<ThemeProvider theme={themeMode}>
 			<>
 				<GlobalStyles />
+				<ToastContainer
+					position="bottom-center"
+					autoClose={2000}
+					hideProgressBar
+					newestOnTop={false}
+					closeOnClick
+					rtl={false}
+					pauseOnFocusLoss
+					draggable
+					pauseOnHover
+					/>
 				<div className="container-view login-outer-container">
 					<div className="login-inner-container">
 						<div className="login-content-box">
