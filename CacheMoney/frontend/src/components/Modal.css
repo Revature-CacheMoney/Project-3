@@ -29,6 +29,10 @@ body.active-modal {
     text-align: center;
 }
 
+.otp-paragraph {
+    font-size: 18px;
+}
+
 .qr-image {
     width: 40%;
 }
@@ -46,3 +50,8 @@ body.active-modal {
 	text-shadow: 0px 0px 5px;
 	background-size: 75%;
 } */
+
+.otp-input {
+    justify-content: center;
+    margin: 50px 0;
+}
