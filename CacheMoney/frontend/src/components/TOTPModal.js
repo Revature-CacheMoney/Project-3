@@ -7,12 +7,18 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import OTPInput from "otp-input-react";
+import { Link } from "react-router-dom";
 
 export default function TOTPModal(props) {
   const navigate = useNavigate();
   const [modal, setModal] = useState(true);
 
   const [OTP, setOTP] = useState("");
+
+  const toggleModal = () => {
+    setModal(!modal);
+    window.location.reload(false);
+  };
 
   if (modal) {
     document.body.classList.add("active-modal");
@@ -105,23 +111,14 @@ export default function TOTPModal(props) {
             <h2></h2>
             <span id="login-error-box"></span>
 
-            {/* <label htmlFor="code">TOTP Code:</label>
-            <input
-              type="text"
-              className="login-input"
-              name="code"
-              id="code"
-              onChange={handleChange}
-              required
-              maxLength={6}
-            /> */}
+            <h3>Two-factor authentication</h3>
 
-            <h2>Verification</h2>
-
-            <p className="otp-paragraph">
-              Enter TOTP code from authentication app.
+            <p className="small-font">
+              Open the two-factor authentication app on your device to view your
+              authentication code and verify your identity.
             </p>
 
+            <strong className="small-font">Authentication code</strong>
             <OTPInput
               value={OTP}
               onChange={setOTP}
@@ -139,6 +136,10 @@ export default function TOTPModal(props) {
               onClick={handleVerify}
             >
               VERIFY
+            </button>
+
+            <button className="small-font" onClick={toggleModal}>
+              Cancel log in
             </button>
           </div>
         </div>
