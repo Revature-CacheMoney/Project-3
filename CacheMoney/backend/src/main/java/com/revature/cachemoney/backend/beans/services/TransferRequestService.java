@@ -7,6 +7,8 @@ import com.revature.cachemoney.backend.beans.models.User;
 import com.revature.cachemoney.backend.beans.repositories.AccountRepo;
 import com.revature.cachemoney.backend.beans.repositories.TransferRepo;
 import com.revature.cachemoney.backend.beans.repositories.TransferRequestRepo;
+import com.revature.cachemoney.backend.beans.utils.EmailUtil;
+import com.revature.cachemoney.backend.beans.utils.PropertiesUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -54,6 +56,20 @@ public class TransferRequestService {
                                         + transferRequest.getDestinationAccount().getAccountId()
                         );
                     }
+
+                    try {
+                        String body = PropertiesUtil.getHTML("src/main/resources/request.html");
+                        body = body.replace("{FIRSTNAME LASTNAME DEST}",
+                                destinationUser.getFirstName() + " " + destinationUser.getLastName());
+                        body = body.replace("{FIRSTNAME LASTNAME SOURCE}",
+                                sourceUser.getFirstName() + " " + sourceUser.getLastName());
+                        body = body.replace("{AMOUNT}",
+                                "$" + (int)Math.floor(transferRequest.getAmount()));
+                        EmailUtil.getInstance().sendEmail(sourceUser.getEmail(), "Transfer Requested", body);
+                    } catch (Exception e) {
+                        //e.printStackTrace();
+                    }
+
                     return this.transferRequestRepo.save(transferRequest);
                 }
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Source and Destination accounts must exist");
