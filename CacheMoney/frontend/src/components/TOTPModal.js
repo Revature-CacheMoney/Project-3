@@ -6,70 +6,73 @@ import "./Modal.css";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import OTPInput from "otp-input-react";
 
 export default function TOTPModal(props) {
   const navigate = useNavigate();
   const [modal, setModal] = useState(true);
 
-  const toggleModal = () => {
-    setModal(!modal);
-  };
+  const [OTP, setOTP] = useState("");
 
-  if(modal) {
-    document.body.classList.add('active-modal')
+  if (modal) {
+    document.body.classList.add("active-modal");
   } else {
-    document.body.classList.remove('active-modal')
+    document.body.classList.remove("active-modal");
   }
 
   const [formData, setFormData] = useState({
-		userId: props.data.userId,
-		code: "",
-	});
-	const handleVerify = () => {
-		doVerify();
-	};
+    userId: props.data.userId,
+    code: "",
+  });
 
-	const handleChange = (event) => {
-		event.preventDefault();
-		setFormData({ ...formData, [event.target.name]: event.target.value });
-		//
-	};
+  const handleVerify = () => {
+    doVerify();
+  };
+
+  // const handleChange = (event) => {
+  //   event.preventDefault();
+  //   setFormData({ ...formData, [event.target.name]: event.target.value });
+  //   //
+  // };
 
   function doVerify() {
-		let responseStatus;
-		let responseData;
-		let responseHeaders;
-		const url = config.url;
-		axios.post(`${url}users/verify`, formData)
-			.then((response) => {
-				responseData = response.data;
-				responseStatus = response.status;
-				responseHeaders = response.headers;
-				if (responseStatus !== 200 || responseData.user_id === null) {
-					console.log("Verify failed - bad TOTP TOTP");
-					document.getElementById("login-error-box").innerHTML =
-						"Error: invalid TOTP code.";
-					let loginInputArr = document.getElementsByClassName("login-input");
-					for (let i = 0; i < loginInputArr.length; i++) {
-						loginInputArr[i].style.border = "2px solid red";
-						loginInputArr[i].style.boxShadow = "-4px 4px 0px #b04050";
-					}
-					//alert("Invalid login attempt.");
-				} else {
-					console.log("Response body from login API: ", responseHeaders);
-											
+    let responseStatus;
+    let responseData;
+    let responseHeaders;
+    const url = config.url;
+    axios({
+      method: "post",
+      url: `${url}users/verify`,
+      params: { userId: formData.userId, code: OTP },
+    })
+      .then((response) => {
+        responseData = response.data;
+        responseStatus = response.status;
+        responseHeaders = response.headers;
+        if (responseStatus !== 200 || responseData.user_id === null) {
+          console.log("Verify failed - bad TOTP TOTP");
+          document.getElementById("login-error-box").innerHTML =
+            "Error: invalid TOTP code.";
+          let loginInputArr = document.getElementsByClassName("login-input");
+          for (let i = 0; i < loginInputArr.length; i++) {
+            loginInputArr[i].style.border = "2px solid red";
+            loginInputArr[i].style.boxShadow = "-4px 4px 0px #b04050";
+          }
+          //alert("Invalid login attempt.");
+        } else {
+          console.log("Response body from login API: ", responseHeaders);
+
           userStore.dispatch({
             type: "UPDATE_TOKEN",
             payload: responseHeaders.jwt,
           });
-          
+
           navigate("/main");
-					
-				}
-			})
-			.catch((error) => {
+        }
+      })
+      .catch((error) => {
         //console.log(error.response);
-    		console.error(`Error: ${error}`);
+        console.error(`Error: ${error}`);
         toast.error(error.response.data, {
           position: "bottom-center",
           autoClose: 2000,
@@ -79,29 +82,30 @@ export default function TOTPModal(props) {
           draggable: true,
           progress: undefined,
         });
-			});
-	}
+      });
+  }
 
   return (
     <>
       <ToastContainer
-          position="bottom-center"
-          autoClose={2000}
-          hideProgressBar
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-        />
+        position="bottom-center"
+        autoClose={2000}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       {modal && (
         <div className="modal">
-          <div onClick={toggleModal} className="overlay"></div>
+          <div className="overlay"></div>
           <div className="modal-content">
             <h2></h2>
             <span id="login-error-box"></span>
-            <label htmlFor="code">TOTP Code:</label>
+
+            {/* <label htmlFor="code">TOTP Code:</label>
             <input
               type="text"
               className="login-input"
@@ -109,7 +113,25 @@ export default function TOTPModal(props) {
               id="code"
               onChange={handleChange}
               required
+              maxLength={6}
+            /> */}
+
+            <h2>Verification</h2>
+
+            <p className="otp-paragraph">
+              Enter TOTP code from authentication app.
+            </p>
+
+            <OTPInput
+              value={OTP}
+              onChange={setOTP}
+              autoFocus
+              OTPLength={6}
+              otpType="number"
+              disabled={false}
+              className="otp-input"
             />
+
             <button
               className="btn-modal"
               id="verify-button"
@@ -118,7 +140,6 @@ export default function TOTPModal(props) {
             >
               VERIFY
             </button>
-            
           </div>
         </div>
       )}
