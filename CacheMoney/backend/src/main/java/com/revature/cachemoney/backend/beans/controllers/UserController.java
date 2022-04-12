@@ -156,28 +156,6 @@ public class UserController {
     }
 
     /**
-     * Verify the TOTP for 2FA process.
-     *
-     * @param userId Id of the user to authenticate
-     * @param code TOTP code to verify
-     * @return UserID & its associated JWT
-     */
-    /*
-    @PostMapping("/verify")
-    public ResponseEntity<String> verifyCode(
-            @RequestParam Integer userId, @RequestParam String code) {
-
-        if(userService.verify(userId, code)){
-            // write the headers & object into the response
-            return ResponseEntity.ok().headers(this.generateToken(userId)).body(userId.toString());
-        }
-
-        // indicate bad request
-        return ResponseEntity.badRequest().body("The verification process failed: Invalid TOTP code: "+code);
-    }
-    */
-
-    /**
     * Verify the TOTP for 2FA process.
     *
     * @param request With the Id of the user and TOPT code to verify
@@ -194,7 +172,7 @@ public class UserController {
         }
 
         // indicate bad request
-        return ResponseEntity.badRequest().body("The verification process failed: Invalid TOTP code: "+code);
+        return ResponseEntity.badRequest().body("The verification process failed: Invalid TOTP code");
     }
 
     /**

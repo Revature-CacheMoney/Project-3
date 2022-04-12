@@ -43,7 +43,7 @@ export default function TOTPModal(props) {
     axios({
       method: "post",
       url: `${url}users/verify`,
-      params: { userId: formData.userId, code: OTP },
+      data: { userId: formData.userId, code: OTP },
     })
       .then((response) => {
         responseData = response.data;
@@ -104,17 +104,6 @@ export default function TOTPModal(props) {
           <div className="modal-content">
             <h2></h2>
             <span id="login-error-box"></span>
-
-            {/* <label htmlFor="code">TOTP Code:</label>
-            <input
-              type="text"
-              className="login-input"
-              name="code"
-              id="code"
-              onChange={handleChange}
-              required
-              maxLength={6}
-            /> */}
 
             <h2>Verification</h2>
 

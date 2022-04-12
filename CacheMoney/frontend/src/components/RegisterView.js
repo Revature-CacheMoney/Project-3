@@ -37,9 +37,10 @@ function RegisterView() {
   // handleSubmit: What happens when user presses the "submit" button on reg. form
   const handleSubmit = (event) => {
     event.preventDefault();
-    validateInput();
-    //console.log("Information being sent:  ", formData);
-    doRegistration();
+    if(validateInput()) {
+      //console.log("Information being sent:  ", formData);
+      doRegistration();
+    }
   };
 
   //   // Checks input against validation (should be same patterns as used in backend)

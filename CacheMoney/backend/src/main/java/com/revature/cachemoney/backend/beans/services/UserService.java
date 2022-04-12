@@ -69,7 +69,11 @@ public class UserService {
      * @return User
      */
     public Optional<User> getUserById(Integer userId) {
-        return userRepo.findById(userId);
+        User optionalUser = userRepo.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User with id:"+
+                        userId+" does not exist in the DataBase."));
+        optionalUser.setPassword("");
+        return Optional.of(optionalUser);
     }
 
     /**

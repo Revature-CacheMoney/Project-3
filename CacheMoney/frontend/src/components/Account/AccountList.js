@@ -19,8 +19,10 @@ function AccountList(props) {
 		const token = store.getState().userReducer.token;
 		const userId = store.getState().userReducer.userId;
 
+		const url = config.url;
+
 		(token !== null) && (userId !== null) && axios
-			.get(`http://localhost:9000/users/accounts`, {
+			.get(`${url}users/accounts`, {
 				headers: {
 					token,
 					userId,
