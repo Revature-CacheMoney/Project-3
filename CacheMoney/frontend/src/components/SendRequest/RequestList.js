@@ -7,6 +7,7 @@ import React, { useState, useEffect } from "react";
 import config from "../../config";
 import store from "../../store/Store";
 import "./RequestList.css";
+import { toast } from "react-toastify";
 
 const RequestList = ({rerender, rerenderer}) => {
     const [requests, setRequests] = useState([]);
@@ -81,7 +82,6 @@ const RequestList = ({rerender, rerenderer}) => {
                     progress: undefined,
                     })
                 })
-            })
         }
     }
 
@@ -116,7 +116,6 @@ const RequestList = ({rerender, rerenderer}) => {
                     progress: undefined,
                     })
                 })
-            })
         }
     }
 
