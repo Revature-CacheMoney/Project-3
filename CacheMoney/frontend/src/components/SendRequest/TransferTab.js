@@ -1,12 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import Transfer from "./Transfer";
 import TransferList from "./TransferList";
 import "./RequestTab.css";
 
+const useRerenderer = () => {
+    const [rerenderer, setRerenderer] = useState(false);
+    return [rerenderer, () => {
+        setRerenderer(!rerenderer);
+    }];
+}
+
 const TransferTab = (props) => {
+    const [rerenderer, rerender] = useRerenderer();
+
     return (
         <div className="TransferTab">
-            <Transfer/>
+            <Transfer rerender={rerender}/>
             <TransferList/>
         </div>
     );

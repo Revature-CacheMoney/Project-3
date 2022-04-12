@@ -8,7 +8,7 @@ import store from "../../store/Store";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from "react-toastify";
 
-function Transfer(props) {
+function Transfer({rerender}) {
     const [accounts, setAccounts] = useState([]);
     const  [formData, setFormData]  = useState({
         sourceAccountId: "",
@@ -61,6 +61,7 @@ function Transfer(props) {
                     draggable: true,
                     progress: undefined,
                 })
+                rerender();
             })
             .catch((error) => {
                 toast.error('Request failed', {
@@ -100,7 +101,7 @@ function Transfer(props) {
 
     const handleChange = (event) => {
         let value = event.target.value;
-        if(event.target.name == "destinationAccountId" || event.target.name == "amount" || event.target.name == "sourceAccountId"){
+        if(event.target.name === "destinationAccountId" || event.target.name === "amount" || event.target.name === "sourceAccountId"){
             value = parseInt(value, 10);
         }
         setFormData({...formData, [event.target.name]: value});
@@ -116,7 +117,7 @@ function Transfer(props) {
                         <div className="transfer-from-account">
                             <label>From</label>
                             <select name="sourceAccountId" onChange={handleChange} value={formData.sourceAccountId}>
-                                {accounts.length == 0 && <option value={null}>No Accounts to be Displayed</option>}
+                                {accounts.length === 0 && <option value={null}>No Accounts to be Displayed</option>}
                                 { options }
                             </select>    
                         </div>
