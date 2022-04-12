@@ -31,6 +31,9 @@ function SigninView() {
 		//
 	};
 
+	const [totpFlag, setTotpFlag] = useState(false);
+	const [responseUser, setResponseUser] = useState("");
+
 	function doLogin() {
 		let responseStatus;
 		let responseData;
@@ -81,8 +84,8 @@ function SigninView() {
 
 					if(responseData.mfa){
 						//console.log(userStore.getState().userReducer);
-						navigate("/verify");
-						
+						setResponseUser(responseData);
+						setTotpFlag(true);
 					}
 					else {
 						
@@ -149,6 +152,8 @@ function SigninView() {
 									>
 										SIGN IN
 									</button>
+
+									{totpFlag && <TOTPModal data={responseUser} />}
 								</div>
 							</div>
 						</div>

@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.cachemoney.backend.beans.annotations.RequireJwt;
 import com.revature.cachemoney.backend.beans.models.User;
 import com.revature.cachemoney.backend.beans.security.JwtUtil;
+import com.revature.cachemoney.backend.beans.security.payload.MfaRequest;
 import com.revature.cachemoney.backend.beans.security.payload.MfaResponse;
 import com.revature.cachemoney.backend.beans.services.UserService;
 
@@ -161,6 +162,7 @@ public class UserController {
      * @param code TOTP code to verify
      * @return UserID & its associated JWT
      */
+    /*
     @PostMapping("/verify")
     public ResponseEntity<String> verifyCode(
             @RequestParam Integer userId, @RequestParam String code) {
@@ -171,7 +173,28 @@ public class UserController {
         }
 
         // indicate bad request
-        return ResponseEntity.badRequest().build();
+        return ResponseEntity.badRequest().body("The verification process failed: Invalid TOTP code: "+code);
+    }
+    */
+
+    /**
+    * Verify the TOTP for 2FA process.
+    *
+    * @param request With the Id of the user and TOPT code to verify
+    * @return UserID & its associated JWT
+    */
+    @PostMapping("/verify")
+    public ResponseEntity<String> verifyCode(@RequestBody MfaRequest request) {
+
+        Integer userId = request.getUserId();
+        String code = request.getCode();
+        if(userService.verify(userId, code)){
+            // write the headers & object into the response
+            return ResponseEntity.ok().headers(this.generateToken(userId)).body(userId.toString());
+        }
+
+        // indicate bad request
+        return ResponseEntity.badRequest().body("The verification process failed: Invalid TOTP code: "+code);
     }
 
     /**
