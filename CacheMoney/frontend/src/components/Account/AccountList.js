@@ -16,13 +16,14 @@ function AccountList(props) {
 	// read state with accounts
 
 	const handleAccountUpdate = () => {
-		console.log("Accounts loaded", props.doAccountUpdate);
-		// get all of a user's accounts
-		axios
-			.get(`${config.url}users/accounts`, {
+		const token = store.getState().userReducer.token;
+		const userId = store.getState().userReducer.userId;
+
+		(token !== null) && (userId !== null) && axios
+			.get(`http://localhost:9000/users/accounts`, {
 				headers: {
-					token: store.getState().userReducer.token,
-					userId: store.getState().userReducer.userId,
+					token,
+					userId,
 				},
 			})
 			.then((response) => {
@@ -48,7 +49,6 @@ function AccountList(props) {
 
 	// effect hook
 	useEffect(() => {
-		console.log("useEffect");
 		handleAccountUpdate();
 	}, [props.doTitleUpdate]);
 
