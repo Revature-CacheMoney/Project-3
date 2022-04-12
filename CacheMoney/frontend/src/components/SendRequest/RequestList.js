@@ -137,7 +137,7 @@ const RequestList = ({rerender, rerenderer}) => {
                     <p style= {{color: "black"}}>description: {request.description}</p>
                     <p style={{color: "black"}}>Amount: ${request.amount}</p>
                     {
-                        (request.direction == "towards us")  ? 
+                        (request.direction === "towards us")  ? 
                             (
                                 <>
                                 <button onClick={onAccept(request.requestId)}>Accept Request</button>
