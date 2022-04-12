@@ -14,21 +14,21 @@ import TOTPModal from "./TOTPModal.js";
 // An API call should be made to test for successful login credentials.
 // The user's info (partial) should be persisted throughout the app.
 function SigninView() {
-  const navigate = useNavigate();
+	const navigate = useNavigate();
 
-  const [formData, setFormData] = useState({
-    username: "",
-    password: "",
-  });
-  const handleLogin = () => {
-    doLogin();
-  };
+	const [formData, setFormData] = useState({
+		username: "",
+		password: "",
+	});
+	const handleLogin = () => {
+		doLogin();
+	};
 
-  const handleChange = (event) => {
-    event.preventDefault();
-    setFormData({ ...formData, [event.target.name]: event.target.value });
-    //
-  };
+	const handleChange = (event) => {
+		event.preventDefault();
+		setFormData({ ...formData, [event.target.name]: event.target.value });
+		//
+	};
 
   const [totpFlag, setTotpFlag] = useState(false);
   const [responseUser, setResponseUser] = useState("");

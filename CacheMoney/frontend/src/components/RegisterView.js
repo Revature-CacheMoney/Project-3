@@ -15,16 +15,16 @@ import QRModal from "./QRModal";
 // The info is persisted in the database and locally (partial).
 
 function RegisterView() {
-  const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    username: "",
-    password1: "",
-    password2: "",
-    mfa: false,
-  });
+	const navigate = useNavigate();
+	const [formData, setFormData] = useState({
+		firstName: "",
+		lastName: "",
+		email: "",
+		username: "",
+		password1: "",
+		password2: "",
+		mfa: false,
+	});
 
   const [qrCode, setQrCode] = useState("");
   const [qrFlag, setQrFlag] = useState(false);
@@ -37,9 +37,10 @@ function RegisterView() {
   // handleSubmit: What happens when user presses the "submit" button on reg. form
   const handleSubmit = (event) => {
     event.preventDefault();
-    validateInput();
-    //console.log("Information being sent:  ", formData);
-    doRegistration();
+    if(validateInput()) {
+      //console.log("Information being sent:  ", formData);
+      doRegistration();
+    }
   };
 
   //   // Checks input against validation (should be same patterns as used in backend)
