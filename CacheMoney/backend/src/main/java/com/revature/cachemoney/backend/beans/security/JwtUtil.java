@@ -14,10 +14,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 /**
- * Utility for creating & validating JSON Web Tokens (JWTs).
+ * Utility for creating and validating JSON Web Tokens (JWTs).
  * 
- * @author Version 1 (Ibrahima Diallo, Brian Gardner, Cody Gonsowski, & Jeffrey Lor)
- *         Version 2 (Phillip Vo, Josue Rodriguez, Prakash, Maikel Vera)
+ * @author Ibrahima Diallo, Brian Gardner, Cody Gonsowski, and Jeffrey Lor
  */
 @Data
 @NoArgsConstructor
@@ -41,8 +40,8 @@ public class JwtUtil {
      * 
      * @param userId associated with user trying to create token
      * @return JWT that contains verification information
-     * @throws IllegalArgumentException If JWT is malformed
-     * @throws JWTCreationException if any error occur
+     * @throws IllegalArgumentException this will throw when wrong data type is enter
+     * @throws JWTCreationException this will throw when there is an issue with JWT creation
      */
     public String generateToken(Integer userId) throws IllegalArgumentException, JWTCreationException {
         return JWT.create()
@@ -60,20 +59,15 @@ public class JwtUtil {
      * @param userId userId associated with token
      * @return token verification success state (true | false)
      */
-    public Boolean validateToken(String token, Integer userId) {
-        try {
-            // create a verifier using the same algorithm as generated token
-            DecodedJWT jwt = JWT
-                    .require(Algorithm.HMAC256(this.secret))
-                    .withIssuer(this.issuer)
-                    .build()
-                    .verify(token);
+    public Boolean validateToken(String token, Integer userId) throws JWTVerificationException {
+        // create a verifier using the same algorithm as generated token
+        DecodedJWT jwt = JWT
+                .require(Algorithm.HMAC256(this.secret))
+                .withIssuer(this.issuer)
+                .build()
+                .verify(token);
 
-            // double-check user id matches
-            return jwt.getClaim(this.user).asInt().equals(userId);
-
-        } catch (JWTVerificationException e) {
-            return false;
-        }
+        // double-check user id matches
+        return jwt.getClaim(this.user).asInt().equals(userId);
     }
 }
