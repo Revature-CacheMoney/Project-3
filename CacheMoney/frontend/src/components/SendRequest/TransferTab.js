@@ -3,6 +3,7 @@ import Transfer from "./Transfer";
 import TransferList from "./TransferList";
 import "./RequestTab.css";
 
+// TODO rerenders aren't working anymore, figure out why and fix it
 const useRerenderer = () => {
     const [rerenderer, setRerenderer] = useState(false);
     return [rerenderer, () => {

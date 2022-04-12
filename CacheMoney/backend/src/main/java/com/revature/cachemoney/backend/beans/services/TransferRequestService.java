@@ -61,6 +61,7 @@ public class TransferRequestService {
             // if source and/or destination is the same or null
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Source and Destination accounts cannot be the same account");
         }
+        // TODO my error status codes got broke in one of the pulls, now they're just sent to the console. fix this
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You can't request money from yourself, just do it in a transfer");
     }
 
