@@ -184,12 +184,11 @@ function RegisterView() {
           if (responseData.mfa === true && responseData.secretImageUri) {
             //console.log("Registration successful");
             //navigate("/qrcode");
-            console.log(responseData.secretImageUri);
+            console.log(responseData);
 
             setQrCode(responseData.secretImageUri);
 
             setQrFlag(true);
-
           } else navigate("/signin");
         } else {
           // alert(
@@ -211,7 +210,6 @@ function RegisterView() {
       });
   }
 
- 
   const [theme, themeToggler, mountedComponent] = useDarkMode();
   const themeMode = theme === "light" ? lightTheme : darkTheme;
 
@@ -392,7 +390,6 @@ function RegisterView() {
                   />
 
                   {qrFlag && <QRModal data={qrCode} />}
-
                 </div>
               </div>
             </div>
