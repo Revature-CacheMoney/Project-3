@@ -28,10 +28,8 @@ function Deposit(props) {
 						draggable: true,
 						progress: undefined,
 					}):toast.error('error')
-			}
-				)
+			})
 			.catch((error) => {
-				console.error(`Error: ${error}`)
 				toast.error('Deposit failed', {
 					position: "bottom-right",
 					autoClose: 2000,
@@ -68,7 +66,6 @@ function Deposit(props) {
 		
 
 		
-
 	};
 
 	// what the submit button should do

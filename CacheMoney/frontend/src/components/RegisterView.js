@@ -9,12 +9,11 @@ import { useNavigate } from "react-router-dom";
 import config from "../config.js";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
 // The registrration component handles the registration form for new users.
 // The info is persisted in the database and locally (partial).
 
 function RegisterView() {
-
-
 	const navigate = useNavigate();
 	const [formData, setFormData] = useState({
 		firstName: "",
@@ -174,7 +173,6 @@ function RegisterView() {
 		axios
 			.post(`${url}users/`, newUser)
 			.then((response) => {
-				//console.log(response);
 				responseStatus = response.status;
 				responseData = response.data;
 				if (responseStatus === 200) {

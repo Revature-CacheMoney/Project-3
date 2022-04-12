@@ -3,6 +3,7 @@ package com.revature.cachemoney.backend.beans.controllers;
 import java.util.List;
 import java.util.Optional;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.cachemoney.backend.beans.annotations.RequireJwt;
@@ -181,31 +182,6 @@ public class AccountController {
 			@RequestBody Transaction transaction) {
 
 		if (accountService.withdrawFromAccount(userId, transaction)) {
-			return ResponseEntity.ok().build();
-		}
-
-		return ResponseEntity.badRequest().build();
-	}
-
-	/**
-	 * POST a withdrawl to an Account.
-	 * Returns a bad request if the POST is unsuccessful.
-	 * 
-	 * @param token       for current session
-	 * @param userId      for current User
-	 * @param transfer for User's Transaction
-	 * @return OK | Bad Request based on POST success
-	 */
-	@PostMapping(value = "/transfer")
-	@RequireJwt
-	public ResponseEntity<String> transfer(
-			@RequestHeader(name = "token") String token,
-			@RequestHeader(name = "userId") Integer userId,
-			@RequestBody Transfer transfer) {
-
-		if (accountService.transferBetweenAccountsOfOneUser(userId, transfer.getSourceAccountId(),
-				transfer.getDestinationAccountId(), transfer.getTransaction())) {
-
 			return ResponseEntity.ok().build();
 		}
 
