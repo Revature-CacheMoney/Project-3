@@ -16,6 +16,11 @@ function Deposit(props) {
 					userId: store.getState().userReducer.userId,
 				},
 			})
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> parent of e9c9145 (Revert "Send request sebastian")
 			.then(
 				result=>{
 					result.status===200?
@@ -28,8 +33,16 @@ function Deposit(props) {
 						draggable: true,
 						progress: undefined,
 					}):toast.error('error')
+<<<<<<< HEAD
 			})
 			.catch((error) => {
+=======
+			}
+				)
+
+			.catch((error) => {
+				console.error(`Error: ${error}`)
+>>>>>>> parent of e9c9145 (Revert "Send request sebastian")
 				toast.error('Deposit failed', {
 					position: "bottom-right",
 					autoClose: 2000,
@@ -66,6 +79,7 @@ function Deposit(props) {
 		
 
 		
+
 	};
 
 	// what the submit button should do

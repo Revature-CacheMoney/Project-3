@@ -7,14 +7,21 @@ import Toggle from "./style/Toggle";
 import { lightTheme, darkTheme } from "../components/style/Themes";
 import { useNavigate } from "react-router-dom";
 import config from "../config.js";
+<<<<<<< HEAD
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import QRModal from "./QRModal";
 
+=======
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+>>>>>>> parent of e9c9145 (Revert "Send request sebastian")
 // The registrration component handles the registration form for new users.
 // The info is persisted in the database and locally (partial).
 
 function RegisterView() {
+
+	
 	const navigate = useNavigate();
 	const [formData, setFormData] = useState({
 		firstName: "",
@@ -160,12 +167,50 @@ function RegisterView() {
     errorSpan.style.margin = "0px 0px 0px 12px";
   }
 
+<<<<<<< HEAD
   // doRegistration: does the actual registration call
   function doRegistration() {
     let responseStatus;
     // Lets cover any sort of backend response
     let responseData;
     const url = config.url;
+=======
+		const newUser = {
+			firstName: formData.firstName,
+			lastName: formData.lastName,
+			email: formData.email,
+			username: formData.username,
+			password: formData.password1,
+		};
+		axios
+			.post(`${url}users/`, newUser)
+			.then((response) => {
+				responseStatus = response.status;
+				responseData = response.data;
+				if (responseStatus === 200) {
+					if (responseData === true || responseData.result === true) {
+						// console.log("Registration successful");
+						navigate("/signin");
+					} else {
+						toast.error('There was an issue creating an account', {
+							position: "bottom-center",
+							autoClose: 2000,
+							hideProgressBar: true,
+							closeOnClick: true,
+							pauseOnHover: true,
+							draggable: true,
+							progress: undefined,
+							});
+
+						// alert(
+						// 	"Some Error occurred during registration. \n Check if the email or username is already in use?"
+						// );
+					}
+				}
+			})
+			.catch((error) => console.error(`Error: ${error}`));
+	}
+>>>>>>> parent of e9c9145 (Revert "Send request sebastian")
 
     const newUser = {
       firstName: formData.firstName,
@@ -189,6 +234,7 @@ function RegisterView() {
 
             setQrCode(responseData.secretImageUri);
 
+<<<<<<< HEAD
             setQrFlag(true);
           } else navigate("/signin");
         } else {
@@ -210,6 +256,61 @@ function RegisterView() {
         console.error(`Error: ${error}`);
       });
   }
+=======
+	return (
+		<ThemeProvider theme={themeMode}>
+			<>
+				<GlobalStyles />
+				<ToastContainer
+					position="bottom-center"
+					autoClose={2000}
+					hideProgressBar
+					newestOnTop={false}
+					closeOnClick
+					rtl={false}
+					pauseOnFocusLoss
+					draggable
+					pauseOnHover
+					/>
+				<div className="container-view login-outer-container">
+					<div className="login-inner-container">
+						<div className="login-content-box">
+							<Toggle
+								id="register-theme-button"
+								theme={theme}
+								toggleTheme={themeToggler}
+							/>
+							<h2 className="logo-smaller" id="register-logo">
+								CacheMoney
+							</h2>
+							<div id="register-white-box" className="login-white-box">
+								<div className="login-white-box-column">
+									<div className="error-container">
+										<span id="registration-error"></span>
+									</div>
+									<div id="registration-name-boxes">
+										<div id="box-L" className="reg-name-box">
+											<label htmlFor="firstName" id="label-L">
+												First name:
+												<span
+													className="detail-text"
+													id="firstname-span"
+												></span>
+												<span
+													className="err-desc"
+													id="firstname-description"
+												></span>
+											</label>
+											<input
+												type="text"
+												name="firstName"
+												className="reg-input-box"
+												id="firstname"
+												onChange={handleChange}
+												required
+											/>
+										</div>
+>>>>>>> parent of e9c9145 (Revert "Send request sebastian")
 
   const [theme, themeToggler, mountedComponent] = useDarkMode();
   const themeMode = theme === "light" ? lightTheme : darkTheme;
