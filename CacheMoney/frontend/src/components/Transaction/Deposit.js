@@ -8,7 +8,6 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 function Deposit(props) {
-	// post deposit transaction
 	const postDeposit = (transaction) => {
 		axios
 			.post(`${config.url}accounts/deposit`, transaction, {
@@ -17,8 +16,6 @@ function Deposit(props) {
 					userId: store.getState().userReducer.userId,
 				},
 			})
-
-
 			.then(
 				result=>{
 					result.status===200?
@@ -31,11 +28,8 @@ function Deposit(props) {
 						draggable: true,
 						progress: undefined,
 					}):toast.error('error')
-			}
-				)
-
+			})
 			.catch((error) => {
-				console.error(`Error: ${error}`)
 				toast.error('Deposit failed', {
 					position: "bottom-right",
 					autoClose: 2000,
@@ -72,7 +66,6 @@ function Deposit(props) {
 		
 
 		
-
 	};
 
 	// what the submit button should do
@@ -120,5 +113,4 @@ function Deposit(props) {
 		</div>
 	);
 }
-
 export default Deposit;

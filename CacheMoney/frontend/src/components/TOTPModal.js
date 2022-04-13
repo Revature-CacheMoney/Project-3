@@ -49,7 +49,7 @@ export default function TOTPModal(props) {
     axios({
       method: "post",
       url: `${url}users/verify`,
-      params: { userId: formData.userId, code: OTP },
+      data: { userId: formData.userId, code: OTP },
     })
       .then((response) => {
         responseData = response.data;
@@ -116,7 +116,6 @@ export default function TOTPModal(props) {
             <p className="small-font">
               Open the two-factor authentication app on your device to view your
               authentication code and verify your identity.
-            </p>
 
             <strong className="small-font">Authentication code</strong>
             <OTPInput
