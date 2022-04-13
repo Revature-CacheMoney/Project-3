@@ -29,7 +29,7 @@ body.active-modal {
     text-align: center;
 }
 
-.otp-paragraph {
+.small-font {
     font-size: 18px;
 }
 
@@ -46,12 +46,19 @@ body.active-modal {
     color: #fff;
 }
 
-/* .btn-modal:hover {
-	text-shadow: 0px 0px 5px;
+.btn-modal:hover {
+	text-shadow: 0px 0px 1px #000000;
 	background-size: 75%;
-} */
+} 
 
 .otp-input {
     justify-content: center;
-    margin: 50px 0;
+    margin: 10px 0 50px 0;
+}
+
+.close-modal {
+    position: absolute;
+    top: 0;
+    right: 10px;
+    text-align: right;
 }
