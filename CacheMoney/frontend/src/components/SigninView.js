@@ -36,12 +36,12 @@ function SigninView() {
 	};
 
 	function doLogin() {
-		const validCharacterPattern = /^[a-zA-Z0-9@^%$#/\\,;|~._-]{8,50}$/;
 		let responseStatus;
 		let responseData;
 		let responseHeaders;
 		// 		(From Gideon) I am adding validation right here, before the entered information from formData is used for any commands, to
 		//	validate them. If they fail to pass validation, they get cleared so no injection attacks can go through.
+		const validCharacterPattern = /^[a-zA-Z0-9@^%$#/\\,;|~._-]{8,50}$/;
 		if (!validCharacterPattern.test(formData.username)) {
 			// username is invalid. Replace with something that both cannot be a possible username and won't cause an injection.
 			formData.username = "Invalid!String";
@@ -90,11 +90,23 @@ function SigninView() {
 						payload: responseData.lastName,
 					});
 					userStore.dispatch({
-						type: "UPDATE_TOKEN",
-						payload: responseHeaders.jwt,
+						type: "UPDATE_MFA",
+						payload: responseData.mfa,
 					});
 
-					navigate("/main");
+					if(responseData.mfa){
+						//console.log(userStore.getState().userReducer);
+						navigate("/verify");
+					}
+					else {
+						
+						userStore.dispatch({
+							type: "UPDATE_TOKEN",
+							payload: responseHeaders.jwt,
+						});
+						
+						navigate("/main");
+					}
 				}
 			})
 			.catch((error) => {

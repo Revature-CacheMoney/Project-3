@@ -4,16 +4,21 @@
 import axios from "axios";
 import config from "../../config";
 import store from "../../store/Store";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 //Implementing patch to fix Axios DDoS vulnerability.
 import rateLimit from 'axios-rate-limit';
 
 
 function Deposit(props) {
+<<<<<<< HEAD
 	// Use rate limit to prevent DDoS attacks
 	const http = rateLimit(axios.create(), { maxRequests: 2, perMilliseconds: 1000, maxRPS: 2 })
 
 	// post deposit transaction
+=======
+>>>>>>> b8e60962854ebfa4185b143754edf83fe410b5ab
 	const postDeposit = (transaction) => {
 		axios
 			.post(`${config.url}accounts/deposit`, transaction, {
@@ -22,7 +27,33 @@ function Deposit(props) {
 					userId: store.getState().userReducer.userId,
 				},
 			})
-			.catch((error) => console.error(`Error: ${error}`));
+			.then(
+				result=>{
+					result.status===200?
+					toast.success('Deposit successful', {
+						position: "bottom-right",
+						autoClose: 2000,
+						hideProgressBar: true,
+						closeOnClick: true,
+						pauseOnHover: true,
+						draggable: true,
+						progress: undefined,
+					}):toast.error('error')
+			}
+				)
+			.catch((error) => {
+				console.error(`Error: ${error}`)
+				toast.error('Deposit failed', {
+					position: "bottom-right",
+					autoClose: 2000,
+					hideProgressBar: true,
+					closeOnClick: true,
+					pauseOnHover: true,
+					draggable: true,
+					progress: undefined,
+					})
+			});
+
 		axios
 			.get(`${config.url}users/`, {
 				headers: {
@@ -48,6 +79,7 @@ function Deposit(props) {
 		
 
 		
+
 	};
 
 	// what the submit button should do
@@ -71,6 +103,7 @@ function Deposit(props) {
 
 	return (
 		<div className="deposit-outer-container">
+			<ToastContainer />
 			<div className="deposit-inner-container">
 				<div className="deposit-form">
 					<p className="deposit-form-header">Deposit</p>
@@ -94,5 +127,4 @@ function Deposit(props) {
 		</div>
 	);
 }
-
 export default Deposit;

@@ -5,16 +5,26 @@ import axios from "axios";
 import config from "../../config";
 import store from "../../store/Store";
 import TransferSelection from "./TransferSelection";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 //Implementing patch to fix Axios DDoS vulnerability.
 import rateLimit from 'axios-rate-limit';
 
 function Transfer(props) {
+<<<<<<< HEAD
 	// Use rate limit to prevent DDoS attacks
 	const http = rateLimit(axios.create(), { maxRequests: 2, perMilliseconds: 1000, maxRPS: 2 })
 	
+=======
+	const notify=()=>{
+		toast("")
+	}
+
+>>>>>>> b8e60962854ebfa4185b143754edf83fe410b5ab
 	// post transfer transaction
 	const postTransfer = (transaction) => {
+		
 		axios
 			.post(`${config.url}accounts/transfer`, transaction, {
 				headers: {
@@ -22,7 +32,39 @@ function Transfer(props) {
 					userId: store.getState().userReducer.userId,
 				},
 			})
-			.catch((error) => console.error(`Error: ${error}`));
+			.then(
+				res=>{
+				res.status==200?
+					toast.success('Transfer successful', {
+						position: "bottom-right",
+						autoClose: 2000,
+						hideProgressBar: true,
+						closeOnClick: true,
+						pauseOnHover: true,
+						draggable: true,
+						progress: undefined,
+					}):toast.error('error')
+				
+				}	
+				
+				)
+
+			.catch((error) => {
+				console.error(`Error: ${error}`)
+				
+				toast.error('Transfer failed', {
+						position: "bottom-right",
+						autoClose: 2000,
+						hideProgressBar: true,
+						closeOnClick: true,
+						pauseOnHover: true,
+						draggable: true,
+						progress: undefined,
+						})
+					}
+			);
+
+			
 	};
 
 	// what the submit button should do
@@ -43,12 +85,15 @@ function Transfer(props) {
 
 		// perform the post
 		postTransfer(transfer);
+		
+		
 		// hacky workaround to try forcing the accounts list to update
 		props.doTransactionDone(Date.now());
 	};
 
 	return (
 		<div className="transfer-outer-container">
+			<ToastContainer />
 			<div className="transfer-inner-container">
 				<div className="transfer-form">
 					<p className="transfer-form-header">Transfer</p>

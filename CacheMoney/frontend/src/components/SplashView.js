@@ -14,14 +14,6 @@ import "reactjs-popup/dist/index.css";
 // The splash screen is the first view the user will see when using the app.
 // It prompts the user to login or register.
 
-/*
-function validateURL(url) {
-	const parsed = new URL(url)
-	return ['https:', 'http:'].includes(parsed.protocol)
-}
-*/
-// While this file does use <a> tags with href, I do not believe this is vulnerable to URL injection. Since all
-// of the href statements point to hard-coded text and not a variable, so an attacker shouldn't be able to modify it.
 
 function SplashView() {
   const [theme, themeToggler, mountedComponent] = useDarkMode();
